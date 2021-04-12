@@ -87,6 +87,8 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
                     pointMessageDO.setCreateTime(new Date());
                     int ret = pointMessageService.insert(pointMessageDO);
                     if (ret > 0) {
+                        //清除缓存
+                        redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointMessage_GETBYUID, pointOrderDO.getUid()));
                         log.info("------------------发送消息成功，uid=" + pointOrderDO.getUid() + ", orderno = " + pointOrderDO.getOrderNo());
                     }
                 }
