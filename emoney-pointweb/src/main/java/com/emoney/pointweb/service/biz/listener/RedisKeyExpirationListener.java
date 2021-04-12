@@ -82,7 +82,8 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
                     PointMessageDO pointMessageDO = new PointMessageDO();
                     pointMessageDO.setUid(pointOrderDO.getUid());
                     pointMessageDO.setMsgType(Integer.parseInt(MessageTypeEnum.TYPE3.getCode()));
-                    pointMessageDO.setMstContent(MessageFormat.format("您兑换的\"{0}\"尚未支付，5分钟后订单即将取消，请及时支付！ ", pointOrderDO.getProductTitle()));
+                    pointMessageDO.setMsgContent(MessageFormat.format("您兑换的\"{0}\"尚未支付，5分钟后订单即将取消，请及时支付！ ", pointOrderDO.getProductTitle()));
+                    pointMessageDO.setMsgSrc(String.valueOf(pointOrderDO.getOrderNo()));
                     pointMessageDO.setCreateTime(new Date());
                     int ret = pointMessageService.insert(pointMessageDO);
                     if (ret > 0) {

@@ -18,7 +18,8 @@ public class PointMessageDO {
     private Integer id;
     private Long uid;
     private Integer msgType;
-    private String mstContent;
+    private String msgContent;
+    private String msgSrc;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
