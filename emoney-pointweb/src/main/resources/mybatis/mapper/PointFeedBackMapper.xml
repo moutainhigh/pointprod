@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.emoney.pointweb.repository.dao.mapper.PointFeedBackMapper">
+    <resultMap id="BaseResultMap" type="com.emoney.pointweb.repository.dao.entity.PointFeedBackDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="pid" property="pid" jdbcType="VARCHAR"/>
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="contact_info" property="contactInfo" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="suggest" property="suggest" jdbcType="VARCHAR"/>
+        <result column="img_url" property="imgUrl" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, pid, account, contact_info, email,suggest,img_url,status,create_time,update_time,create_by,update_by,remark
+    </sql>
+    <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointFeedBackDO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO dbo.t_point_feedback
+            (pid, account, contact_info, email,suggest,img_url,status,create_time,update_time,create_by,update_by,remark)
+        VALUES
+            (#{pid},#{account},#{contactInfo},#{email},#{suggest},#{imgUrl},#{status},#{createTime},#{updateTime},#{createBy},#{updateBy},#{remark})
+    </insert>
+    <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointFeedBackDO">
+        UPDATE dbo.t_point_feedback
+        <set>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="account != null">
+                account = #{account},
+            </if>
+            <if test="contactInfo != null">
+                contact_info = #{contactInfo},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="imgUrl != null">
+                img_url = #{imgUrl},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <select id="getAll" resultType="com.emoney.pointweb.repository.dao.entity.PointFeedBackDO">
+
+    </select>
+</mapper>
