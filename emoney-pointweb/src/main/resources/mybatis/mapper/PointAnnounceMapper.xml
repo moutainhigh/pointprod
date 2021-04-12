@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.emoney.pointweb.repository.dao.mapper.PointAnnounceMapper">
+    <resultMap id="BaseResultMap" type="com.emoney.pointweb.repository.dao.entity.PointAnnounceDO">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="msg_type" jdbcType="INTEGER" property="msgType" />
+        <result column="msg_content" jdbcType="VARCHAR" property="msgContent" />
+        <result column="msg_src" jdbcType="VARCHAR" property="msgSrc" />
+        <result column="product_version" jdbcType="VARCHAR" property="productVersion" />
+        <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, msg_type, msg_content, msg_src, product_version, publish_time, create_time, update_time,
+    create_by, update_by, remark
+    </sql>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.emoney.pointweb.repository.dao.entity.PointAnnounceDO" useGeneratedKeys="true">
+        insert into t_point_announce (msg_type, msg_content, msg_src,
+                                      product_version, publish_time, create_time,
+                                      update_time, create_by, update_by,
+                                      remark)
+        values (#{msgType,jdbcType=INTEGER}, #{msgContent,jdbcType=VARCHAR}, #{msgSrc,jdbcType=VARCHAR},
+                #{productVersion,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR},
+                #{remark,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointAnnounceDO">
+        update t_point_announce
+        <set>
+            <if test="msgType != null">
+                msg_type = #{msgType,jdbcType=INTEGER},
+            </if>
+            <if test="msgContent != null">
+                msg_content = #{msgContent,jdbcType=VARCHAR},
+            </if>
+            <if test="msgSrc != null">
+                msg_src = #{msgSrc,jdbcType=VARCHAR},
+            </if>
+            <if test="productVersion != null">
+                product_version = #{productVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="publishTime != null">
+                publish_time = #{publishTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
