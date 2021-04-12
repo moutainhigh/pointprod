@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.emoney.pointweb.repository.dao.mapper.PointSendRecordMapper">
+    <resultMap id="BaseResultMap" type="com.emoney.pointweb.repository.dao.entity.PointSendRecordDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="task_id" property="taskId" jdbcType="BIGINT"/>
+        <result column="batch_id" property="batchId" jdbcType="VARCHAR"/>
+        <result column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="em_no" property="emNo" jdbcType="VARCHAR"/>
+        <result column="send_status" property="sendStatus" jdbcType="INTEGER"/>
+        <result column="send_result" property="sendResult" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="VOBaseResultMap" type="com.emoney.pointweb.repository.dao.entity.vo.PointSendRecordVO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="task_id" property="taskId" jdbcType="BIGINT"/>
+        <result column="batch_id" property="batchId" jdbcType="VARCHAR"/>
+        <result column="task_Name" property="taskName" jdbcType="VARCHAR"/>
+        <result column="task_points" property="taskPoint" jdbcType="FLOAT"/>
+        <result column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="success_count" property="successCount" jdbcType="INTEGER"/>
+        <result column="error_count" property="errorCount" jdbcType="INTEGER"/>
+        <result column="em_no" property="emNo" jdbcType="VARCHAR"/>
+        <result column="send_status" property="sendStatus" jdbcType="INTEGER"/>
+        <result column="send_Result" property="sendResult" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+
+        id,task_id,batch_id,uid,em_no,send_status,send_result,create_time,update_time,create_by,update_by,remark
+
+    </sql>
+
+    <select id="getDataStatistics" resultMap="VOBaseResultMap">
+        SELECT psr.task_id,psr.batch_id,ptci.task_name,ptci.task_points,COUNT(CASE psr.send_status WHEN 1 THEN 0 END) success_count,
+               COUNT(CASE psr.send_status WHEN 0 THEN 1 END) AS error_count,MIN(psr.create_time) AS create_time,psr.remark,psr.create_by
+        FROM dbo.t_point_sendrecord psr
+                 LEFT JOIN dbo.t_point_taskconfiginfo ptci ON psr.task_id=ptci.task_id
+        <trim prefix="WHERE" prefixOverrides="AND | OR" >
+            <if test="pointtype == 1">
+                AND ptci.task_points <![CDATA[ > ]]> 0
+            </if>
+            <if test="pointtype == 2 ">
+                AND ptci.task_points <![CDATA[ < ]]> 0
+            </if>
+        </trim>
+        GROUP BY psr.task_id,psr.batch_id,ptci.task_name,psr.remark,ptci.task_points,psr.create_by
+    </select>
+
+    <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointSendRecordDO" useGeneratedKeys="true" keyProperty="id">
+
+        INSERT dbo.t_point_sendrecord(task_id,batch_id,uid,em_no,send_status,
+                                      send_result,create_time,update_time,create_by,update_by,remark)
+        VALUES
+        (#{taskId},#{batchId},#{uid},#{emNo},#{sendStatus},
+         #{sendResult},#{createTime},#{updateTime},#{createBy},#{updateBy},#{remark})
+
+    </insert>
+
+    <select id="getPointSendRecordByBatchId" resultMap="VOBaseResultMap">
+
+        SELECT psr.task_id,psr.batch_id,ptci.task_name,ptci.task_points,psr.create_time,psr.remark,psr.em_no,psr.send_status,psr.send_result
+        FROM dbo.t_point_sendrecord psr
+        LEFT JOIN dbo.t_point_taskconfiginfo ptci ON psr.task_id=ptci.task_id
+        WHERE psr.batch_id=#{batchId}
+        <trim>
+            <if test="status == 0">
+                AND psr.send_status=0
+            </if>
+            <if test="status == 1 ">
+                AND psr.send_status=1
+            </if>
+        </trim>
+
+    </select>
+</mapper>
+
+
+

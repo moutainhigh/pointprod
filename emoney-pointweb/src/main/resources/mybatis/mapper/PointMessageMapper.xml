@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.emoney.pointweb.repository.dao.mapper.PointMessageMapper">
+    <resultMap id="BaseResultMap" type="com.emoney.pointweb.repository.dao.entity.PointMessageDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="msg_type" property="msgType" jdbcType="INTEGER"/>
+        <result column="msg_content" property="mstContent" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+
+
+        id,uid, msg_type, msg_content, create_time,update_time,create_by,update_by,remark
+
+
+    </sql>
+
+    <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointMessageDO" useGeneratedKeys="true"
+            keyProperty="id">
+
+       INSERT INTO
+       		dbo.t_point_message
+       		(uid,msg_type, msg_content, create_time,update_time,create_by,update_by,remark)
+       	VALUES
+       		(#{uid}, #{msgType}, #{mstContent}, #{createTime}, #{updateTime}, #{createBy}, #{updateBy},#{remark})
+
+
+    </insert>
+
+    <select id="getByUid" resultMap="BaseResultMap">
+
+        SELECT
+
+        <include refid="Base_Column_List">
+        </include>
+
+        FROM dbo.t_point_message
+         WHERE uid=#{uid}
+
+    </select>
+</mapper>
+
+
+

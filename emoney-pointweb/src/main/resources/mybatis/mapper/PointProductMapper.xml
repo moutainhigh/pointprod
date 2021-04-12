@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.emoney.pointweb.repository.dao.mapper.PointProductMapper">
+    <resultMap id="BaseResultMap" type="com.emoney.pointweb.repository.dao.entity.PointProductDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="product_type" property="productType" jdbcType="INTEGER"/>
+        <result column="product_version" property="productVersion" jdbcType="VARCHAR"/>
+        <result column="product_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="product_price" property="productPrice" jdbcType="FLOAT"/>
+        <result column="product_days" property="productDays" jdbcType="INTEGER"/>
+        <result column="activity_starttime" property="activityStartTime" jdbcType="TIMESTAMP"/>
+        <result column="activity_endtime" property="activityEndTime" jdbcType="TIMESTAMP"/>
+        <result column="activity_code" property="activityCode" jdbcType="VARCHAR"/>
+        <result column="total_limit" property="totalLimit" jdbcType="INTEGER"/>
+        <result column="per_limit" property="perLimit" jdbcType="INTEGER"/>
+        <result column="exchange_starttime" property="exchangeStarttime" jdbcType="TIMESTAMP"/>
+        <result column="exchange_endtime" property="exchangeEndtime" jdbcType="TIMESTAMP"/>
+        <result column="exchange_type" property="exchangeType" jdbcType="INTEGER"/>
+        <result column="exchange_point" property="exchangePoint" jdbcType="FLOAT"/>
+        <result column="exchange_cash" property="exchangeCash" jdbcType="DECIMAL"/>
+        <result column="pc_exangeimgurl" property="pcExangeimgurl" jdbcType="VARCHAR"/>
+        <result column="app_exangeimgurl" property="appExangeimgurl" jdbcType="TIMESTAMP"/>
+        <result column="webchat_exangeimgurl" property="webchatExangeimgurl" jdbcType="VARCHAR"/>
+        <result column="pc_exangedetailimgurl" property="pcExangeDetailimgurl" jdbcType="VARCHAR"/>
+        <result column="app_exangedetailimgurl" property="appExangeDetailimgurl" jdbcType="TIMESTAMP"/>
+        <result column="webchat_exangedetailimgurl" property="webchatExangeDetailimgurl" jdbcType="VARCHAR"/>
+        <result column="exchange_remark" property="exchangeRemark" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="is_valid" property="isValid" jdbcType="BIT"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+
+        id,product_type,product_version,product_name,product_price,product_days,activity_starttime,activity_endtime,activity_code,total_limit,per_limit,exchange_starttime,
+        exchange_endtime,exchange_type,exchange_point,exchange_cash,pc_exangeimgurl,app_exangeimgurl,webchat_exangeimgurl,
+        pc_exangedetailimgurl,app_exangedetailimgurl,webchat_exangedetailimgurl,exchange_remark,create_time,update_time,create_by,update_by,is_valid,remark
+
+    </sql>
+
+    <insert id="insertPointProduct" parameterType="com.emoney.pointweb.repository.dao.entity.PointProductDO">
+
+        INSERT INTO t_point_product
+        (product_type,product_version,product_name,product_price,product_days,activity_starttime,activity_endtime,activity_code,total_limit,per_limit,exchange_starttime,
+         exchange_endtime,exchange_type,exchange_point,exchange_cash,pc_exangeimgurl,app_exangeimgurl,webchat_exangeimgurl,
+         pc_exangedetailimgurl,app_exangedetailimgurl,webchat_exangedetailimgurl,exchange_remark,create_time,update_time,create_by,update_by,is_valid,remark)
+         VALUES
+         (#{productType},#{productVersion},#{productName},#{productPrice},#{productDays},#{activityStartTime},#{activityEndTime},#{activityCode},#{totalLimit},#{perLimit},#{exchangeStarttime},
+          #{exchangeEndtime},#{exchangeType},#{exchangePoint},#{exchangeCash},#{pcExangeimgurl},#{appExangeimgurl},#{webchatExangeimgurl},
+          #{pcExangeDetailimgurl},#{appExangeDetailimgurl},#{webchatExangeDetailimgurl},#{exchangeRemark},#{createTime},#{updateTime},#{createBy},#{updateBy},#{isValid},#{remark})
+
+    </insert>
+
+    <update id="updatePointProduct" parameterType="com.emoney.pointweb.repository.dao.entity.PointProductDO">
+
+        UPDATE t_point_product
+        <set>
+            <if test="productType != null">
+                product_type=#{productType},
+            </if>
+            <if test="productVersion != null">
+                product_version=#{productVersion},
+            </if>
+            <if test="productName != null">
+                product_name=#{productName},
+            </if>
+            <if test="productPrice != null">
+                product_price=#{productPrice},
+            </if>
+            <if test="productDays != null">
+                product_days=#{productDays},
+            </if>
+            <if test="activityStartTime != null">
+                activity_starttime=#{activityStartTime},
+            </if>
+            <if test="activityEndTime != null">
+                activity_endtime=#{activityEndTime},
+            </if>
+            <if test="activityCode != null">
+                activity_code=#{activityCode},
+            </if>
+            <if test="totalLimit != null">
+                total_limit=#{totalLimit},
+            </if>
+            <if test="perLimit != null">
+                per_limit=#{perLimit},
+            </if>
+            <if test="exchangeStarttime != null">
+                exchange_starttime=#{exchangeStarttime},
+            </if>
+            <if test="exchangeEndtime != null">
+                exchange_endtime=#{exchangeEndtime},
+            </if>
+            <if test="exchangeType != null">
+                exchange_type=#{exchangeType},
+            </if>
+            <if test="exchangePoint != null">
+                exchange_point=#{exchangePoint},
+            </if>
+            <if test="exchangeCash != null">
+                exchange_cash=#{exchangeCash},
+            </if>
+            <if test="pcExangeimgurl != null">
+                pc_exangeimgurl=#{pcExangeimgurl},
+            </if>
+            <if test="appExangeimgurl != null">
+                app_exangeimgurl=#{appExangeimgurl},
+            </if>
+            <if test="webchatExangeimgurl != null">
+                webchat_exangeimgurl=#{webchatExangeimgurl},
+            </if>
+            <if test="pcExangeDetailimgurl != null">
+                pc_exangedetailimgurl=#{pcExangeDetailimgurl},
+            </if>
+            <if test="appExangeDetailimgurl != null">
+                app_exangedetailimgurl=#{appExangeDetailimgurl},
+            </if>
+            <if test="webchatExangeDetailimgurl != null">
+                webchat_exangedetailimgurl=#{webchatExangeDetailimgurl},
+            </if>
+            <if test="exchangeRemark != null">
+                exchange_remark=#{exchangeRemark},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="createBy != null">
+                create_by=#{createBy},
+            </if>
+            <if test="updateBy != null">
+                update_by=#{updateBy},
+            </if>
+            <if test="isValid != null">
+                is_valid=#{isValid},
+            </if>
+            <if test="remark != null">
+                remark=#{remark},
+            </if>
+        </set>
+        WHERE id=#{id}
+
+    </update>
+
+    <select id="getPointProductListByProductType" resultMap="BaseResultMap">
+
+        SELECT <include refid="Base_Column_List" />
+        FROM t_point_product
+        <trim prefix="WHERE" prefixOverrides="AND | OR" >
+            AND is_valid = 1
+            <if test="productType != 0">
+                AND product_type = #{productType}
+            </if>
+        </trim>
+
+    </select>
+
+  <select id="getAllEffectiveProducts" resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM dbo.t_point_product
+      WHERE exchange_starttime &lt;= #{curDate} AND exchange_endtime &gt;= #{curDate} AND is_valid=1
+  </select>
+
+    <select id="getById" resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM dbo.t_point_product
+      WHERE id=#{id}
+  </select>
+
+</mapper>

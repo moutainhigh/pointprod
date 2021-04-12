@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.emoney.pointweb.repository.dao.mapper.PointQuotationMapper">
+    <resultMap id="BaseResultMap" type="com.emoney.pointweb.repository.dao.entity.PointQuotationDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="is_valid" property="isValid" jdbcType="BOOLEAN"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+     </resultMap>
+
+    <sql id="Base_Column_List">
+        id,content,is_valid,create_by,update_by,create_time,update_time
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_point_quotation WHERE is_valid=1
+    </select>
+
+    <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointQuotationDO">
+        INSERT INTO dbo.t_point_quotation
+        (content, is_valid, create_by, update_by, create_time, update_time) VALUES
+        (#{content},#{isValid},#{createBy},#{updateBy},#{createTime},#{updateTime})
+    </insert>
+
+    <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointQuotationDO">
+        UPDATE dbo.t_point_quotation
+        <set>
+            <if test="content != null">
+                content=#{content},
+            </if>
+            <if test="isValid != null">
+                is_valid=#{isValid},
+            </if>
+            <if test="createBy != null">
+                create_by=#{createBy},
+            </if>
+            <if test="updateBy != null">
+                update_by=#{updateBy},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+        </set>
+            WHERE id=#{id}
+    </update>
+</mapper>

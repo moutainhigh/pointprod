@@ -1,0 +1,164 @@
+package com.emoney.pointweb;
+
+
+import cn.hutool.core.util.IdUtil;
+import com.emoeny.pointcommon.utils.OkHttpUtil;
+import com.emoney.pointweb.repository.PointRecordESRepository;
+import com.emoney.pointweb.repository.PointRecordRepository;
+import com.emoney.pointweb.repository.dao.entity.*;
+import com.emoney.pointweb.repository.dao.mapper.PointLimitMapper;
+import com.emoney.pointweb.repository.dao.mapper.PointRecordMapper;
+import com.emoney.pointweb.service.biz.PointOrderService;
+import com.emoney.pointweb.service.biz.PointRecordService;
+import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
+import com.emoney.pointweb.service.biz.kafka.KafkaProducerService;
+import com.emoney.pointweb.service.biz.redis.RedisService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.admin.KafkaAdminClient;
+import org.junit.jupiter.api.Test;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+
+import java.text.ParseException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
+import static cn.hutool.core.date.DateUtil.date;
+
+@SpringBootTest
+@MapperScan(basePackages = {"com.emoney.pointweb.repository.dao.mapper"})
+@ComponentScan(basePackages = {"com.emoney.pointweb"})
+@Slf4j
+class PointWebApplicationTests {
+
+    @Autowired
+    private PointLimitMapper pointLimitDOMapper;
+
+    @Autowired
+    private PointRecordMapper pointRecordMapper;
+
+    @Autowired
+    private RedisService redisCache1;
+
+    @Autowired
+    private PointTaskConfigInfoService pointTaskConfigInfoService;
+
+    @Autowired
+    private KafkaAdminClient kafkaAdminClient;
+
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
+
+    @Autowired
+    private PointRecordESRepository pointRecordESRepository;
+
+    @Autowired
+    private ElasticsearchRestTemplate elasticsearchRestTemplate;
+
+
+    @Autowired
+    private PointRecordRepository pointRecordRepository;
+
+    @Autowired
+    private PointRecordService pointRecordService;
+
+
+    @Test
+    void contextLoads() throws ExecutionException, InterruptedException, ParseException {
+
+        log.info("日志测试.....................,需要增加Slf4j注解");
+
+       //redisCache1.removePattern("pointprod:signinrecord_getbyuid_*");
+        //Long recordByTaskId=pointRecordService.calPointRecordByTaskId(1377426874657017856L,"",0,10);
+
+        //Long recordByTaskId1=pointRecordService.calPointRecordByTaskId(1369566660398288896L,"111",0,10);
+
+//        String url="http://webapi.emoney.cn/user/api/User.GetAccountList";
+//        Map<String,String> map=new HashMap<String,String>();
+//        map.put("appid","10060");
+//        map.put("username","18512182115");
+//        String res= OkHttpUtil.get(url,map);
+//        System.out.println(res);
+
+        //单表测试
+//        PointLimitDO pointLimitDO =new PointLimitDO();
+//        pointLimitDO.setPointLimittype(1);
+//        pointLimitDO.setPointLimitvalue(1.0f);
+//        pointLimitDO.setRemark("1.0f");
+//        Integer id= pointLimitDOMapper.insert(pointLimitDO);
+//
+//           List<PointLimitDO> pointLimitDOs=pointLimitDOMapper.getById(1);
+//        pointLimitDOs.stream()
+
+        //分表测试
+//        PointRecordDO pointRecordDO = new PointRecordDO();
+//        pointRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
+//        pointRecordDO.setUid(10000772l);
+//        pointRecordDO.setIsDailytask(false);
+//        pointRecordDO.setCreateTime(new Date());
+//        pointRecordESRepository.save(pointRecordDO);
+//        pointRecordDO.setCreateTime(DateUtil.date());
+//        pointRecordMapper.insert(pointRecordDO);
+
+        //pointRecordESRepository.deleteById(1371816217081417728l);
+
+//        List<PointRecordDO> pointRecordDOS = pointRecordMapper.getByUid(10000772);
+//        //spring-data-elasticsearch 测试
+        //pointRecordESRepository.save(pointRecordDO);
+        //List<PointRecordDO> pointRecordDOS=pointRecordRepository.getByUid((long)10000772);
+        //List<PointRecordDO> pointRecordDOS =pointRecordESRepository.findByUid(10014713888l);
+
+
+//        Date d=new Date();
+//        SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+//        Date date1=df.parse(df.format(new Date(d.getTime() + (long)2 * 24 * 60 * 60 * 1000)));
+//        Date date2=df.parse(df.format(new Date(d.getTime() + (long)3 * 24 * 60 * 60 * 1000)));
+//        List<PointRecordDO> pointRecordDOS11=pointRecordESRepository.findByUidAndCreateTimeBetween(10000772,date1,date2);
+//                List<PointRecordDO> pointRecordDOS1 = pointRecordESRepository.findByUid((long)1001471383);
+//                pointRecordDOS1.forEach((PointRecordDO pointRecordDO)->{
+//                    pointRecordESRepository.delete(pointRecordDO);
+//                });
+
+
+        //redis测试
+//        redisCache1.set("testkey", "123", 2 * 60l, TimeUnit.SECONDS);
+//        String testvalue = redisCache1.get("testkey", String.class);
+
+        //kafka测试
+//        ListTopicsResult result1= kafkaAdminClient.listTopics();
+//        // 打印Topic的名称Set<String>
+//        System.out.println(result1.names().get());
+//        // 打印Topic列表的信息Map<String, TopicListing>>
+//        System.out.println(result1.namesToListings().get());
+//        // 打印Topic列表的信息Collection<TopicListing>>
+//        System.out.println(result1.listings().get());
+//        for (int i = 0; i < 10; i++) {
+//            kafkaProducerService.sendMessageAsync("test1", "发送消息:" + i);
+//        }
+
+//
+//        PointSummaryDO pointSummaryDO = new PointSummaryDO();
+//        pointSummaryDO.setPointTotal(1.0f);
+//        pointSummaryDO.setUid(10000772l);
+//        pointSummaryRepository.insertOrUpdate(pointSummaryDO);
+
+        //List<PointRecordSummaryDO> pointRecordSummaryDOS=pointRecordRepository.getPointRecordSummaryByUid((long)1001471383);
+
+        //Pageable pageable = PageRequest.of(0, 10);
+        //Page<PointRecordDO> pointRecordDOS = pointRecordESRepository.findByTaskId(1372817436314832896l, pageable);
+
+        //List<PointRecordDO> pointRecordDOS =pointRecordESRepository.findByTaskId(1372817436314832896l);
+    }
+
+}

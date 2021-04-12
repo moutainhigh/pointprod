@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.emoney.pointweb.repository.dao.mapper.PointOrderMapper">
+    <resultMap id="BaseResultMap" type="com.emoney.pointweb.repository.dao.entity.PointOrderDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="em_no" property="emNo" jdbcType="VARCHAR"/>
+        <result column="order_no" property="orderNo" jdbcType="BIGINT"/>
+        <result column="trade_no" property="tradeNo" jdbcType="VARCHAR"/>
+        <result column="order_status" property="orderStatus" jdbcType="INTEGER"/>
+        <result column="product_id" property="productId" jdbcType="INTEGER"/>
+        <result column="product_title" property="productTitle" jdbcType="VARCHAR"/>
+        <result column="product_qty" property="productQty" jdbcType="INTEGER"/>
+        <result column="point" property="point" jdbcType="FLOAT"/>
+        <result column="cash" property="cash" jdbcType="DECIMAL"/>
+        <result column="pay_type" property="payType" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+      <resultMap id="SummaryResultMap" type="com.emoney.pointweb.repository.dao.entity.PointOrderSummaryDO">
+        <result column="product_id" property="productId" jdbcType="INTEGER"/>
+        <result column="total_qty" property="totalQty" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+
+
+        id, uid,em_no,order_no, trade_no, order_status, product_id,product_title,product_qty,point,cash,pay_type,create_time,update_time,create_by,update_by,remark
+
+
+    </sql>
+    <select id="getById" resultMap="BaseResultMap">
+
+
+        SELECT
+
+
+        <include refid="Base_Column_List"/>
+
+
+        FROM dbo.t_point_order
+        WHERE id=#{id}
+
+
+    </select>
+    <select id="getByOrderNo" resultMap="BaseResultMap">
+
+
+        SELECT
+
+
+        <include refid="Base_Column_List"/>
+
+
+        FROM dbo.t_point_order
+        WHERE order_no=#{orderNo}
+
+
+    </select>
+    <select id="getByUid" resultMap="BaseResultMap">
+
+
+        SELECT
+
+
+        <include refid="Base_Column_List"/>
+
+
+        FROM dbo.t_point_order
+        WHERE uid=#{uid} ORDER BY create_time DESC
+
+
+    </select>
+
+    <select id="getByUidAndProductId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM dbo.t_point_order
+        WHERE order_status <![CDATA[!= ]]>2
+          <if test="uid != null ">
+          AND uid = #{uid}
+        </if>
+           <if test="productId != null ">
+          AND product_id = #{productId}
+        </if>
+
+        ORDER BY create_time DESC
+    </select>
+
+        <select id="getSummaryByProductId" resultMap="SummaryResultMap">
+        SELECT sum(product_qty) AS total_qty, product_id
+        FROM dbo.t_point_order
+        WHERE  order_status <![CDATA[!= ]]>2
+         <if test="productId != null ">
+          AND product_id = #{productId}
+        </if>
+        GROUP BY product_id
+    </select>
+
+    <select id="getAllByOrderStatus" resultMap="BaseResultMap">
+
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM dbo.t_point_order
+        WHERE order_status = #{orderStatus}
+
+    </select>
+
+    <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointOrderDO" useGeneratedKeys="true" keyProperty="id">
+
+
+       INSERT INTO
+       		dbo.t_point_order
+       		(uid,em_no,order_no, trade_no, order_status, product_id,product_title,product_qty,point,cash,pay_type,create_time,update_time,create_by,update_by,remark)
+       	VALUES
+       		(#{uid},#{emNo},#{orderNo},#{tradeNo}, #{orderStatus}, #{productId}, #{productTitle},#{productQty},#{point},#{cash},#{payType},#{createTime}, #{updateTime}, #{createBy}, #{updateBy},#{remark})
+
+
+    </insert>
+
+    <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointOrderDO">
+
+    update dbo.t_point_order
+
+        <set>
+                  <if test="uid != null">
+                uid = #{uid,jdbcType=BIGINT},
+
+            </if>
+                 <if test="emNo != null">
+                em_no = #{emNo,jdbcType=VARCHAR},
+
+            </if>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=BIGINT},
+
+            </if>
+            <if test="tradeNo != null">
+
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+
+            </if>
+            <if test="orderStatus != null">
+
+        order_status = #{orderStatus,jdbcType=INTEGER},
+
+            </if>
+            <if test="productId != null">
+
+        product_id = #{productId,jdbcType=INTEGER},
+
+            </if>
+            <if test="productTitle != null">
+
+        product_title = #{productTitle,jdbcType=VARCHAR},
+
+            </if>
+                        <if test="productQty != null">
+
+        product_qty = #{productQty,jdbcType=INTEGER},
+
+            </if>
+            <if test="point != null">
+
+        point = #{point,jdbcType=FLOAT},
+
+            </if>
+            <if test="cash != null">
+
+        cash = #{cash,jdbcType=DECIMAL},
+
+            </if>
+            <if test="payType != null">
+
+        pay_type = #{payType,jdbcType=INTEGER},
+
+            </if>
+            <if test="createTime != null">
+
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+
+            </if>
+            <if test="updateTime != null">
+
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+
+            </if>
+            <if test="createBy != null">
+
+        create_by = #{createBy,jdbcType=VARCHAR},
+
+            </if>
+            <if test="updateBy != null">
+
+        update_by = #{updateBy,jdbcType=VARCHAR},
+
+            </if>
+            <if test="remark != null">
+
+        remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+
+    where id = #{id,jdbcType=INTEGER}
+
+    </update>
+</mapper>
+
+
+
