@@ -65,4 +65,8 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
+    <select id="getAll" resultType="com.emoney.pointweb.repository.dao.entity.PointAnnounceDO">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_point_announce ORDER BY publish_time DESC
+    </select>
 </mapper>

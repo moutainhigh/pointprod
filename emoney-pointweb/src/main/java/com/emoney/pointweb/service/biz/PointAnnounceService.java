@@ -1,16 +1,11 @@
-package com.emoney.pointweb.repository.dao.mapper;
+package com.emoney.pointweb.service.biz;
 
 import com.emoney.pointweb.repository.dao.entity.PointAnnounceDO;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-@Mapper
-public interface PointAnnounceMapper {
-
+public interface PointAnnounceService {
     Integer insert(PointAnnounceDO pointAnnounceDO);
-
     Integer update(PointAnnounceDO pointAnnounceDO);
-
     List<PointAnnounceDO> getAll();
 }

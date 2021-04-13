@@ -20,6 +20,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
                 .addPathPatterns("/pointquotation")
                 .addPathPatterns("/pointorder")
                 .addPathPatterns("/pointtaskconfiginfo")
+                .addPathPatterns("/pointannounce")
                 .addPathPatterns("/pointsendrecord")
                 .addPathPatterns("/pointsendrecord/pointSendRecordDetail");
 

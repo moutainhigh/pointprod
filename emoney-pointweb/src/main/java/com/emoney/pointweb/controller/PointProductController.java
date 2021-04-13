@@ -113,7 +113,7 @@ public class PointProductController {
                 pointProductDO.setCreateTime(new Date());
                 result= pointProductService.insertPointProduct(pointProductDO);
             }
-            return result>0?"success":"error";
+            return result>0?"success":"保存失败";
         }catch (Exception e){
             log.error("保存商品配置出错："+e);
         }

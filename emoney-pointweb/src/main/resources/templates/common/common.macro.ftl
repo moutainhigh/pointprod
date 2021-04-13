@@ -96,6 +96,7 @@
                 <li class="nav-click <#if pageName == "pointproduct">active</#if>" ><a href="/pointproduct"><i class="fa fa-circle-o text-yellow"></i><span>商品配置</span></a></li>
                 <li class="nav-click <#if pageName == "pointorder">active</#if>" ><a href="/pointorder"><i class="fa fa-circle-o text-yellow"></i><span>兑换明细</span></a></li>
                 <li class="nav-click <#if pageName == "pointquotation">active</#if>" ><a href="/pointquotation"><i class="fa fa-circle-o text-yellow"></i><span>语录配置</span></a></li>
+                <li class="nav-click <#if pageName == "pointannounce">active</#if>" ><a href="/pointannounce"><i class="fa fa-circle-o text-yellow"></i><span>消息通知</span></a></li>
             </ul>
         </section>
         <!-- /.sidebar -->
