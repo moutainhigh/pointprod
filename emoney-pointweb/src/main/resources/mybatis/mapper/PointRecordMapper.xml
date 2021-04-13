@@ -101,7 +101,6 @@
         </where>
     </select>
 
-
      <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointRecordDO">
     update dbo.t_point_record
     <set>
