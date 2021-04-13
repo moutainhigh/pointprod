@@ -24,4 +24,12 @@ public interface PointMessageRepository {
      * @return
      */
     List<PointMessageDO> getByUid(Long uid);
+
+    /**
+     *
+     * @param uid
+     * @param msgSrc
+     * @return
+     */
+    Integer getByUidAndSrc(Long uid,String msgSrc);
 }

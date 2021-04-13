@@ -45,4 +45,9 @@ public class PointMessageRepositoryImpl implements PointMessageRepository {
         }
         return pointMessageDOS;
     }
+
+    @Override
+    public Integer getByUidAndSrc(Long uid, String msgSrc) {
+        return pointMessageMapper.getByUidAndSrc(uid,msgSrc);
+    }
 }

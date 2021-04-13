@@ -17,13 +17,16 @@
     <sql id="Base_Column_List">
 
 
+
         id,uid, msg_type, msg_content,msg_src, create_time,update_time,create_by,update_by,remark
+
 
 
     </sql>
 
     <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointMessageDO" useGeneratedKeys="true"
             keyProperty="id">
+
 
        INSERT INTO
        		dbo.t_point_message
@@ -32,9 +35,11 @@
        		(#{uid}, #{msgType}, #{msgContent}, #{msgSrc},#{createTime}, #{updateTime}, #{createBy}, #{updateBy},#{remark})
 
 
+
     </insert>
 
     <select id="getByUid" resultMap="BaseResultMap">
+
 
         SELECT
 
@@ -43,6 +48,14 @@
 
         FROM dbo.t_point_message
          WHERE uid=#{uid}
+
+    </select>
+
+    <select id="getByUidAndSrc" resultType="java.lang.Integer">
+
+        SELECT COUNT (*)
+        FROM dbo.t_point_message
+         WHERE uid=#{uid} AND msg_src = #{msgSrc}
 
     </select>
 </mapper>
