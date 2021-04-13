@@ -160,14 +160,20 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
             List<Integer> pointStatus = new ArrayList<>();
             pointStatus.add(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()));
             pointStatus.add(Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode()));
-            List<PointRecordDO> pointRecordDOS = pointRecordService.getPointRecordDOs(uid, pointStatus, pageIndex, pageSize);
+            List<PointRecordDO> pointRecordDOS = null;
+            if (queryType == 0 || queryType == 1 || queryType == 2) {
+                pointRecordDOS = pointRecordService.getPointRecordDOs(uid, pointStatus, pageIndex, pageSize);
+            } else if (queryType == 3) {
+                Date dtStart = DateUtil.parseDate((DateUtil.year(DateUtil.date()) - 1) + "-01-01 00:00:00");
+                Date dtEnd = DateUtil.beginOfDay(DateUtil.offsetMonth(dtStart, 3));
+                pointRecordDOS = pointRecordService.getPointRecordDOs(uid, pointStatus, dtStart, dtEnd, pageIndex, pageSize);
+            }
             if (pointRecordDOS != null) {
                 pointRecordVOS = CollectionBeanUtils.copyListProperties(pointRecordDOS, PointRecordVO::new);
-                if(queryType==1){
-                    pointRecordVOS=pointRecordVOS.stream().filter(h->h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()))).collect(Collectors.toList());
-                }
-                else if(queryType==2){
-                    pointRecordVOS=pointRecordVOS.stream().filter(h->h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode()))).collect(Collectors.toList());
+                if (queryType == 1) {
+                    pointRecordVOS = pointRecordVOS.stream().filter(h -> h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()))).collect(Collectors.toList());
+                } else if (queryType == 2) {
+                    pointRecordVOS = pointRecordVOS.stream().filter(h -> h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode()))).collect(Collectors.toList());
                 }
             }
             return Result.buildSuccessResult(pointRecordVOS);
