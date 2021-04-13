@@ -40,16 +40,10 @@
     </insert>
 
     <select id="getByUid" resultMap="BaseResultMap">
-
-
-        SELECT
-
-        <include refid="Base_Column_List">
-        </include>
-
+        SELECT DISTINCT uid,msg_type,msg_content,msg_src,msg_ext,max(create_time) as create_time
         FROM dbo.t_point_message
          WHERE uid=#{uid}
-
+         group by uid,msg_type,msg_content,msg_src,msg_ext
     </select>
 
     <select id="getByUidAndExt" resultType="java.lang.Integer">

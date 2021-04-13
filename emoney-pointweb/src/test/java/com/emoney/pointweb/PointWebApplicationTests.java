@@ -83,6 +83,8 @@ class PointWebApplicationTests {
 
         log.info("日志测试.....................,需要增加Slf4j注解");
 
+        //List<PointMessageDO>  pointMessageDOS= pointMessageRepository.getByUid(2020117908L);
+
        //Integer count= pointMessageRepository.getByUidAndSrc(1001539327L,"1381776190670508032");
        //redisCache1.removePattern("pointprod:signinrecord_getbyuid_*");
         //Long recordByTaskId=pointRecordService.calPointRecordByTaskId(1377426874657017856L,"",0,10);
