@@ -31,4 +31,5 @@ public class RedisConstants {
     public static String REDISKEY_PointQuotation_GETALL = "pointprod:pointquotation_getall";
 
     public static String REDISKEY_PointMessage_GETBYUID = "pointprod:pointmessage_getbyuid_{0}";//uid
+    public static String REDISKEY_PointMessage_CREATE_LOCKKEY="pointprod:pointmessage_create_lockkey_{0}_{1}";//uid,msgExt
 }
