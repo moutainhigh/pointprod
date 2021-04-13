@@ -72,7 +72,6 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
             String[] arrString = expiredKey.split("_");
             //订单15分钟没支付自动关闭
             if (expiredKey.startsWith("pointprod:pointorder_setorderkey")) {
-
                 if (arrString.length == 3) {
                     int orderId = Integer.parseInt(arrString[2]);
                     PointOrderDO pointOrderDO = pointOrderRepository.getById(orderId);
@@ -131,8 +130,6 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
                         }
                     }
                 }
-
-
             }
         } catch (Exception e) {
             log.error("RedisKeyExpirationListener error:", e);
