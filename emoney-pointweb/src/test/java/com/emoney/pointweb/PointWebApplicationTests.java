@@ -85,7 +85,7 @@ class PointWebApplicationTests {
 
         log.info("日志测试.....................,需要增加Slf4j注解");
 
-       // List<PointRecordDO> pageInfo=pointRecordRepository.getByPager(1001539325L,3,3);
+        List<PointRecordDO> pageInfo = pointRecordRepository.getByPager(1001539325L, 3, 3);
 //        List<Integer> pointStatus=new ArrayList<>();
 //        pointStatus.add(1);
 //        pointStatus.add(2);
@@ -96,8 +96,8 @@ class PointWebApplicationTests {
         // List<PointRecordDO> pointRecordDOS=pointRecordMapper.getHisByUidHis(1001539325L);
         //List<PointMessageDO>  pointMessageDOS= pointMessageRepository.getByUid(2020117908L);
 
-       //Integer count= pointMessageRepository.getByUidAndSrc(1001539327L,"1381776190670508032");
-       //redisCache1.removePattern("pointprod:signinrecord_getbyuid_*");
+        //Integer count= pointMessageRepository.getByUidAndSrc(1001539327L,"1381776190670508032");
+        //redisCache1.removePattern("pointprod:signinrecord_getbyuid_*");
         //Long recordByTaskId=pointRecordService.calPointRecordByTaskId(1377426874657017856L,"",0,10);
 
         //Long recordByTaskId1=pointRecordService.calPointRecordByTaskId(1369566660398288896L,"111",0,10);
