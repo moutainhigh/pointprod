@@ -11,6 +11,8 @@ import com.emoney.pointweb.repository.dao.entity.PointRecordDO;
 import com.emoney.pointweb.repository.dao.entity.PointRecordSummaryDO;
 import com.emoney.pointweb.repository.dao.mapper.PointRecordMapper;
 import com.emoney.pointweb.service.biz.redis.RedisService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -46,6 +48,12 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
     }
 
     @Override
+    public List<PointRecordDO> getByPager(Long uid, int pageIndex, int pageSize) {
+        //PageHelper.startPage(pageIndex,pageSize);
+        return  pointRecordMapper.getByPager(uid);
+    }
+
+    @Override
     public List<PointRecordDO> getByUid(Long uid) {
         List<PointRecordDO> pointRecordDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, uid), PointRecordDO.class);
         if (pointRecordDOS == null) {
@@ -69,8 +77,8 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
     public List<PointRecordDO> getUnClaimRecordsByUid(Long uid) {
         List<PointRecordDO> pointRecordDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETUNCLAIMRECORDSBYUID, uid), PointRecordDO.class);
         if (pointRecordDOS == null) {
-            pointRecordDOS=pointRecordMapper.getUnClaimRecordsByUid(uid);
-            if(pointRecordDOS!=null&& pointRecordDOS.size() > 0){
+            pointRecordDOS = pointRecordMapper.getUnClaimRecordsByUid(uid);
+            if (pointRecordDOS != null && pointRecordDOS.size() > 0) {
                 redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETUNCLAIMRECORDSBYUID, uid), pointRecordDOS, ToolUtils.GetExpireTime(60));
             }
         }
@@ -86,8 +94,8 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
     public List<PointRecordSummaryDO> getPointRecordSummaryByUid(Long uid) {
         List<PointRecordSummaryDO> pointRecordSummaryDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, uid), PointRecordSummaryDO.class);
         if (pointRecordSummaryDOS == null) {
-            pointRecordSummaryDOS= pointRecordMapper.getPointRecordSummaryByUid(uid);
-            if(pointRecordSummaryDOS!=null&& pointRecordSummaryDOS.size() > 0){
+            pointRecordSummaryDOS = pointRecordMapper.getPointRecordSummaryByUid(uid);
+            if (pointRecordSummaryDOS != null && pointRecordSummaryDOS.size() > 0) {
                 redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, uid), pointRecordSummaryDOS, ToolUtils.GetExpireTime(60));
             }
         }
@@ -96,11 +104,11 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
 
     @Override
     public List<PointRecordSummaryDO> getPointRecordSummaryByUidAndCreateTime(Long uid, Date dtStart, Date dtEnd) {
-        List<PointRecordSummaryDO> pointRecordSummaryDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUIDANDCREATETIME, uid,DateUtil.format(dtStart,"yyyyMMdd"),DateUtil.format(dtEnd,"yyyyMMdd")), PointRecordSummaryDO.class);
+        List<PointRecordSummaryDO> pointRecordSummaryDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUIDANDCREATETIME, uid, DateUtil.format(dtStart, "yyyyMMdd"), DateUtil.format(dtEnd, "yyyyMMdd")), PointRecordSummaryDO.class);
         if (pointRecordSummaryDOS == null) {
-            pointRecordSummaryDOS= pointRecordMapper.getPointRecordSummaryByUidAndCreateTime(uid,dtStart,dtEnd);
-            if(pointRecordSummaryDOS!=null&& pointRecordSummaryDOS.size() > 0){
-                redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUIDANDCREATETIME, uid,DateUtil.format(dtStart,"yyyyMMdd"),DateUtil.format(dtEnd,"yyyyMMdd")), pointRecordSummaryDOS, ToolUtils.GetExpireTime(60));
+            pointRecordSummaryDOS = pointRecordMapper.getPointRecordSummaryByUidAndCreateTime(uid, dtStart, dtEnd);
+            if (pointRecordSummaryDOS != null && pointRecordSummaryDOS.size() > 0) {
+                redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUIDANDCREATETIME, uid, DateUtil.format(dtStart, "yyyyMMdd"), DateUtil.format(dtEnd, "yyyyMMdd")), pointRecordSummaryDOS, ToolUtils.GetExpireTime(60));
             }
         }
         return pointRecordSummaryDOS;
@@ -108,6 +116,6 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
 
     @Override
     public List<PointRecordDO> getPointRecordByTaskIds(Long uid, List<Long> taskIds) {
-        return pointRecordMapper.getPointRecordByTaskIds(uid,taskIds);
+        return pointRecordMapper.getPointRecordByTaskIds(uid, taskIds);
     }
 }

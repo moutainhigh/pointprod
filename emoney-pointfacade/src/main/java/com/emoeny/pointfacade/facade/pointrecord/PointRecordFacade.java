@@ -57,10 +57,10 @@ public interface PointRecordFacade {
 
 
     /**
-     * 根据用户id查询时间内所有用户的积分记录
+     * 根据用户id分页查询积分记录
      */
-    @GetMapping("/querybytimeperiod")
-    Result<List<PointRecordVO>> queryPointRecords(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "开始时间不能为空") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date dtStart, @NotNull(message = "结束时间不能为空") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date dtEnd);
+    @GetMapping("/querybypager")
+    Result<List<PointRecordVO>> queryPointRecords(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "查询类型不能为空") Integer queryType, @NotNull(message = "pageIndex不能为空") Integer pageIndex, @NotNull(message = "pageSize不能为空") Integer pageSize) ;
 
     /**
      * 根据用户id查询当前待领取积分

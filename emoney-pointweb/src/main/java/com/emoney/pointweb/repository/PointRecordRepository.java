@@ -2,6 +2,7 @@ package com.emoney.pointweb.repository;
 
 import com.emoney.pointweb.repository.dao.entity.PointRecordDO;
 import com.emoney.pointweb.repository.dao.entity.PointRecordSummaryDO;
+import com.github.pagehelper.PageInfo;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,8 @@ public interface PointRecordRepository {
     PointRecordDO getById(Long uid, Long id);
 
     Integer insert(PointRecordDO pointRecordDO);
+
+    List<PointRecordDO> getByPager(Long uid, int pageIndex, int pageSize);
 
     List<PointRecordDO> getByUid(Long uid);
 

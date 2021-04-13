@@ -8,12 +8,14 @@ import com.emoney.pointweb.repository.PointRecordESRepository;
 import com.emoney.pointweb.repository.PointRecordRepository;
 import com.emoney.pointweb.repository.dao.entity.*;
 import com.emoney.pointweb.repository.dao.mapper.PointLimitMapper;
+import com.emoney.pointweb.repository.dao.mapper.PointMessageMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointRecordMapper;
 import com.emoney.pointweb.service.biz.PointOrderService;
 import com.emoney.pointweb.service.biz.PointRecordService;
 import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
 import com.emoney.pointweb.service.biz.kafka.KafkaProducerService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.KafkaAdminClient;
 import org.junit.jupiter.api.Test;
@@ -28,10 +30,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 
 import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -77,12 +76,24 @@ class PointWebApplicationTests {
     @Autowired
     private PointMessageRepository pointMessageRepository;
 
+    @Autowired
+    private PointMessageMapper pointMessageMapper;
+
 
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
 
         log.info("日志测试.....................,需要增加Slf4j注解");
 
+       // List<PointRecordDO> pageInfo=pointRecordRepository.getByPager(1001539325L,3,3);
+//        List<Integer> pointStatus=new ArrayList<>();
+//        pointStatus.add(1);
+//        pointStatus.add(2);
+//        Pageable pageable = PageRequest.of(0,2);
+//        Page<PointRecordDO> pointRecordDOPage=pointRecordESRepository.findByUidAndPointStatusInOrderByCreateTimeDesc(1001539325L,pointStatus,pageable);
+//
+
+        // List<PointRecordDO> pointRecordDOS=pointRecordMapper.getHisByUidHis(1001539325L);
         //List<PointMessageDO>  pointMessageDOS= pointMessageRepository.getByUid(2020117908L);
 
        //Integer count= pointMessageRepository.getByUidAndSrc(1001539327L,"1381776190670508032");

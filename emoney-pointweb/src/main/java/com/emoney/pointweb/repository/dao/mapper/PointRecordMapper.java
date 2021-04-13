@@ -16,6 +16,8 @@ public interface PointRecordMapper {
 
     Integer insert(PointRecordDO pointRecordDO);
 
+    List<PointRecordDO> getByPager(Long uid);
+
     List<PointRecordDO> getByUid1(Long uid);
 
     List<PointRecordDO> getByUid2(Long uid, Date startDate, Date endDate);

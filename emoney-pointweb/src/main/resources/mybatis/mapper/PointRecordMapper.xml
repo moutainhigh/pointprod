@@ -58,6 +58,14 @@
        		(#{id},#{uid}, #{taskId}, #{platform}, #{taskPoint},#{taskName},#{pointStatus},#{pid},#{emNo},#{isDailytask},#{subId},#{createTime}, #{updateTime}, #{createBy}, #{updateBy},#{remark})
     </insert>
 
+
+    <select id="getByPager" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM dbo.t_point_record
+        WHERE uid=#{uid}  AND point_status IN (1,2)
+    </select>
+
     <select id="getByUid1" resultMap="BaseResultMap">
 
         SELECT

@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static cn.hutool.core.date.DateUtil.date;
 import static com.emoeny.pointcommon.result.Result.buildErrorResult;
@@ -153,20 +154,23 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
     }
 
     @Override
-    public Result<List<PointRecordVO>> queryPointRecords(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "开始时间不能为空") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date dtStart, @NotNull(message = "结束时间不能为空") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date dtEnd) {
+    public Result<List<PointRecordVO>> queryPointRecords(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "查询类型不能为空") Integer queryType, @NotNull(message = "pageIndex不能为空") Integer pageIndex, @NotNull(message = "pageSize不能为空") Integer pageSize) {
         try {
-            if (dtStart.after(dtEnd)) {
-                return buildErrorResult(BaseResultCodeEnum.ILLEGAL_ARGUMENT.getCode(), "开始时间不能大于结束时间");
-            } else if (DateUtil.between(dtStart, dtEnd, DateUnit.DAY) > 93) {
-                return buildErrorResult(BaseResultCodeEnum.ILLEGAL_ARGUMENT.getCode(), "时间跨度不能超过3个月");
-            } else {
-                List<PointRecordVO> pointRecordVOS = new ArrayList<>();
-                List<PointRecordDO> pointRecordDOS = pointRecordService.getPointRecordDOs(uid, dtStart, dtEnd);
-                if (pointRecordDOS != null) {
-                    pointRecordVOS = CollectionBeanUtils.copyListProperties(pointRecordDOS, PointRecordVO::new);
+            List<PointRecordVO> pointRecordVOS = new ArrayList<>();
+            List<Integer> pointStatus = new ArrayList<>();
+            pointStatus.add(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()));
+            pointStatus.add(Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode()));
+            List<PointRecordDO> pointRecordDOS = pointRecordService.getPointRecordDOs(uid, pointStatus, pageIndex, pageSize);
+            if (pointRecordDOS != null) {
+                pointRecordVOS = CollectionBeanUtils.copyListProperties(pointRecordDOS, PointRecordVO::new);
+                if(queryType==1){
+                    pointRecordVOS=pointRecordVOS.stream().filter(h->h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()))).collect(Collectors.toList());
                 }
-                return Result.buildSuccessResult(pointRecordVOS);
+                else if(queryType==2){
+                    pointRecordVOS=pointRecordVOS.stream().filter(h->h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode()))).collect(Collectors.toList());
+                }
             }
+            return Result.buildSuccessResult(pointRecordVOS);
         } catch (Exception e) {
             log.error("queryPointRecords error:", e);
             return Result.buildErrorResult(e.getMessage());

@@ -148,8 +148,15 @@ public class PointRecordServiceImpl implements PointRecordService {
     }
 
     @Override
-    public List<PointRecordDO> getPointRecordDOs(long uid, Date dtStart, Date dtTo) {
-        return pointRecordESRepository.findByUidAndCreateTimeBetween(uid, dtStart, dtTo);
+    public List<PointRecordDO> getPointRecordDOs(long uid,  List<Integer> pointStatus,int pageSize,int pageIndex) {
+        Pageable pageable = PageRequest.of(pageSize,pageIndex);
+        return pointRecordESRepository.findByUidAndPointStatusInOrderByCreateTimeDesc(uid,pointStatus,pageable).getContent();
+    }
+
+    @Override
+    public List<PointRecordDO> getPointRecordDOs(long uid,  List<Integer> pointStatus,Date from, Date to,int pageSize,int pageIndex) {
+        Pageable pageable = PageRequest.of(pageSize,pageIndex);
+        return pointRecordESRepository.findByUidAndCreateTimeBetweenOrderByCreateTimeDesc(uid,pointStatus,from,to,pageable).getContent();
     }
 
     @Override
