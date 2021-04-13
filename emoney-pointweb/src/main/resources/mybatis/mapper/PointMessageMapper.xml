@@ -52,7 +52,7 @@
 
     </select>
 
-    <select id="getByUidAndSrc" resultType="java.lang.Integer">
+    <select id="getByUidAndExt" resultType="java.lang.Integer">
 
         SELECT COUNT (*)
         FROM dbo.t_point_message

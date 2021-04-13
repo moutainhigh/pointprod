@@ -31,5 +31,5 @@ public interface PointMessageRepository {
      * @param msgSrc
      * @return
      */
-    Integer getByUidAndSrc(Long uid,String msgExt);
+    Integer getByUidAndExt(Long uid,String msgExt);
 }

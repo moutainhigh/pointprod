@@ -47,7 +47,7 @@ public class PointMessageRepositoryImpl implements PointMessageRepository {
     }
 
     @Override
-    public Integer getByUidAndSrc(Long uid, String msgExt) {
-        return pointMessageMapper.getByUidAndSrc(uid,msgExt);
+    public Integer getByUidAndExt(Long uid, String msgExt) {
+        return pointMessageMapper.getByUidAndExt(uid,msgExt);
     }
 }
