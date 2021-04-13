@@ -158,10 +158,17 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
         try {
             List<PointRecordVO> pointRecordVOS = new ArrayList<>();
             List<Integer> pointStatus = new ArrayList<>();
-            pointStatus.add(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()));
-            pointStatus.add(Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode()));
+
             List<PointRecordDO> pointRecordDOS = null;
             if (queryType == 0 || queryType == 1 || queryType == 2) {
+                if (queryType == 0) {
+                    pointStatus.add(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()));
+                    pointStatus.add(Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode()));
+                } else if (queryType == 1) {
+                    pointStatus.add(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()));
+                } else if (queryType == 2) {
+                    pointStatus.add(Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode()));
+                }
                 pointRecordDOS = pointRecordService.getPointRecordDOs(uid, pointStatus, pageIndex, pageSize);
             } else if (queryType == 3) {
                 Date dtStart = DateUtil.parseDate((DateUtil.year(DateUtil.date()) - 1) + "-01-01 00:00:00");
