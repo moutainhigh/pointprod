@@ -12,9 +12,9 @@ import java.util.Date;
 @Data
 public class PointFeedBackDO {
     private Integer id;
+    private Integer feedType;
     private String pid;
     private String account;
-    private String contactInfo;
     private String email;
     private String suggest;
     private String imgUrl;
