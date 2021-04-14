@@ -1,6 +1,7 @@
 package com.emoney.pointweb.service.biz.impl;
 
 import com.emoeny.pointcommon.constants.RedisConstants;
+import com.emoney.pointweb.repository.PointAnnounceRepository;
 import com.emoney.pointweb.repository.dao.entity.PointAnnounceDO;
 import com.emoney.pointweb.repository.dao.mapper.PointAnnounceMapper;
 import com.emoney.pointweb.service.biz.PointAnnounceService;
@@ -24,6 +25,9 @@ public class PointAnnounceServiceImpl implements PointAnnounceService {
     private PointAnnounceMapper pointAnnounceMapper;
 
     @Autowired
+    private PointAnnounceRepository pointAnnounceRepository;
+
+    @Autowired
     private RedisService redisCache1;
 
     @Override
@@ -43,5 +47,10 @@ public class PointAnnounceServiceImpl implements PointAnnounceService {
     @Override
     public List<PointAnnounceDO> getAll() {
         return pointAnnounceMapper.getAll();
+    }
+
+    @Override
+    public List<PointAnnounceDO> getPointAnnouncesByType(int msgType) {
+        return pointAnnounceRepository.getPointAnnouncesByType(msgType);
     }
 }

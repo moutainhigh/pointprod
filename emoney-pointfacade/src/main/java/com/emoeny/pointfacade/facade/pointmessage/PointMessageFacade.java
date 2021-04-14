@@ -23,5 +23,5 @@ public interface PointMessageFacade {
      * 根据用户id查询用户订单列表
      */
     @GetMapping("/query")
-    Result<List<PointMessageVO>> queryPointMessages(@NotNull(message = "用户id不能为空") Long uid);
+    Result<List<PointMessageVO>> queryPointMessages(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "产品版本不能为空") String productVersion,@NotNull(message = "查询类型不能为空") Integer queryType);
 }
