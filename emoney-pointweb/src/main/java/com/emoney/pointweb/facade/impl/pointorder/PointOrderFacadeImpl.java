@@ -46,9 +46,9 @@ public class PointOrderFacadeImpl implements PointOrderFacade {
     private RedissonDistributionLock redissonDistributionLock;
 
     @Override
-    public Result<List<PointOrderVO>> queryPointOrders(@NotNull(message = "用户id不能为空") Long uid) {
+    public Result<List<PointOrderVO>> queryPointOrders(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "查询类型不能为空") Integer queryType, @NotNull(message = "pageIndex不能为空") Integer pageIndex, @NotNull(message = "pageSize不能为空") Integer pageSize) {
         try {
-            return Result.buildSuccessResult(JsonUtil.copyList(pointOrderService.getByUid(uid), PointOrderVO.class));
+            return Result.buildSuccessResult(JsonUtil.copyList(pointOrderService.getByUid(uid,queryType,pageIndex,pageSize), PointOrderVO.class));
         } catch (Exception e) {
             log.error("queryPointOrders error:", e);
             return Result.buildErrorResult(e.getMessage());

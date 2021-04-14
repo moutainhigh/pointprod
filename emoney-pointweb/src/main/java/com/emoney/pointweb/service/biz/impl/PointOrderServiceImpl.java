@@ -52,8 +52,8 @@ public class PointOrderServiceImpl implements PointOrderService {
 
 
     @Override
-    public List<PointOrderDO> getByUid(Long uid) {
-        return pointOrderRepository.getByUid(uid);
+    public List<PointOrderDO> getByUid(Long uid,Integer orderStatus,int pageIndex,int pageSize) {
+        return pointOrderRepository.getByUid(uid,orderStatus,pageIndex,pageSize);
     }
 
     @Override

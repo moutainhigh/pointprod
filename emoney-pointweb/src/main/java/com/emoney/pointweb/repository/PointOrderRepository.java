@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface PointOrderRepository {
 
-    List<PointOrderDO> getByUid(Long uid);
+    List<PointOrderDO> getByUid(Long uid,Integer orderStatus,int pageIndex,int pageSize);
 
     /**
      * 根据uid和productId获取所有订单

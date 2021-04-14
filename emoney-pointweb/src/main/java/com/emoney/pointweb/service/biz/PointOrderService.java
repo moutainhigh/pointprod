@@ -16,7 +16,7 @@ import java.util.List;
  * @create 2021/3/18 16:09
  */
 public interface PointOrderService {
-    List<PointOrderDO> getByUid(Long uid);
+    List<PointOrderDO> getByUid(Long uid,Integer orderStatus,int pageIndex,int pageSize);
 
     /**
      * 创建订单

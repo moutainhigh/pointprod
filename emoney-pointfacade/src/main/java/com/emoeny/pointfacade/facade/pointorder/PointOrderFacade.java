@@ -29,7 +29,7 @@ public interface PointOrderFacade {
      * 根据用户id查询用户订单列表
      */
     @GetMapping("/query")
-    Result<List<PointOrderVO>> queryPointOrders(@NotNull(message = "用户id不能为空") Long uid);
+    Result<List<PointOrderVO>> queryPointOrders(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "查询类型不能为空") Integer queryType, @NotNull(message = "pageIndex不能为空") Integer pageIndex, @NotNull(message = "pageSize不能为空") Integer pageSize);
 
     /**
      * 创建兑换订单

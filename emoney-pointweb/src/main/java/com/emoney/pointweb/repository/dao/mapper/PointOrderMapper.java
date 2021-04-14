@@ -21,7 +21,7 @@ public interface PointOrderMapper {
      * @param uid
      * @return
      */
-    List<PointOrderDO> getByUid(Long uid);
+    List<PointOrderDO> getByUid(Long uid,int orderStatus);
 
     /**
      * 根据uid和productId获取所有订单

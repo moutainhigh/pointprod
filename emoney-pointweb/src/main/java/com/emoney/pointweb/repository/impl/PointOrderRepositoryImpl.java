@@ -6,6 +6,8 @@ import com.emoney.pointweb.repository.dao.entity.PointOrderDO;
 import com.emoney.pointweb.repository.dao.entity.PointOrderSummaryDO;
 import com.emoney.pointweb.repository.dao.mapper.PointOrderMapper;
 import com.emoney.pointweb.service.biz.redis.RedisService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -29,8 +31,11 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
 
 
     @Override
-    public List<PointOrderDO> getByUid(Long uid) {
-        return pointOrderMapper.getByUid(uid);
+    public List<PointOrderDO> getByUid(Long uid,Integer orderStatus,int pageIndex,int pageSize) {
+        //PageHelper.startPage(pageIndex,pageSize);
+        List<PointOrderDO> list=pointOrderMapper.getByUid(uid,orderStatus);
+
+        return null;
     }
 
     @Override

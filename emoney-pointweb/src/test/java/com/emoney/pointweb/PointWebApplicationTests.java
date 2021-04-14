@@ -4,6 +4,7 @@ package com.emoney.pointweb;
 import cn.hutool.core.util.IdUtil;
 import com.emoeny.pointcommon.utils.OkHttpUtil;
 import com.emoney.pointweb.repository.PointMessageRepository;
+import com.emoney.pointweb.repository.PointOrderRepository;
 import com.emoney.pointweb.repository.PointRecordESRepository;
 import com.emoney.pointweb.repository.PointRecordRepository;
 import com.emoney.pointweb.repository.dao.entity.*;
@@ -79,13 +80,18 @@ class PointWebApplicationTests {
     @Autowired
     private PointMessageMapper pointMessageMapper;
 
+    @Autowired
+    private PointOrderRepository pointOrderRepository;
 
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
 
         log.info("日志测试.....................,需要增加Slf4j注解");
 
-        List<PointRecordDO> pageInfo = pointRecordRepository.getByPager(1001539325L, 3, 3);
+        // List<PointRecordDO> pageInfo = pointRecordRepository.getByPager(1001539325L, 3, 3);
+
+        List<PointOrderDO> pointOrderDOS = pointOrderRepository.getByUid(2020117908L,0,0,3);
+
 //        List<Integer> pointStatus=new ArrayList<>();
 //        pointStatus.add(1);
 //        pointStatus.add(2);
