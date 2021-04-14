@@ -13,4 +13,6 @@ public interface PointAnnounceMapper {
     Integer update(PointAnnounceDO pointAnnounceDO);
 
     List<PointAnnounceDO> getAll();
+
+    List<PointAnnounceDO> getPointAnnouncesByType(int msgType);
 }

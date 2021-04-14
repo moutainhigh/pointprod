@@ -69,4 +69,11 @@
         SELECT <include refid="Base_Column_List"/>
         FROM t_point_announce ORDER BY publish_time DESC
     </select>
+
+     <select id="getPointAnnouncesByType" resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM dbo.t_point_taskconfiginfo
+      WHERE msg_type = #{msgType}
+  </select>
 </mapper>
