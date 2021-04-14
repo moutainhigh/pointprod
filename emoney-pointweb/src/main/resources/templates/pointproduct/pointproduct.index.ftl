@@ -336,8 +336,12 @@
         'head',
         'link',
         'italic',
-        'underline'
+        'underline',
+        'image'
     ]
+    editor.config.uploadFileName = 'myFile'
+    // 配置 server 接口地址
+    editor.config.uploadImgServer = base_url + '/fileuploader/uploadimg'
     // 配置字体
     editor.config.fontNames = [
         '黑体',
