@@ -171,6 +171,7 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
                 }
                 pointRecordDOS = pointRecordService.getPointRecordDOs(uid, pointStatus, pageIndex, pageSize);
             } else if (queryType == 3) {
+                pointStatus.add(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()));
                 Date dtStart = DateUtil.parseDate((DateUtil.year(DateUtil.date()) - 1) + "-01-01 00:00:00");
                 Date dtEnd = DateUtil.beginOfDay(DateUtil.offsetMonth(dtStart, 3));
                 pointRecordDOS = pointRecordService.getPointRecordDOs(uid, pointStatus, dtStart, dtEnd, pageIndex, pageSize);
