@@ -32,7 +32,7 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
 
     @Override
     public List<PointOrderDO> getByUid(Long uid,Integer orderStatus,int pageIndex,int pageSize) {
-        //PageHelper.startPage(pageIndex,pageSize);
+        PageHelper.startPage(pageIndex,pageSize);
         List<PointOrderDO> list=pointOrderMapper.getByUid(uid,orderStatus);
 
         return null;
