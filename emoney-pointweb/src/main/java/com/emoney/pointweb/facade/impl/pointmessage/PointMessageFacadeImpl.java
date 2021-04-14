@@ -35,20 +35,9 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
     @Autowired
     private PointAnnounceService pointAnnounceService;
 
-//    @Override
-//    public Result<List<PointMessageVO>> queryPointMessages(@NotNull(message = "用户id不能为空") Long uid) {
-//        try {
-//            return Result.buildSuccessResult(JsonUtil.copyList(pointMessageService.getByUid(uid), PointMessageVO.class));
-//        } catch (Exception e) {
-//            log.error("queryPointMessages error:", e);
-//            return Result.buildErrorResult(e.getMessage());
-//        }
-//    }
-
     @Override
     public Result<List<PointMessageVO>> queryPointMessages(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "产品版本不能为空") String productVersion, @NotNull(message = "查询类型不能为空") Integer queryType) {
         try {
-
             List<PointMessageVO> pointMessageVOS = new ArrayList<>();
             PointMessageVO pointMessageVO = null;
             List<Integer> mstTypes = new ArrayList<>();
