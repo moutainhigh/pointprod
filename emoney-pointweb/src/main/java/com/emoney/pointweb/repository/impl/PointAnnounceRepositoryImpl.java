@@ -1,5 +1,6 @@
 package com.emoney.pointweb.repository.impl;
 
+import cn.hutool.core.date.DateUtil;
 import com.emoeny.pointcommon.constants.RedisConstants;
 import com.emoney.pointweb.repository.PointAnnounceRepository;
 import com.emoney.pointweb.repository.dao.entity.PointAnnounceDO;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,14 +31,7 @@ public class PointAnnounceRepositoryImpl implements PointAnnounceRepository {
     private RedisService redisCache1;
 
     @Override
-    public List<PointAnnounceDO> getPointAnnouncesByType(int msgType) {
-        List<PointAnnounceDO> pointAnnounceDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointAnnounce_GETBYTYPE, msgType), PointAnnounceDO.class);
-        if (pointAnnounceDOS == null) {
-            pointAnnounceDOS = pointAnnounceMapper.getPointAnnouncesByType(msgType);
-            if (pointAnnounceDOS != null) {
-                redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointAnnounce_GETBYTYPE, msgType), pointAnnounceDOS, (long) 60 * 60 * 8);
-            }
-        }
-        return pointAnnounceDOS;
+    public List<PointAnnounceDO> getPointAnnouncesByType(List<Integer> msgTypes) {
+        return pointAnnounceMapper.getPointAnnouncesByType(new Date(),msgTypes);
     }
 }

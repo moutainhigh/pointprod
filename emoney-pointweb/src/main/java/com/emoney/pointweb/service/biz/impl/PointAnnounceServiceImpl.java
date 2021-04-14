@@ -32,15 +32,11 @@ public class PointAnnounceServiceImpl implements PointAnnounceService {
 
     @Override
     public Integer insert(PointAnnounceDO pointAnnounceDO) {
-        //清除缓存
-        redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointAnnounce_GETBYTYPE, pointAnnounceDO.getMsgType()));
         return pointAnnounceMapper.insert(pointAnnounceDO);
     }
 
     @Override
     public Integer update(PointAnnounceDO pointAnnounceDO) {
-        //清除缓存
-        redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointAnnounce_GETBYTYPE, pointAnnounceDO.getMsgType()));
         return pointAnnounceMapper.update(pointAnnounceDO);
     }
 
@@ -50,7 +46,7 @@ public class PointAnnounceServiceImpl implements PointAnnounceService {
     }
 
     @Override
-    public List<PointAnnounceDO> getPointAnnouncesByType(int msgType) {
-        return pointAnnounceRepository.getPointAnnouncesByType(msgType);
+    public List<PointAnnounceDO> getPointAnnouncesByType(List<Integer> msgTypes) {
+        return pointAnnounceRepository.getPointAnnouncesByType(msgTypes);
     }
 }

@@ -10,10 +10,11 @@ public enum MessageTypeEnum implements EnumBase {
     /**
      * 消息类型
      */
+    TYPE0("0", "全部"),
     TYPE1("1", "积分到期"),
     TYPE2("2", "商品上架"),
     TYPE3("3", "待支付"),
-    TYP4("4", "最新活动"),
+    TYPE4("4", "最新活动"),
     ;
     /**
      * 枚举编号

@@ -67,13 +67,18 @@
     </update>
     <select id="getAll" resultType="com.emoney.pointweb.repository.dao.entity.PointAnnounceDO">
         SELECT <include refid="Base_Column_List"/>
-        FROM t_point_announce ORDER BY publish_time DESC
+        FROM dbo.t_point_announce ORDER BY publish_time DESC
     </select>
 
      <select id="getPointAnnouncesByType" resultMap="BaseResultMap">
       SELECT
       <include refid="Base_Column_List"/>
-      FROM dbo.t_point_taskconfiginfo
-      WHERE msg_type = #{msgType}
+      FROM dbo.t_point_announce
+      WHERE  publish_time &lt;  #{curDate} and msg_type in
+      	<foreach item="item" index="index" collection="list"
+				 open="(" separator="," close=")">
+			#{item}
+		</foreach>
+      order by publish_time DESC
   </select>
 </mapper>

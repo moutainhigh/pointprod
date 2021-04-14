@@ -11,5 +11,5 @@ public interface PointAnnounceService {
 
     List<PointAnnounceDO> getAll();
 
-    List<PointAnnounceDO> getPointAnnouncesByType(int msgType);
+    List<PointAnnounceDO> getPointAnnouncesByType(List<Integer> msgTypes);
 }

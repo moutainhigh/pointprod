@@ -14,7 +14,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -46,17 +48,46 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
     @Override
     public Result<List<PointMessageVO>> queryPointMessages(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "产品版本不能为空") String productVersion, @NotNull(message = "查询类型不能为空") Integer queryType) {
         try {
-            //即将到期，最新活动
-            if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE1.getCode())) || queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE3.getCode()))) {
-                return Result.buildSuccessResult(JsonUtil.copyList(pointMessageService.getByUid(uid), PointMessageVO.class));
+
+            List<PointMessageVO> pointMessageVOS = new ArrayList<>();
+            PointMessageVO pointMessageVO = null;
+            List<Integer> mstTypes = new ArrayList<>();
+            //即将到期,待支付
+            if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE0.getCode())) || queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE1.getCode())) || queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE3.getCode()))) {
+                pointMessageVOS = JsonUtil.copyList(pointMessageService.getByUid(uid), PointMessageVO.class);
+                if (pointMessageVOS != null) {
+                    if (!queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE0.getCode()))) {
+                        pointMessageVOS = pointMessageVOS.stream().filter(h -> h.getMsgType().equals(queryType)).collect(Collectors.toList());
+                    }
+                }
             }
             //商品上新，活动上新
-            else {
-                List<PointAnnounceDO> pointAnnounceDOS=pointAnnounceService.getPointAnnouncesByType(queryType);
-
+            if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE0.getCode())) || queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE2.getCode())) || queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()))) {
+                if(queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE0.getCode()))){
+                    mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE2.getCode()));
+                    mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()));
+                }
+                else if(queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE2.getCode()))){
+                    mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE2.getCode()));
+                }
+                else if(queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()))){
+                    mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()));
+                }
+                List<PointAnnounceDO> pointAnnounceDOS = pointAnnounceService.getPointAnnouncesByType(mstTypes);
+                if (pointAnnounceDOS != null) {
+                    for (PointAnnounceDO p : pointAnnounceDOS
+                    ) {
+                        pointMessageVO = new PointMessageVO();
+                        pointMessageVO.setUid(uid);
+                        pointMessageVO.setMsgType(queryType);
+                        pointMessageVO.setMsgContent(p.getMsgContent());
+                        pointMessageVO.setMsgSrc(p.getMsgSrc());
+                        pointMessageVO.setCreateTime(p.getPublishTime());
+                        pointMessageVOS.add(pointMessageVO);
+                    }
+                }
             }
-            return  null;
-
+            return Result.buildSuccessResult(pointMessageVOS);
         } catch (Exception e) {
             log.error("queryPointMessages error:", e);
             return Result.buildErrorResult(e.getMessage());

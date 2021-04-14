@@ -2,7 +2,9 @@ package com.emoney.pointweb.repository.dao.mapper;
 
 import com.emoney.pointweb.repository.dao.entity.PointAnnounceDO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -14,5 +16,5 @@ public interface PointAnnounceMapper {
 
     List<PointAnnounceDO> getAll();
 
-    List<PointAnnounceDO> getPointAnnouncesByType(int msgType);
+    List<PointAnnounceDO> getPointAnnouncesByType(Date curDate,@Param("list") List<Integer> msgTypes);
 }
