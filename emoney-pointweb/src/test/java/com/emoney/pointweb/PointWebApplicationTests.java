@@ -1,12 +1,10 @@
 package com.emoney.pointweb;
 
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.emoeny.pointcommon.utils.OkHttpUtil;
-import com.emoney.pointweb.repository.PointMessageRepository;
-import com.emoney.pointweb.repository.PointOrderRepository;
-import com.emoney.pointweb.repository.PointRecordESRepository;
-import com.emoney.pointweb.repository.PointRecordRepository;
+import com.emoney.pointweb.repository.*;
 import com.emoney.pointweb.repository.dao.entity.*;
 import com.emoney.pointweb.repository.dao.mapper.PointLimitMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointMessageMapper;
@@ -83,6 +81,10 @@ class PointWebApplicationTests {
     @Autowired
     private PointOrderRepository pointOrderRepository;
 
+
+    @Autowired
+    private SignInRecordRepository signInRecordRepository;
+
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
 
@@ -128,12 +130,14 @@ class PointWebApplicationTests {
         //分表测试
 //        PointRecordDO pointRecordDO = new PointRecordDO();
 //        pointRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
-//        pointRecordDO.setUid(10000772l);
-//        pointRecordDO.setIsDailytask(false);
-//        pointRecordDO.setCreateTime(new Date());
-//        pointRecordESRepository.save(pointRecordDO);
-//        pointRecordDO.setCreateTime(DateUtil.date());
+//        pointRecordDO.setUid(10000772L);
 //        pointRecordMapper.insert(pointRecordDO);
+
+//        SignInRecordDO signInRecordDO=new SignInRecordDO();
+//        signInRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
+//        signInRecordDO.setUid(10000772L);
+//        signInRecordRepository.insert(signInRecordDO);
+
 
         //pointRecordESRepository.deleteById(1371816217081417728l);
 
