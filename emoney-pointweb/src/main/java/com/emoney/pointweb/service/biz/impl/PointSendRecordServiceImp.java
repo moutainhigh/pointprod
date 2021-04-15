@@ -13,7 +13,7 @@ import com.emoney.pointweb.repository.dao.mapper.PointSendRecordMapper;
 import com.emoney.pointweb.service.biz.PointRecordService;
 import com.emoney.pointweb.service.biz.PointSendRecordService;
 import com.emoney.pointweb.service.biz.UserLoginService;
-import groovy.util.logging.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
