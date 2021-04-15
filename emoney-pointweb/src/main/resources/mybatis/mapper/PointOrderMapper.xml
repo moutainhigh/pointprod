@@ -90,7 +90,7 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM dbo.t_point_order
-        WHERE 1=1
+        WHERE order_status <![CDATA[!= ]]>2
           <if test="uid != null ">
           AND uid = #{uid}
         </if>
