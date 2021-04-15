@@ -66,7 +66,7 @@
         <include refid="Base_Column_List"/>
         FROM dbo.t_point_order
         WHERE uid=#{uid}
-          <if test="orderStatus != 0 ">
+          <if test="orderStatus != -1 ">
           AND order_status = #{orderStatus}
         </if>
 
