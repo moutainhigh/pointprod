@@ -88,12 +88,12 @@ class PointWebApplicationTests {
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
 
-        log.info("日志测试.....................,需要增加Slf4j注解");
-
-        //List<PointRecordDO> pageInfo = pointRecordRepository.getByPager(1001539325L, 0, 3);
-
-        //List<PointOrderDO> pointOrderDOS = pointOrderRepository.getByUid(2020117908L,0,0,3);
-
+//        log.info("日志测试.....................,需要增加Slf4j注解");
+//
+//        List<PointRecordDO> pageInfo = pointRecordRepository.getByPager(1001539325L, 0, 3);
+//
+//        List<PointOrderDO> pointOrderDOS = pointOrderRepository.getByUid(2020117908L,0,0,3);
+//
 //        List<Integer> pointStatus=new ArrayList<>();
 //        pointStatus.add(1);
 //        pointStatus.add(2);
@@ -131,6 +131,7 @@ class PointWebApplicationTests {
 //        PointRecordDO pointRecordDO = new PointRecordDO();
 //        pointRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
 //        pointRecordDO.setUid(10000772L);
+//        pointRecordDO.setCreateTime(new Date());
 //        pointRecordMapper.insert(pointRecordDO);
 
 //        SignInRecordDO signInRecordDO=new SignInRecordDO();
