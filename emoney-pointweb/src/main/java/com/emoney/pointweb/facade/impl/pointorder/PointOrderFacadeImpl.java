@@ -98,7 +98,17 @@ public class PointOrderFacadeImpl implements PointOrderFacade {
         try {
             return Result.buildSuccessResult(JsonUtil.toBean(JSON.toJSONString(pointOrderService.getByOrderNo(orderNo)), PointOrderVO.class));
         } catch (Exception e) {
-            log.error("exanchangeByPoint error:", e);
+            log.error("getOrderByOrderNo error:", e);
+            return Result.buildErrorResult(e.getMessage());
+        }
+    }
+
+    @Override
+    public Result<PointOrderVO> getByUidAndProductId(@NotNull(message = "用户id不能为空") Long uid, Integer productId) {
+        try {
+            return Result.buildSuccessResult(JsonUtil.toBean(JSON.toJSONString(pointOrderService.getByUidAndProductId(uid,productId)), PointOrderVO.class));
+        } catch (Exception e) {
+            log.error("getByUidAndProductId error:", e);
             return Result.buildErrorResult(e.getMessage());
         }
     }

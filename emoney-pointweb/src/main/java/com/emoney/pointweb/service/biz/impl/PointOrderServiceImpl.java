@@ -145,6 +145,11 @@ public class PointOrderServiceImpl implements PointOrderService {
         return pointOrderRepository.getByOrderNo(orderNo);
     }
 
+    @Override
+    public List<PointOrderDO> getByUidAndProductId(Long uid, Integer productId) {
+        return  pointOrderRepository.getByUidAndProductId(uid,productId);
+    }
+
     /**
      * 订单检查
      *
