@@ -104,9 +104,9 @@ public class PointOrderFacadeImpl implements PointOrderFacade {
     }
 
     @Override
-    public Result<PointOrderVO> getByUidAndProductId(@NotNull(message = "用户id不能为空") Long uid, Integer productId) {
+    public Result<List<PointOrderVO>> getByUidAndProductId(@NotNull(message = "用户id不能为空") Long uid, Integer productId) {
         try {
-            return Result.buildSuccessResult(JsonUtil.toBean(JSON.toJSONString(pointOrderService.getByUidAndProductId(uid,productId)), PointOrderVO.class));
+            return Result.buildSuccessResult(JsonUtil.toBeanList(JSON.toJSONString(pointOrderService.getByUidAndProductId(uid,productId)), PointOrderVO.class));
         } catch (Exception e) {
             log.error("getByUidAndProductId error:", e);
             return Result.buildErrorResult(e.getMessage());
