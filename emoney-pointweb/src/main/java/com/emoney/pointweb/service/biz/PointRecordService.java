@@ -13,9 +13,11 @@ import java.util.List;
 public interface PointRecordService {
     Result<Object> createPointRecord(PointRecordCreateDTO pointRecordCreateDTO);
 
-    List<PointRecordDO> getPointRecordDOs(long uid,  List<Integer> pointStatus,int pageSize,int pageIndex);
+//    List<PointRecordDO> getPointRecordDOs(long uid,  List<Integer> pointStatus,int pageSize,int pageIndex);
+//
+//    List<PointRecordDO> getPointRecordDOs(long uid,  List<Integer> pointStatus,Date from, Date to,int pageSize,int pageIndex);
 
-    List<PointRecordDO> getPointRecordDOs(long uid,  List<Integer> pointStatus,Date from, Date to,int pageSize,int pageIndex);
+    List<PointRecordDO> getByPager(Long uid,Integer pointStatus,Date startDate, Date endDate,int pageIndex, int pageSize);
 
     Long calPointRecordByTaskId(long taskId, String subId, int page, int size);
 

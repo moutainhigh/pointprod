@@ -148,16 +148,21 @@ public class PointRecordServiceImpl implements PointRecordService {
     }
 
     @Override
-    public List<PointRecordDO> getPointRecordDOs(long uid,  List<Integer> pointStatus,int pageSize,int pageIndex) {
-        Pageable pageable = PageRequest.of(pageSize,pageIndex);
-        return pointRecordESRepository.findByUidAndPointStatusInOrderByCreateTimeDesc(uid,pointStatus,pageable).getContent();
+    public List<PointRecordDO> getByPager(Long uid, Integer pointStatus, Date startDate, Date endDate, int pageIndex, int pageSize) {
+        return pointRecordRepository.getByPager(uid, pointStatus, startDate, endDate, pageIndex, pageSize);
     }
 
-    @Override
-    public List<PointRecordDO> getPointRecordDOs(long uid,  List<Integer> pointStatus,Date from, Date to,int pageSize,int pageIndex) {
-        Pageable pageable = PageRequest.of(pageSize,pageIndex);
-        return pointRecordESRepository.findByUidAndCreateTimeBetweenOrderByCreateTimeDesc(uid,pointStatus,from,to,pageable).getContent();
-    }
+//    @Override
+//    public List<PointRecordDO> getPointRecordDOs(long uid,  List<Integer> pointStatus,int pageSize,int pageIndex) {
+//        Pageable pageable = PageRequest.of(pageSize,pageIndex);
+//        return pointRecordESRepository.findByUidAndPointStatusInOrderByCreateTimeDesc(uid,pointStatus,pageable).getContent();
+//    }
+//
+//    @Override
+//    public List<PointRecordDO> getPointRecordDOs(long uid,  List<Integer> pointStatus,Date from, Date to,int pageSize,int pageIndex) {
+//        Pageable pageable = PageRequest.of(pageSize,pageIndex);
+//        return pointRecordESRepository.findByUidAndCreateTimeBetweenOrderByCreateTimeDesc(uid,pointStatus,from,to,pageable).getContent();
+//    }
 
     @Override
     public Long calPointRecordByTaskId(long taskId, String subId, int page, int size) {
@@ -178,12 +183,12 @@ public class PointRecordServiceImpl implements PointRecordService {
 
     @Override
     public List<PointRecordSummaryDO> getPointRecordSummaryByUidAndCreateTime(Long uid, Date dtStart, Date dtEnd) {
-        return pointRecordRepository.getPointRecordSummaryByUidAndCreateTime(uid,dtStart,dtEnd);
+        return pointRecordRepository.getPointRecordSummaryByUidAndCreateTime(uid, dtStart, dtEnd);
     }
 
     @Override
     public List<PointRecordDO> getPointRecordByTaskIds(Long uid, List<Long> taskIds) {
-        return pointRecordRepository.getPointRecordByTaskIds(uid,taskIds);
+        return pointRecordRepository.getPointRecordByTaskIds(uid, taskIds);
     }
 
     private PointRecordDO setPointRecordDO(PointRecordCreateDTO pointRecordCreateDTO, PointTaskConfigInfoDO pointTaskConfigInfoDO) {

@@ -48,9 +48,9 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
     }
 
     @Override
-    public List<PointRecordDO> getByPager(Long uid, int pageIndex, int pageSize) {
-        PageHelper.startPage(pageIndex,pageSize);
-        return  pointRecordMapper.getByPager(uid);
+    public List<PointRecordDO> getByPager(Long uid, Integer pointStatus, Date startDate, Date endDate, int pageIndex, int pageSize) {
+        PageHelper.startPage(pageIndex, pageSize);
+        return pointRecordMapper.getByPager(uid, pointStatus, startDate, endDate);
     }
 
     @Override

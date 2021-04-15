@@ -63,7 +63,18 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM dbo.t_point_record
-        WHERE uid=#{uid}  AND point_status IN (1,2)
+        WHERE uid=#{uid} AND point_status <![CDATA[!= ]]>4
+           <if test="pointStatus != -1 ">
+          AND point_status = #{pointStatus}
+        </if>
+         <if test="startDate != null ">
+          AND create_time &gt;= #{startDate}
+        </if>
+           <if test="endDate != null ">
+         AND create_time &lt; #{endDate}
+        </if>
+
+        order by create_time desc
     </select>
 
     <select id="getByUid1" resultMap="BaseResultMap">

@@ -156,35 +156,23 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
     @Override
     public Result<List<PointRecordVO>> queryPointRecords(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "查询类型不能为空") Integer queryType, @NotNull(message = "pageIndex不能为空") Integer pageIndex, @NotNull(message = "pageSize不能为空") Integer pageSize) {
         try {
-            List<PointRecordVO> pointRecordVOS = new ArrayList<>();
-            List<Integer> pointStatus = new ArrayList<>();
-
-            List<PointRecordDO> pointRecordDOS = null;
-            if (queryType == 0 || queryType == 1 || queryType == 2) {
-                if (queryType == 0) {
-                    pointStatus.add(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()));
-                    pointStatus.add(Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode()));
-                } else if (queryType == 1) {
-                    pointStatus.add(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()));
-                } else if (queryType == 2) {
-                    pointStatus.add(Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode()));
-                }
-                pointRecordDOS = pointRecordService.getPointRecordDOs(uid, pointStatus, pageIndex, pageSize);
-            } else if (queryType == 3) {
-                pointStatus.add(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()));
-                Date dtStart = DateUtil.parseDate((DateUtil.year(DateUtil.date()) - 1) + "-01-01 00:00:00");
-                Date dtEnd = DateUtil.beginOfDay(DateUtil.offsetMonth(dtStart, 3));
-                pointRecordDOS = pointRecordService.getPointRecordDOs(uid, pointStatus, dtStart, dtEnd, pageIndex, pageSize);
+            Date dtStart=null;
+            Date dtEnd=null;
+            if(queryType==0){
+                queryType=-1;
             }
-            if (pointRecordDOS != null) {
-                pointRecordVOS = CollectionBeanUtils.copyListProperties(pointRecordDOS, PointRecordVO::new);
-                if (queryType == 1) {
-                    pointRecordVOS = pointRecordVOS.stream().filter(h -> h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()))).collect(Collectors.toList());
-                } else if (queryType == 2) {
-                    pointRecordVOS = pointRecordVOS.stream().filter(h -> h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode()))).collect(Collectors.toList());
-                }
+            else if(queryType==1){
+                queryType=Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode());
             }
-            return Result.buildSuccessResult(pointRecordVOS);
+            else if(queryType==2){
+                queryType=Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode());
+            }
+            else if(queryType==3){
+                queryType=Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode());
+                 dtStart = DateUtil.parseDate((DateUtil.year(DateUtil.date()) - 1) + "-01-01 00:00:00");
+                 dtEnd = DateUtil.beginOfDay(DateUtil.offsetMonth(dtStart, 3));
+            }
+            return Result.buildSuccessResult(CollectionBeanUtils.copyListProperties(pointRecordRepository.getByPager(uid,queryType,dtStart,dtEnd,pageIndex,pageSize), PointRecordVO::new));
         } catch (Exception e) {
             log.error("queryPointRecords error:", e);
             return Result.buildErrorResult(e.getMessage());

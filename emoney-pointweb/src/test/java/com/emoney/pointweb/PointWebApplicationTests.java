@@ -88,11 +88,14 @@ class PointWebApplicationTests {
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
 
+        //List<PointRecordDO> pointRecordDOS=pointRecordRepository.getByPager(1001539325L,-1,null,null,0,5);
+
 //        log.info("日志测试.....................,需要增加Slf4j注解");
 //
 //        List<PointRecordDO> pageInfo = pointRecordRepository.getByPager(1001539325L, 0, 3);
 //
-//        List<PointOrderDO> pointOrderDOS = pointOrderRepository.getByUid(2020117908L,0,0,3);
+        List<PointOrderDO> pointOrderDOS = pointOrderRepository.getByUid(2020117908L,2,0,3);
+        PointOrderDO pointOrderDO=pointOrderRepository.getByOrderNo(1382204887978348544L);
 //
 //        List<Integer> pointStatus=new ArrayList<>();
 //        pointStatus.add(1);

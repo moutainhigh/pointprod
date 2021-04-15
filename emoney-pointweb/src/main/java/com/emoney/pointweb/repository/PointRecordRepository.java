@@ -13,7 +13,7 @@ public interface PointRecordRepository {
 
     Integer insert(PointRecordDO pointRecordDO);
 
-    List<PointRecordDO> getByPager(Long uid, int pageIndex, int pageSize);
+    List<PointRecordDO> getByPager(Long uid,Integer pointStatus,Date startDate, Date endDate,int pageIndex, int pageSize);
 
     List<PointRecordDO> getByUid(Long uid);
 
