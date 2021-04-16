@@ -88,9 +88,9 @@ class PointWebApplicationTests {
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
 
-        List<PointRecordDO> pointRecordDOS=pointRecordRepository.getByPager(1001539325L,-1,null,null,0,5);
+        //List<PointRecordDO> pointRecordDOS=pointRecordRepository.getByPager(1001539325L,-1,null,null,0,5);
 
-//        log.info("日志测试.....................,需要增加Slf4j注解");
+       log.info("日志测试.....................,需要增加Slf4j注解");
 //
        // List<PointRecordDO> pageInfo = pointRecordRepository.getByPager(1001539325L, 0, 3);
 //
