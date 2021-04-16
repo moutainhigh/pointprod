@@ -51,18 +51,18 @@
         <appender-ref ref ="filelog"/>
     </appender>
 
-<!--    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
-<!--        <destination>192.168.42.172:4569</destination>-->
-<!--        &lt;!&ndash; encoder必须配置,有多种可选 &ndash;&gt;-->
-<!--        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">-->
-<!--            <customFields>{"appname":"pointprod"}</customFields>-->
-<!--        </encoder>-->
-<!--        <connectionStrategy>-->
-<!--            <roundRobin>-->
-<!--                <connectionTTL>5 minutes</connectionTTL>-->
-<!--            </roundRobin>-->
-<!--        </connectionStrategy>-->
-<!--    </appender>-->
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>192.168.42.172:4569</destination>
+        <!-- encoder必须配置,有多种可选 -->
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"appname":"pointprod"}</customFields>
+        </encoder>
+        <connectionStrategy>
+            <roundRobin>
+                <connectionTTL>5 minutes</connectionTTL>
+            </roundRobin>
+        </connectionStrategy>
+    </appender>
 
     <logger name="org.apache.kafka" level="warn">
         <appender-ref ref="console" />
@@ -79,7 +79,7 @@
         <root level="INFO">
             <appender-ref ref="console"/>
             <appender-ref ref="filelog"/>
-<!--            <appender-ref ref="logstash"/>-->
+            <appender-ref ref="logstash"/>
         </root>
     </springProfile>
 
