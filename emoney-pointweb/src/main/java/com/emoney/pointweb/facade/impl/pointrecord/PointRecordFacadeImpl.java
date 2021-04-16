@@ -192,7 +192,17 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
             }
             return Result.buildSuccessResult(points);
         } catch (Exception e) {
-            log.error("createPointRecord error:", e);
+            log.error("queryUnclaimedRecordPoints error:", e);
+            return buildErrorResult(e.getMessage());
+        }
+    }
+
+    @Override
+    public Result<List<PointRecordVO>> queryUnclaimedRecords(@NotNull(message = "用户id不能为空") Long uid) {
+        try {
+            return Result.buildSuccessResult(JsonUtil.copyList(pointRecordRepository.getUnClaimRecordsByUid(uid), PointRecordVO.class));
+        } catch (Exception e) {
+            log.error("queryUnclaimedRecords error:", e);
             return buildErrorResult(e.getMessage());
         }
     }

@@ -72,6 +72,13 @@ public interface PointRecordFacade {
     Result<Float> queryUnclaimedRecordPoints(@NotNull(message = "用户id不能为空") Long uid);
 
     /**
+     * 根据用户id查询当前待领任务记录
+     * @param uid
+     * @return
+     */
+    @GetMapping("/queryunclaimedrecords")
+    Result<List<PointRecordVO>> queryUnclaimedRecords(@NotNull(message = "用户id不能为空") Long uid);
+    /**
      * 根据任务id查询用户积分记录
      *
      * @param pointRecordQueryByTaskIdsDTO
