@@ -35,7 +35,7 @@ public class PointProductRepositoryImpl implements PointProductRepository {
         List<PointProductDO> pointProductDOS = redisCache1.getList(RedisConstants.REDISKEY_PointProduct_GETALLEFFECTIVEPRODUCTS, PointProductDO.class);
         if (pointProductDOS == null) {
             pointProductDOS = pointProductMapper.getAllEffectiveProducts(curDate);
-            if (pointProductDOS != null) {
+            if (pointProductDOS != null&&pointProductDOS.size()>0) {
                 redisCache1.set(RedisConstants.REDISKEY_PointProduct_GETALLEFFECTIVEPRODUCTS, pointProductDOS, ToolUtils.GetExpireTime(60));
             }
         }

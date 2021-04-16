@@ -45,7 +45,7 @@ public class PointTaskConfigInfoRepositoryImpl implements PointTaskConfigInfoRep
         List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = redisCache1.getList(RedisConstants.REDISKEY_PointTaskConfigInfo_GETALLEFFECTIVETASKS, PointTaskConfigInfoDO.class);
         if (pointTaskConfigInfoDOS == null) {
             pointTaskConfigInfoDOS = pointTaskConfigInfoMapper.getAllEffectiveTasks(curDate);
-            if (pointTaskConfigInfoDOS != null) {
+            if (pointTaskConfigInfoDOS != null&&pointTaskConfigInfoDOS.size()>0) {
                 redisCache1.set(RedisConstants.REDISKEY_PointTaskConfigInfo_GETALLEFFECTIVETASKS, pointTaskConfigInfoDOS, ToolUtils.GetExpireTime(60));
             }
         }
@@ -57,7 +57,7 @@ public class PointTaskConfigInfoRepositoryImpl implements PointTaskConfigInfoRep
         List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETTASKSBYTASKTYPE, taskType), PointTaskConfigInfoDO.class);
         if (pointTaskConfigInfoDOS == null) {
             pointTaskConfigInfoDOS = pointTaskConfigInfoMapper.getTasksByTaskType(taskType);
-            if (pointTaskConfigInfoDOS != null) {
+            if (pointTaskConfigInfoDOS != null&&pointTaskConfigInfoDOS.size()>0) {
                 redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETTASKSBYTASKTYPE, taskType), pointTaskConfigInfoDOS, ToolUtils.GetExpireTime(60));
             }
         }

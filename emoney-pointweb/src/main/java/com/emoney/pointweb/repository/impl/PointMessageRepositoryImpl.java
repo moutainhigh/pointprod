@@ -39,7 +39,7 @@ public class PointMessageRepositoryImpl implements PointMessageRepository {
         List<PointMessageDO> pointMessageDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointMessage_GETBYUID, uid), PointMessageDO.class);
         if (pointMessageDOS == null) {
             pointMessageDOS = pointMessageMapper.getByUid(uid);
-            if (pointMessageDOS != null) {
+            if (pointMessageDOS != null&&pointMessageDOS.size()>0) {
                 redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointMessage_GETBYUID, uid), pointMessageDOS, ToolUtils.GetExpireTime(60));
             }
         }
