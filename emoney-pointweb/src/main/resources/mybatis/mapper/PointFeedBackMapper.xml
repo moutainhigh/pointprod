@@ -48,9 +48,6 @@
             <if test="imgUrl != null">
                 img_url = #{imgUrl},
             </if>
-            <if test="status != null">
-                status = #{status},
-            </if>
             <if test="createTime != null">
                 create_time = #{createTime},
             </if>
@@ -69,7 +66,7 @@
         </set>
         WHERE id = #{id}
     </update>
-    <select id="getAll" resultType="com.emoney.pointweb.repository.dao.entity.PointFeedBackDO">
+    <select id="getAll" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List"/>
         FROM t_point_feedback
     </select>

@@ -307,7 +307,7 @@
             type:"post",
             data : function ( d ) {
                 var obj = {};
-                obj.pointtype=$("#opType").val();
+                obj.msgType=$("#opType").val();
                 return obj;
             }
         },

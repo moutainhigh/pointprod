@@ -33,7 +33,7 @@
         <section class="content-header">
             <h1>意见反馈</h1>
             <div class="breadcrumb" style="margin-top:-11px;">
-                <button type="button" class="btn bg-blue" id="btnExcel">导出</button>
+                <button type="button" class="btn bg-blue" id="exportData">导出</button>
             </div>
         </section>
 
@@ -43,7 +43,7 @@
             <div class="box box-primary" style="margin-top:15px;">
                 <div class="box-header with-border">
                     <div class="form-group">
-                        <div class="col-lg-4">
+                        <div class="col-lg-2">
                             <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">反馈类型：</label>
                             <select id="opType" class="form-control opType" style="float:left;width:150px;margin-top:5px;">
                                 <option value="0">全部</option>
@@ -53,7 +53,7 @@
                                 <option value="4">其他建议</option>
                             </select>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-2">
                             <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">处理状态：</label>
                             <select id="opReply" class="form-control opType" style="float:left;width:150px;margin-top:5px;">
                                 <option value="0">全部</option>
@@ -82,6 +82,8 @@
                                     <th>反馈内容</th>
                                     <th>图片</th>
                                     <th>最新进展</th>
+                                    <th>回复意见</th>
+                                    <th>是否采纳</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
@@ -105,10 +107,25 @@
                     <h4 class="modal-title" >回复</h4>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" id="hiddenid" value="">
+                    <div class="form-group">
+                        <label for="txtMerchantName">邮箱</label>
+                        <input class="form-control" id="txtEmail" placeholder="标题" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtMerchantName">反馈内容</label>
+                        <textarea class="form-control" id="txtContent" rows="15" placeholder="反馈内容" disabled></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtMerchantName">回复意见</label>
+                        <textarea class="form-control" id="txtRemark" rows="15" placeholder="回复意见"></textarea>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btnClose">关闭</button>
-                    <button type="button" class="btn btn-primary btnSave">保存</button>
+                    <button type="button" class="btn btn-primary btnSave">确认</button>
                 </div>
             </div>
         </div>
@@ -129,6 +146,11 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/moment/moment.min.js"></script>
 
 <script>
+
+    $("#exportData").on("click",function (){
+        var url= base_url + "/pointfeedback/exportData?classType=" + $("#opType").val() + "&isReply=" + $("#opReply").val();
+        window.open(url);
+    });
 
     // init date tables
     var feedbackTable = $("#feedback_list").DataTable({
@@ -239,6 +261,28 @@
                     }
                 }
             },
+            {
+                "data": "remark", "render": function (data, type, full, meta) {
+                    if (data) {
+                        return "<td><span title='" + data + "'>" + data.substring(0, 30) + "</span></td>";
+                    } else {
+                        return "";
+                    }
+                }
+            },
+            {
+                "data": "status", "render": function (data, type, full, meta) {
+                    if (data) {
+                        if(data!=0){
+                            return "是"
+                        }else {
+                            return "否";
+                        }
+                    } else {
+                        return "否";
+                    }
+                }
+            }
         ],
         fnDrawCallback: function () {
             let api = this.api();
@@ -247,16 +291,102 @@
             });
         },
         columnDefs: [{
-            targets: 10,
+            targets: 12,
             render: function (data, type, row, meta) {
-                var html = "<button type=\"button\" class=\"btn btn-primary btn-flat btn-sm\" onclick='editdata(" + row.id + ")'>回复</button>";
-                html += "<button type=\"button\" class=\"btn btn-success btn-flat btn-sm\" onclick='editdata(" + row.id + ")'>采纳</button>";
+                var html = "<button type=\"button\" class=\"btn btn-primary btn-flat btn-sm\" onclick='Reply(" + row.id + ")'>回复</button>";
+                if(row.status!=1){
+                    html += "<button type=\"button\" class=\"btn btn-success btn-flat btn-sm\" onclick='Adopt(" + row.id + ")'>采纳</button>";
+                }
                 html += "<input type='hidden' id='json" + row.id + "' value='" + JSON.stringify(row) + "'>";
                 return html;
             }
         }]
     });
 
-    
+    // search btn
+    $('.opType').on('change', function(){
+        feedbackTable.ajax.reload();
+    });
 
+    $('.btnSave').on('click',function (){
+        var obj=new Object();
+        obj.id=$("#hiddenid").val();
+        obj.remark=$("#txtRemark").val();
+
+        $.ajax({
+            type: "POST",
+            url: base_url + "/pointfeedback/editReply",
+            data: obj,
+            datatype: "text",
+            success: function (data) {
+                if (data == "success") {
+                    feedbackTable.ajax.reload();
+                    clertAndCloseModal();
+                }
+                else {
+                    alert(data);
+                }
+            },
+            beforeSend: function () {
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+            }
+        });
+    });
+
+    function Reply(id){
+        var jsondata = $('#json' + id).val();
+        var res = JSON.parse(jsondata);
+
+        $("#hiddenid").val(res.id);
+        $("#txtEmail").val(res.email);
+        $("#txtContent").val(res.suggest);
+        $("#txtremark").val(res.remark);
+
+        $("#modal-default").modal({ backdrop: false, keyboard: false }).modal('show');
+    }
+
+    function Adopt(id){
+        var obj=new Object();
+        obj.id=id;
+
+        $.ajax({
+            type: "POST",
+            url: base_url + "/pointfeedback/adopt",
+            data: obj,
+            datatype: "text",
+            success: function (data) {
+                if (data == "success") {
+                    feedbackTable.ajax.reload();
+                }
+                else {
+                    alert(data);
+                }
+            },
+            beforeSend: function () {
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+            }
+        });
+    }
+
+    $('.btnClose').on('click', function(){
+        if ($("#Form input").val() != "") {
+            if (confirm("当前有数据未保存，确认要关闭窗口吗?")) {
+                clertAndCloseModal();
+            }
+        }
+        else {
+            clertAndCloseModal();
+        }
+    });
+
+    function clertAndCloseModal(){
+        $("#hiddenid").val("");
+        $("#txtEmail").val("");
+        $("#txtContent").val("");
+        $("#txtremark").val("");
+
+        $("#modal-default").modal('hide');
+    }
 </script>
