@@ -29,12 +29,12 @@ public class PointTaskConfigInfoRepositoryImpl implements PointTaskConfigInfoRep
     private RedisService redisCache1;
 
     @Override
-    public List<PointTaskConfigInfoDO> getByTaskIdAndSubId(Long taskId,String subId) {
-        List<PointTaskConfigInfoDO> pointTaskConfigInfoDOs = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETBYTASKID, taskId,subId), PointTaskConfigInfoDO.class);
+    public List<PointTaskConfigInfoDO> getByTaskIdAndSubId(Long taskId, String subId) {
+        List<PointTaskConfigInfoDO> pointTaskConfigInfoDOs = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETBYTASKID, taskId, subId), PointTaskConfigInfoDO.class);
         if (pointTaskConfigInfoDOs == null) {
-            pointTaskConfigInfoDOs = pointTaskConfigInfoMapper.getByTaskIdAndSubId(taskId,subId);
-            if (pointTaskConfigInfoDOs != null) {
-                redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETBYTASKID, taskId,subId), pointTaskConfigInfoDOs, (long) 60 * 60 * 8);
+            pointTaskConfigInfoDOs = pointTaskConfigInfoMapper.getByTaskIdAndSubId(taskId, subId);
+            if (pointTaskConfigInfoDOs != null && pointTaskConfigInfoDOs.size() > 0) {
+                redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETBYTASKID, taskId, subId), pointTaskConfigInfoDOs, (long) 60 * 60 * 8);
             }
         }
         return pointTaskConfigInfoDOs;
@@ -54,11 +54,11 @@ public class PointTaskConfigInfoRepositoryImpl implements PointTaskConfigInfoRep
 
     @Override
     public List<PointTaskConfigInfoDO> getTasksByTaskType(int taskType) {
-        List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETTASKSBYTASKTYPE,taskType), PointTaskConfigInfoDO.class);
+        List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETTASKSBYTASKTYPE, taskType), PointTaskConfigInfoDO.class);
         if (pointTaskConfigInfoDOS == null) {
             pointTaskConfigInfoDOS = pointTaskConfigInfoMapper.getTasksByTaskType(taskType);
             if (pointTaskConfigInfoDOS != null) {
-                redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETTASKSBYTASKTYPE,taskType), pointTaskConfigInfoDOS, ToolUtils.GetExpireTime(60));
+                redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETTASKSBYTASKTYPE, taskType), pointTaskConfigInfoDOS, ToolUtils.GetExpireTime(60));
             }
         }
         return pointTaskConfigInfoDOS;
