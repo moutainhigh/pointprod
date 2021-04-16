@@ -341,7 +341,7 @@
         $("#hiddenid").val(res.id);
         $("#txtEmail").val(res.email);
         $("#txtContent").val(res.suggest);
-        $("#txtremark").val(res.remark);
+        $("#txtRemark").val(res.remark);
 
         $("#modal-default").modal({ backdrop: false, keyboard: false }).modal('show');
     }
