@@ -44,7 +44,7 @@
     <select id="getDataStatistics" resultMap="VOBaseResultMap">
         SELECT psr.task_id,psr.batch_id,ptci.task_name,ptci.task_points,COUNT(CASE psr.send_status WHEN 1 THEN 0 END) success_count,
                COUNT(CASE psr.send_status WHEN 0 THEN 1 END) AS error_count,MIN(psr.create_time) AS create_time,psr.remark,psr.create_by
-        FROM dbo.t_point_sendrecord psr
+        FROM t_point_sendrecord psr
                  LEFT JOIN dbo.t_point_taskconfiginfo ptci ON psr.task_id=ptci.task_id
         <trim prefix="WHERE" prefixOverrides="AND | OR" >
             <if test="pointtype == 1">
@@ -59,7 +59,7 @@
 
     <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointSendRecordDO" useGeneratedKeys="true" keyProperty="id">
 
-        INSERT dbo.t_point_sendrecord(task_id,batch_id,uid,em_no,send_status,
+        INSERT t_point_sendrecord(task_id,batch_id,uid,em_no,send_status,
                                       send_result,create_time,update_time,create_by,update_by,remark)
         VALUES
         (#{taskId},#{batchId},#{uid},#{emNo},#{sendStatus},
@@ -70,7 +70,7 @@
     <select id="getPointSendRecordByBatchId" resultMap="VOBaseResultMap">
 
         SELECT psr.task_id,psr.batch_id,ptci.task_name,ptci.task_points,psr.create_time,psr.remark,psr.em_no,psr.send_status,psr.send_result
-        FROM dbo.t_point_sendrecord psr
+        FROM t_point_sendrecord psr
         LEFT JOIN dbo.t_point_taskconfiginfo ptci ON psr.task_id=ptci.task_id
         WHERE psr.batch_id=#{batchId}
         <trim>

@@ -21,13 +21,13 @@
     <select id="getById" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM dbo.t_signin_record
+        FROM t_signin_record
         WHERE uid=#{uid} AND id=#{id}
     </select>
     <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.SignInRecordDO">
 
        INSERT INTO
-       		dbo.t_signin_record
+       		t_signin_record
        		(id,uid,signin_time,platform,create_time,update_time,create_by,update_by,remark)
        	VALUES
        		(#{id},#{uid},#{signInTime},#{platform},#{createTime},#{updateTime}, #{createBy}, #{updateBy},#{remark})
@@ -37,7 +37,7 @@
     <select id="getByUid" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM dbo.t_signin_record
+        FROM t_signin_record
         WHERE uid=#{uid} AND signin_time &gt;=#{firstDay}
 
     </select>

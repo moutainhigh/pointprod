@@ -131,11 +131,11 @@ class PointWebApplicationTests {
 //        pointLimitDOs.stream()
 
         //分表测试
-//        PointRecordDO pointRecordDO = new PointRecordDO();
-//        pointRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
-//        pointRecordDO.setUid(10000772L);
-//        pointRecordDO.setCreateTime(new Date());
-//        pointRecordMapper.insert(pointRecordDO);
+        PointRecordDO pointRecordDO = new PointRecordDO();
+        pointRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
+        pointRecordDO.setUid(10000772L);
+        pointRecordDO.setCreateTime(new Date());
+        pointRecordMapper.insert(pointRecordDO);
 
 //        SignInRecordDO signInRecordDO=new SignInRecordDO();
 //        signInRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());

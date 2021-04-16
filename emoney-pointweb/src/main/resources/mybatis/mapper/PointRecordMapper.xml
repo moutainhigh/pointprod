@@ -32,19 +32,19 @@
     <select id="getById" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM dbo.t_point_record
+        FROM t_point_record
         WHERE uid=#{uid} AND id=#{id}
     </select>
         <select id="getPointRecordSummaryByUid" resultMap="SummaryResultMap">
         SELECT uid,sum(task_point) as point_total,point_status
-        FROM dbo.t_point_record
+        FROM t_point_record
         WHERE uid=#{uid}
         GROUP BY uid,point_status
     </select>
 
             <select id="getPointRecordSummaryByUidAndCreateTime" resultMap="SummaryResultMap">
         SELECT uid,sum(task_point) as point_total,point_status
-        FROM dbo.t_point_record
+        FROM t_point_record
         WHERE uid=#{uid} AND create_time &gt;=  #{dtStart} AND create_time  &lt;= #{dtEnd}
         GROUP BY uid,point_status
     </select>
@@ -52,7 +52,7 @@
 
     <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointRecordDO">
        INSERT INTO
-       		dbo.t_point_record
+       		t_point_record
        		(id, uid, task_id, platform, task_point,task_name,point_status,pid,em_no,is_dailytask,sub_id,create_time,update_time,create_by,update_by,remark)
        	VALUES
        		(#{id},#{uid}, #{taskId}, #{platform}, #{taskPoint},#{taskName},#{pointStatus},#{pid},#{emNo},#{isDailytask},#{subId},#{createTime}, #{updateTime}, #{createBy}, #{updateBy},#{remark})
@@ -62,7 +62,7 @@
     <select id="getByPager" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM dbo.t_point_record
+        FROM t_point_record
         WHERE uid=#{uid} AND point_status <![CDATA[!= ]]>4
            <if test="pointStatus != -1 ">
           AND point_status = #{pointStatus}
@@ -83,7 +83,7 @@
 
         <include refid="Base_Column_List"/>
 
-        FROM dbo.t_point_record
+        FROM t_point_record
         WHERE uid=#{uid} AND is_dailytask=0 AND point_status IN (1,2)
 
 
@@ -94,7 +94,7 @@
         SELECT
         <include refid="Base_Column_List"/>
 
-        FROM dbo.t_point_record
+        FROM t_point_record
         WHERE uid=#{uid} and is_dailytask=1 and create_time &gt;= #{startDate} and create_time &lt; #{endDate} AND point_status IN (1,2)
 
     </select>
@@ -103,14 +103,14 @@
         SELECT
         <include refid="Base_Column_List"/>
 
-        FROM dbo.t_point_record
+        FROM t_point_record
         WHERE uid=#{uid} and point_status=1 order by create_time desc
 
     </select>
 
      <select id="getPointRecordByTaskIds" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         select *
-        from dbo.t_point_record
+        from t_point_record
         <where>
            uid=#{uid} and task_id in
           	<foreach item="item" index="index" collection="list"
@@ -121,7 +121,7 @@
     </select>
 
      <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointRecordDO">
-    update dbo.t_point_record
+    update t_point_record
     <set>
        <if test="taskId != null">
         task_id = #{taskId,jdbcType=BIGINT},

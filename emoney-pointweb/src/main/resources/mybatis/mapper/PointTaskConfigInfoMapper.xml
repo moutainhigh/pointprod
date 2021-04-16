@@ -49,7 +49,7 @@
   </sql>
   <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO
-      dbo.t_point_taskconfiginfo
+     t_point_taskconfiginfo
     (task_id,sub_id,task_type,task_name, task_points, task_starttime, task_endtime, is_dailytask,activation_starttime,
      activation_endtime,expire_starttime,expire_endtime,is_directional,is_bigimg,
      product_version, publish_platformtype, is_showinhomepage, task_order, daily_jointimes,
@@ -68,7 +68,7 @@
 
   <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO">
 
-    UPDATE dbo.t_point_taskconfiginfo
+    UPDATE t_point_taskconfiginfo
     <set>
         <if test="subId != null">
             sub_id = #{subId},
@@ -170,7 +170,7 @@
 
   <select id="pageList"  resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List"/>
-    FROM dbo.t_point_taskconfiginfo
+    FROM t_point_taskconfiginfo
     <trim prefix="WHERE" prefixOverrides="AND | OR" >
         <if test="task_type != 0">
           AND task_type = #{task_type}
@@ -181,18 +181,18 @@
 
   <select id="getPointTaskConfigInfoByOrderAndType"  resultMap="BaseResultMap">
       SELECT <include refid="Base_Column_List"/>
-      FROM dbo.t_point_taskconfiginfo WHERE task_type=#{task_type} AND task_order=#{task_order}
+      FROM t_point_taskconfiginfo WHERE task_type=#{task_type} AND task_order=#{task_order}
   </select>
 
     <select id="getPointTaskConfigInfoByIsDirectional" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List"/>
-        FROM dbo.t_point_taskconfiginfo WHERE is_directional=#{is_directional}
+        FROM t_point_taskconfiginfo WHERE is_directional=#{is_directional}
     </select>
 
   <select id="getByTaskIdAndSubId" resultMap="BaseResultMap">
       SELECT
       <include refid="Base_Column_List"/>
-      FROM dbo.t_point_taskconfiginfo
+      FROM t_point_taskconfiginfo
       WHERE task_id=#{taskId}
        <if test="subId !=null and subId !=''">
           AND sub_id = #{subId}
@@ -202,14 +202,14 @@
     <select id="getAllEffectiveTasks" resultMap="BaseResultMap">
       SELECT
       <include refid="Base_Column_List"/>
-      FROM dbo.t_point_taskconfiginfo
+      FROM t_point_taskconfiginfo
       WHERE task_starttime &lt;= #{curDate} AND task_endtime &gt;= #{curDate} AND task_type IN(1,2,3,4)
   </select>
 
     <select id="getTasksByTaskType" resultMap="BaseResultMap">
       SELECT
       <include refid="Base_Column_List"/>
-      FROM dbo.t_point_taskconfiginfo
+      FROM t_point_taskconfiginfo
       WHERE task_type = #{taskType}
   </select>
 

@@ -22,13 +22,13 @@
         id,feed_type, pid, account, mobileX, email,suggest,img_url,status,create_time,update_time,create_by,update_by,remark
     </sql>
     <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointFeedBackDO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO dbo.t_point_feedback
+        INSERT INTO t_point_feedback
             (feed_type,pid, account, mobileX, email,suggest,img_url,status,create_time,update_time,create_by,update_by,remark)
         VALUES
             (#{feedType},#{pid},#{account},#{mobileX},#{email},#{suggest},#{imgUrl},#{status},#{createTime},#{updateTime},#{createBy},#{updateBy},#{remark})
     </insert>
     <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointFeedBackDO">
-        UPDATE dbo.t_point_feedback
+        UPDATE t_point_feedback
         <set>
               <if test="feedType != null">
                 feed_type = #{feedType},

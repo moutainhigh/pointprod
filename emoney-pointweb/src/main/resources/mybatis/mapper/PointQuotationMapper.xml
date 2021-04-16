@@ -21,13 +21,13 @@
     </select>
 
     <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointQuotationDO">
-        INSERT INTO dbo.t_point_quotation
+        INSERT INTO t_point_quotation
         (content, is_valid, create_by, update_by, create_time, update_time) VALUES
         (#{content},#{isValid},#{createBy},#{updateBy},#{createTime},#{updateTime})
     </insert>
 
     <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointQuotationDO">
-        UPDATE dbo.t_point_quotation
+        UPDATE t_point_quotation
         <set>
             <if test="content != null">
                 content=#{content},

@@ -21,20 +21,20 @@
 
      <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointLimitDO" useGeneratedKeys="true" keyProperty="id">
        INSERT INTO
-       		dbo.t_point_limit
+       		t_point_limit
        		(point_limittype, point_listto, point_limitvalue, create_time,update_time,create_by,update_by,remark)
        	VALUES
        		(#{pointLimittype}, #{pointListto}, #{pointLimitvalue}, #{createTime}, #{updateTime}, #{createBy}, #{updateBy},#{remark})
 
     </insert>
     <select id="pageList" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List"></include> FROM dbo.t_point_limit
+        SELECT <include refid="Base_Column_List"></include> FROM t_point_limit
     </select>
 
         <select id="getByType" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"></include>
-        FROM dbo.t_point_limit
+        FROM t_point_limit
          WHERE point_limittype=#{pointLimittype} AND point_listto=#{pointListto}
     </select>
 </mapper>

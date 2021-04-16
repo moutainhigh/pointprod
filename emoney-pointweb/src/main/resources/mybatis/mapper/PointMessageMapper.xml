@@ -30,7 +30,7 @@
 
 
        INSERT INTO
-       		dbo.t_point_message
+       		t_point_message
        		(uid,msg_type, msg_content,msg_src,msg_ext, create_time,update_time,create_by,update_by,remark)
        	VALUES
        		(#{uid}, #{msgType}, #{msgContent}, #{msgSrc},#{msgExt},#{createTime}, #{updateTime}, #{createBy}, #{updateBy},#{remark})
@@ -42,14 +42,14 @@
     <select id="getByUid" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM dbo.t_point_message
+        FROM t_point_message
          WHERE uid=#{uid} order by create_time desc
     </select>
 
     <select id="getByUidAndExt" resultType="java.lang.Integer">
 
         SELECT COUNT (*)
-        FROM dbo.t_point_message
+        FROM t_point_message
          WHERE uid=#{uid} AND msg_ext = #{msgExt}
 
     </select>
