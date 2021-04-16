@@ -94,7 +94,7 @@ class PointWebApplicationTests {
 //
        // List<PointRecordDO> pageInfo = pointRecordRepository.getByPager(1001539325L, 0, 3);
 //
-        //List<PointOrderDO> pointOrderDOS = pointOrderRepository.getByUid(2020117908L,2,0,3);
+        List<PointOrderDO> pointOrderDOS = pointOrderRepository.getByUid(2020117908L,2,0,3);
         //PointOrderDO pointOrderDO=pointOrderRepository.getByOrderNo(1382204887978348544L);
 //
 //        List<Integer> pointStatus=new ArrayList<>();
