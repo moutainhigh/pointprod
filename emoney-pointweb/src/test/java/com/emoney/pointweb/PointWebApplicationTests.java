@@ -90,8 +90,8 @@ class PointWebApplicationTests {
 
         //List<PointRecordDO> pointRecordDOS=pointRecordRepository.getByPager(1001539325L,-1,null,null,0,5);
 
-       log.info("日志测试.....................,需要增加Slf4j注解");
-//
+       log.info("日志测试info........................");
+       log.error("日志测试error........................");
        // List<PointRecordDO> pageInfo = pointRecordRepository.getByPager(1001539325L, 0, 3);
 //
         List<PointOrderDO> pointOrderDOS = pointOrderRepository.getByUid(2020117908L,2,0,3);
@@ -131,11 +131,11 @@ class PointWebApplicationTests {
 //        pointLimitDOs.stream()
 
         //分表测试
-        PointRecordDO pointRecordDO = new PointRecordDO();
-        pointRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
-        pointRecordDO.setUid(10000772L);
-        pointRecordDO.setCreateTime(new Date());
-        pointRecordMapper.insert(pointRecordDO);
+//        PointRecordDO pointRecordDO = new PointRecordDO();
+//        pointRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
+//        pointRecordDO.setUid(10000772L);
+//        pointRecordDO.setCreateTime(new Date());
+//        pointRecordMapper.insert(pointRecordDO);
 
 //        SignInRecordDO signInRecordDO=new SignInRecordDO();
 //        signInRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
