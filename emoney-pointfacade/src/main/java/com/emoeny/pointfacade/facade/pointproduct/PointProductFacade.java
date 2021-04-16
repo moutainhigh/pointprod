@@ -23,7 +23,6 @@ public interface PointProductFacade {
     /**
      * 查询有效商品列表
      *
-     * @param uid
      * @param productVersion
      * @return
      */

@@ -226,6 +226,7 @@ $(function() {
         })
         obj.ver=ver;
         obj.exChangeContent=editor.txt.html();
+        obj.remark=editor1.txt.html();
         obj.pcimg=$("#pcimg").val();
         obj.appimg=$("#appimg").val();
         obj.wechatimg=$("#wechatimg").val();

@@ -229,9 +229,16 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="txtMerchantName" class="col-sm-2 control-label">兑换说明</label>
+                            <label for="txtMerchantName" class="col-sm-2 control-label">商品介绍</label>
                             <div class="col-sm-10">
                                 <div id="txtContent"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="txtMerchantName" class="col-sm-2 control-label">使用说明</label>
+                            <div class="col-sm-10">
+                                <div id="txtRemark"></div>
                             </div>
                         </div>
 
@@ -336,12 +343,8 @@
         'head',
         'link',
         'italic',
-        'underline',
-        'image'
+        'underline'
     ]
-    editor.config.uploadFileName = 'myFile'
-    // 配置 server 接口地址
-    editor.config.uploadImgServer = base_url + '/fileuploader/uploadimg'
     // 配置字体
     editor.config.fontNames = [
         '黑体',
@@ -359,7 +362,43 @@
         'Courier New',
     ]
     editor.config.placeholder = '请输入内容';
-    editor.create()
+    editor.create();
+
+    const editor1 = new E('#txtRemark')
+    // 配置菜单栏，删减菜单，调整顺序
+    editor1.config.menus = [
+        'foreColor',
+        'fontName',
+        'fontSize',
+        'lineHeight',
+        'bold',
+        'head',
+        'link',
+        'italic',
+        'underline',
+        'image'
+    ]
+    editor1.config.uploadFileName = 'myFile'
+    // 配置 server 接口地址
+    editor1.config.uploadImgServer = base_url + '/fileuploader/uploadimg'
+    // 配置字体
+    editor1.config.fontNames = [
+        '黑体',
+        '仿宋',
+        '楷体',
+        '标楷体',
+        '华文仿宋',
+        '华文楷体',
+        '宋体',
+        '微软雅黑',
+        'Arial',
+        'Tahoma',
+        'Verdana',
+        'Times New Roman',
+        'Courier New',
+    ]
+    editor1.config.placeholder = '请输入内容';
+    editor1.create();
 
     $('.datepicker').datetimepicker({
         language: 'zh-CN',
@@ -471,6 +510,10 @@
         }
         if(res.exchangeRemark){
             editor.txt.html(res.exchangeRemark);
+            //UE.getEditor('txtContent').setContent(res.exchangeRemark);
+        }
+        if(res.remark){
+            editor1.txt.html(res.remark);
             //UE.getEditor('txtContent').setContent(res.exchangeRemark);
         }
         changeModal();

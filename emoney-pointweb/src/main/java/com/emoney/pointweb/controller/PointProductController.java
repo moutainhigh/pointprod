@@ -63,7 +63,7 @@ public class PointProductController {
                        Integer exchangeType, String acCode, @RequestParam(required = false, defaultValue = "0") Integer productDays, String actStartTime, String actEndTime, String productName,
                        @RequestParam(required = false, defaultValue = "0")float productPrice, String exChangeStartTime, String exChangeEndTime,
                        @RequestParam(required = false, defaultValue = "0") BigDecimal productCash, @RequestParam(required = false, defaultValue = "0")float productPoint,
-                       Integer totalLimit, Integer perLimit, String exChangeContent, String pcdetailimg, String appdetailimg, String wechatdetailimg,
+                       Integer totalLimit, Integer perLimit, String exChangeContent, String pcdetailimg, String appdetailimg, String wechatdetailimg,String remark,
                        HttpServletRequest request, HttpServletResponse response){
         try {
             TicketInfo user = userLoginService.GetLoginAdminUser(request,response);
@@ -105,6 +105,7 @@ public class PointProductController {
             pointProductDO.setIsValid(true);
             pointProductDO.setUpdateTime(new Date());
             pointProductDO.setUpdateBy(user.UserName);
+            pointProductDO.setRemark(remark);
             int result=0;
             if(id>0){
                 result= pointProductService.updatePointProduct(pointProductDO);
