@@ -104,7 +104,7 @@
         <include refid="Base_Column_List"/>
 
         FROM dbo.t_point_record
-        WHERE uid=#{uid} and point_status=1
+        WHERE uid=#{uid} and point_status=1 order by create_time desc
 
     </select>
 
