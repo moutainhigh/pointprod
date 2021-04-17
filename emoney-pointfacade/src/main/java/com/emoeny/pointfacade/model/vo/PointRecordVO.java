@@ -19,6 +19,8 @@ public class PointRecordVO {
     private String emNo;
     private Boolean isDailytask;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date expirationTime;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;

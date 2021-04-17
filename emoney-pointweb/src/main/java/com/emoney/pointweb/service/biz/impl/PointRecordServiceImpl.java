@@ -218,6 +218,11 @@ public class PointRecordServiceImpl implements PointRecordService {
                 pointRecordDO.setPointStatus(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()));
             }
         }
+        //积分有效期
+
+
+
+        pointRecordDO.setExpirationTime(DateUtil.parseDateTime((DateUtil.year(DateUtil.date()) +1) + "-03-31 23:59:59"));
         return pointRecordDO;
     }
 }

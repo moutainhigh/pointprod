@@ -90,8 +90,11 @@ class PointWebApplicationTests {
 
         //List<PointRecordDO> pointRecordDOS=pointRecordRepository.getByPager(1001539325L,-1,null,null,0,5);
 
+
+        Date dt=DateUtil.parseDateTime((DateUtil.year(DateUtil.date()) +1) + "-03-31 23:59:59");
        log.info("日志测试info........................");
        log.error("日志测试error........................");
+
        // List<PointRecordDO> pageInfo = pointRecordRepository.getByPager(1001539325L, 0, 3);
 //
         List<PointOrderDO> pointOrderDOS = pointOrderRepository.getByUid(2020117908L,2,0,3);
