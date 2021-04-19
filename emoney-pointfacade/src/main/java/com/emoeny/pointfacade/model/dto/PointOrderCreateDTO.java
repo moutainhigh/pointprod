@@ -26,4 +26,10 @@ public class PointOrderCreateDTO {
 
     @NotNull(message = "emNo不能为空")
     private String emNo;
+
+    @NotNull(message = "手机号不能为空")
+    private String mobile;
+
+    @NotNull(message = "用户账号不能为空")
+    private String accountName;
 }

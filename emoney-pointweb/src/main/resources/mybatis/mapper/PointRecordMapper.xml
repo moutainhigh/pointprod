@@ -36,7 +36,7 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_point_record
-        WHERE uid=#{uid} AND id=#{id}
+        WHERE uid=#{uid} AND id=#{id} AND is_valid=1
     </select>
         <select id="getPointRecordSummaryByUid" resultMap="SummaryResultMap">
         SELECT uid,sum(task_point) as point_total,point_status
