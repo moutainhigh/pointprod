@@ -326,7 +326,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.min.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=123"></script>
+<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=1234"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
 
 <script>
