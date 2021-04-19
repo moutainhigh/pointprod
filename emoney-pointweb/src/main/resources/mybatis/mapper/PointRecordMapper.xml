@@ -41,7 +41,7 @@
         <select id="getPointRecordSummaryByUid" resultMap="SummaryResultMap">
         SELECT uid,sum(task_point) as point_total,point_status
         FROM t_point_record
-        WHERE uid=#{uid}
+        WHERE uid=#{uid} AND is_valid=1
         GROUP BY uid,point_status
     </select>
 
