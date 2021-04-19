@@ -43,7 +43,10 @@ public class PointRecordDO {
     @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date expirationTime;
-
+    @Field(type = FieldType.Float)
+    private Float leftPoint;
+    @Field(type = FieldType.Boolean)
+    private Boolean isValid;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
