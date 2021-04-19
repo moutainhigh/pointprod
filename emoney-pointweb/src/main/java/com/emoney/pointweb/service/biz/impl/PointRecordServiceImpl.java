@@ -219,10 +219,11 @@ public class PointRecordServiceImpl implements PointRecordService {
             }
         }
         //积分有效期
-
-
-
-        pointRecordDO.setExpirationTime(DateUtil.parseDateTime((DateUtil.year(DateUtil.date()) +1) + "-03-31 23:59:59"));
+        if (pointTaskConfigInfoDO.getIsDailyTask()) {
+            pointRecordDO.setExpirationTime(DateUtil.parseDate("2099-12-31"));
+        } else {
+            pointRecordDO.setExpirationTime(DateUtil.parseDateTime((DateUtil.year(DateUtil.date()) + 1) + "-03-31 23:59:59"));
+        }
         return pointRecordDO;
     }
 }
