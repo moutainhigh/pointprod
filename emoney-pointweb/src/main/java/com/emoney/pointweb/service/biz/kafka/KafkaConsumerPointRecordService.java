@@ -56,6 +56,11 @@ public class KafkaConsumerPointRecordService {
                     if (pointRecordDO.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.UNCLAIMED.getCode()))){
                         redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_SETPOINTRECORDID, pointRecordDO.getUid(),pointRecordDO.getId()),pointRecordDO, ToolUtils.GetExpireTime(1));
                     }
+                    //去掉积分统计
+                    redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, pointRecordDO.getUid()));
+                    redisCache1.removePattern("pointprod:pointrecord_getsummarybyuidandcreatetime_" + pointRecordDO.getUid()+ "_*");
+                    //去掉我的待领取任务统计
+                    redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETUNCLAIMRECORDSBYUID, pointRecordDO.getUid()));
                     //写入ES
                     pointRecordESRepository.save(pointRecordDO);
                 }
