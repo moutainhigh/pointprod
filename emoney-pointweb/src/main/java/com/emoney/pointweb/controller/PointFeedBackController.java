@@ -66,6 +66,8 @@ public class PointFeedBackController {
         pointFeedBackDO.setId(id);
         pointFeedBackDO.setStatus(1);
         int result = pointFeedBackService.update(pointFeedBackDO);
+        //赠送积分
+
         return result>0?"success":"采纳失败";
     }
 
