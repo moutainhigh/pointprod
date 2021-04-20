@@ -74,7 +74,7 @@ public class PointOrderServiceImpl implements PointOrderService {
                 pointOrderDO.setCash(pointProductDO.getExchangeCash());
                 pointOrderDO.setOrderStatus(Integer.valueOf(PointOrderStatusEnum.UNFINISHED.getCode()));
                 pointOrderDO.setMobile(pointOrderCreateDTO.getMobile());
-                pointOrderDO.setAccountName(pointOrderCreateDTO.getAccountName());
+                pointOrderDO.setMobileMask(pointOrderCreateDTO.getMobileMask());
                 pointOrderDO.setCreateTime(new Date());
                 if (pointOrderRepository.insert(pointOrderDO) > 0) {
                     return buildSuccessResult(pointOrderDO);

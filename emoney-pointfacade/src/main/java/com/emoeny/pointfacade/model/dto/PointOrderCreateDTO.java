@@ -30,6 +30,6 @@ public class PointOrderCreateDTO {
     @NotNull(message = "手机号不能为空")
     private String mobile;
 
-    @NotNull(message = "用户账号不能为空")
-    private String accountName;
+    @NotNull(message = "手机号掩码不能为空")
+    private String mobileMask;
 }
