@@ -123,6 +123,11 @@ public class PointRecordServiceImpl implements PointRecordService {
                         return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "积分超过限额");
                     } else {
                         redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointRecordCreateDTO.getUid()), pointRecordDOS, ToolUtils.GetExpireTime(60));
+                        //去掉积分统计
+                        redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, pointRecordDO.getUid()));
+                        redisCache1.removePattern("pointprod:pointrecord_getsummarybyuidandcreatetime_" + pointRecordDO.getUid()+ "_*");
+                        //去掉我的待领取任务统计
+                        redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETUNCLAIMRECORDSBYUID, pointRecordDO.getUid()));
                         //发消息到kafka
                         kafkaProducerService.sendMessageSync("pointrecordadd", JSONObject.toJSONString(pointRecordDO));
                         //将积分记录返回

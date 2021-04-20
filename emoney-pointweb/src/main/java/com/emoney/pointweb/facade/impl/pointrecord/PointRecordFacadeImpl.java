@@ -156,23 +156,20 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
     @Override
     public Result<List<PointRecordVO>> queryPointRecords(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "查询类型不能为空") Integer queryType, @NotNull(message = "pageIndex不能为空") Integer pageIndex, @NotNull(message = "pageSize不能为空") Integer pageSize) {
         try {
-            Date dtStart=null;
-            Date dtEnd=null;
-            if(queryType==0){
-                queryType=-1;
+            Date dtStart = null;
+            Date dtEnd = null;
+            if (queryType == 0) {
+                queryType = -1;
+            } else if (queryType == 1) {
+                queryType = Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode());
+            } else if (queryType == 2) {
+                queryType = Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode());
+            } else if (queryType == 3) {
+                queryType = Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode());
+                dtStart = DateUtil.parseDate((DateUtil.year(DateUtil.date()) - 1) + "-01-01 00:00:00");
+                dtEnd = DateUtil.beginOfDay(DateUtil.offsetMonth(dtStart, 3));
             }
-            else if(queryType==1){
-                queryType=Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode());
-            }
-            else if(queryType==2){
-                queryType=Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode());
-            }
-            else if(queryType==3){
-                queryType=Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode());
-                 dtStart = DateUtil.parseDate((DateUtil.year(DateUtil.date()) - 1) + "-01-01 00:00:00");
-                 dtEnd = DateUtil.beginOfDay(DateUtil.offsetMonth(dtStart, 3));
-            }
-            return Result.buildSuccessResult(CollectionBeanUtils.copyListProperties(pointRecordRepository.getByPager(uid,queryType,dtStart,dtEnd,pageIndex,pageSize), PointRecordVO::new));
+            return Result.buildSuccessResult(CollectionBeanUtils.copyListProperties(pointRecordRepository.getByPager(uid, queryType, dtStart, dtEnd, pageIndex, pageSize), PointRecordVO::new));
         } catch (Exception e) {
             log.error("queryPointRecords error:", e);
             return Result.buildErrorResult(e.getMessage());

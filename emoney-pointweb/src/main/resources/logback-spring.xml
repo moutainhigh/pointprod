@@ -72,7 +72,6 @@
         <root level="INFO">
             <appender-ref ref="console"/>
             <appender-ref ref="filelog"/>
-            <appender-ref ref="logstash"/>
         </root>
     </springProfile>
 

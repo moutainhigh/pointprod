@@ -1,13 +1,13 @@
 package com.emoney.pointweb.repository.impl;
 
 import com.emoeny.pointcommon.constants.RedisConstants;
+import com.emoeny.pointcommon.utils.ToolUtils;
 import com.emoney.pointweb.repository.PointOrderRepository;
 import com.emoney.pointweb.repository.dao.entity.PointOrderDO;
 import com.emoney.pointweb.repository.dao.entity.PointOrderSummaryDO;
 import com.emoney.pointweb.repository.dao.mapper.PointOrderMapper;
 import com.emoney.pointweb.service.biz.redis.RedisService;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -31,14 +31,24 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
 
 
     @Override
-    public List<PointOrderDO> getByUid(Long uid,Integer orderStatus,int pageIndex,int pageSize) {
-        PageHelper.startPage(pageIndex,pageSize);
-        List<PointOrderDO> list=pointOrderMapper.getByUid(uid,orderStatus);
+    public List<PointOrderDO> getByUid(Long uid, Integer orderStatus, int pageIndex, int pageSize) {
+        PageHelper.startPage(pageIndex, pageSize);
+        List<PointOrderDO> list = pointOrderMapper.getByUid(uid, orderStatus);
         return list;
     }
 
     @Override
     public List<PointOrderDO> getByUidAndProductId(Long uid, Integer productId) {
+        if (productId == null) {
+            List<PointOrderDO> pointOrderDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), PointOrderDO.class);
+            if (pointOrderDOS == null) {
+                pointOrderDOS = pointOrderMapper.getByUidAndProductId(uid, productId);
+                if (pointOrderDOS != null && pointOrderDOS.size() > 0) {
+                    redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), pointOrderDOS, ToolUtils.GetExpireTime(60));
+                }
+            }
+            return pointOrderDOS;
+        }
         return pointOrderMapper.getByUidAndProductId(uid, productId);
     }
 
@@ -65,13 +75,20 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
             redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_SETORDERKEY, pointOrderDO.getId()), pointOrderDO.getOrderNo(), 60 * 15L);
             //10分钟没支付，发消息提醒
             redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrderMIND_SETORDERKEY, pointOrderDO.getId()), pointOrderDO.getOrderNo(), 60 * 10L);
+            //订单更新将订单列表缓存清除
+            redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, pointOrderDO.getUid()));
         }
         return ret;
     }
 
     @Override
     public Integer update(PointOrderDO pointOrderDO) {
-        return pointOrderMapper.update(pointOrderDO);
+        int ret = pointOrderMapper.update(pointOrderDO);
+        if (ret > 0) {
+            //订单更新将订单列表缓存清除
+            redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, pointOrderDO.getUid()));
+        }
+        return ret;
     }
 
     @Override
