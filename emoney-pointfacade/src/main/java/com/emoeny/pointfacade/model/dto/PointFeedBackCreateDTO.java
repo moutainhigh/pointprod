@@ -18,6 +18,15 @@ public class PointFeedBackCreateDTO {
     private String email;
     @NotNull(message = "建议不能为空")
     private String suggest;
+    @NotNull(message = "任务id不能为空")
+    private Long taskId;
+
+    private String subId;
+
+    @NotNull(message = "客户端类型不能为空")
+    private Integer platform;
+
+
     private String imgUrl;
     private String account;
     private String pid;
