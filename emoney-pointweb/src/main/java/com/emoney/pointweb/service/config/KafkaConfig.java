@@ -87,8 +87,8 @@ public class KafkaConfig {
         props.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, 60000);
         //指定拦截器(value为对应的class)
         //props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, "com.te.handler.KafkaProducerInterceptor");
-        //设置压缩算法(默认是木有压缩算法的)
-        props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");//snappy
+        //设置压缩算法
+        props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "gzip");//gzip
         return props;
     }
 
