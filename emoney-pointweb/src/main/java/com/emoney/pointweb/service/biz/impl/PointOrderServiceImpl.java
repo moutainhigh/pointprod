@@ -109,6 +109,7 @@ public class PointOrderServiceImpl implements PointOrderService {
                 pointRecordDO.setPointStatus(Integer.parseInt(PointRecordStatusEnum.CONVERTED.getCode()));
                 pointRecordDO.setCreateTime(new Date());
                 pointRecordDO.setCreateBy("system");
+                pointRecordDO.setIsValid(true);
                 int ret = pointRecordRepository.insert(pointRecordDO);
                 if (ret > 0) {
                     //记录到ES
