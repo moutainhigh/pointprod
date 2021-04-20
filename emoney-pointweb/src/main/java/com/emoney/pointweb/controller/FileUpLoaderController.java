@@ -33,7 +33,6 @@ import java.util.*;
 public class FileUpLoaderController {
 
     private final String newLine= "\r\n" ;
-    private final String BOUNDARY = "--";
     private final String Point="Point";
 
     @Value("${fileurl}")
