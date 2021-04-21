@@ -63,7 +63,7 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
     }
 
     @Override
-    public PointOrderDO getByOrderNo(Long orderNo) {
+    public PointOrderDO getByOrderNo(String orderNo) {
         return pointOrderMapper.getByOrderNo(orderNo);
     }
 

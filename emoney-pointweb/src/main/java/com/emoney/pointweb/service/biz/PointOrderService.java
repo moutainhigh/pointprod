@@ -42,7 +42,7 @@ public interface PointOrderService {
 
     List<PointOrderDO> getAllByOrderStatus(Integer orderStatus);
 
-    PointOrderDO getByOrderNo(Long orderNo);
+    PointOrderDO getByOrderNo(String orderNo);
 
     List<PointOrderDO> getByUidAndProductId(Long uid,Integer productId);
 }

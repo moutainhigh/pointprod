@@ -18,7 +18,7 @@ public class PointOrderExchangeDTO {
     private Long uid;
 
     @NotNull(message = "订单号不能为空")
-    private Long orderNo;
+    private String orderNo;
 
     private String payType;
 }

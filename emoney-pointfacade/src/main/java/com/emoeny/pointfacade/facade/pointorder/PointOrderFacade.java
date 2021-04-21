@@ -61,7 +61,7 @@ public interface PointOrderFacade {
      * @return
      */
     @GetMapping("/querybyorder")
-    Result<PointOrderVO> getOrderByOrderNo(@NotNull(message = "订单号不能为空") Long orderNo);
+    Result<PointOrderVO> getOrderByOrderNo(@NotNull(message = "订单号不能为空") String orderNo);
 
     @GetMapping("/querybyuidandproductid")
     Result<List<PointOrderVO>> getByUidAndProductId(@NotNull(message = "用户id不能为空") Long uid, Integer productId);

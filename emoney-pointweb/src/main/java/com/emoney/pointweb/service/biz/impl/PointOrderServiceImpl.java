@@ -66,7 +66,7 @@ public class PointOrderServiceImpl implements PointOrderService {
                 PointOrderDO pointOrderDO = new PointOrderDO();
                 pointOrderDO.setUid(pointOrderCreateDTO.getUid());
                 pointOrderDO.setEmNo(pointOrderCreateDTO.getEmNo());
-                pointOrderDO.setOrderNo(IdUtil.getSnowflake(1, 1).nextId());
+                pointOrderDO.setOrderNo("EJF"+IdUtil.getSnowflake(1, 1).nextId());
                 pointOrderDO.setProductId(pointOrderCreateDTO.getProductId());
                 pointOrderDO.setProductTitle(pointProductDO.getProductName());
                 pointOrderDO.setProductQty(pointOrderCreateDTO.getProductQty());
@@ -144,7 +144,7 @@ public class PointOrderServiceImpl implements PointOrderService {
     }
 
     @Override
-    public PointOrderDO getByOrderNo(Long orderNo) {
+    public PointOrderDO getByOrderNo(String orderNo) {
         return pointOrderRepository.getByOrderNo(orderNo);
     }
 

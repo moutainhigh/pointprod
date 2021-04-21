@@ -20,7 +20,7 @@ public class PointOrderDO {
     private Integer id;
     private Long uid;
     private String emNo;
-    private Long orderNo;
+    private String orderNo;
     private String tradeNo;
     private Integer orderStatus;
     private Integer productId;

@@ -94,7 +94,7 @@ public class PointOrderFacadeImpl implements PointOrderFacade {
     }
 
     @Override
-    public Result<PointOrderVO> getOrderByOrderNo(@NotNull(message = "订单号不能为空") Long orderNo) {
+    public Result<PointOrderVO> getOrderByOrderNo(@NotNull(message = "订单号不能为空") String orderNo) {
         try {
             return Result.buildSuccessResult(JsonUtil.toBean(JSON.toJSONString(pointOrderService.getByOrderNo(orderNo)), PointOrderVO.class));
         } catch (Exception e) {

@@ -39,7 +39,7 @@ public interface PointOrderRepository {
      * @param orderNo
      * @return
      */
-    PointOrderDO getByOrderNo(Long orderNo);
+    PointOrderDO getByOrderNo(String orderNo);
 
     /**
      * 创建订单
