@@ -24,6 +24,7 @@ public class PointOrderVO {
     private Integer orderStatus;
     private Integer productId;
     private String productTitle;
+    private Integer productQty;
     private Float point;
     private BigDecimal cash;
     private String payType;
