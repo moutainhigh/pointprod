@@ -27,6 +27,8 @@ public class PointOrderVO {
     private Float point;
     private BigDecimal cash;
     private String payType;
+    private String mobile;
+    private String mobileMask;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
