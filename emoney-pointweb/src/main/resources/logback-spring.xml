@@ -64,8 +64,10 @@
         </connectionStrategy>
     </appender>
 
-    <logger name="org.apache.kafka" level="warn">
-        <appender-ref ref="console" />
+
+    <logger name="org.springframework.kafka.listener.KafkaMessageListenerContainer" level="warn">
+        <appender-ref ref="filelog"/>
+        <appender-ref ref="logstash"/>
     </logger>
 
     <springProfile name="dev">
@@ -77,7 +79,6 @@
 
     <springProfile name="test">
         <root level="INFO">
-            <appender-ref ref="console"/>
             <appender-ref ref="filelog"/>
             <appender-ref ref="logstash"/>
         </root>
@@ -85,14 +86,14 @@
 
     <springProfile name="uat">
         <root level="INFO">
-            <appender-ref ref="console"/>
             <appender-ref ref="filelog"/>
+            <appender-ref ref="logstash"/>
         </root>
     </springProfile>
     <springProfile name="prod">
         <root level="INFO">
-            <appender-ref ref="console"/>
             <appender-ref ref="filelog"/>
+            <appender-ref ref="logstash"/>
         </root>
     </springProfile>
 </configuration>
