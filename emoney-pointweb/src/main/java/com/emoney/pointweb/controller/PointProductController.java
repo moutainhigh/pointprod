@@ -66,7 +66,7 @@ public class PointProductController {
                        Integer totalLimit, Integer perLimit, String exChangeContent, String pcdetailimg, String appdetailimg, String wechatdetailimg,String remark,
                        HttpServletRequest request, HttpServletResponse response){
         try {
-            TicketInfo user = userLoginService.GetLoginAdminUser(request,response);
+            TicketInfo user = userLoginService.getLoginAdminUser(request,response);
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             PointProductDO pointProductDO=new PointProductDO();

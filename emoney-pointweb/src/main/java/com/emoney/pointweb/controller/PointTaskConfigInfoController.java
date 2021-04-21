@@ -58,7 +58,7 @@ public class PointTaskConfigInfoController {
                        String wechaturl, String buttontext, String pcimageurl, String appimageurl, String wechatimageurl,
                        @RequestParam(required = false, defaultValue = "0") Integer is_bigimg,HttpServletRequest request, HttpServletResponse response) {
         try {
-            TicketInfo user=userLoginService.GetLoginAdminUser(request,response);
+            TicketInfo user=userLoginService.getLoginAdminUser(request,response);
 
             //获取同一类型同一排序
             List<PointTaskConfigInfoDO> data=pointTaskConfigInfoService.getPointTaskConfigInfoByOrderAndType(tasktype,taskorder);

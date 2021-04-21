@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface UserLoginService {
-    TicketInfo GetLoginAdminUser(HttpServletRequest request, HttpServletResponse response);
-    boolean ValidateUserInfo(HttpServletResponse response,String ticket);
-    boolean IsLogin(HttpServletRequest request, HttpServletResponse response);
-    void RemoveAdminUserInfo(HttpServletRequest request, HttpServletResponse response);
+    TicketInfo getLoginAdminUser(HttpServletRequest request, HttpServletResponse response);
+    boolean validateUserInfo(HttpServletResponse response,String ticket);
+    boolean isLogin(HttpServletRequest request, HttpServletResponse response);
+    void removeAdminUserInfo(HttpServletRequest request, HttpServletResponse response);
 }

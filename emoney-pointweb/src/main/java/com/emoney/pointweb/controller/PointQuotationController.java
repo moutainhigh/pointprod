@@ -48,7 +48,7 @@ public class PointQuotationController {
     public String edit(@RequestParam(required = false, defaultValue = "0") Integer id,
                        String content, HttpServletRequest request, HttpServletResponse response){
         try{
-            TicketInfo user = userLoginService.GetLoginAdminUser(request,response);
+            TicketInfo user = userLoginService.getLoginAdminUser(request,response);
 
             PointQuotationDO pointQuotationDO=new PointQuotationDO();
             pointQuotationDO.setId(id);

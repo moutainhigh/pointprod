@@ -59,7 +59,7 @@ public class PointAnnounceController {
                        String msgSrc, String productVersion, String publishTime, String remark,
                        HttpServletRequest request, HttpServletResponse response){
         try {
-            TicketInfo user = userLoginService.GetLoginAdminUser(request,response);
+            TicketInfo user = userLoginService.getLoginAdminUser(request,response);
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             PointAnnounceDO pointAnnounceDO=new PointAnnounceDO();

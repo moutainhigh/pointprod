@@ -25,10 +25,11 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Value("${loginurl}")
     private String loginurl;
 
+    @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         try {
-            if(userLoginService.IsLogin(request,response)){
-                request.setAttribute("username", userLoginService.GetLoginAdminUser(request,response).UserName);
+            if(userLoginService.isLogin(request,response)){
+                request.setAttribute("username", userLoginService.getLoginAdminUser(request,response).UserName);
                 return true;
             }
         }

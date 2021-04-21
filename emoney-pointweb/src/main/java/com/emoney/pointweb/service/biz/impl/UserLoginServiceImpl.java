@@ -55,16 +55,17 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Autowired
     private RedisService redisCache1;
 
-    public boolean IsLogin(HttpServletRequest request,HttpServletResponse response){
-        TicketInfo ticketInfo = GetLoginAdminUser(request,response);
+    @Override
+    public boolean isLogin(HttpServletRequest request, HttpServletResponse response){
+        TicketInfo ticketInfo = getLoginAdminUser(request,response);
         if(ticketInfo!=null&&!ticketInfo.UserID.isEmpty()){
             return true;
         }
         return false;
     }
 
-    //获取后台登录用户信息
-    public TicketInfo GetLoginAdminUser(HttpServletRequest request,HttpServletResponse response){
+    @Override
+    public TicketInfo getLoginAdminUser(HttpServletRequest request, HttpServletResponse response){
         String userStr= CookieUtils.getValue(request,cookiekey);
         if(userStr==null){
             return null;
@@ -81,15 +82,15 @@ public class UserLoginServiceImpl implements UserLoginService {
         return userInfo;
     }
 
-    //加载后台登录用户信息
-    public void LoadAdminUserInfo(TicketInfo ticketInfo,HttpServletResponse response){
+    public void loadAdminUserInfo(TicketInfo ticketInfo,HttpServletResponse response){
         CookieUtils.set(response,cookiekey,aes.encryptHex(JSON.toJSONString(ticketInfo)),true);
         String userrediskey = rediskey + ticketInfo.UserID;
         redisCache1.set(userrediskey,ticketInfo, ToolUtils.GetExpireTime(60*60*24));
     }
 
-    public void RemoveAdminUserInfo(HttpServletRequest request,HttpServletResponse response){
-        TicketInfo ticketInfo = GetLoginAdminUser(request,response);
+    @Override
+    public void removeAdminUserInfo(HttpServletRequest request, HttpServletResponse response){
+        TicketInfo ticketInfo = getLoginAdminUser(request,response);
         if(ticketInfo!=null){
             CookieUtils.remove(request,response,cookiekey);
             String userrediskey = rediskey + ticketInfo.UserID;
@@ -97,37 +98,38 @@ public class UserLoginServiceImpl implements UserLoginService {
         }
     }
 
-    public boolean ValidateUserInfo(HttpServletResponse response,String ticket){
+    @Override
+    public boolean validateUserInfo(HttpServletResponse response, String ticket){
         //验证票据信息
-        ResultInfo<Object> res = ValidateClientTicket(ticket);
+        ResultInfo<Object> res = validateClientTicket(ticket);
         if(res.getRetCode() == 0){
             var data= res.getMessage().toString();
             TicketInfo ticketInfo=JSON.parseObject(data,TicketInfo.class);
             //获取用户安全绑定信息
-            ResultInfo<String> userres= GetUserInfo(ticketInfo.UserID);
+            ResultInfo<String> userres= getUserInfo(ticketInfo.UserID);
             if(userres!=null&&userres.getRetCode()==0){
-                LoadAdminUserInfo(ticketInfo,response);
+                loadAdminUserInfo(ticketInfo,response);
                 return true;
             }
         }
         return false;
     }
 
-    public ResultInfo<String> GetUserInfo(String userId){
+    public ResultInfo<String> getUserInfo(String userId){
         String url=MessageFormat.format(getuserinfourl,userId);
-        String res = OkHttpUtil.get(CreateUrl(url,apiencryptkey),null);
+        String res = OkHttpUtil.get(createUrl(url,apiencryptkey),null);
         ResultInfo<String> result= JSON.parseObject(res,ResultInfo.class);
         return result;
     }
 
-    public ResultInfo<Object> ValidateClientTicket(String ticket){
+    public ResultInfo<Object> validateClientTicket(String ticket){
         String url= MessageFormat.format(checkticketurl,ticket);
-        String res = OkHttpUtil.get(CreateUrl(url,apiencryptkey),null);
+        String res = OkHttpUtil.get(createUrl(url,apiencryptkey),null);
         ResultInfo<Object> result= JSON.parseObject(res,ResultInfo.class);
         return result;
     }
 
-    public String CreateUrl(String url,String apiKey){
+    public String createUrl(String url,String apiKey){
         String[] querys=URI.create(url).getQuery().replace("?","").split("&");
         StringBuilder stringBuilder=new StringBuilder();
         if(querys!=null&&querys.length>0){

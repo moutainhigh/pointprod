@@ -30,14 +30,14 @@ public class HomeController {
 
     @RequestMapping("/login")
     public void login(HttpServletResponse response, HttpServletRequest request) throws IOException {
-        if (userLoginService.IsLogin(request,response))
+        if (userLoginService.isLogin(request,response))
         {
             response.sendRedirect("/index");
         }
 
         String ticket= URLEncoder.encode(request.getParameter("ticket"),"UTF-8");
         if(!ticket.isEmpty()){
-            if(userLoginService.ValidateUserInfo(response,ticket)){
+            if(userLoginService.validateUserInfo(response,ticket)){
                 response.sendRedirect("/index");
                 return;
             }
@@ -49,7 +49,7 @@ public class HomeController {
 
     @RequestMapping("/logout")
     public void logout(HttpServletResponse response, HttpServletRequest request) throws IOException {
-        userLoginService.RemoveAdminUserInfo(request,response);
+        userLoginService.removeAdminUserInfo(request,response);
         String url=request.getServerName();
         Integer port = request.getServerPort();
         response.sendRedirect(MessageFormat.format(loginurl,url,port.toString()));

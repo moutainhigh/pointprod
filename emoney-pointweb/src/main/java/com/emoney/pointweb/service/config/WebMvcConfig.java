@@ -11,6 +11,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
     @Bean
     public LoginInterceptor loginInterceptor(){return new LoginInterceptor();};
 
+    @Override
     public void addInterceptors(InterceptorRegistry registry){
         registry.addInterceptor(loginInterceptor())
                 .addPathPatterns("/")
