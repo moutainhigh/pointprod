@@ -4,8 +4,7 @@
     <#import "common/common.macro.ftl" as netCommon>
     <@netCommon.commonStyle />
     <!-- daterangepicker -->
-    <link rel="stylesheet"
-          href="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css">
     <title>积分后台</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
