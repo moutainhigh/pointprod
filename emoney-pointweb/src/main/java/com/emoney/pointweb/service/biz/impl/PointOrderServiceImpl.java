@@ -145,7 +145,7 @@ public class PointOrderServiceImpl implements PointOrderService {
                             //非定向积分
                             for (PointRecordDO p : pointRecordDOS.stream().filter(h -> !h.getIsDirectional()).sorted(Comparator.comparing(PointRecordDO::getCreateTime)).collect(Collectors.toList())
                             ) {
-                                tmpExchangePoint += p.getTaskPoint();
+                                tmpExchangePoint += p.getLeftPoint();
                                 if (tmpExchangePoint <= exchangePoint) {
                                     p.setLeftPoint(0f);
                                     p.setUpdateTime(new Date());
@@ -161,7 +161,7 @@ public class PointOrderServiceImpl implements PointOrderService {
                                 //定向积分
                                 for (PointRecordDO p : pointRecordDOS.stream().filter(h -> h.getIsDirectional()).sorted(Comparator.comparing(PointRecordDO::getCreateTime)).collect(Collectors.toList())
                                 ) {
-                                    tmpExchangePoint += p.getTaskPoint();
+                                    tmpExchangePoint += p.getLeftPoint();
                                     if (tmpExchangePoint <= exchangePoint) {
                                         p.setLeftPoint(0f);
                                         p.setUpdateTime(new Date());
