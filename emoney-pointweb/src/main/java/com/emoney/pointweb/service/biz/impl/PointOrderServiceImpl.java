@@ -1,6 +1,7 @@
 package com.emoney.pointweb.service.biz.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.emoeny.pointcommon.constants.RedisConstants;
 import com.emoeny.pointcommon.enums.BaseResultCodeEnum;
@@ -17,13 +18,17 @@ import com.emoney.pointweb.repository.dao.entity.*;
 import com.emoney.pointweb.service.biz.PointOrderService;
 import com.emoney.pointweb.service.biz.kafka.KafkaProducerService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.emoeny.pointcommon.result.Result.buildErrorResult;
 import static com.emoeny.pointcommon.result.Result.buildSuccessResult;
@@ -35,6 +40,7 @@ import static com.emoeny.pointcommon.result.Result.buildSuccessResult;
  * @create 2021/3/18 16:09
  */
 @Service
+@Slf4j
 public class PointOrderServiceImpl implements PointOrderService {
 
     @Autowired
@@ -57,8 +63,8 @@ public class PointOrderServiceImpl implements PointOrderService {
 
 
     @Override
-    public List<PointOrderDO> getByUid(Long uid,Integer orderStatus,int pageIndex,int pageSize) {
-        return pointOrderRepository.getByUid(uid,orderStatus,pageIndex,pageSize);
+    public List<PointOrderDO> getByUid(Long uid, Integer orderStatus, int pageIndex, int pageSize) {
+        return pointOrderRepository.getByUid(uid, orderStatus, pageIndex, pageSize);
     }
 
     @Override
@@ -71,7 +77,7 @@ public class PointOrderServiceImpl implements PointOrderService {
                 PointOrderDO pointOrderDO = new PointOrderDO();
                 pointOrderDO.setUid(pointOrderCreateDTO.getUid());
                 pointOrderDO.setEmNo(pointOrderCreateDTO.getEmNo());
-                pointOrderDO.setOrderNo("EJF"+IdUtil.getSnowflake(1, 1).nextId());
+                pointOrderDO.setOrderNo("EJF" + IdUtil.getSnowflake(1, 1).nextId());
                 pointOrderDO.setProductId(pointOrderCreateDTO.getProductId());
                 pointOrderDO.setProductTitle(pointProductDO.getProductName());
                 pointOrderDO.setProductQty(pointOrderCreateDTO.getProductQty());
@@ -99,7 +105,7 @@ public class PointOrderServiceImpl implements PointOrderService {
         if (pointOrderDO == null || !pointOrderDO.getOrderStatus().equals(Integer.valueOf(PointOrderStatusEnum.UNFINISHED.getCode()))) {
             return buildErrorResult(BaseResultCodeEnum.ILLEGAL_ARGUMENT.getCode(), "订单不存在或者订单异常，无法兑换");
         } else {
-            if(!pointOrderDO.getUid().equals(pointExchangeDTO.getUid())){
+            if (!pointOrderDO.getUid().equals(pointExchangeDTO.getUid())) {
                 return buildErrorResult(BaseResultCodeEnum.ILLEGAL_ARGUMENT.getCode(), "订单异常，无法兑换");
             }
             PointProductDO pointProductDO = pointProductRepository.getById(pointOrderDO.getProductId());
@@ -119,20 +125,65 @@ public class PointOrderServiceImpl implements PointOrderService {
                 if (ret > 0) {
                     //记录到ES
                     pointRecordESRepository.save(pointRecordDO);
-                    //修改订单状态
-                    pointOrderDO.setPayType(pointExchangeDTO.getPayType());
-                    pointOrderDO.setOrderStatus(Integer.valueOf(PointOrderStatusEnum.FINISHED.getCode()));
-                    pointOrderDO.setUpdateTime(new Date());
-                    pointOrderRepository.update(pointOrderDO);
                     //去掉积分记录
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointExchangeDTO.getUid()));
                     //去掉积分统计
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, pointExchangeDTO.getUid()));
-                    //redisCache1.removePattern("pointprod:pointrecord_getsummarybyuidandcreatetime_" + pointExchangeDTO.getUid()+ "_*");
-
-                    //发消息到kafka，修改积分消费记录
-                    kafkaProducerService.sendMessageSync("pointrecordexchange", JSONObject.toJSONString(pointRecordDO));
-
+                    //修改订单状态
+                    pointOrderDO.setPayType(pointExchangeDTO.getPayType());
+                    pointOrderDO.setOrderStatus(Integer.valueOf(PointOrderStatusEnum.FINISHED.getCode()));
+                    pointOrderDO.setUpdateTime(new Date());
+                    int retOrder = pointOrderRepository.update(pointOrderDO);
+                    if (retOrder > 0) {
+                        //修改分摊记录
+                        float exchangePoint = Math.abs(pointRecordDO.getTaskPoint());
+                        float tmpExchangePoint = 0f;
+                        //当前获得的未使用积分
+                        List<PointRecordDO> pointRecordDOS = pointRecordRepository.getByUidAndCreateTime(pointRecordDO.getUid(), pointRecordDO.getCreateTime());
+                        List<PointRecordDO> tmpPointRecordDOS = new ArrayList<>();
+                        if (pointRecordDOS != null && pointRecordDOS.size() > 0) {
+                            //非定向积分
+                            for (PointRecordDO p : pointRecordDOS.stream().filter(h -> !h.getIsDirectional()).sorted(Comparator.comparing(PointRecordDO::getCreateTime)).collect(Collectors.toList())
+                            ) {
+                                tmpExchangePoint += p.getTaskPoint();
+                                if (tmpExchangePoint <= exchangePoint) {
+                                    p.setLeftPoint(0f);
+                                    p.setUpdateTime(new Date());
+                                    tmpPointRecordDOS.add(p);
+                                } else {
+                                    p.setLeftPoint(tmpExchangePoint - exchangePoint);
+                                    p.setUpdateTime(new Date());
+                                    tmpPointRecordDOS.add(p);
+                                    break;
+                                }
+                            }
+                            if (tmpExchangePoint < exchangePoint) {
+                                //定向积分
+                                for (PointRecordDO p : pointRecordDOS.stream().filter(h -> h.getIsDirectional()).sorted(Comparator.comparing(PointRecordDO::getCreateTime)).collect(Collectors.toList())
+                                ) {
+                                    tmpExchangePoint += p.getTaskPoint();
+                                    if (tmpExchangePoint <= exchangePoint) {
+                                        p.setLeftPoint(0f);
+                                        p.setUpdateTime(new Date());
+                                        tmpPointRecordDOS.add(p);
+                                    } else {
+                                        p.setLeftPoint(tmpExchangePoint - exchangePoint);
+                                        p.setUpdateTime(new Date());
+                                        tmpPointRecordDOS.add(p);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if (tmpPointRecordDOS != null && tmpPointRecordDOS.size() > 0) {
+                            log.info("积分兑换记录分摊：兑换记录:" + JSON.toJSONString(pointRecordDO) + "分摊记录:" + JSON.toJSONString(tmpPointRecordDOS));
+                            for (PointRecordDO p : tmpPointRecordDOS
+                            ) {
+                                pointRecordRepository.update(p);
+                                pointRecordESRepository.save(p);
+                            }
+                        }
+                    }
                     return buildSuccessResult(pointOrderDO);
                 }
                 return buildErrorResult("积分兑换失败");
@@ -148,7 +199,7 @@ public class PointOrderServiceImpl implements PointOrderService {
     }
 
     @Override
-    public List<PointOrderDO> getAllByOrderStatus(Integer orderStatus){
+    public List<PointOrderDO> getAllByOrderStatus(Integer orderStatus) {
         return pointOrderRepository.getAllByOrderStatus(orderStatus);
     }
 
@@ -159,7 +210,7 @@ public class PointOrderServiceImpl implements PointOrderService {
 
     @Override
     public List<PointOrderDO> getByUidAndProductId(Long uid, Integer productId) {
-        return  pointOrderRepository.getByUidAndProductId(uid,productId);
+        return pointOrderRepository.getByUidAndProductId(uid, productId);
     }
 
     /**
@@ -191,12 +242,12 @@ public class PointOrderServiceImpl implements PointOrderService {
         }
         List<PointRecordSummaryDO> pointRecordSummaryDOS = pointRecordRepository.getPointRecordSummaryByUid(uid);
         if (pointRecordSummaryDOS != null && pointRecordSummaryDOS.size() > 0) {
-            PointRecordSummaryDO pointRecordSummaryDO = pointRecordSummaryDOS.stream().filter(h -> h.getPointStatus()!=null&& h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()))).findAny().orElse(null);
+            PointRecordSummaryDO pointRecordSummaryDO = pointRecordSummaryDOS.stream().filter(h -> h.getPointStatus() != null && h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()))).findAny().orElse(null);
             totalPoint = pointRecordSummaryDO != null ? pointRecordSummaryDO.getPointTotal() : 0;
         }
         List<PointOrderDO> myPointOrders = pointOrderRepository.getByUidAndProductId(uid, null);
         if (myPointOrders != null && myPointOrders.size() > 0) {
-            curQty = myPointOrders.stream().filter(h->h.getProductId().equals(pointProductDO.getId())).mapToInt(PointOrderDO::getProductQty).sum();
+            curQty = myPointOrders.stream().filter(h -> h.getProductId().equals(pointProductDO.getId())).mapToInt(PointOrderDO::getProductQty).sum();
             for (PointOrderDO pointOrderDO : myPointOrders
             ) {
                 curPoint += pointOrderDO.getPoint() * pointOrderDO.getProductQty();
