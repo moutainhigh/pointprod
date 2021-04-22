@@ -126,7 +126,7 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
                             redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointRecordDO.getUid()));
                             //去掉积分统计
                             redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, pointRecordDO.getUid()));
-                            redisCache1.removePattern("pointprod:pointrecord_getsummarybyuidandcreatetime_" + pointRecordDO.getUid() + "_*");
+                            //redisCache1.removePattern("pointprod:pointrecord_getsummarybyuidandcreatetime_" + pointRecordDO.getUid() + "_*");
                         }
                     }
                 }

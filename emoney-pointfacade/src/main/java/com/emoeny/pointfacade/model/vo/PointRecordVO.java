@@ -10,7 +10,6 @@ public class PointRecordVO {
     private Long id;
     private Long uid;
     private Long taskId;
-    private String subId;
     private Integer platform;
     private Float taskPoint;
     private String taskName;
@@ -18,8 +17,12 @@ public class PointRecordVO {
     private String pid;
     private String emNo;
     private Boolean isDailytask;
+    private String subId;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date expirationTime;
+    private Float leftPoint;
+    private Boolean isValid;
+    private Boolean isDirectional;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")

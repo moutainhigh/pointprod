@@ -191,6 +191,11 @@ public class PointRecordServiceImpl implements PointRecordService {
         return pointRecordRepository.getPointRecordByTaskIds(uid, taskIds);
     }
 
+    @Override
+    public List<PointRecordDO> getByUidAndCreateTime(Long uid, Date endDate) {
+        return pointRecordRepository.getByUidAndCreateTime(uid, endDate);
+    }
+
     private PointRecordDO setPointRecordDO(PointRecordCreateDTO pointRecordCreateDTO, PointTaskConfigInfoDO pointTaskConfigInfoDO) {
         PointRecordDO pointRecordDO = new PointRecordDO();
         pointRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
@@ -209,8 +214,10 @@ public class PointRecordServiceImpl implements PointRecordService {
 
         //定向积分
         if (pointTaskConfigInfoDO.getIsDirectional()) {
+            pointRecordDO.setIsDirectional(true);
             pointRecordDO.setPointStatus(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()));
         } else {
+            pointRecordDO.setIsDirectional(false);
             //成长任务 只有成长任务需要领取
             if (pointTaskConfigInfoDO.getTaskType() == 2) {
                 pointRecordDO.setPointStatus(Integer.valueOf(PointRecordStatusEnum.UNCLAIMED.getCode()));

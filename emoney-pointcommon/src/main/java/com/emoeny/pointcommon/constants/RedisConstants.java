@@ -10,7 +10,7 @@ public class RedisConstants {
 
     public static String REDISKEY_PointRecord_GETBYUID = "pointprod:pointrecord_getbyuid_{0}";//uid
     public static String REDISKEY_PointRecord_GETSUMMARYBYUID = "pointprod:pointrecord_getsummarybyuid_{0}";//uid
-    public static String REDISKEY_PointRecord_GETSUMMARYBYUIDANDCREATETIME = "pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_{1}_{2}";//uid,dtStart,dtEnd
+    //public static String REDISKEY_PointRecord_GETSUMMARYBYUIDANDCREATETIME = "pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_{1}_{2}";//uid,dtStart,dtEnd
     public static String REDISKEY_PointRecord_SETPOINTRECORDID = "pointprod:pointrecord_setpointrecordid_{0}_{1}";//uid,id
     public static String REDISKEY_PointRecord_GETUNCLAIMRECORDSBYUID = "pointprod:pointrecord_getunclaimrecordsbyuid_{0}";//uid
     public static String REDISKEY_PointRecord_CREATE_LOCKKEY="pointprod:pointrecord_create_lockkey_{0}_{1}";//uid,taskId

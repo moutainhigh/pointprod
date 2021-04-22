@@ -104,18 +104,23 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
 
     @Override
     public List<PointRecordSummaryDO> getPointRecordSummaryByUidAndCreateTime(Long uid, Date dtStart, Date dtEnd) {
-        List<PointRecordSummaryDO> pointRecordSummaryDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUIDANDCREATETIME, uid, DateUtil.format(dtStart, "yyyyMMdd"), DateUtil.format(dtEnd, "yyyyMMdd")), PointRecordSummaryDO.class);
-        if (pointRecordSummaryDOS == null) {
-            pointRecordSummaryDOS = pointRecordMapper.getPointRecordSummaryByUidAndCreateTime(uid, dtStart, dtEnd);
-            if (pointRecordSummaryDOS != null && pointRecordSummaryDOS.size() > 0) {
-                redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUIDANDCREATETIME, uid, DateUtil.format(dtStart, "yyyyMMdd"), DateUtil.format(dtEnd, "yyyyMMdd")), pointRecordSummaryDOS, ToolUtils.GetExpireTime(60));
-            }
-        }
-        return pointRecordSummaryDOS;
+//        List<PointRecordSummaryDO> pointRecordSummaryDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUIDANDCREATETIME, uid, DateUtil.format(dtStart, "yyyyMMdd"), DateUtil.format(dtEnd, "yyyyMMdd")), PointRecordSummaryDO.class);
+//        if (pointRecordSummaryDOS == null) {
+//            pointRecordSummaryDOS = pointRecordMapper.getPointRecordSummaryByUidAndCreateTime(uid, dtStart, dtEnd);
+//            if (pointRecordSummaryDOS != null && pointRecordSummaryDOS.size() > 0) {
+//                redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUIDANDCREATETIME, uid, DateUtil.format(dtStart, "yyyyMMdd"), DateUtil.format(dtEnd, "yyyyMMdd")), pointRecordSummaryDOS, ToolUtils.GetExpireTime(60));
+//            }
+//        }
+        return pointRecordMapper.getPointRecordSummaryByUidAndCreateTime(uid, dtStart, dtEnd);
     }
 
     @Override
     public List<PointRecordDO> getPointRecordByTaskIds(Long uid, List<Long> taskIds) {
         return pointRecordMapper.getPointRecordByTaskIds(uid, taskIds);
+    }
+
+    @Override
+    public List<PointRecordDO> getByUidAndCreateTime(Long uid, Date endDate) {
+        return pointRecordMapper.getByUidAndCreateTime(uid,endDate);
     }
 }

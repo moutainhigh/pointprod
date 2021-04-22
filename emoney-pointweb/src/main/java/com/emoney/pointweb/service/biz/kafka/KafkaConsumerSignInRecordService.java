@@ -37,7 +37,7 @@ public class KafkaConsumerSignInRecordService {
             // 消费的哪个topic、partition的消息,打印出消息内容
             log.info("topic->{},value->{},offset->{}", record.topic(), record.value(), record.offset());
             SignInRecordDO signInRecordDO = JsonUtil.toBean(record.value().toString(), SignInRecordDO.class);
-            if (signInRecordDO.getUid() != null) {
+            if (signInRecordDO != null && signInRecordDO.getUid() != null) {
                 //写入数据库
                 int ret = signInRecordRepository.insert(signInRecordDO);
                 if (ret > 0) {
@@ -49,7 +49,7 @@ public class KafkaConsumerSignInRecordService {
             acknowledgment.acknowledge();
 
         } catch (Exception e) {
-            log.error("消费异常", e);
+            log.error("signinrecordadd消费异常", e);
         }
     }
 }

@@ -48,7 +48,7 @@ public class KafkaConsumerPointRecordService {
             // 消费的哪个topic、partition的消息,打印出消息内容
             log.info("topic->{},value->{},offset->{}", record.topic(), record.value(), record.offset());
             PointRecordDO pointRecordDO = JsonUtil.toBean(record.value().toString(), PointRecordDO.class);
-            if (pointRecordDO.getTaskId() != null) {
+            if (pointRecordDO!=null&&pointRecordDO.getUid() != null) {
                 //写入数据库
                 int ret = pointRecordRepository.insert(pointRecordDO);
                 if (ret > 0) {
@@ -58,7 +58,7 @@ public class KafkaConsumerPointRecordService {
                     }
                     //去掉积分统计
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, pointRecordDO.getUid()));
-                    redisCache1.removePattern("pointprod:pointrecord_getsummarybyuidandcreatetime_" + pointRecordDO.getUid()+ "_*");
+                    //redisCache1.removePattern("pointprod:pointrecord_getsummarybyuidandcreatetime_" + pointRecordDO.getUid()+ "_*");
                     //去掉我的待领取任务统计
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETUNCLAIMRECORDSBYUID, pointRecordDO.getUid()));
                     //写入ES
@@ -69,7 +69,7 @@ public class KafkaConsumerPointRecordService {
             acknowledgment.acknowledge();
 
         } catch (Exception e) {
-            log.error("消费异常", e);
+            log.error("pointrecordadd 消费异常", e);
         }
     }
 }

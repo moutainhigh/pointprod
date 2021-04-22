@@ -1,6 +1,7 @@
 package com.emoney.pointweb.service.biz.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.emoeny.pointcommon.constants.RedisConstants;
 import com.emoeny.pointcommon.enums.BaseResultCodeEnum;
 import com.emoeny.pointcommon.enums.PointOrderStatusEnum;
@@ -14,6 +15,7 @@ import com.emoney.pointweb.repository.PointRecordESRepository;
 import com.emoney.pointweb.repository.PointRecordRepository;
 import com.emoney.pointweb.repository.dao.entity.*;
 import com.emoney.pointweb.service.biz.PointOrderService;
+import com.emoney.pointweb.service.biz.kafka.KafkaProducerService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +51,9 @@ public class PointOrderServiceImpl implements PointOrderService {
 
     @Autowired
     private RedisService redisCache1;
+
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
 
 
     @Override
@@ -123,7 +128,11 @@ public class PointOrderServiceImpl implements PointOrderService {
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointExchangeDTO.getUid()));
                     //去掉积分统计
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, pointExchangeDTO.getUid()));
-                    redisCache1.removePattern("pointprod:pointrecord_getsummarybyuidandcreatetime_" + pointExchangeDTO.getUid()+ "_*");
+                    //redisCache1.removePattern("pointprod:pointrecord_getsummarybyuidandcreatetime_" + pointExchangeDTO.getUid()+ "_*");
+
+                    //发消息到kafka，修改积分消费记录
+                    kafkaProducerService.sendMessageSync("pointrecordexchange", JSONObject.toJSONString(pointRecordDO));
+
                     return buildSuccessResult(pointOrderDO);
                 }
                 return buildErrorResult("积分兑换失败");
