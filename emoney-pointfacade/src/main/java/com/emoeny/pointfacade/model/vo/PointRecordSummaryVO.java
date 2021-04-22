@@ -7,4 +7,5 @@ public class PointRecordSummaryVO {
     private Long uid;
     private Integer pointStatus;
     private Float pointTotal;
+    private Float pointTotalLeft;
 }

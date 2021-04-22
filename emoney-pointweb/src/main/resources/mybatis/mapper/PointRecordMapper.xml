@@ -28,6 +28,7 @@
         <result column="uid" property="uid" jdbcType="BIGINT"/>
         <result column="point_status" property="pointStatus" jdbcType="INTEGER"/>
         <result column="point_total" property="pointTotal" jdbcType="FLOAT"/>
+        <result column="point_totalLeft" property="pointTotalLeft" jdbcType="FLOAT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -48,7 +49,7 @@
     </select>
 
     <select id="getPointRecordSummaryByUidAndCreateTime" resultMap="SummaryResultMap">
-        SELECT uid,sum(task_point) as point_total,point_status
+        SELECT uid,sum(task_point) as point_total,sum(left_point) as point_totalLeft,point_status
         FROM t_point_record
         WHERE uid=#{uid} AND create_time &gt;=  #{dtStart} AND create_time  &lt;= #{dtEnd} AND is_valid=1
         GROUP BY uid,point_status
@@ -88,6 +89,8 @@
         <if test="endDate != null">
 
          AND create_time &lt; #{endDate}
+
+         AND left_point <![CDATA[!= ]]>0
 
         </if>
 
