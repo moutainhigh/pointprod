@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <div class="col-lg-11">
                             <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">类型：</label>
-                            <select id="opType" class="form-control" style="float:left;width:150px;margin-top:5px;">
+                            <select id="opType" class="form-control opType" style="float:left;width:150px;margin-top:5px;">
                                 <option value="0">全部</option>
                                 <option value="2">商品上架</option>
                                 <option value="4">最新活动</option>
@@ -163,6 +163,11 @@
 
     $('#btnAdd').on('click', function(){
         $("#modal-default").modal({ backdrop: false, keyboard: false }).modal('show');
+    });
+
+    // search btn
+    $('.opType').on('change', function(){
+        msgTable.ajax.reload();
     });
 
     $('.btnSave').on('click',function (){
