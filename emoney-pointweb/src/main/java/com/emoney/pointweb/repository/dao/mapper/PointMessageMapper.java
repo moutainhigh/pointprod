@@ -30,7 +30,7 @@ public interface PointMessageMapper {
     /**
      *
      * @param uid
-     * @param msgSrc
+     * @param msgExt
      * @return
      */
     Integer getByUidAndExt(Long uid,String msgExt);

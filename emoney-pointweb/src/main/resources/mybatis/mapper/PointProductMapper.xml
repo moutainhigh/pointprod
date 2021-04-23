@@ -55,7 +55,6 @@
     </insert>
 
     <update id="updatePointProduct" parameterType="com.emoney.pointweb.repository.dao.entity.PointProductDO">
-
         UPDATE t_point_product
         <set>
             <if test="productType != null">

@@ -50,8 +50,8 @@ public class HomeController {
     @RequestMapping("/logout")
     public void logout(HttpServletResponse response, HttpServletRequest request) throws IOException {
         userLoginService.removeAdminUserInfo(request,response);
-        String url=request.getServerName();
+        String domainName=request.getServerName();
         Integer port = request.getServerPort();
-        response.sendRedirect(MessageFormat.format(loginurl,url,port.toString()));
+        response.sendRedirect(MessageFormat.format(loginurl,domainName,port.toString()));
     }
 }
