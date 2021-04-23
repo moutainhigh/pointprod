@@ -106,6 +106,11 @@ public class PointProductController {
             pointProductDO.setUpdateTime(new Date());
             pointProductDO.setUpdateBy(user.UserName);
             pointProductDO.setRemark(remark);
+            if (pointProductDO.getExchangeType().equals(1)){
+                if(pointProductDO.getExchangeCash().floatValue()>pointProductDO.getProductPrice()){
+                    return "付款金额不能大于商品原价";
+                }
+            }
             int result=0;
             if(id>0){
                 result= pointProductService.updatePointProduct(pointProductDO);
@@ -116,9 +121,9 @@ public class PointProductController {
             }
             return result>0?"success":"保存失败";
         }catch (Exception e){
-            log.error("保存商品配置出错："+e);
+            log.error("保存商品配置出错：" + e);
+            return e.getMessage();
         }
-        return null;
     }
 
     @RequestMapping("/delete")

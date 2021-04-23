@@ -185,7 +185,7 @@ $(function() {
             success: function (data) {
                 if (data.code == "0"&& data.data[0] != null) {
                     $("#productName").val(data.data[0].ActivityName);
-                    $("#productCash").val(data.data[0].ActivityPrice);
+                    $("#productPrice").val(data.data[0].ActivityPrice);
                     $("#actStartTime").val(moment(data.data[0].ActivityStartTime).format("YYYY-MM-DD HH:mm:ss"))
                     $("#actEndTime").val(moment(data.data[0].ActivityEndTime).format("YYYY-MM-DD HH:mm:ss"))
                 }
@@ -248,7 +248,7 @@ $(function() {
                     productTable.ajax.reload();
                     clertAndCloseModal();
                 }else {
-                    alert("保存失败");
+                    alert(data);
                 }
             },
             beforeSend: function () {
