@@ -165,7 +165,7 @@
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">商品原价</label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="productPrice" id="productPrice" placeholder="商品原价" >
+                                <input type="text" class="form-control" name="productPrice" id="productPrice" placeholder="商品原价" disabled>
                             </div>
                         </div>
 
@@ -192,7 +192,7 @@
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">现金</label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="productCash" id="productCash" placeholder="现金" disabled>
+                                <input type="text" class="form-control" name="productCash" id="productCash" placeholder="现金">
                             </div>
                         </div>
 
