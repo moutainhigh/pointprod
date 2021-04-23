@@ -115,7 +115,7 @@ public class PointOrderServiceImpl implements PointOrderService {
                 pointRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
                 pointRecordDO.setUid(pointOrderDO.getUid());
                 pointRecordDO.setTaskId(-1L);
-                pointRecordDO.setTaskName("积分兑换");
+                pointRecordDO.setTaskName(pointProductDO.getProductName());
                 pointRecordDO.setTaskPoint(-pointProductDO.getExchangePoint());
                 pointRecordDO.setPointStatus(Integer.parseInt(PointRecordStatusEnum.CONVERTED.getCode()));
                 pointRecordDO.setCreateTime(new Date());
