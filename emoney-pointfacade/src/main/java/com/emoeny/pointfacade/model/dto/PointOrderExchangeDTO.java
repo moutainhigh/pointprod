@@ -20,5 +20,7 @@ public class PointOrderExchangeDTO {
     @NotNull(message = "订单号不能为空")
     private String orderNo;
 
+    private String tradeNo;
+
     private String payType;
 }

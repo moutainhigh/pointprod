@@ -131,6 +131,7 @@ public class PointOrderServiceImpl implements PointOrderService {
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, pointExchangeDTO.getUid()));
                     //修改订单状态
                     pointOrderDO.setPayType(pointExchangeDTO.getPayType());
+                    pointOrderDO.setTradeNo(pointExchangeDTO.getTradeNo());
                     pointOrderDO.setOrderStatus(Integer.valueOf(PointOrderStatusEnum.FINISHED.getCode()));
                     pointOrderDO.setUpdateTime(new Date());
                     int retOrder = pointOrderRepository.update(pointOrderDO);

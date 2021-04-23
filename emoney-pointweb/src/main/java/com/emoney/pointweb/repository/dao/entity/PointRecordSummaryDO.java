@@ -13,4 +13,4 @@ public class PointRecordSummaryDO {
     private Integer pointStatus;
     private Float pointTotal;
     private Float pointTotalLeft;
-}
+}       
