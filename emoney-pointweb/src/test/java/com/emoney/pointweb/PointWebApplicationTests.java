@@ -99,8 +99,8 @@ class PointWebApplicationTests {
 //       log.info("日志测试info........................");
 //       log.error("日志测试error........................");
 
-        pointRecordESRepository.deleteAll();
-        singInRecordESRepository.deleteAll();
+//        pointRecordESRepository.deleteAll();
+//        singInRecordESRepository.deleteAll();
 
        // List<PointRecordDO> pageInfo = pointRecordRepository.getByPager(1001539325L, 0, 3);
 //
