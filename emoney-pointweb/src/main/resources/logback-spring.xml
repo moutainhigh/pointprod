@@ -55,7 +55,7 @@
         <destination>192.168.42.172:4569</destination>
         <!-- encoder必须配置,有多种可选 -->
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"appname":"pointprod"}</customFields>
+            <customFields>{"appname":"pointweblog"}</customFields>
         </encoder>
         <connectionStrategy>
             <roundRobin>
