@@ -91,6 +91,9 @@ public class Result<T> implements Serializable {
         return new Result<>(true);
     }
 
+    public static <T> Result<T> buildSuccessResult(String code, String message, T data) {
+        return new Result<>(true, data, code, message);
+    }
     /**
      * 设置结果集
      *
