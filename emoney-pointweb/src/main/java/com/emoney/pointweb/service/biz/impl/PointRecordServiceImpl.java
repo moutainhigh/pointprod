@@ -101,7 +101,7 @@ public class PointRecordServiceImpl implements PointRecordService {
                         canSendMessage = true;
                     }
                 } else {
-                    return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "参与次数超限");
+                    return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "今天积分参与次数超限，请明天早点来吧！");
                 }
             } else {
                 pointRecordDO = setPointRecordDO(pointRecordCreateDTO, pointTaskConfigInfoDO);
@@ -120,7 +120,7 @@ public class PointRecordServiceImpl implements PointRecordService {
                         }
                     }
                     if (curTotal > pointLimitDO.getPointLimitvalue()) {
-                        return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "积分超过限额");
+                        return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "今天积分发送额度已满，请明天早点来吧！ ");
                     } else {
                         redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointRecordCreateDTO.getUid()), pointRecordDOS, ToolUtils.GetExpireTime(60));
                         //发消息到kafka

@@ -4,16 +4,11 @@ import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.emoeny.pointcommon.constants.RedisConstants;
-import com.emoeny.pointcommon.enums.BaseResultCodeEnum;
-import com.emoeny.pointcommon.enums.PointOrderStatusEnum;
-import com.emoeny.pointcommon.enums.PointRecordStatusEnum;
+import com.emoeny.pointcommon.enums.*;
 import com.emoeny.pointcommon.result.Result;
 import com.emoeny.pointfacade.model.dto.PointOrderExchangeDTO;
 import com.emoeny.pointfacade.model.dto.PointOrderCreateDTO;
-import com.emoney.pointweb.repository.PointOrderRepository;
-import com.emoney.pointweb.repository.PointProductRepository;
-import com.emoney.pointweb.repository.PointRecordESRepository;
-import com.emoney.pointweb.repository.PointRecordRepository;
+import com.emoney.pointweb.repository.*;
 import com.emoney.pointweb.repository.dao.entity.*;
 import com.emoney.pointweb.service.biz.PointOrderService;
 import com.emoney.pointweb.service.biz.kafka.KafkaProducerService;
@@ -56,11 +51,13 @@ public class PointOrderServiceImpl implements PointOrderService {
     private PointRecordESRepository pointRecordESRepository;
 
     @Autowired
+    private PointLimitRepository pointLimitRepository;
+
+    @Autowired
     private RedisService redisCache1;
 
     @Autowired
     private KafkaProducerService kafkaProducerService;
-
 
     @Override
     public List<PointOrderDO> getByUid(Long uid, Integer orderStatus, int pageIndex, int pageSize) {
@@ -260,8 +257,13 @@ public class PointOrderServiceImpl implements PointOrderService {
         if ((curPoint + (productQty * pointProductDO.getExchangePoint())) > totalPoint) {
             return "积分不足,无法兑换";
         }
+
+        PointLimitDO pointLimitDO = pointLimitRepository.getByType(Integer.valueOf(PointLimitTypeEnum.EXCHANGE.code()), Integer.valueOf(PointLimitToEnum.PERSONAL.code()));
+        if (pointLimitDO != null) {
+            if ((curPoint + (productQty * pointProductDO.getExchangePoint())) > pointLimitDO.getPointLimitvalue()) {
+                return "今天积分兑换额度已满，请明天早点来吧！";
+            }
+        }
         return "";
     }
-
-
 }
