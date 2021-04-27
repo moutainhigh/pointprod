@@ -1,20 +1,23 @@
 package com.emoeny.pointcommon.utils;
 
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.text.MessageFormat;
-import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.Map;
+
+/**
+ * Created by IntelliJ IDEA.
+ *
+ * @Author : meixiaohu
+ * @create 2021/3/31 10:27
+ */
 
 @Slf4j
 public class OkHttpUtil {
@@ -49,7 +52,7 @@ public class OkHttpUtil {
      * @param request
      * @return
      */
-    private static String execNewCall(Request request) {
+    private static String execNewCall(Request request, String requstBodyStr) {
         Response response = null;
         try {
             OkHttpClient okHttpClient = SpringUtils.getObject(OkHttpClient.class);
@@ -58,7 +61,7 @@ public class OkHttpUtil {
             if (response.isSuccessful()) {
                 return response.body().string();
             } else {
-                log.error("okhttp3 put faild >> code = {},message = {}", response.code(), response.message());
+                log.error("okhttp3 put faild >> code = {},message = {},url = {},params = {}", response.code(), response.message(), request.url(), requstBodyStr);
             }
         } catch (Exception e) {
             log.error("okhttp3 put error >> ex = {}", ExceptionUtils.getStackTrace(e));
@@ -77,14 +80,13 @@ public class OkHttpUtil {
      * @param charset 返回结果字节码
      * @return
      */
-    private static String execNewCall(Request request, String charset) {
+    private static String execNewCall(Request request, String requstBodyStr, String charset) {
         Response response = null;
         try {
             OkHttpClient okHttpClient = SpringUtils.getObject(OkHttpClient.class);
             response = okHttpClient.newCall(request).execute();
             int status = response.code();
             if (response.isSuccessful()) {
-                //return response.body().string();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(response.body().byteStream(), charset));
                 StringBuilder b = new StringBuilder();
                 String line;
@@ -94,7 +96,7 @@ public class OkHttpUtil {
                 }
                 return b.toString().trim();
             } else {
-                log.error("okhttp3 put faild >> code = {},message = {}", response.code(), response.message());
+                log.error("okhttp3 put faild >> code = {},message = {},url = {},params = {}", response.code(), response.message(), request.url(), requstBodyStr);
             }
         } catch (Exception e) {
             log.error("okhttp3 put error >> ex = {}", ExceptionUtils.getStackTrace(e));
@@ -118,7 +120,7 @@ public class OkHttpUtil {
         Request request = new Request.Builder()
                 .url(sb.toString())
                 .build();
-        return execNewCall(request);
+        return execNewCall(request, null);
     }
 
 
@@ -136,7 +138,7 @@ public class OkHttpUtil {
         Request request = new Request.Builder()
                 .url(sb.toString())
                 .build();
-        return execNewCall(request, charset);
+        return execNewCall(request, null, charset);
     }
 
     /**
@@ -158,7 +160,7 @@ public class OkHttpUtil {
                 .url(url)
                 .post(builder.build())
                 .build();
-        return execNewCall(request);
+        return execNewCall(request, JSON.toJSONString(params));
     }
 
     /**
@@ -173,7 +175,7 @@ public class OkHttpUtil {
                 .url(url)
                 .post(requestBody)
                 .build();
-        return execNewCall(request);
+        return execNewCall(request, jsonParams);
     }
 
     /**
@@ -192,7 +194,7 @@ public class OkHttpUtil {
         headers.forEach((k, v) -> requestBuilder.addHeader(k, v));
         Request request = requestBuilder.post(requestBody).build();
 
-        return execNewCall(request);
+        return execNewCall(request, jsonParams);
     }
 
     /**
@@ -207,6 +209,6 @@ public class OkHttpUtil {
                 .url(url)
                 .post(requestBody)
                 .build();
-        return execNewCall(request);
+        return execNewCall(request, xml);
     }
 }
