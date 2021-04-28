@@ -3,13 +3,18 @@ package com.emoney.pointweb.service.biz.impl;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.emoeny.pointcommon.constants.RedisConstants;
+import com.emoeny.pointcommon.result.Result;
+import com.emoeny.pointcommon.result.ResultInfo;
+import com.emoeny.pointcommon.result.ReturnInfo;
 import com.emoeny.pointcommon.result.userperiod.Software;
 import com.emoeny.pointcommon.result.userperiod.UserPeriodResult;
 import com.emoeny.pointcommon.utils.JsonUtil;
 import com.emoeny.pointcommon.utils.OkHttpUtil;
+import com.emoeny.pointfacade.model.vo.PointOrderVO;
 import com.emoney.pointweb.repository.PointTaskConfigInfoRepository;
 import com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO;
 import com.emoney.pointweb.repository.dao.entity.vo.PointTaskConfigInfoVO;
+import com.emoney.pointweb.repository.dao.entity.vo.UserGroupVO;
 import com.emoney.pointweb.repository.dao.mapper.PointTaskConfigInfoMapper;
 import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
@@ -218,5 +223,17 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
             }
         }
         return pointTaskConfigInfoDOS;
+    }
+
+    @Override
+    public List<UserGroupVO> getUserGroupList() {
+        List<UserGroupVO> userGroupVOList=new ArrayList<>();
+        String url = "http://api.userradar.emoney.cn/api/GetUserGroupList";
+        String res=OkHttpUtil.get(url,null);
+        ReturnInfo<List<UserGroupVO>> resultInfo=JsonUtil.toBean(res, ReturnInfo.class);
+        if(resultInfo.getRetCode().equals("0")){
+            userGroupVOList = JsonUtil.toBeanList(resultInfo.getData() != null ? resultInfo.getData().toString() : "", UserGroupVO.class);;
+        }
+        return userGroupVOList;
     }
 }
