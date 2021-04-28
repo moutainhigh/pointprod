@@ -59,51 +59,51 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
             pointTaskConfigInfoDOS = pointTaskConfigInfoDOS.stream().filter(h -> h.getProductVersion().contains(productVersion) && h.getProductVersion().contains(publishPlatFormType)).collect(Collectors.toList());
         }
         //接入用户生命周期
-        List<PointTaskConfigInfoDO> retPointTaskConfigInfoDOs = new ArrayList<>();
-        try {
-            UserPeriodResult userPeriodResult = getUserPeriod(uid);
-            if (userPeriodResult != null
-                    && userPeriodResult.getData() != null
-                    && userPeriodResult.getData().getSoftware() != null
-            ) {
-                Software software = JSON.parseObject(userPeriodResult.getData().getSoftware(), Software.class);
-                if (software != null && !StringUtils.isEmpty(software.getStartDate())
-                        && !StringUtils.isEmpty(software.getEndDate())
-                ) {
-                    Date userPeroidStartDate = DateUtil.parse(software.getStartDate().replace("T", " "), "yyyy-MM-dd HH:mm:ss");
-                    Date userPeroidEndDate = DateUtil.parse(software.getEndDate().replace("T", " "), "yyyy-MM-dd HH:mm:ss");
-                    for (PointTaskConfigInfoDO p : pointTaskConfigInfoDOS
-                    ) {
-                        if (p.getActivationStartTime() != null && p.getActivationEndTime() != null && p.getExpireStartTime() != null && p.getExpireEndTime() != null) {
-                            if (userPeroidStartDate.after(p.getActivationStartTime())
-                                    && userPeroidStartDate.before(p.getActivationEndTime())
-                                    && userPeroidEndDate.after(p.getExpireStartTime())
-                                    && userPeroidEndDate.before(p.getExpireEndTime())
-                            ) {
-                                retPointTaskConfigInfoDOs.add(p);
-                            }
-                        } else if (p.getActivationStartTime() != null && p.getActivationEndTime() != null) {
-                            if (userPeroidStartDate.after(p.getActivationStartTime())
-                                    && userPeroidStartDate.before(p.getActivationEndTime())
-                            ) {
-                                retPointTaskConfigInfoDOs.add(p);
-                            }
-                        } else if (p.getExpireStartTime() != null && p.getExpireEndTime() != null) {
-                            if (userPeroidEndDate.after(p.getExpireStartTime())
-                                    && userPeroidEndDate.before(p.getExpireEndTime())
-                            ) {
-                                retPointTaskConfigInfoDOs.add(p);
-                            }
-                        } else {
-                            retPointTaskConfigInfoDOs.add(p);
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            log.error("queryPointTaskConfigs getUserPeriod error:", e);
-        }
-        return retPointTaskConfigInfoDOs;
+//        List<PointTaskConfigInfoDO> retPointTaskConfigInfoDOs = new ArrayList<>();
+//        try {
+//            UserPeriodResult userPeriodResult = getUserPeriod(uid);
+//            if (userPeriodResult != null
+//                    && userPeriodResult.getData() != null
+//                    && userPeriodResult.getData().getSoftware() != null
+//            ) {
+//                Software software = JSON.parseObject(userPeriodResult.getData().getSoftware(), Software.class);
+//                if (software != null && !StringUtils.isEmpty(software.getStartDate())
+//                        && !StringUtils.isEmpty(software.getEndDate())
+//                ) {
+//                    Date userPeroidStartDate = DateUtil.parse(software.getStartDate().replace("T", " "), "yyyy-MM-dd HH:mm:ss");
+//                    Date userPeroidEndDate = DateUtil.parse(software.getEndDate().replace("T", " "), "yyyy-MM-dd HH:mm:ss");
+//                    for (PointTaskConfigInfoDO p : pointTaskConfigInfoDOS
+//                    ) {
+//                        if (p.getActivationStartTime() != null && p.getActivationEndTime() != null && p.getExpireStartTime() != null && p.getExpireEndTime() != null) {
+//                            if (userPeroidStartDate.after(p.getActivationStartTime())
+//                                    && userPeroidStartDate.before(p.getActivationEndTime())
+//                                    && userPeroidEndDate.after(p.getExpireStartTime())
+//                                    && userPeroidEndDate.before(p.getExpireEndTime())
+//                            ) {
+//                                retPointTaskConfigInfoDOs.add(p);
+//                            }
+//                        } else if (p.getActivationStartTime() != null && p.getActivationEndTime() != null) {
+//                            if (userPeroidStartDate.after(p.getActivationStartTime())
+//                                    && userPeroidStartDate.before(p.getActivationEndTime())
+//                            ) {
+//                                retPointTaskConfigInfoDOs.add(p);
+//                            }
+//                        } else if (p.getExpireStartTime() != null && p.getExpireEndTime() != null) {
+//                            if (userPeroidEndDate.after(p.getExpireStartTime())
+//                                    && userPeroidEndDate.before(p.getExpireEndTime())
+//                            ) {
+//                                retPointTaskConfigInfoDOs.add(p);
+//                            }
+//                        } else {
+//                            retPointTaskConfigInfoDOs.add(p);
+//                        }
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//            log.error("queryPointTaskConfigs getUserPeriod error:", e);
+//        }
+        return pointTaskConfigInfoDOS;
     }
 
     @Override
