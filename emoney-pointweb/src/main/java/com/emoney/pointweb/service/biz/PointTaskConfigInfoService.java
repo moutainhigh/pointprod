@@ -3,6 +3,7 @@ package com.emoney.pointweb.service.biz;
 import com.emoeny.pointcommon.result.userperiod.UserPeriodResult;
 import com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO;
 import com.emoney.pointweb.repository.dao.entity.vo.PointTaskConfigInfoVO;
+import com.emoney.pointweb.repository.dao.entity.vo.UserGroupVO;
 
 import java.util.Date;
 import java.util.List;
@@ -28,4 +29,6 @@ public interface PointTaskConfigInfoService {
     List<PointTaskConfigInfoDO> getTasksByTaskType(int taskType, Long uid,String productVersion,String publishPlatFormType);
 
     List<PointTaskConfigInfoDO> getByTaskIds(List<Long> listTaskIds);
+
+    List<UserGroupVO> getUserGroupList();
 }

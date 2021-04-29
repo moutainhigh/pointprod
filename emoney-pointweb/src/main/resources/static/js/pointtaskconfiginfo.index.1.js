@@ -240,15 +240,21 @@ $(function() {
 		obj.starttime=$("#starttime").val();
 		obj.endtime=$("#endtime").val();
 		obj.taskremark=editor.txt.html();
-		obj.activation_starttime=$("#activationstarttime").val();
-		obj.activation_endtime=$("#activationendtime").val();
-		obj.expire_starttime=$("#expirestarttime").val();
-		obj.expire_endtime=$("#expireendtime").val();
 		obj.daily=$("#daily input[type=radio]:checked").val();
 		obj.is_directional=$("#Directional input[type=radio]:checked").val();
 		obj.is_bigimg=$("#isBigImg input[type=radio]:checked").val();
 		obj.jointimes=$("#jointimes").val();
 		obj.taskorder=$("#taskorder").val();
+
+		var str = "";
+		var goodsArr = $("#GroupList").select2("val");
+		for (var i = 0; i < goodsArr.length; i++) {
+			str += goodsArr[i];
+			if (i + 1 < goodsArr.length) {
+				str += ",";
+			}
+		}
+		obj.groupList = str;
 		var ver="";
 		$("#ver input[type=checkbox]:checked").each(function() {
 			ver +=  $(this).val() + ',';

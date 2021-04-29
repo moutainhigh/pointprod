@@ -39,4 +39,5 @@ public class PointTaskConfigInfoDO{
     private String createBy;
     private String updateBy;
     private String remark;
+    private String userGroup;
 }

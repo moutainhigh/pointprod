@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css">
     <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/select2/select2.css">
+    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/css/multi-select.css">
     <link rel="stylesheet" href="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.css">
     <style>
         .FilePicker div:nth-child(2) {
@@ -220,44 +222,15 @@
                         </div>
 
                         <div class="form-group">
-                            <!--实际为激活时间，需求强烈要求修改为登录-->
-                            <label for="firstname" class="col-sm-2 control-label">登录时间</label>
-                            <div class="col-sm-4">
-                                <div class="input-group date">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                    <input type="text" class="form-control pull-right datepicker" id="activationstarttime">
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="input-group date">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                    <input type="text" class="form-control pull-right datepicker" id="activationendtime">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <!--实际为激活时间，需求强烈要求修改为登录-->
-                            <label for="firstname" class="col-sm-2 control-label">到期时间</label>
-                            <div class="col-sm-4">
-                                <div class="input-group date">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                    <input type="text" class="form-control pull-right datepicker" id="expirestarttime">
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="input-group date">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                    <input type="text" class="form-control pull-right datepicker" id="expireendtime">
-                                </div>
+                            <label for="firstname" class="col-sm-2 control-label">用户分组</label>
+                            <div class="col-sm-10">
+                                <select id="GroupList" class="select2" multiple="multiple" title="请选择" style="width: 100%;">
+                                    <#if userGroupVOList?exists && userGroupVOList?size gt 0 >
+                                        <#list userGroupVOList as item>
+                                            <option value="${item.id}">${item.userGroupName}</option>
+                                        </#list>
+                                    </#if>
+                                </select>
                             </div>
                         </div>
 
@@ -353,8 +326,11 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.min.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/select2/select2.js"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointtaskconfiginfo.index.1.js?v=123"></script>
+<script src="${request.contextPath}/static/js/pointtaskconfiginfo.index.1.js?v=12345"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
 
 <script>
@@ -397,6 +373,8 @@
         format: 'yyyy-mm-dd hh:ii:00',
         minDate: 0
     });
+
+    $('.select2').select2();
 
     function editdata(id){
         var jsondata = $('#json' + id).val();
@@ -460,6 +438,11 @@
         $("#task_type").val(res.taskType);
         $("#task_name").val(res.taskName);
         $("#task_points").val(res.taskPoints);
+        if(res.userGroup){
+            $("#GroupList").val(res.userGroup.split(",")).trigger('change');
+        }else {
+            $("#GroupList").val("").trigger('change');
+        }
         if(res.taskStartTime){
             $("#starttime").val(moment(res.taskStartTime).format("YYYY-MM-DD HH:mm:ss"));
         }

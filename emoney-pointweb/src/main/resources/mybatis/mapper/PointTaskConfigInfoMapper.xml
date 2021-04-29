@@ -36,6 +36,7 @@
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="user_group" jdbcType="VARCHAR" property="userGroup"/>
   </resultMap>
   <sql id="Base_Column_List">
 
@@ -44,7 +45,7 @@
             product_version, publish_platformtype, is_showinhomepage, task_order, daily_jointimes,
             pc_redirecturl, app_redirecturl, wechat_redirecturl, task_remark, task_buttontext,
             pc_taskimgurl, app_taskimgurl, wechat_taskimgurl, create_time, update_time, create_by,
-            update_by, remark
+            update_by, remark,user_group
 
   </sql>
   <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO" useGeneratedKeys="true" keyProperty="id">
@@ -55,14 +56,14 @@
      product_version, publish_platformtype, is_showinhomepage, task_order, daily_jointimes,
      pc_redirecturl, app_redirecturl, wechat_redirecturl, task_remark, task_buttontext,
      pc_taskimgurl, app_taskimgurl, wechat_taskimgurl, create_time, update_time, create_by,
-     update_by, remark)
+     update_by, remark,user_group)
     VALUES
     (#{taskId},#{subId},#{taskType},#{taskName}, #{taskPoints}, #{taskStartTime}, #{taskEndTime}, #{isDailyTask},
      #{activationStartTime},#{activationEndTime},#{expireStartTime},#{expireEndTime},#{isDirectional},#{isBigImg},
      #{productVersion}, #{publishPlatFormType}, #{isShowInHomePage}, #{taskOrder}, #{dailyJoinTimes},
      #{pcRedirectUrl}, #{appRedirectUrl}, #{wechatRedirectUrl}, #{taskRemark}, #{taskButtonText},
      #{pcTaskImgUrl}, #{appTaskImgUrl}, #{wechatTaskImgUrl}, #{createTime}, #{updateTime}, #{createBy},
-     #{updateBy}, #{remark})
+     #{updateBy}, #{remark},#{userGroup})
 
   </insert>
 
@@ -72,6 +73,9 @@
     <set>
         <if test="subId != null">
             sub_id = #{subId},
+        </if>
+        <if test="userGroup != null">
+            user_group = #{userGroup},
         </if>
         <if test="taskType != null">
             task_type=#{taskType},
