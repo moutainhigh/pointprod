@@ -16,10 +16,6 @@ public class PointTaskConfigVO {
     private Float taskPoints;
     private Date taskStartTime;
     private Date taskEndTime;
-    private Date activationStartTime;
-    private Date activationEndTime;
-    private Date expireStartTime;
-    private Date expireEndTime;
     private Boolean isDirectional;
     private Boolean isDailyTask;
     private String productVersion;
@@ -41,4 +37,5 @@ public class PointTaskConfigVO {
     private String createBy;
     private String updateBy;
     private String remark;
+    private String userGroup;
 }

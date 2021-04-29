@@ -3,15 +3,15 @@ package com.emoney.pointweb;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
+import com.emoeny.pointcommon.result.ResultInfo;
+import com.emoeny.pointcommon.result.userinfo.TicketInfo;
 import com.emoeny.pointcommon.utils.OkHttpUtil;
 import com.emoney.pointweb.repository.*;
 import com.emoney.pointweb.repository.dao.entity.*;
 import com.emoney.pointweb.repository.dao.mapper.PointLimitMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointMessageMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointRecordMapper;
-import com.emoney.pointweb.service.biz.PointOrderService;
-import com.emoney.pointweb.service.biz.PointRecordService;
-import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
+import com.emoney.pointweb.service.biz.*;
 import com.emoney.pointweb.service.biz.kafka.KafkaProducerService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
 import com.github.pagehelper.PageInfo;
@@ -20,6 +20,7 @@ import org.apache.kafka.clients.admin.KafkaAdminClient;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
@@ -88,6 +89,15 @@ class PointWebApplicationTests {
 
     @Autowired
     private SingInRecordESRepository singInRecordESRepository;
+
+    @Autowired
+    private MailerService mailerService;
+
+    @Value("${mail.toMail.addr}")
+    private String toMailAddress;
+
+    @Autowired
+    private UserLoginService userLoginService;
 
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
@@ -201,6 +211,10 @@ class PointWebApplicationTests {
         //Page<PointRecordDO> pointRecordDOS = pointRecordESRepository.findByTaskId(1372817436314832896l, pageable);
 
         //List<PointRecordDO> pointRecordDOS =pointRecordESRepository.findByTaskId(1372817436314832896l);
+
+        //mailerService.sendSimpleTextMailActual("发送主题","发送内容",new String[]{"meixiaohu@emoney.cn"},null,null,null);
+
+       //TicketInfo userInfo = redisCache1.get("emoney.pointweb.userinfo.redis.userid:1001471383", TicketInfo.class);
     }
 
 }

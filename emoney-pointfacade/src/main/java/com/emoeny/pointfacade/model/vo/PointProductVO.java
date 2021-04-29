@@ -150,4 +150,6 @@ public class PointProductVO {
      *
      */
     private String remark;
+
+    private String userGroup;
 }

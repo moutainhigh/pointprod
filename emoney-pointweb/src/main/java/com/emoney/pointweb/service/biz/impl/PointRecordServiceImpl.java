@@ -11,6 +11,7 @@ import com.emoeny.pointcommon.enums.PointLimitToEnum;
 import com.emoeny.pointcommon.enums.PointLimitTypeEnum;
 import com.emoeny.pointcommon.enums.PointRecordStatusEnum;
 import com.emoeny.pointcommon.result.Result;
+import com.emoeny.pointcommon.result.ResultInfo;
 import com.emoeny.pointcommon.utils.ToolUtils;
 import com.emoeny.pointfacade.model.dto.PointRecordCreateDTO;
 import com.emoeny.pointfacade.model.vo.PointRecordCreateVO;
@@ -22,10 +23,13 @@ import com.emoney.pointweb.repository.dao.entity.PointLimitDO;
 import com.emoney.pointweb.repository.dao.entity.PointRecordDO;
 import com.emoney.pointweb.repository.dao.entity.PointRecordSummaryDO;
 import com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO;
+import com.emoney.pointweb.service.biz.MailerService;
 import com.emoney.pointweb.service.biz.PointRecordService;
+import com.emoney.pointweb.service.biz.UserLoginService;
 import com.emoney.pointweb.service.biz.kafka.KafkaProducerService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -60,6 +64,12 @@ public class PointRecordServiceImpl implements PointRecordService {
 
     @Autowired
     private RedisService redisCache1;
+
+    @Autowired
+    private MailerService mailerService;
+
+    @Value("${mail.toMail.addr}")
+    private String toMailAddress;
 
     @Override
     public Result<Object> createPointRecord(PointRecordCreateDTO pointRecordCreateDTO) {
@@ -120,6 +130,12 @@ public class PointRecordServiceImpl implements PointRecordService {
                         }
                     }
                     if (curTotal > pointLimitDO.getPointLimitvalue()) {
+
+                        //发送邮件
+                        String subject = "积分异常通知";
+                        String content = MessageFormat.format("积分发放超限，用户ID：{0},任务ID:{1},任务名称:{2},发生时间:{3}", pointRecordCreateDTO.getUid(), pointTaskConfigInfoDO.getTaskId(), pointTaskConfigInfoDO.getTaskName(), new Date());
+                        mailerService.sendSimpleTextMailActual(subject, content, toMailAddress.split(","), null, null, null);
+
                         return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "今天积分发送额度已满，请明天早点来吧！ ");
                     } else {
                         redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointRecordCreateDTO.getUid()), pointRecordDOS, ToolUtils.GetExpireTime(60));
