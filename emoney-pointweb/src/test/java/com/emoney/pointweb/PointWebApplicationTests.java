@@ -105,23 +105,23 @@ class PointWebApplicationTests {
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
 
-//        CheckUserGroupDTO checkUserGroupDTO=new CheckUserGroupDTO();
-//        checkUserGroupDTO.setUid("1001471383");
-//       List<CheckUserGroupData> checkUserGroupDataList=new ArrayList<>();
+//        CheckUserGroupDTO checkUserGroupDTO = new CheckUserGroupDTO();
+//        checkUserGroupDTO.setUid("2020614624");
+//        List<CheckUserGroupData> checkUserGroupDataList = new ArrayList<>();
 //
-//        CheckUserGroupData checkUserGroupData=new CheckUserGroupData();
+//        CheckUserGroupData checkUserGroupData = new CheckUserGroupData();
 //        checkUserGroupData.setCheckResult(false);
 //        checkUserGroupData.setGroupId(184);
 //        checkUserGroupDataList.add(checkUserGroupData);
 //
-//        checkUserGroupData=new CheckUserGroupData();
+//        checkUserGroupData = new CheckUserGroupData();
 //        checkUserGroupData.setCheckResult(false);
 //        checkUserGroupData.setGroupId(171);
 //        checkUserGroupDataList.add(checkUserGroupData);
 //
 //        checkUserGroupDTO.setUserGroupList(checkUserGroupDataList);
 //
-//        CheckUserGroupVO checkUserGroupVO=pointTaskConfigInfoService.getUserGroupCheckUser(checkUserGroupDTO);
+//        CheckUserGroupVO checkUserGroupVO = pointTaskConfigInfoService.getUserGroupCheckUser(checkUserGroupDTO);
 
         //List<PointRecordDO> pointRecordDOS=pointRecordRepository.getByPager(1001539325L,-1,null,null,0,5);
 
@@ -133,7 +133,7 @@ class PointWebApplicationTests {
 //        pointRecordESRepository.deleteAll();
 //        singInRecordESRepository.deleteAll();
 
-       // List<PointRecordDO> pageInfo = pointRecordRepository.getByPager(1001539325L, 0, 3);
+        // List<PointRecordDO> pageInfo = pointRecordRepository.getByPager(1001539325L, 0, 3);
 //
         //List<PointOrderDO> pointOrderDOS = pointOrderRepository.getByUid(2020117908L,2,0,3);
         //PointOrderDO pointOrderDO=pointOrderRepository.getByOrderNo(1382204887978348544L);
@@ -235,7 +235,7 @@ class PointWebApplicationTests {
 
         //mailerService.sendSimpleTextMailActual("发送主题","发送内容",new String[]{"meixiaohu@emoney.cn"},null,null,null);
 
-       //TicketInfo userInfo = redisCache1.get("emoney.pointweb.userinfo.redis.userid:1001471383", TicketInfo.class);
+        //TicketInfo userInfo = redisCache1.get("emoney.pointweb.userinfo.redis.userid:1001471383", TicketInfo.class);
     }
 
 }

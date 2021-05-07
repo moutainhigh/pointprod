@@ -62,12 +62,48 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
 
     @Override
     public List<PointTaskConfigInfoDO> getAllEffectiveTasks(Date curDate, Long uid, String productVersion, String publishPlatFormType) {
+        List<PointTaskConfigInfoDO> retPointTaskConfigInfoList = new ArrayList<>();
         List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = pointTaskConfigInfoRepository.getAllEffectiveTasks(new Date());
         if (pointTaskConfigInfoDOS != null) {
             pointTaskConfigInfoDOS = pointTaskConfigInfoDOS.stream().filter(h -> h.getProductVersion().contains(productVersion) && h.getProductVersion().contains(publishPlatFormType)).collect(Collectors.toList());
         }
         //接入用户画像
-        return pointTaskConfigInfoDOS;
+        if (pointTaskConfigInfoDOS != null) {
+            CheckUserGroupDTO checkUserGroupDTO = new CheckUserGroupDTO();
+            List<CheckUserGroupData> checkUserGroupDataList = new ArrayList<>();
+            CheckUserGroupData checkUserGroupData = null;
+            for (PointTaskConfigInfoDO pointTaskConfigInfoDO : pointTaskConfigInfoDOS
+            ) {
+                if (!StringUtils.isEmpty(pointTaskConfigInfoDO.getUserGroup())) {
+                    for (String groupId : pointTaskConfigInfoDO.getUserGroup().split(",")
+                    ) {
+                        checkUserGroupData = new CheckUserGroupData();
+                        checkUserGroupData.setGroupId(Integer.valueOf(groupId));
+                        checkUserGroupData.setCheckResult(false);
+                        checkUserGroupDataList.add(checkUserGroupData);
+                    }
+                } else {
+                    retPointTaskConfigInfoList.add(pointTaskConfigInfoDO);
+                }
+            }
+            checkUserGroupDTO.setUid(String.valueOf(uid));
+            checkUserGroupDTO.setUserGroupList(checkUserGroupDataList);
+            CheckUserGroupVO checkUserGroupVO = getUserGroupCheckUser(checkUserGroupDTO);
+            if (checkUserGroupVO != null && checkUserGroupVO.getUserGroupList() != null && checkUserGroupVO.getUserGroupList().size() > 0) {
+                for (PointTaskConfigInfoDO pointTaskConfigInfoDO : pointTaskConfigInfoDOS
+                ) {
+                    if (!StringUtils.isEmpty(pointTaskConfigInfoDO.getUserGroup())) {
+                        for (String groupId : pointTaskConfigInfoDO.getUserGroup().split(",")) {
+                            if (checkUserGroupVO.getUserGroupList().stream().filter(h -> h.getGroupId().equals(Integer.valueOf(groupId)) && h.getCheckResult()).count() > 0) {
+                                retPointTaskConfigInfoList.add(pointTaskConfigInfoDO);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return retPointTaskConfigInfoList;
     }
 
     @Override
@@ -119,56 +155,48 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
 
     @Override
     public List<PointTaskConfigInfoDO> getTasksByTaskType(int taskType, Long uid, String productVersion, String publishPlatFormType) {
+        List<PointTaskConfigInfoDO> retPointTaskConfigInfoList = new ArrayList<>();
         List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = pointTaskConfigInfoRepository.getTasksByTaskType(taskType);
         if (pointTaskConfigInfoDOS != null) {
             pointTaskConfigInfoDOS = pointTaskConfigInfoDOS.stream().filter(h -> h.getProductVersion().contains(productVersion) && h.getPublishPlatFormType().contains(publishPlatFormType)).collect(Collectors.toList());
         }
-        //接入用户生命周期
-        List<PointTaskConfigInfoDO> retPointTaskConfigInfoDOs = new ArrayList<>();
-        try {
-            UserPeriodResult userPeriodResult = getUserPeriod(uid);
-            if (userPeriodResult != null
-                    && userPeriodResult.getData() != null
-                    && userPeriodResult.getData().getSoftware() != null
+        //接入用户画像
+        if (pointTaskConfigInfoDOS != null) {
+            CheckUserGroupDTO checkUserGroupDTO = new CheckUserGroupDTO();
+            List<CheckUserGroupData> checkUserGroupDataList = new ArrayList<>();
+            CheckUserGroupData checkUserGroupData = null;
+            for (PointTaskConfigInfoDO pointTaskConfigInfoDO : pointTaskConfigInfoDOS
             ) {
-                Software software = JSON.parseObject(userPeriodResult.getData().getSoftware(), Software.class);
-                if (software != null && !StringUtils.isEmpty(software.getStartDate())
-                        && !StringUtils.isEmpty(software.getEndDate())
-                ) {
-                    Date userPeroidStartDate = DateUtil.parse(software.getStartDate().replace("T", " "), "yyyy-MM-dd HH:mm:ss");
-                    Date userPeroidEndDate = DateUtil.parse(software.getEndDate().replace("T", " "), "yyyy-MM-dd HH:mm:ss");
-                    for (PointTaskConfigInfoDO p : pointTaskConfigInfoDOS
+                if (!StringUtils.isEmpty(pointTaskConfigInfoDO.getUserGroup())) {
+                    for (String groupId : pointTaskConfigInfoDO.getUserGroup().split(",")
                     ) {
-                        if (p.getActivationStartTime() != null && p.getActivationEndTime() != null && p.getExpireStartTime() != null && p.getExpireEndTime() != null) {
-                            if (userPeroidStartDate.after(p.getActivationStartTime())
-                                    && userPeroidStartDate.before(p.getActivationEndTime())
-                                    && userPeroidEndDate.after(p.getExpireStartTime())
-                                    && userPeroidEndDate.before(p.getExpireEndTime())
-                            ) {
-                                retPointTaskConfigInfoDOs.add(p);
+                        checkUserGroupData = new CheckUserGroupData();
+                        checkUserGroupData.setGroupId(Integer.valueOf(groupId));
+                        checkUserGroupData.setCheckResult(false);
+                        checkUserGroupDataList.add(checkUserGroupData);
+                    }
+                } else {
+                    retPointTaskConfigInfoList.add(pointTaskConfigInfoDO);
+                }
+            }
+            checkUserGroupDTO.setUid(String.valueOf(uid));
+            checkUserGroupDTO.setUserGroupList(checkUserGroupDataList);
+            CheckUserGroupVO checkUserGroupVO = getUserGroupCheckUser(checkUserGroupDTO);
+            if (checkUserGroupVO != null && checkUserGroupVO.getUserGroupList() != null && checkUserGroupVO.getUserGroupList().size() > 0) {
+                for (PointTaskConfigInfoDO pointTaskConfigInfoDO : pointTaskConfigInfoDOS
+                ) {
+                    if (!StringUtils.isEmpty(pointTaskConfigInfoDO.getUserGroup())) {
+                        for (String groupId : pointTaskConfigInfoDO.getUserGroup().split(",")) {
+                            if (checkUserGroupVO.getUserGroupList().stream().filter(h -> h.getGroupId().equals(Integer.valueOf(groupId)) && h.getCheckResult()).count() > 0) {
+                                retPointTaskConfigInfoList.add(pointTaskConfigInfoDO);
+                                break;
                             }
-                        } else if (p.getActivationStartTime() != null && p.getActivationEndTime() != null) {
-                            if (userPeroidStartDate.after(p.getActivationStartTime())
-                                    && userPeroidStartDate.before(p.getActivationEndTime())
-                            ) {
-                                retPointTaskConfigInfoDOs.add(p);
-                            }
-                        } else if (p.getExpireStartTime() != null && p.getExpireEndTime() != null) {
-                            if (userPeroidEndDate.after(p.getExpireStartTime())
-                                    && userPeroidEndDate.before(p.getExpireEndTime())
-                            ) {
-                                retPointTaskConfigInfoDOs.add(p);
-                            }
-                        } else {
-                            retPointTaskConfigInfoDOs.add(p);
                         }
                     }
                 }
             }
-        } catch (Exception e) {
-            log.error("queryPointTaskConfigs getUserPeriod error:", e);
         }
-        return retPointTaskConfigInfoDOs;
+        return retPointTaskConfigInfoList;
     }
 
     @Override
@@ -199,13 +227,17 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
 
     @Override
     public CheckUserGroupVO getUserGroupCheckUser(CheckUserGroupDTO checkUserGroupDTO) {
-        String url = "http://api.userradar.emoney.cn/api/CheckUserGroup";
-        String ret = OkHttpUtil.postJsonParams(url, JSON.toJSONString(checkUserGroupDTO));
-        if (!StringUtils.isEmpty(ret)) {
-            ReturnInfo<CheckUserGroupVO> resultInfo = JsonUtil.toBean(ret, ReturnInfo.class);
-            if (resultInfo.getRetCode().equals("0")) {
-                return JsonUtil.toBean(JSON.toJSONString(resultInfo.getData()), CheckUserGroupVO.class);
+        try {
+            String url = "http://api.userradar.emoney.cn/api/CheckUserGroup";
+            String ret = OkHttpUtil.postJsonParams(url, JSON.toJSONString(checkUserGroupDTO));
+            if (!StringUtils.isEmpty(ret)) {
+                ReturnInfo<CheckUserGroupVO> resultInfo = JsonUtil.toBean(ret, ReturnInfo.class);
+                if (resultInfo.getRetCode().equals("0")) {
+                    return JsonUtil.toBean(JSON.toJSONString(resultInfo.getData()), CheckUserGroupVO.class);
+                }
             }
+        } catch (Exception e) {
+            log.error("getUserGroupCheckUser error", e);
         }
         return null;
     }
