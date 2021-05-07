@@ -31,13 +31,14 @@
         <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
         <result column="is_valid" property="isValid" jdbcType="BIT"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="user_group" property="userGroup" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
 
         id,product_type,product_version,product_name,product_price,product_days,activity_starttime,activity_endtime,activity_code,total_limit,per_limit,exchange_starttime,
         exchange_endtime,exchange_type,exchange_point,exchange_cash,pc_exangeimgurl,app_exangeimgurl,webchat_exangeimgurl,
-        pc_exangedetailimgurl,app_exangedetailimgurl,webchat_exangedetailimgurl,exchange_remark,create_time,update_time,create_by,update_by,is_valid,remark
+        pc_exangedetailimgurl,app_exangedetailimgurl,webchat_exangedetailimgurl,exchange_remark,create_time,update_time,create_by,update_by,is_valid,remark,user_group
 
     </sql>
 
@@ -46,11 +47,11 @@
         INSERT INTO t_point_product
         (product_type,product_version,product_name,product_price,product_days,activity_starttime,activity_endtime,activity_code,total_limit,per_limit,exchange_starttime,
          exchange_endtime,exchange_type,exchange_point,exchange_cash,pc_exangeimgurl,app_exangeimgurl,webchat_exangeimgurl,
-         pc_exangedetailimgurl,app_exangedetailimgurl,webchat_exangedetailimgurl,exchange_remark,create_time,update_time,create_by,update_by,is_valid,remark)
+         pc_exangedetailimgurl,app_exangedetailimgurl,webchat_exangedetailimgurl,exchange_remark,create_time,update_time,create_by,update_by,is_valid,remark,user_group)
          VALUES
          (#{productType},#{productVersion},#{productName},#{productPrice},#{productDays},#{activityStartTime},#{activityEndTime},#{activityCode},#{totalLimit},#{perLimit},#{exchangeStarttime},
           #{exchangeEndtime},#{exchangeType},#{exchangePoint},#{exchangeCash},#{pcExangeimgurl},#{appExangeimgurl},#{webchatExangeimgurl},
-          #{pcExangeDetailimgurl},#{appExangeDetailimgurl},#{webchatExangeDetailimgurl},#{exchangeRemark},#{createTime},#{updateTime},#{createBy},#{updateBy},#{isValid},#{remark})
+          #{pcExangeDetailimgurl},#{appExangeDetailimgurl},#{webchatExangeDetailimgurl},#{exchangeRemark},#{createTime},#{updateTime},#{createBy},#{updateBy},#{isValid},#{remark},#{userGroup})
 
     </insert>
 
@@ -59,6 +60,9 @@
         <set>
             <if test="productType != null">
                 product_type=#{productType},
+            </if>
+            <if test="userGroup != null">
+                user_group=#{userGroup},
             </if>
             <if test="productVersion != null">
                 product_version=#{productVersion},

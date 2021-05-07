@@ -144,5 +144,7 @@ public class PointProductDO implements Serializable {
      */
     private String remark;
 
+    private String userGroup;
+
     private static final long serialVersionUID = 1L;
 }

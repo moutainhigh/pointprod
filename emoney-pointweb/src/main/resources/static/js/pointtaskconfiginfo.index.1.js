@@ -384,7 +384,7 @@ $(function() {
 		$("#big").attr("checked", false);
 		$("#small").attr("checked", false);
 		$("#subId").attr("disabled",false);
-
+		$("#GroupList").val("").trigger('change');
 		$("#hiddenid").val("");
 		$("#hiddentaskId").val("");
 		$("#subId").val("");

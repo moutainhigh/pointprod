@@ -225,6 +225,15 @@ $(function() {
             ver +=  $(this).val() + ',';
         })
         obj.ver=ver;
+        var str = "";
+        var goodsArr = $("#GroupList").select2("val");
+        for (var i = 0; i < goodsArr.length; i++) {
+            str += goodsArr[i];
+            if (i + 1 < goodsArr.length) {
+                str += ",";
+            }
+        }
+        obj.groupList = str;
         obj.exChangeContent=editor.txt.html();
         obj.remark=editor1.txt.html();
         obj.pcimg=$("#pcimg").val();
@@ -302,7 +311,7 @@ $(function() {
         $("#ver3").attr("checked", false);
         $("#exchange1").attr("checked", false);
         $("#exchange2").attr("checked", false);
-
+        $("#GroupList").val("").trigger('change');
         $("#hiddenid").val("");
         $("#productType").val("");
         $("#actCode").val("");

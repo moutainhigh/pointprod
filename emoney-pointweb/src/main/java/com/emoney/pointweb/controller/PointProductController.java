@@ -2,10 +2,13 @@ package com.emoney.pointweb.controller;
 
 import com.emoeny.pointcommon.result.userinfo.TicketInfo;
 import com.emoney.pointweb.repository.dao.entity.PointProductDO;
+import com.emoney.pointweb.repository.dao.entity.vo.UserGroupVO;
 import com.emoney.pointweb.service.biz.PointProductService;
+import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
 import com.emoney.pointweb.service.biz.UserLoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,8 +34,13 @@ public class PointProductController {
     @Resource
     private UserLoginService userLoginService;
 
+    @Resource
+    private PointTaskConfigInfoService pointTaskConfigInfoService;
+
     @RequestMapping
-    public String index(){
+    public String index(Model model){
+        List<UserGroupVO> userGroupVOList= pointTaskConfigInfoService.getUserGroupList();
+        model.addAttribute("userGroupVOList", userGroupVOList);
         return "pointproduct/pointproduct.index";
     }
 
@@ -61,7 +69,7 @@ public class PointProductController {
     @ResponseBody
     public String edit(@RequestParam(required = false, defaultValue = "0") Integer id, Integer productType, String ver, String pcimg, String appimg, String wechatimg,
                        Integer exchangeType, String acCode, @RequestParam(required = false, defaultValue = "0") Integer productDays, String actStartTime, String actEndTime, String productName,
-                       @RequestParam(required = false, defaultValue = "0")float productPrice, String exChangeStartTime, String exChangeEndTime,
+                       @RequestParam(required = false, defaultValue = "0")float productPrice, String exChangeStartTime, String exChangeEndTime,String groupList,
                        @RequestParam(required = false, defaultValue = "0") BigDecimal productCash, @RequestParam(required = false, defaultValue = "0")float productPoint,
                        Integer totalLimit, Integer perLimit, String exChangeContent, String pcdetailimg, String appdetailimg, String wechatdetailimg,String remark,
                        HttpServletRequest request, HttpServletResponse response){
@@ -78,6 +86,7 @@ public class PointProductController {
             pointProductDO.setProductName(productName);
             pointProductDO.setPerLimit(perLimit);
             pointProductDO.setTotalLimit(totalLimit);
+            pointProductDO.setUserGroup(groupList);
             if(!exChangeStartTime.isEmpty()){
                 pointProductDO.setExchangeStarttime(sdf.parse(exChangeStartTime));
             }
