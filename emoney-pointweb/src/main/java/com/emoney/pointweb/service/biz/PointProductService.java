@@ -15,7 +15,7 @@ public interface PointProductService {
 
     Map<String, Object> checkActivityCode(String acCode);
 
-    List<PointProductDO> getAllEffectiveProducts(Date curDate,String productVersion);
+    List<PointProductDO> getAllEffectiveProducts(Date curDate,String productVersion,Long uid);
 
     PointProductDO getById(int id);
 }

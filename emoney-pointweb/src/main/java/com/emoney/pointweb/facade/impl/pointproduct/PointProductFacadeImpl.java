@@ -31,9 +31,9 @@ public class PointProductFacadeImpl implements PointProductFacade {
     private PointProductService pointProductService;
 
     @Override
-    public Result<List<PointProductVO>> queryPointProducts(@NotNull(message = "产品版本不能为空") String productVersion) {
+    public Result<List<PointProductVO>> queryPointProducts(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "产品版本不能为空") String productVersion) {
         try {
-            List<PointProductDO> pointProductDOS = pointProductService.getAllEffectiveProducts(new Date(),productVersion);
+            List<PointProductDO> pointProductDOS = pointProductService.getAllEffectiveProducts(new Date(), productVersion, uid);
             return Result.buildSuccessResult(JsonUtil.copyList(pointProductDOS, PointProductVO.class));
         } catch (Exception e) {
             log.error("queryPointProducts error:", e);
