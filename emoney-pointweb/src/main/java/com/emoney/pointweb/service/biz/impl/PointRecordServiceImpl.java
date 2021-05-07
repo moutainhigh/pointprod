@@ -219,6 +219,9 @@ public class PointRecordServiceImpl implements PointRecordService {
         pointRecordDO.setTaskId(pointTaskConfigInfoDO.getTaskId());
         pointRecordDO.setTaskName(pointTaskConfigInfoDO.getTaskName());
         pointRecordDO.setTaskPoint(pointTaskConfigInfoDO.getTaskPoints());
+        if(pointRecordCreateDTO.getManualPoint()!=null){
+            pointRecordDO.setTaskPoint(pointRecordCreateDTO.getManualPoint());
+        }
         pointRecordDO.setIsDailytask(pointTaskConfigInfoDO.getIsDailyTask());
         pointRecordDO.setSubId(pointTaskConfigInfoDO.getSubId());
         pointRecordDO.setCreateTime(new Date());

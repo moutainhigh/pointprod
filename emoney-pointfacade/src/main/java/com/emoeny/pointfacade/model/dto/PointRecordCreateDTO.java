@@ -24,4 +24,6 @@ public class PointRecordCreateDTO {
     private String emNo;
 
     private String remark;
+
+    private Float manualPoint;
 }
