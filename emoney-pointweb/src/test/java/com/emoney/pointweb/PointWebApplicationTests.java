@@ -8,6 +8,9 @@ import com.emoeny.pointcommon.result.userinfo.TicketInfo;
 import com.emoeny.pointcommon.utils.OkHttpUtil;
 import com.emoney.pointweb.repository.*;
 import com.emoney.pointweb.repository.dao.entity.*;
+import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupDTO;
+import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupData;
+import com.emoney.pointweb.repository.dao.entity.vo.CheckUserGroupVO;
 import com.emoney.pointweb.repository.dao.mapper.PointLimitMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointMessageMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointRecordMapper;
@@ -101,6 +104,24 @@ class PointWebApplicationTests {
 
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
+
+//        CheckUserGroupDTO checkUserGroupDTO=new CheckUserGroupDTO();
+//        checkUserGroupDTO.setUid("1001471383");
+//       List<CheckUserGroupData> checkUserGroupDataList=new ArrayList<>();
+//
+//        CheckUserGroupData checkUserGroupData=new CheckUserGroupData();
+//        checkUserGroupData.setCheckResult(false);
+//        checkUserGroupData.setGroupId(184);
+//        checkUserGroupDataList.add(checkUserGroupData);
+//
+//        checkUserGroupData=new CheckUserGroupData();
+//        checkUserGroupData.setCheckResult(false);
+//        checkUserGroupData.setGroupId(171);
+//        checkUserGroupDataList.add(checkUserGroupData);
+//
+//        checkUserGroupDTO.setUserGroupList(checkUserGroupDataList);
+//
+//        CheckUserGroupVO checkUserGroupVO=pointTaskConfigInfoService.getUserGroupCheckUser(checkUserGroupDTO);
 
         //List<PointRecordDO> pointRecordDOS=pointRecordRepository.getByPager(1001539325L,-1,null,null,0,5);
 

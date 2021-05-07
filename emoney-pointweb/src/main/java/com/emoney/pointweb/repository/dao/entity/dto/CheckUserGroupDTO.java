@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class UserGroupDTO {
+public class CheckUserGroupDTO {
     private String Uid;
-    private List<UserGroupData> UserGroupList;
+    private List<CheckUserGroupData> UserGroupList;
 }
