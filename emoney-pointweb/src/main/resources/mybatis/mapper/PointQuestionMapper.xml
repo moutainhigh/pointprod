@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.emoney.pointweb.repository.dao.mapper.PointQuestionMapper">
+
+    <resultMap id="BaseResultMap" type="com.emoney.pointweb.repository.dao.entity.PointQuestionDO">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="questionType" column="question_type" jdbcType="INTEGER"/>
+        <result property="questionContent" column="question_content" jdbcType="VARCHAR"/>
+        <result property="questionOptions" column="question_options" jdbcType="VARCHAR"/>
+        <result property="questionRightoptions" column="question_rightoptions" jdbcType="VARCHAR"/>
+        <result property="showTime" column="show_time" jdbcType="TIMESTAMP"/>
+        <result property="isValid" column="is_valid" jdbcType="BOOLEAN"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+                id, question_type, question_content,
+                question_options, question_rightoptions, show_time, is_valid,
+                create_by, update_by, create_time,
+                update_time
+    </sql>
+    <insert id="insert">
+        INSERT INTO t_point_question
+        (question_type, question_content, question_options, question_rightoptions, show_time, is_valid, create_by, update_by,
+         create_time, update_time)
+        VALUES (#{questionType}, #{questionContent}, #{questionOptions}, #{questionRightoptions}, #{showTime}, #{isValid},
+                #{createBy}, #{updateBy}, #{createTime}, #{updateTime})
+    </insert>
+    <update id="update">
+        UPDATE t_point_question
+        <set>
+            <if test="questionType != null">
+                question_type = #{questionType}
+            </if>
+            <if test="questionContent != null">
+                question_content = #{questionContent}
+            </if>
+            <if test="questionOptions != null">
+                question_options = #{questionOptions}
+            </if>
+            <if test="questionRightoptions != null">
+                question_rightoptions = #{questionRightoptions}
+            </if>
+            <if test="showTime != null">
+                show_time = #{showTime}
+            </if>
+            <if test="isValid != null">
+                is_valid = #{isValid}
+            </if>
+            <if test="create_by != null">
+                createBy = #{create_by}
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy}
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <select id="queryAll" resultType="com.emoney.pointweb.repository.dao.entity.PointQuestionDO">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_point_question WHERE is_valid = 1
+    </select>
+
+
+</mapper>

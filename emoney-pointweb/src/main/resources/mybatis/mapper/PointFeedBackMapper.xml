@@ -19,18 +19,21 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,feed_type, pid, account, mobileX, email,suggest,img_url,status,create_time,update_time,create_by,update_by,remark
+                id, feed_type, pid, account, mobileX, email, suggest, img_url, status, create_time, update_time,
+                create_by, update_by, remark
     </sql>
-    <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointFeedBackDO" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointFeedBackDO"
+            useGeneratedKeys="true" keyProperty="id">
         INSERT INTO t_point_feedback
-            (feed_type,pid, account, mobileX, email,suggest,img_url,status,create_time,update_time,create_by,update_by,remark)
-        VALUES
-            (#{feedType},#{pid},#{account},#{mobileX},#{email},#{suggest},#{imgUrl},#{status},#{createTime},#{updateTime},#{createBy},#{updateBy},#{remark})
+        (feed_type, pid, account, mobileX, email, suggest, img_url, status, create_time, update_time, create_by,
+         update_by, remark)
+        VALUES (#{feedType}, #{pid}, #{account}, #{mobileX}, #{email}, #{suggest}, #{imgUrl}, #{status}, #{createTime},
+                #{updateTime}, #{createBy}, #{updateBy}, #{remark})
     </insert>
     <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointFeedBackDO">
         UPDATE t_point_feedback
         <set>
-              <if test="feedType != null">
+            <if test="feedType != null">
                 feed_type = #{feedType},
             </if>
             <if test="pid != null">
@@ -67,7 +70,8 @@
         WHERE id = #{id}
     </update>
     <select id="getAll" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List"/>
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM t_point_feedback
     </select>
 </mapper>

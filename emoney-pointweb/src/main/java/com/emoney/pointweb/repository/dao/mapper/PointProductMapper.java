@@ -9,9 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface PointProductMapper {
-    int insertPointProduct(PointProductDO pointProductDO);
+    Integer insertPointProduct(PointProductDO pointProductDO);
 
-    int updatePointProduct(PointProductDO pointProductDO);
+    Integer updatePointProduct(PointProductDO pointProductDO);
 
     List<PointProductDO> getPointProductListByProductType(int productType);
 
