@@ -32,13 +32,16 @@
     </resultMap>
 
     <sql id="Base_Column_List">
+
         id, uid, task_id, platform, task_point,task_name,point_status,pid,em_no,is_dailytask,sub_id,expiration_time,left_point,is_valid,is_directional,create_time,update_time,create_by,update_by,remark
+
     </sql>
     <select id="getById" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_point_record
         WHERE uid=#{uid} AND id=#{id} AND is_valid=1
+
     </select>
 
     <select id="getPointRecordSummaryByUid" resultMap="SummaryResultMap">
@@ -46,6 +49,7 @@
         FROM t_point_record
         WHERE uid=#{uid} AND is_valid=1
         GROUP BY uid,point_status
+
     </select>
 
     <select id="getPointRecordSummaryByUidAndCreateTime" resultMap="SummaryResultMap">
@@ -57,98 +61,62 @@
 
 
     <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointRecordDO">
-
        INSERT INTO
        		t_point_record
        		(id, uid, task_id, platform, task_point,task_name,point_status,pid,em_no,is_dailytask,sub_id,expiration_time,left_point,is_valid,is_directional,create_time,update_time,create_by,update_by,remark)
        	VALUES
        		(#{id},#{uid}, #{taskId}, #{platform}, #{taskPoint},#{taskName},#{pointStatus},#{pid},#{emNo},#{isDailytask},#{subId},#{expirationTime},#{leftPoint},#{isValid},#{isDirectional},#{createTime}, #{updateTime}, #{createBy}, #{updateBy},#{remark})
-
     </insert>
 
 
     <select id="getByPager" resultMap="BaseResultMap">
-
         SELECT
-
         <include refid="Base_Column_List"/>
-
         FROM t_point_record
         WHERE uid=#{uid} AND point_status <![CDATA[!= ]]>4 AND is_valid=1
-
         <if test="pointStatus != -1">
-
           AND point_status = #{pointStatus}
-
         </if>
         <if test="startDate != null">
-
           AND create_time &gt;= #{startDate}
-
         </if>
         <if test="endDate != null">
-
          AND create_time &lt; #{endDate}
-
-         AND left_point <![CDATA[!= ]]>0
-
         </if>
-
-
         order by create_time desc
-
     </select>
 
     <select id="getByUid1" resultMap="BaseResultMap">
-
-
         SELECT
-
-
         <include refid="Base_Column_List"/>
-
-
         FROM t_point_record
         WHERE uid=#{uid} AND is_dailytask=0 AND point_status IN (1,2) AND is_valid=1
-
-
-
     </select>
 
     <select id="getByUid2" resultMap="BaseResultMap">
-
-
         SELECT
-
         <include refid="Base_Column_List"/>
-
-
         FROM t_point_record
         WHERE uid=#{uid} and is_dailytask=1 and create_time &gt;= #{startDate} and create_time &lt; #{endDate} AND point_status IN (1,2) AND is_valid=1
-
-
     </select>
 
     <select id="getUnClaimRecordsByUid" resultMap="BaseResultMap">
-
         SELECT
-
         <include refid="Base_Column_List"/>
-
-
         FROM t_point_record
         WHERE uid=#{uid} and point_status=1 AND is_valid=1 order by create_time desc
-
-
     </select>
 
     <select id="getPointRecordByTaskIds" parameterType="java.util.HashMap" resultMap="BaseResultMap">
 
+
         select *
         from t_point_record
 
+
         <where>
             uid=#{uid} AND is_valid=1 and task_id in
+
 
             <foreach item="item" index="index" collection="list"
                      open="(" separator="," close=")">
@@ -159,108 +127,149 @@
 
     <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointRecordDO">
 
+
     update t_point_record
+
 
         <set>
             <if test="taskId != null">
                 task_id = #{taskId,jdbcType=BIGINT},
 
+
             </if>
             <if test="platform != null">
 
+
         platform = #{platform,jdbcType=INTEGER},
+
 
             </if>
             <if test="taskPoint != null">
 
+
         task_point = #{taskPoint,jdbcType=FLOAT},
+
 
             </if>
             <if test="taskName != null">
 
+
         task_name = #{taskName,jdbcType=VARCHAR},
+
 
             </if>
             <if test="pointStatus != null">
 
+
         point_status = #{pointStatus,jdbcType=INTEGER},
+
 
             </if>
             <if test="pid != null">
 
+
         pid = #{pid,jdbcType=VARCHAR},
+
 
             </if>
             <if test="emNo != null">
 
+
         em_no = #{emNo,jdbcType=VARCHAR},
+
 
             </if>
             <if test="isDailytask != null">
 
+
         is_dailytask = #{isDailytask,jdbcType=BOOLEAN},
+
 
             </if>
             <if test="subId != null">
 
+
         sub_id = #{subId,jdbcType=VARCHAR},
+
 
             </if>
             <if test="expirationTime != null">
 
+
         expiration_time = #{expirationTime,jdbcType=TIMESTAMP},
+
 
             </if>
             <if test="leftPoint != null">
 
+
         left_point = #{leftPoint,jdbcType=FLOAT},
+
 
             </if>
             <if test="isValid != null">
 
+
         is_valid = #{isValid,jdbcType=BOOLEAN},
 
+
             </if>
-             <if test="isDirectional != null">
+            <if test="isDirectional != null">
+
 
         is_directional = #{isDirectional,jdbcType=BOOLEAN},
+
 
             </if>
             <if test="createTime != null">
 
+
         create_time = #{createTime,jdbcType=TIMESTAMP},
+
 
             </if>
             <if test="updateTime != null">
 
+
         update_time = #{updateTime,jdbcType=TIMESTAMP},
+
 
             </if>
             <if test="createBy != null">
 
+
         create_by = #{createBy,jdbcType=VARCHAR},
+
 
             </if>
             <if test="updateBy != null">
 
+
         update_by = #{updateBy,jdbcType=VARCHAR},
+
 
             </if>
             <if test="remark != null">
+
 
         remark = #{remark,jdbcType=VARCHAR},
             </if>
         </set>
 
+
     where id = #{id,jdbcType=BIGINT}
+
 
     </update>
 
-       <select id="getByUidAndCreateTime" resultMap="BaseResultMap">
+    <select id="getByUidAndCreateTime" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_point_record
-        WHERE uid=#{uid} AND is_valid=1 AND create_time &lt;= #{endDate} AND point_status=2 AND left_point &gt; 0 ORDER BY create_time ASC
+        WHERE uid=#{uid} AND is_valid=1 AND create_time &lt;= #{endDate} AND point_status=2
+        AND left_point <![CDATA[!= ]]>0
+        ORDER BY create_time ASC
+
     </select>
 </mapper>
 

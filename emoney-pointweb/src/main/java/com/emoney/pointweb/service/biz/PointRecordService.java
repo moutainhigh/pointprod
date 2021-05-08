@@ -28,6 +28,4 @@ public interface PointRecordService {
     List<PointRecordSummaryDO> getPointRecordSummaryByUidAndCreateTime(Long uid, Date dtStart, Date dtEnd);
 
     List<PointRecordDO> getPointRecordByTaskIds(Long uid,List<Long> taskIds);
-
-    List<PointRecordDO> getByUidAndCreateTime(Long uid, Date endDate);
 }

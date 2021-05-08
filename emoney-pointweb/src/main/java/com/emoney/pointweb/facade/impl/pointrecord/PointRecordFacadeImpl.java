@@ -169,7 +169,7 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
                 dtStart = DateUtil.parseDate((DateUtil.year(DateUtil.date()) - 1) + "-01-01 00:00:00");
                 dtEnd = DateUtil.beginOfDay(DateUtil.offsetMonth(dtStart, 3));
             }
-            return Result.buildSuccessResult(CollectionBeanUtils.copyListProperties(pointRecordRepository.getByPager(uid, queryType, dtStart, dtEnd, pageIndex, pageSize), PointRecordVO::new));
+            return Result.buildSuccessResult(CollectionBeanUtils.copyListProperties(pointRecordService.getByPager(uid, queryType, dtStart, dtEnd, pageIndex, pageSize), PointRecordVO::new));
         } catch (Exception e) {
             log.error("queryPointRecords error:", e);
             return Result.buildErrorResult(e.getMessage());
@@ -180,7 +180,7 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
     public Result<Float> queryUnclaimedRecordPoints(@NotNull(message = "用户id不能为空") Long uid) {
         try {
             Float points = 0f;
-            List<PointRecordDO> pointRecordDOS = pointRecordRepository.getUnClaimRecordsByUid(uid);
+            List<PointRecordDO> pointRecordDOS = pointRecordService.getUnClaimRecordsByUid(uid);
             if (pointRecordDOS != null) {
                 for (PointRecordDO p : pointRecordDOS
                 ) {
@@ -197,7 +197,7 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
     @Override
     public Result<List<PointRecordVO>> queryUnclaimedRecords(@NotNull(message = "用户id不能为空") Long uid) {
         try {
-            return Result.buildSuccessResult(JsonUtil.copyList(pointRecordRepository.getUnClaimRecordsByUid(uid), PointRecordVO.class));
+            return Result.buildSuccessResult(JsonUtil.copyList(pointRecordService.getUnClaimRecordsByUid(uid), PointRecordVO.class));
         } catch (Exception e) {
             log.error("queryUnclaimedRecords error:", e);
             return buildErrorResult(e.getMessage());

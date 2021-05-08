@@ -44,6 +44,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static cn.hutool.core.date.DateUtil.date;
 import static com.emoeny.pointcommon.result.Result.buildErrorResult;
@@ -183,7 +184,12 @@ public class PointRecordServiceImpl implements PointRecordService {
 
     @Override
     public List<PointRecordDO> getByPager(Long uid, Integer pointStatus, Date startDate, Date endDate, int pageIndex, int pageSize) {
-        return pointRecordRepository.getByPager(uid, pointStatus, startDate, endDate, pageIndex, pageSize);
+        List<PointRecordDO> ret = pointRecordRepository.getByPager(uid, pointStatus, startDate, endDate, pageIndex, pageSize);
+        //即将过期
+        if (startDate.equals(DateUtil.parseDate((DateUtil.year(DateUtil.date()) - 1) + "-01-01 00:00:00"))) {
+            ret = ret.stream().filter(h -> !h.getLeftPoint().equals(0)).collect(Collectors.toList());
+        }
+        return ret;
     }
 
 //    @Override
@@ -223,11 +229,6 @@ public class PointRecordServiceImpl implements PointRecordService {
     @Override
     public List<PointRecordDO> getPointRecordByTaskIds(Long uid, List<Long> taskIds) {
         return pointRecordRepository.getPointRecordByTaskIds(uid, taskIds);
-    }
-
-    @Override
-    public List<PointRecordDO> getByUidAndCreateTime(Long uid, Date endDate) {
-        return pointRecordRepository.getByUidAndCreateTime(uid, endDate);
     }
 
     private PointRecordDO setPointRecordDO(PointRecordCreateDTO pointRecordCreateDTO, PointTaskConfigInfoDO pointTaskConfigInfoDO) {
