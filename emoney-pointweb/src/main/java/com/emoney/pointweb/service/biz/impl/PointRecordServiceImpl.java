@@ -23,11 +23,14 @@ import com.emoney.pointweb.repository.dao.entity.PointLimitDO;
 import com.emoney.pointweb.repository.dao.entity.PointRecordDO;
 import com.emoney.pointweb.repository.dao.entity.PointRecordSummaryDO;
 import com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO;
+import com.emoney.pointweb.repository.dao.entity.vo.UserInfoVO;
 import com.emoney.pointweb.service.biz.MailerService;
 import com.emoney.pointweb.service.biz.PointRecordService;
+import com.emoney.pointweb.service.biz.UserInfoService;
 import com.emoney.pointweb.service.biz.UserLoginService;
 import com.emoney.pointweb.service.biz.kafka.KafkaProducerService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -46,6 +49,7 @@ import static cn.hutool.core.date.DateUtil.date;
 import static com.emoeny.pointcommon.result.Result.buildErrorResult;
 
 @Service
+@Slf4j
 public class PointRecordServiceImpl implements PointRecordService {
     @Autowired
     private KafkaProducerService kafkaProducerService;
@@ -67,6 +71,9 @@ public class PointRecordServiceImpl implements PointRecordService {
 
     @Autowired
     private MailerService mailerService;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     @Value("${mail.toMail.addr}")
     private String toMailAddress;
@@ -130,11 +137,22 @@ public class PointRecordServiceImpl implements PointRecordService {
                         }
                     }
                     if (curTotal > pointLimitDO.getPointLimitvalue()) {
-
-                        //发送邮件
-                        String subject = "积分异常通知";
-                        String content = MessageFormat.format("积分发放超限，用户ID：{0},任务ID:{1},任务名称:{2},发生时间:{3}", pointRecordCreateDTO.getUid(), pointTaskConfigInfoDO.getTaskId(), pointTaskConfigInfoDO.getTaskName(), new Date());
-                        mailerService.sendSimpleTextMailActual(subject, content, toMailAddress.split(","), null, null, null);
+                        try {
+                            //发送邮件
+                            String subject = "积分发放异常通知";
+                            String userName = "";
+                            List<UserInfoVO> userInfoVOS = userInfoService.getUserInfoByUid(pointRecordCreateDTO.getUid());
+                            if (userInfoVOS != null) {
+                                UserInfoVO userInfoVO = userInfoVOS.stream().filter(h -> h.getAccountType() == 0).findFirst().orElse(null);
+                                if (userInfoVO != null) {
+                                    userName = userInfoVO.getAccountName();
+                                }
+                            }
+                            String content = MessageFormat.format("积分发放超限，用户ID：{0},用户名：{1},任务ID:{2},任务名称:{3},发生时间:{4}", pointRecordCreateDTO.getUid(), userName, pointTaskConfigInfoDO.getTaskId(), pointTaskConfigInfoDO.getTaskName(), new Date());
+                            mailerService.sendSimpleTextMailActual(subject, content, toMailAddress.split(","), null, null, null);
+                        } catch (Exception e) {
+                            log.error("积分发放异常通知,sendSimpleTextMailActual error", e);
+                        }
 
                         return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "今天积分发送额度已满，请明天早点来吧！ ");
                     } else {
@@ -219,7 +237,7 @@ public class PointRecordServiceImpl implements PointRecordService {
         pointRecordDO.setTaskId(pointTaskConfigInfoDO.getTaskId());
         pointRecordDO.setTaskName(pointTaskConfigInfoDO.getTaskName());
         pointRecordDO.setTaskPoint(pointTaskConfigInfoDO.getTaskPoints());
-        if(pointRecordCreateDTO.getManualPoint()!=null){
+        if (pointRecordCreateDTO.getManualPoint() != null) {
             pointRecordDO.setTaskPoint(pointRecordCreateDTO.getManualPoint());
         }
         pointRecordDO.setIsDailytask(pointTaskConfigInfoDO.getIsDailyTask());

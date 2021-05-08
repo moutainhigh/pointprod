@@ -10,8 +10,10 @@ import com.emoeny.pointfacade.model.dto.PointOrderExchangeDTO;
 import com.emoeny.pointfacade.model.dto.PointOrderCreateDTO;
 import com.emoney.pointweb.repository.*;
 import com.emoney.pointweb.repository.dao.entity.*;
+import com.emoney.pointweb.repository.dao.entity.vo.UserInfoVO;
 import com.emoney.pointweb.service.biz.MailerService;
 import com.emoney.pointweb.service.biz.PointOrderService;
+import com.emoney.pointweb.service.biz.UserInfoService;
 import com.emoney.pointweb.service.biz.kafka.KafkaProducerService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
 import lombok.extern.slf4j.Slf4j;
@@ -63,6 +65,9 @@ public class PointOrderServiceImpl implements PointOrderService {
 
     @Autowired
     private MailerService mailerService;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     @Value("${mail.toMail.addr}")
     private String toMailAddress;
@@ -269,11 +274,23 @@ public class PointOrderServiceImpl implements PointOrderService {
         PointLimitDO pointLimitDO = pointLimitRepository.getByType(Integer.valueOf(PointLimitTypeEnum.EXCHANGE.code()), Integer.valueOf(PointLimitToEnum.PERSONAL.code()));
         if (pointLimitDO != null) {
             if ((curPoint + (productQty * pointProductDO.getExchangePoint())) > pointLimitDO.getPointLimitvalue()) {
+                try {
+                    //发送邮件
+                    String subject = "积分兑换异常通知";
+                    String userName = "";
+                    List<UserInfoVO> userInfoVOS = userInfoService.getUserInfoByUid(uid);
+                    if (userInfoVOS != null) {
+                        UserInfoVO userInfoVO = userInfoVOS.stream().filter(h -> h.getAccountType() == 0).findFirst().orElse(null);
+                        if (userInfoVO != null) {
+                            userName = userInfoVO.getAccountName();
+                        }
+                    }
+                    String content = MessageFormat.format("积分兑换超限，用户ID：{0},用户名称：{1},商品ID:{2},商品名称:{3},发生时间:{4}", uid, userName, pointProductDO.getId(), pointProductDO.getProductName(), new Date());
+                    mailerService.sendSimpleTextMailActual(subject, content, toMailAddress.split(","), null, null, null);
+                } catch (Exception e) {
+                    log.error("积分兑换异常通知,sendSimpleTextMailActual error", e);
+                }
 
-                //发送邮件
-                String subject = "积分异常通知";
-                String content = MessageFormat.format("积分兑换超限，用户ID：{0},商品ID:{1},商品名称:{2},发生时间:{3}", uid, pointProductDO.getId(), pointProductDO.getProductName(),new Date());
-                mailerService.sendSimpleTextMailActual(subject, content, toMailAddress.split(","), null, null, null);
                 return "今天积分兑换额度已满，请明天早点来吧！";
             }
         }

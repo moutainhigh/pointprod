@@ -14,6 +14,7 @@ import com.emoney.pointweb.repository.dao.entity.*;
 import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupDTO;
 import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupData;
 import com.emoney.pointweb.repository.dao.entity.vo.CheckUserGroupVO;
+import com.emoney.pointweb.repository.dao.entity.vo.UserInfoVO;
 import com.emoney.pointweb.repository.dao.mapper.PointLimitMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointMessageMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointRecordMapper;
@@ -108,10 +109,17 @@ class PointWebApplicationTests {
     @Autowired
     private PointQuestionFacade pointQuestionFacade;
 
+    @Autowired
+    private UserInfoService userInfoService;
+
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
 
-        Result<PointQuestionVO> pointQuestionVO=pointQuestionFacade.queryPointQuestion();
+
+        //List<UserInfoVO> userInfoVOS=userInfoService.getUserInfoByUid(2020117908L);
+
+
+        // Result<PointQuestionVO> pointQuestionVO=pointQuestionFacade.queryPointQuestion();
 
 //        CheckUserGroupDTO checkUserGroupDTO = new CheckUserGroupDTO();
 //        checkUserGroupDTO.setUid("2020614624");
