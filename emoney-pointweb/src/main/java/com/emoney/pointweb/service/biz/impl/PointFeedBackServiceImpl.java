@@ -39,6 +39,11 @@ public class PointFeedBackServiceImpl implements PointFeedBackService {
     }
 
     @Override
+    public PointFeedBackDO getById(Integer id){
+        return pointFeedBackMapper.getById(id);
+    }
+
+    @Override
     public Result<Object> createFeedBack(PointFeedBackCreateDTO pointFeedBackCreateDTO){
         if(pointFeedBackCreateDTO!=null){
             PointFeedBackDO pointFeedBackDO=new PointFeedBackDO();

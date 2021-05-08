@@ -1,9 +1,7 @@
-package com.emoney.pointweb.repository.dao.entity;
+package com.emoeny.pointfacade.model.vo;
 
 import lombok.Data;
-import lombok.ToString;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,12 +9,7 @@ import java.util.Date;
  * @date 2021-05-07
  */
 @Data
-public class PointQuestionDO {
-    /**
-     *
-     */
-    private Integer id;
-
+public class PointQuestionVO {
     /**
      * 题目类型（1单选；2多选；3其他）
      */
@@ -41,29 +34,4 @@ public class PointQuestionDO {
      * 希望展示时间，为空则随机展示
      */
     private Date showTime;
-
-    /**
-     * 是否有效
-     */
-    private Boolean isValid;
-
-    /**
-     * 创建人
-     */
-    private String createBy;
-
-    /**
-     * 更新人
-     */
-    private String updateBy;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
 }

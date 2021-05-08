@@ -3,9 +3,12 @@ package com.emoney.pointweb;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
+import com.emoeny.pointcommon.result.Result;
 import com.emoeny.pointcommon.result.ResultInfo;
 import com.emoeny.pointcommon.result.userinfo.TicketInfo;
 import com.emoeny.pointcommon.utils.OkHttpUtil;
+import com.emoeny.pointfacade.facade.pointquestion.PointQuestionFacade;
+import com.emoeny.pointfacade.model.vo.PointQuestionVO;
 import com.emoney.pointweb.repository.*;
 import com.emoney.pointweb.repository.dao.entity.*;
 import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupDTO;
@@ -102,8 +105,13 @@ class PointWebApplicationTests {
     @Autowired
     private UserLoginService userLoginService;
 
+    @Autowired
+    private PointQuestionFacade pointQuestionFacade;
+
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
+
+        Result<PointQuestionVO> pointQuestionVO=pointQuestionFacade.queryPointQuestion();
 
 //        CheckUserGroupDTO checkUserGroupDTO = new CheckUserGroupDTO();
 //        checkUserGroupDTO.setUid("2020614624");

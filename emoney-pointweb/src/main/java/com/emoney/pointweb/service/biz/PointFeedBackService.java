@@ -10,5 +10,6 @@ public interface PointFeedBackService {
     Integer insert(PointFeedBackDO pointFeedBackDO);
     Integer update(PointFeedBackDO pointFeedBackDO);
     List<PointFeedBackDO> getAll();
+    PointFeedBackDO getById(Integer id);
     Result<Object> createFeedBack(PointFeedBackCreateDTO pointFeedBackCreateDTO);
 }

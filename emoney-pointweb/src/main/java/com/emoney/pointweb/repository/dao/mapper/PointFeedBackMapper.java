@@ -10,4 +10,5 @@ public interface PointFeedBackMapper {
     Integer insert(PointFeedBackDO pointFeedBackDO);
     Integer update(PointFeedBackDO pointFeedBackDO);
     List<PointFeedBackDO> getAll();
+    PointFeedBackDO getById(Integer id);
 }

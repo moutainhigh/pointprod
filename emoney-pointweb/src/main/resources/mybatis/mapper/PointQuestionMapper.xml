@@ -65,7 +65,7 @@
         </set>
         WHERE id = #{id}
     </update>
-    <select id="queryAll" resultType="com.emoney.pointweb.repository.dao.entity.PointQuestionDO">
+    <select id="queryAll" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List"/>
         FROM t_point_question WHERE is_valid = 1
     </select>

@@ -4,6 +4,7 @@ import com.emoeny.pointcommon.utils.ExcelUtils;
 import com.emoney.pointweb.repository.dao.entity.PointFeedBackDO;
 import com.emoney.pointweb.repository.dao.entity.PointOrderDO;
 import com.emoney.pointweb.service.biz.PointFeedBackService;
+import com.emoney.pointweb.service.biz.PointSendRecordService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,9 @@ public class PointFeedBackController {
 
     @Resource
     private PointFeedBackService pointFeedBackService;
+
+    @Resource
+    private PointSendRecordService pointSendRecordService;
 
     @RequestMapping
     public String index(){return "/pointfeedback/pointfeedback.index";};
@@ -67,6 +71,8 @@ public class PointFeedBackController {
         pointFeedBackDO.setStatus(1);
         int result = pointFeedBackService.update(pointFeedBackDO);
         //赠送积分
+        pointFeedBackDO=pointFeedBackService.getById(id);
+        pointSendRecordService.sendPointRecord(Long.parseLong("1384354667126984704"), pointFeedBackDO.getAccount());
 
         return result>0?"success":"采纳失败";
     }
@@ -94,6 +100,7 @@ public class PointFeedBackController {
                 map.put("提交时间",formatter.format(item.getCreateTime()));
                 map.put("产品版本",item.getPid());
                 map.put("账号",item.getAccount());
+                map.put("加密手机号",item.getMobileX());
                 map.put("邮箱",item.getEmail());
                 map.put("用户建议内容",item.getSuggest());
                 map.put("客服处理意见",item.getRemark());
@@ -108,6 +115,7 @@ public class PointFeedBackController {
             map.put("提交时间","");
             map.put("产品版本","");
             map.put("账号","");
+            map.put("加密手机号","");
             map.put("邮箱","");
             map.put("用户建议内容","");
             map.put("客服处理意见","");
