@@ -5,7 +5,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class QueryOrderVO {
+public class QueryLogisticsOrderVO {
     //订单号码
     private String ORDER_ID;
     //客户名称

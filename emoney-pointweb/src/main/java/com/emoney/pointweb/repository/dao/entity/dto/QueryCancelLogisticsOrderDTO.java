@@ -3,12 +3,12 @@ package com.emoney.pointweb.repository.dao.entity.dto;
 import lombok.Data;
 
 /**
- * 查询购买订单入参
+ * 查询退款订单入参
  */
 @Data
-public class QueryStockUpOrderDTO {
-    private String StockUpDate_Start;
-    private String StockUpDate_End;
+public class QueryCancelLogisticsOrderDTO {
+    private String Cancel_Time_Start;
+    private String Cancel_Time_End;
     private Integer Refund_Sign;
     private String ProductID;
 }
