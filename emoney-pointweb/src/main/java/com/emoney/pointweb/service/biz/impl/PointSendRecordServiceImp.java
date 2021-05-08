@@ -102,4 +102,21 @@ public class PointSendRecordServiceImp implements PointSendRecordService {
         resultMap.put("error", errorCount);
         return resultMap;
     }
+
+    public void sendPointRecord(long taskId,String account){
+        PointRecordCreateDTO pointRecordCreateDTO=new PointRecordCreateDTO();
+        pointRecordCreateDTO.setTaskId(taskId);
+        Map<String,String> stringMap=new HashMap<>();
+        stringMap.put("gate_appid","10015");
+        stringMap.put("userName",account);
+        stringMap.put("createLogin","0");
+        String res= OkHttpUtil.get(insideGatewayUrl + "/api/roboadvisor/1.0/user.getloginidbyname",stringMap);
+        String apiResult= JsonUtil.getValue(res, "Message");
+        String message=JsonUtil.getValue(apiResult,"Message");
+        String Uid= JsonUtil.getValue(message, "PID");
+        pointRecordCreateDTO.setEmNo(account);
+        pointRecordCreateDTO.setUid(Long.valueOf(Uid));
+
+        Result<Object> result = pointRecordService.createPointRecord(pointRecordCreateDTO);
+    }
 }

@@ -9,4 +9,6 @@ public interface PointSendRecordService {
     Map<String, Object> getPointSendRecordByBatchId(String batchId, String status);
 
     Map<String, Object> PointUserSend(List<Map<String, Object>> userList, long taskId, String remark);
+
+    void sendPointRecord(long taskId,String account);
 }

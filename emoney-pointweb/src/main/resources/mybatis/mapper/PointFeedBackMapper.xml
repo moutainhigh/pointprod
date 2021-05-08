@@ -74,4 +74,8 @@
         <include refid="Base_Column_List"/>
         FROM t_point_feedback
     </select>
+    <select id="getById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_point_feedback WHERE id = #{id}
+    </select>
 </mapper>
