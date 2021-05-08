@@ -33,36 +33,36 @@ public class PointSendRecordServiceImp implements PointSendRecordService {
     @Autowired
     private UserLoginService userLoginService;
 
-    @Value("${getuseruidurl}")
-    private String getuseruidurl;
+    @Value("${insideGatewayUrl}")
+    private String insideGatewayUrl;
 
     public Map<String, Object> DataStatistics(int pointtype) {
-        List<PointSendRecordVO> list= pointSendRecordMapper.getDataStatistics(pointtype);
+        List<PointSendRecordVO> list = pointSendRecordMapper.getDataStatistics(pointtype);
 
-        Map<String,Object> maps=new HashMap<String, Object>();
+        Map<String, Object> maps = new HashMap<String, Object>();
         maps.put("data", list);
         return maps;
     }
 
-    public  Map<String,Object> getPointSendRecordByBatchId(String batch_id,String status){
-        List<PointSendRecordVO> list= pointSendRecordMapper.getPointSendRecordByBatchId(batch_id,status);
+    public Map<String, Object> getPointSendRecordByBatchId(String batch_id, String status) {
+        List<PointSendRecordVO> list = pointSendRecordMapper.getPointSendRecordByBatchId(batch_id, status);
 
-        Map<String,Object> maps=new HashMap<String, Object>();
+        Map<String, Object> maps = new HashMap<String, Object>();
         maps.put("data", list);
         return maps;
     }
 
     @Override
-    public Map<String,Object> PointUserSend(List<Map<String,Object>> userList,long taskId,String remark){
-        Map<String,Object> resultMap=new HashMap<>();
-        int successCount=0;
-        int errorCount=0;
-        if(userList!=null&&userList.size()>0){
-            PointRecordCreateDTO pointRecordCreateDTO=new PointRecordCreateDTO();
+    public Map<String, Object> PointUserSend(List<Map<String, Object>> userList, long taskId, String remark) {
+        Map<String, Object> resultMap = new HashMap<>();
+        int successCount = 0;
+        int errorCount = 0;
+        if (userList != null && userList.size() > 0) {
+            PointRecordCreateDTO pointRecordCreateDTO = new PointRecordCreateDTO();
             pointRecordCreateDTO.setTaskId(taskId);
             pointRecordCreateDTO.setRemark(remark);
 
-            PointSendRecordDO pointSendRecordDO=new PointSendRecordDO();
+            PointSendRecordDO pointSendRecordDO = new PointSendRecordDO();
             pointSendRecordDO.setBatchId(IdUtil.objectId());
             pointSendRecordDO.setTaskId(taskId);
             pointSendRecordDO.setCreateBy("admin");
@@ -70,15 +70,16 @@ public class PointSendRecordServiceImp implements PointSendRecordService {
             pointSendRecordDO.setCreateTime(new Date());
             pointSendRecordDO.setUpdateTime(new Date());
             pointSendRecordDO.setRemark(remark);
-            for (var item:userList) {
-                Map<String,String> stringMap=new HashMap<>();
-                stringMap.put("gate_appid","10015");
-                stringMap.put("userName",item.get("EM").toString());
-                stringMap.put("createLogin","0");
-                String res= OkHttpUtil.get(getuseruidurl,stringMap);
-                String apiResult= JsonUtil.getValue(res, "Message");
-                String message=JsonUtil.getValue(apiResult,"Message");
-                String Uid= JsonUtil.getValue(message, "PID");
+            for (var item : userList) {
+                Map<String, String> stringMap = new HashMap<>();
+                stringMap.put("gate_appid", "10015");
+                stringMap.put("userName", item.get("EM").toString());
+                stringMap.put("createLogin", "0");
+                //#根据用户em or 手机号获取用户uid
+                String res = OkHttpUtil.get(insideGatewayUrl + "/api/roboadvisor/1.0/user.getloginidbyname", stringMap);
+                String apiResult = JsonUtil.getValue(res, "Message");
+                String message = JsonUtil.getValue(apiResult, "Message");
+                String Uid = JsonUtil.getValue(message, "PID");
                 pointRecordCreateDTO.setEmNo(item.get("EM").toString());
                 pointRecordCreateDTO.setUid(Long.valueOf(Uid));
                 pointSendRecordDO.setEmNo(item.get("EM").toString());
@@ -87,18 +88,18 @@ public class PointSendRecordServiceImp implements PointSendRecordService {
                 Result<Object> result = pointRecordService.createPointRecord(pointRecordCreateDTO);
 
                 pointSendRecordDO.setSendResult(result.getMsg());
-                if(result.isSuccess()){
+                if (result.isSuccess()) {
                     pointSendRecordDO.setSendStatus(1);
                     successCount += 1;
-                }else {
+                } else {
                     pointSendRecordDO.setSendStatus(0);
                     errorCount += 1;
                 }
                 pointSendRecordMapper.insert(pointSendRecordDO);
             }
         }
-        resultMap.put("success",successCount);
-        resultMap.put("error",errorCount);
+        resultMap.put("success", successCount);
+        resultMap.put("error", errorCount);
         return resultMap;
     }
 }

@@ -39,8 +39,8 @@ public class PointProductServiceImpl implements PointProductService {
     @Autowired
     private RedisService redisCache1;
 
-    @Value("${getactivityurl}")
-    private String getactivityurl;
+    @Value("${insideGatewayUrl}")
+    private String insideGatewayUrl;
 
     @Override
     public int updatePointProduct(PointProductDO pointProductDO) {
@@ -70,7 +70,8 @@ public class PointProductServiceImpl implements PointProductService {
             Map<String, String> query = new HashMap<>();
             query.put("gate_appid", "10109");
             query.put("jsonStr", "{'ActivityCode':'" + acCode + "'}");
-            String res = OkHttpUtil.get(getactivityurl, query);
+            //#根据accode获取物流包基本信息
+            String res = OkHttpUtil.get(insideGatewayUrl + "/api/logistics/1.0/activity.getactivitydetailbyactcode", query);
             ApiResult<String> apiResult = JSON.parseObject(res, ApiResult.class);
             Result<List<ActivityInfoVO>> data = JSON.parseObject(apiResult.Message, Result.class);
 
