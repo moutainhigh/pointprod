@@ -11,7 +11,7 @@ import java.util.Date;
  * @date 2021-05-07
  */
 @Data
-public class PointQuestionDO {
+public class PointQuestionDO implements Serializable{
     /**
      *
      */

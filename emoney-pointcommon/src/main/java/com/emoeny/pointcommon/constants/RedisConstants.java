@@ -35,4 +35,7 @@ public class RedisConstants {
     public static String REDISKEY_PointMessage_CREATE_LOCKKEY="pointprod:pointmessage_create_lockkey_{0}_{1}";//uid,msgExt
 
     public static String REDISKEY_PointAnnounce_GETBYTYPE = "pointprod:pointannounce_getbytype";
+
+    public static String REDISKEY_PointQuestion_QUERYAll = "pointprod:pointquestion_queryAll";
+    public static String REDISKEY_PointQuestion_GETBYID = "pointprod:pointquestion_queryallbyid_{0}";//id
 }

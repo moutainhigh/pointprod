@@ -33,34 +33,34 @@
         UPDATE t_point_question
         <set>
             <if test="questionType != null">
-                question_type = #{questionType}
+                question_type = #{questionType},
             </if>
             <if test="questionContent != null">
-                question_content = #{questionContent}
+                question_content = #{questionContent},
             </if>
             <if test="questionOptions != null">
-                question_options = #{questionOptions}
+                question_options = #{questionOptions},
             </if>
             <if test="questionRightoptions != null">
-                question_rightoptions = #{questionRightoptions}
+                question_rightoptions = #{questionRightoptions},
             </if>
             <if test="showTime != null">
-                show_time = #{showTime}
+                show_time = #{showTime},
             </if>
             <if test="isValid != null">
-                is_valid = #{isValid}
+                is_valid = #{isValid},
             </if>
-            <if test="create_by != null">
-                createBy = #{create_by}
+            <if test="createBy != null">
+                create_by = #{createBy},
             </if>
             <if test="updateBy != null">
-                update_by = #{updateBy}
+                update_by = #{updateBy},
             </if>
             <if test="createTime != null">
-                create_time = #{createTime}
+                create_time = #{createTime},
             </if>
             <if test="updateTime != null">
-                update_time = #{updateTime}
+                update_time = #{updateTime},
             </if>
         </set>
         WHERE id = #{id}
@@ -68,6 +68,10 @@
     <select id="queryAll" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List"/>
         FROM t_point_question WHERE is_valid = 1
+    </select>
+    <select id="queryAllById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_point_question WHERE id = #{id}
     </select>
 
 

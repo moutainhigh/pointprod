@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface PointQuestionService {
     List<PointQuestionDO> getAll();
+    PointQuestionDO getAllById(Integer id);
     Integer insert(PointQuestionDO pointQuestionDO);
     Integer update(PointQuestionDO pointQuestionDO);
 }

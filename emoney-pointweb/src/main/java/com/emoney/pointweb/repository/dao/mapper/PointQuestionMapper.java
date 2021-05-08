@@ -12,4 +12,6 @@ public interface PointQuestionMapper {
     Integer update(PointQuestionDO pointQuestionDO);
 
     List<PointQuestionDO> queryAll();
+
+    PointQuestionDO queryAllById(Integer id);
 }
