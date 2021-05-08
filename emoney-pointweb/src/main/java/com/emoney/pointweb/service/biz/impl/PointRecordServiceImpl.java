@@ -186,7 +186,7 @@ public class PointRecordServiceImpl implements PointRecordService {
     public List<PointRecordDO> getByPager(Long uid, Integer pointStatus, Date startDate, Date endDate, int pageIndex, int pageSize) {
         List<PointRecordDO> ret = pointRecordRepository.getByPager(uid, pointStatus, startDate, endDate, pageIndex, pageSize);
         //即将过期
-        if (startDate.equals(DateUtil.parseDate((DateUtil.year(DateUtil.date()) - 1) + "-01-01 00:00:00"))) {
+        if (startDate!=null&&startDate.equals(DateUtil.parseDate((DateUtil.year(DateUtil.date()) - 1) + "-01-01 00:00:00"))) {
             ret = ret.stream().filter(h -> !h.getLeftPoint().equals(0)).collect(Collectors.toList());
         }
         return ret;
