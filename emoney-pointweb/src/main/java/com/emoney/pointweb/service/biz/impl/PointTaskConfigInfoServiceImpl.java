@@ -45,9 +45,6 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
     @Autowired
     private RedisService redisCache1;
 
-    @Value("${dsapiurl}")
-    private String dsapiurl;
-
     @Override
     public List<PointTaskConfigInfoDO> getPointTaskConfigInfoByOrderAndType(int task_type, int task_order) {
         List<PointTaskConfigInfoDO> list = pointTaskConfigInfoMapper.getPointTaskConfigInfoByOrderAndType(task_type, task_order);
@@ -135,17 +132,6 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
         redisCache1.remove(RedisConstants.REDISKEY_PointTaskConfigInfo_GETALLEFFECTIVETASKS);
         redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETTASKSBYTASKTYPE, pointTaskConfigInfoDO.getTaskType()));
         return pointTaskConfigInfoMapper.update(pointTaskConfigInfoDO);
-    }
-
-    @Override
-    public UserPeriodResult getUserPeriod(long uid) {
-        String url = MessageFormat.format("{0}/saas/userperiod?uid={1}", dsapiurl, String.valueOf(uid));
-        String ret = OkHttpUtil.get(url, null);
-        if (!StringUtils.isEmpty(ret)) {
-            UserPeriodResult userPeriodResult = JSON.parseObject(ret, UserPeriodResult.class);
-            return userPeriodResult;
-        }
-        return null;
     }
 
     @Override

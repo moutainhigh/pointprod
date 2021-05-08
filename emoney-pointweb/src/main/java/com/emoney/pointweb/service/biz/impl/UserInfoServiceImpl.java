@@ -1,5 +1,7 @@
 package com.emoney.pointweb.service.biz.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.emoeny.pointcommon.result.userperiod.UserPeriodResult;
 import com.emoeny.pointcommon.utils.JsonUtil;
 import com.emoeny.pointcommon.utils.OkHttpUtil;
 import com.emoney.pointweb.repository.dao.entity.vo.UserInfoVO;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Value("${insideGatewayUrl}")
     private String insideGatewayUrl;
 
+    @Value("${dsapiurl}")
+    private String dsapiurl;
+
+
     @Override
     public List<UserInfoVO> getUserInfoByUid(Long uid) {
         Map<String, String> stringMap = new HashMap<>();
@@ -29,6 +36,17 @@ public class UserInfoServiceImpl implements UserInfoService {
         if (!StringUtils.isEmpty(res)) {
             String apiResult = JsonUtil.getValue(res, "Message");
             return JsonUtil.toBeanList(JsonUtil.getValue(apiResult, "Message"), UserInfoVO.class);
+        }
+        return null;
+    }
+
+    @Override
+    public UserPeriodResult getUserPeriod(long uid) {
+        String url = MessageFormat.format("{0}/saas/userperiod?uid={1}", dsapiurl, String.valueOf(uid));
+        String ret = OkHttpUtil.get(url, null);
+        if (!StringUtils.isEmpty(ret)) {
+            UserPeriodResult userPeriodResult = JSON.parseObject(ret, UserPeriodResult.class);
+            return userPeriodResult;
         }
         return null;
     }
