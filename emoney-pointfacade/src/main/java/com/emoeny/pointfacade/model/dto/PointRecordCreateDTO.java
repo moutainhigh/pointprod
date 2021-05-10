@@ -26,4 +26,6 @@ public class PointRecordCreateDTO {
     private String remark;
 
     private Float manualPoint;
+
+    private Integer lockDays;
 }

@@ -23,6 +23,7 @@ public class PointRecordVO {
     private Float leftPoint;
     private Boolean isValid;
     private Boolean isDirectional;
+    private Integer lockDays;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")

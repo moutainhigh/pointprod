@@ -49,6 +49,8 @@ public class PointRecordDO {
     private Boolean isValid;
     @Field(type = FieldType.Boolean)
     private Boolean isDirectional;
+    @Field(type = FieldType.Integer)
+    private Integer lockDays;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

@@ -17,6 +17,7 @@
         <result column="left_point" property="leftPoint" jdbcType="FLOAT"/>
         <result column="is_valid" property="isValid" jdbcType="BOOLEAN"/>
         <result column="is_directional" property="isDirectional" jdbcType="BOOLEAN"/>
+        <result column="lock_days" property="lockDays" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
         <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
@@ -33,21 +34,21 @@
 
     <sql id="Base_Column_List">
 
-        id, uid, task_id, platform, task_point,task_name,point_status,pid,em_no,is_dailytask,sub_id,expiration_time,left_point,is_valid,is_directional,create_time,update_time,create_by,update_by,remark
+        id, uid, task_id, platform, task_point,task_name,point_status,pid,em_no,is_dailytask,sub_id,expiration_time,left_point,is_valid,is_directional,lock_days,create_time,update_time,create_by,update_by,remark
 
     </sql>
     <select id="getById" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_point_record
-        WHERE uid=#{uid} AND id=#{id} AND is_valid=1
+        WHERE uid=#{uid} AND id=#{id}
 
     </select>
 
     <select id="getPointRecordSummaryByUid" resultMap="SummaryResultMap">
         SELECT uid,sum(task_point) as point_total,point_status
         FROM t_point_record
-        WHERE uid=#{uid} AND is_valid=1
+        WHERE uid=#{uid} AND is_valid=1 AND ISNULL(lock_days,0)=0
         GROUP BY uid,point_status
 
     </select>
@@ -55,7 +56,7 @@
     <select id="getPointRecordSummaryByUidAndCreateTime" resultMap="SummaryResultMap">
         SELECT uid,sum(task_point) as point_total,sum(left_point) as point_totalLeft,point_status
         FROM t_point_record
-        WHERE uid=#{uid} AND create_time &gt;=  #{dtStart} AND create_time  &lt;= #{dtEnd} AND is_valid=1
+        WHERE uid=#{uid} AND create_time &gt;=  #{dtStart} AND create_time  &lt;= #{dtEnd} AND is_valid=1 AND ISNULL(lock_days,0)=0
         GROUP BY uid,point_status
     </select>
 
@@ -63,9 +64,9 @@
     <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointRecordDO">
        INSERT INTO
        		t_point_record
-       		(id, uid, task_id, platform, task_point,task_name,point_status,pid,em_no,is_dailytask,sub_id,expiration_time,left_point,is_valid,is_directional,create_time,update_time,create_by,update_by,remark)
+       		(id, uid, task_id, platform, task_point,task_name,point_status,pid,em_no,is_dailytask,sub_id,expiration_time,left_point,is_valid,is_directional,lock_days,create_time,update_time,create_by,update_by,remark)
        	VALUES
-       		(#{id},#{uid}, #{taskId}, #{platform}, #{taskPoint},#{taskName},#{pointStatus},#{pid},#{emNo},#{isDailytask},#{subId},#{expirationTime},#{leftPoint},#{isValid},#{isDirectional},#{createTime}, #{updateTime}, #{createBy}, #{updateBy},#{remark})
+       		(#{id},#{uid}, #{taskId}, #{platform}, #{taskPoint},#{taskName},#{pointStatus},#{pid},#{emNo},#{isDailytask},#{subId},#{expirationTime},#{leftPoint},#{isValid},#{isDirectional},#{lockDays},#{createTime}, #{updateTime}, #{createBy}, #{updateBy},#{remark})
     </insert>
 
 
@@ -115,7 +116,7 @@
 
 
         <where>
-            uid=#{uid} AND is_valid=1 and task_id in
+            uid=#{uid} AND is_valid=1  and task_id in
 
 
             <foreach item="item" index="index" collection="list"
@@ -221,6 +222,13 @@
 
 
             </if>
+                        <if test="lockDays != null">
+
+
+        lock_days = #{lockDays,jdbcType=INTEGER},
+
+
+            </if>
             <if test="createTime != null">
 
 
@@ -266,7 +274,7 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_point_record
-        WHERE uid=#{uid} AND is_valid=1 AND create_time &lt;= #{endDate} AND point_status=2
+        WHERE uid=#{uid} AND is_valid=1 AND create_time &lt;= #{endDate} AND point_status=2 AND ISNULL(lock_days,0)=0
         AND left_point <![CDATA[!= ]]>0
         ORDER BY create_time ASC
 

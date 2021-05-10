@@ -282,6 +282,7 @@ public class PointRecordServiceImpl implements PointRecordService {
         }
         pointRecordDO.setLeftPoint(pointTaskConfigInfoDO.getTaskPoints());
         pointRecordDO.setIsValid(true);
+        pointRecordDO.setLockDays(pointRecordCreateDTO.getLockDays());
         return pointRecordDO;
     }
 }

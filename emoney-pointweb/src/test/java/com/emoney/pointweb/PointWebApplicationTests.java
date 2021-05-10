@@ -121,12 +121,15 @@ class PointWebApplicationTests {
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
 
 
-        QueryStockUpLogisticsOrderDTO queryStockUpLogisticsOrderDTO=new QueryStockUpLogisticsOrderDTO();
-        queryStockUpLogisticsOrderDTO.setProductID("888010000,888020000,888080000,888040000,888090000");
-        queryStockUpLogisticsOrderDTO.setRefund_Sign(1);
-        queryStockUpLogisticsOrderDTO.setStockUpDate_Start("2021-01-01");
-        queryStockUpLogisticsOrderDTO.setStockUpDate_End("2021-05-01");
-        List<QueryLogisticsOrderVO> queryLogisticsOrderVOS=logisticsOrderService.getStockUpLogisticsOrder(queryStockUpLogisticsOrderDTO);
+
+        //List<PointRecordSummaryDO> pointRecordSummaryDOS= pointRecordService.getPointRecordSummaryByUid(1001471383L);
+
+//        QueryStockUpLogisticsOrderDTO queryStockUpLogisticsOrderDTO=new QueryStockUpLogisticsOrderDTO();
+//        queryStockUpLogisticsOrderDTO.setProductID("888010000,888020000,888080000,888040000,888090000");
+//        queryStockUpLogisticsOrderDTO.setRefund_Sign(1);
+//        queryStockUpLogisticsOrderDTO.setStockUpDate_Start("2021-01-01");
+//        queryStockUpLogisticsOrderDTO.setStockUpDate_End("2021-05-01");
+//        List<QueryLogisticsOrderVO> queryLogisticsOrderVOS=logisticsOrderService.getStockUpLogisticsOrder(queryStockUpLogisticsOrderDTO);
 
 
         //List<UserInfoVO> userInfoVOS=userInfoService.getUserInfoByUid(2020117908L);
