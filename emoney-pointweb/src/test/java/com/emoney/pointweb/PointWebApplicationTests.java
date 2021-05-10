@@ -13,7 +13,9 @@ import com.emoney.pointweb.repository.*;
 import com.emoney.pointweb.repository.dao.entity.*;
 import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupDTO;
 import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupData;
+import com.emoney.pointweb.repository.dao.entity.dto.QueryStockUpLogisticsOrderDTO;
 import com.emoney.pointweb.repository.dao.entity.vo.CheckUserGroupVO;
+import com.emoney.pointweb.repository.dao.entity.vo.QueryLogisticsOrderVO;
 import com.emoney.pointweb.repository.dao.entity.vo.UserInfoVO;
 import com.emoney.pointweb.repository.dao.mapper.PointLimitMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointMessageMapper;
@@ -112,8 +114,19 @@ class PointWebApplicationTests {
     @Autowired
     private UserInfoService userInfoService;
 
+    @Autowired
+    private LogisticsOrderService logisticsOrderService;
+
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
+
+
+        QueryStockUpLogisticsOrderDTO queryStockUpLogisticsOrderDTO=new QueryStockUpLogisticsOrderDTO();
+        queryStockUpLogisticsOrderDTO.setProductID("888010000,888020000,888080000,888040000,888090000");
+        queryStockUpLogisticsOrderDTO.setRefund_Sign(1);
+        queryStockUpLogisticsOrderDTO.setStockUpDate_Start("2021-01-01");
+        queryStockUpLogisticsOrderDTO.setStockUpDate_End("2021-05-01");
+        List<QueryLogisticsOrderVO> queryLogisticsOrderVOS=logisticsOrderService.getStockUpLogisticsOrder(queryStockUpLogisticsOrderDTO);
 
 
         //List<UserInfoVO> userInfoVOS=userInfoService.getUserInfoByUid(2020117908L);
