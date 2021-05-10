@@ -10,6 +10,7 @@ import java.util.Date;
  */
 @Data
 public class PointQuestionVO {
+    private Integer id;
     /**
      * 题目类型（1单选；2多选；3其他）
      */
