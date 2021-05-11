@@ -45,6 +45,15 @@
 
     </select>
 
+        <select id="getLockPointRecordsByUid" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_point_record
+        WHERE uid=#{uid} AND  lock_days>0 AND is_valid=1
+
+    </select>
+
+
     <select id="getPointRecordSummaryByUid" resultMap="SummaryResultMap">
         SELECT uid,sum(task_point) as point_total,point_status
         FROM t_point_record
