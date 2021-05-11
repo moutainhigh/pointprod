@@ -3,6 +3,7 @@ package com.emoney.pointweb.service.biz.jobhandler;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.unit.DataUnit;
 import com.alibaba.fastjson.JSON;
+import com.emoney.pointweb.repository.PointRecordESRepository;
 import com.emoney.pointweb.repository.dao.entity.PointRecordDO;
 import com.emoney.pointweb.service.biz.PointRecordService;
 import com.xxl.job.core.biz.model.ReturnT;
@@ -24,8 +25,11 @@ public class UnlockPointRecordJob {
     @Autowired
     private PointRecordService pointRecordService;
 
+    @Autowired
+    private PointRecordESRepository pointRecordESRepository;
+
     /**
-     * 自动解锁被锁定的积分记录
+     * 自动解锁被锁定的积分记录，每5分钟执行一次
      *
      * @param param
      * @return
@@ -36,7 +40,7 @@ public class UnlockPointRecordJob {
         try {
             XxlJobLogger.log("UnlockPointRecordJob, Started:" + DateUtil.formatDateTime(new Date()));
             //锁定的记录
-            List<PointRecordDO> pointRecordDOS = pointRecordService.getLockPointRecordsByUid();
+            List<PointRecordDO> pointRecordDOS = pointRecordESRepository.findByLockDaysIsGreaterThanAndIsValid(0,true);
             if (pointRecordDOS != null && pointRecordDOS.size() > 0) {
                 for (PointRecordDO pointRecordDO : pointRecordDOS
                 ) {
@@ -45,6 +49,7 @@ public class UnlockPointRecordJob {
                         pointRecordDO.setUpdateTime(new Date());
                         int ret = pointRecordService.update(pointRecordDO);
                         if (ret > 0) {
+                            pointRecordESRepository.save(pointRecordDO);
                             log.info("解锁成功，参数:" + JSON.toJSONString(pointRecordDO));
                         }
                     }

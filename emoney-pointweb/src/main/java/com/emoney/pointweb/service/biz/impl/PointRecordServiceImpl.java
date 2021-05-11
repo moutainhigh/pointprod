@@ -243,11 +243,6 @@ public class PointRecordServiceImpl implements PointRecordService {
     }
 
     @Override
-    public List<PointRecordDO> getLockPointRecordsByUid() {
-        return pointRecordRepository.getLockPointRecordsByUid();
-    }
-
-    @Override
     public Integer update(PointRecordDO pointRecordDO) {
         return pointRecordRepository.update(pointRecordDO);
     }

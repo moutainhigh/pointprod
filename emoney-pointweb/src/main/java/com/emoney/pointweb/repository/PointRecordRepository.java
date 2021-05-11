@@ -28,6 +28,4 @@ public interface PointRecordRepository {
     List<PointRecordDO> getPointRecordByTaskIds(Long uid, List<Long> taskIds);
 
     List<PointRecordDO> getByUidAndCreateTime(Long uid, Date endDate);
-
-    List<PointRecordDO> getLockPointRecordsByUid();
 }

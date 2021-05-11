@@ -208,19 +208,26 @@ class PointWebApplicationTests {
 //        pointRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
 //        pointRecordDO.setUid(10000772L);
 //        pointRecordDO.setCreateTime(new Date());
-//        pointRecordMapper.insert(pointRecordDO);
+//        pointRecordDO.setLockDays(0);
+//        pointRecordDO.setPointStatus(2);
+//        pointRecordDO.setIsValid(true);
+//       // pointRecordMapper.insert(pointRecordDO);
+//
+////        SignInRecordDO signInRecordDO=new SignInRecordDO();
+////        signInRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
+////        signInRecordDO.setUid(10000772L);
+////        signInRecordRepository.insert(signInRecordDO);
+//
+//
+//        //pointRecordESRepository.deleteById(1371816217081417728l);
+//
+////        List<PointRecordDO> pointRecordDOS = pointRecordMapper.getByUid(10000772);
+////        //spring-data-elasticsearch 测试
+//        pointRecordESRepository.save(pointRecordDO);
+//
+//        List<PointRecordDO> pointRecordDOS =pointRecordESRepository.findByLockDaysIsGreaterThanAndIsValid(0,true);
 
-//        SignInRecordDO signInRecordDO=new SignInRecordDO();
-//        signInRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
-//        signInRecordDO.setUid(10000772L);
-//        signInRecordRepository.insert(signInRecordDO);
 
-
-        //pointRecordESRepository.deleteById(1371816217081417728l);
-
-//        List<PointRecordDO> pointRecordDOS = pointRecordMapper.getByUid(10000772);
-//        //spring-data-elasticsearch 测试
-        //pointRecordESRepository.save(pointRecordDO);
         //List<PointRecordDO> pointRecordDOS=pointRecordRepository.getByUid((long)10000772);
         //List<PointRecordDO> pointRecordDOS =pointRecordESRepository.findByUid(10014713888l);
 

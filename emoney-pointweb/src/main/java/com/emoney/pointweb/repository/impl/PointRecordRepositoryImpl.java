@@ -123,9 +123,4 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
     public List<PointRecordDO> getByUidAndCreateTime(Long uid, Date endDate) {
         return pointRecordMapper.getByUidAndCreateTime(uid,endDate);
     }
-
-    @Override
-    public List<PointRecordDO> getLockPointRecordsByUid() {
-        return pointRecordMapper.getLockPointRecordsByUid();
-    }
 }

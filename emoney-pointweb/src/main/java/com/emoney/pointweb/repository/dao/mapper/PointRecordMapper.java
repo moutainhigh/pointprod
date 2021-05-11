@@ -28,12 +28,6 @@ public interface PointRecordMapper {
     Integer insert(PointRecordDO pointRecordDO);
 
     /**
-     * 查询锁定的积分记录
-     * @return
-     */
-    List<PointRecordDO> getLockPointRecordsByUid();
-
-    /**
      * 查询积分明细记录
      * @param uid
      * @param pointStatus

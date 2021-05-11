@@ -16,4 +16,6 @@ public interface PointRecordESRepository extends ElasticsearchRepository<PointRe
     Page<PointRecordDO> findByUidAndPointStatusInOrderByCreateTimeDesc(Long uid,List<Integer> pointStatus, Pageable pageable);
 
     Page<PointRecordDO> findByTaskIdAndSubId(Long taskId, String subId, Pageable pageable);
+
+    List<PointRecordDO> findByLockDaysIsGreaterThanAndIsValid(Integer lockDays,Boolean isValid);
 }

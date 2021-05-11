@@ -29,7 +29,5 @@ public interface PointRecordService {
 
     List<PointRecordDO> getPointRecordByTaskIds(Long uid,List<Long> taskIds);
 
-    List<PointRecordDO> getLockPointRecordsByUid();
-
     Integer update(PointRecordDO pointRecordDO);
 }
