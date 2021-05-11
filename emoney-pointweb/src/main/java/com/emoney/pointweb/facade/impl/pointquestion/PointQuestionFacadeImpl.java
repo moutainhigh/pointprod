@@ -51,7 +51,7 @@ public class PointQuestionFacadeImpl implements PointQuestionFacade {
                 result = hasDateList.stream().filter(x->x.getShowTime().equals(nowDate)).findFirst().get();
             }else {
                 if(noHasDateList.size()>0){
-                    result=noHasDateList.get((int) DateUtil.between(startDate,nowDate, DateUnit.DAY)%noHasDateList.size());
+                    result = noHasDateList.get((int) DateUtil.between(startDate,nowDate, DateUnit.DAY) % noHasDateList.size());
                 }
             }
 
