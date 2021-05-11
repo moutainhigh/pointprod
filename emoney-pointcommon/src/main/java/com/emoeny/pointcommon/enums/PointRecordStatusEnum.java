@@ -7,7 +7,6 @@ public enum PointRecordStatusEnum implements EnumBase {
     /**
      * 操作成功
      */
-    UNFINISHED("0", "未完成"),
     UNCLAIMED("1", "待领取"),
     FINISHED("2", "已完成"),
     CONVERTED("3", "已兑换"),
