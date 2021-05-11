@@ -28,4 +28,8 @@ public interface PointRecordService {
     List<PointRecordSummaryDO> getPointRecordSummaryByUidAndCreateTime(Long uid, Date dtStart, Date dtEnd);
 
     List<PointRecordDO> getPointRecordByTaskIds(Long uid,List<Long> taskIds);
+
+    List<PointRecordDO> getLockPointRecordsByUid();
+
+    Integer update(PointRecordDO pointRecordDO);
 }

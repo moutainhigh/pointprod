@@ -49,7 +49,7 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_point_record
-        WHERE uid=#{uid} AND  lock_days>0 AND is_valid=1
+        WHERE  lock_days>0 AND is_valid=1
 
     </select>
 
