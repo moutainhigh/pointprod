@@ -117,6 +117,9 @@ class PointWebApplicationTests {
     @Autowired
     private LogisticsOrderService logisticsOrderService;
 
+    @Autowired
+    private MessageService messageService;
+
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
 
@@ -124,6 +127,8 @@ class PointWebApplicationTests {
 
         //String pid=userInfoService.getPidByUserId(1001471383L);
 
+
+        //String ret =messageService.sendMessage(1001471383L,"","http://test.point.emoney.cn/message/index");
 
         //List<PointRecordSummaryDO> pointRecordSummaryDOS= pointRecordService.getPointRecordSummaryByUid(1001471383L);
 

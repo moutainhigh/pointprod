@@ -11,10 +11,14 @@ import com.emoney.pointweb.repository.PointRecordRepository;
 import com.emoney.pointweb.repository.PointTaskConfigInfoRepository;
 import com.emoney.pointweb.repository.dao.entity.PointRecordDO;
 import com.emoney.pointweb.repository.dao.entity.PointRecordSummaryDO;
+import com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO;
+import com.emoney.pointweb.service.biz.MessageService;
+import com.emoney.pointweb.service.biz.impl.PointRecordServiceImpl;
 import com.emoney.pointweb.service.biz.redis.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -38,8 +42,13 @@ public class KafkaConsumerPointRecordService {
     private PointRecordESRepository pointRecordESRepository;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private RedisService redisCache1;
 
+    @Value("${pointFrontUrl}")
+    private String pointFrontUrl;
 
     // 消费监听
     @KafkaListener(topics = {"pointrecordadd"}, groupId = "pointrecordgroup")
@@ -48,13 +57,13 @@ public class KafkaConsumerPointRecordService {
             // 消费的哪个topic、partition的消息,打印出消息内容
             log.info("topic->{},value->{},offset->{}", record.topic(), record.value(), record.offset());
             PointRecordDO pointRecordDO = JsonUtil.toBean(record.value().toString(), PointRecordDO.class);
-            if (pointRecordDO!=null&&pointRecordDO.getUid() != null) {
+            if (pointRecordDO != null && pointRecordDO.getUid() != null) {
                 //写入数据库
                 int ret = pointRecordRepository.insert(pointRecordDO);
                 if (ret > 0) {
                     //将成长任务id写入redis，如果在0点未领取，则清掉
-                    if (pointRecordDO.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.UNCLAIMED.getCode()))){
-                        redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_SETPOINTRECORDID, pointRecordDO.getUid(),pointRecordDO.getId()),pointRecordDO, ToolUtils.GetExpireTime(1));
+                    if (pointRecordDO.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.UNCLAIMED.getCode()))) {
+                        redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_SETPOINTRECORDID, pointRecordDO.getUid(), pointRecordDO.getId()), pointRecordDO, ToolUtils.GetExpireTime(1));
                     }
                     //去掉积分统计
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, pointRecordDO.getUid()));
@@ -63,6 +72,15 @@ public class KafkaConsumerPointRecordService {
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETUNCLAIMRECORDSBYUID, pointRecordDO.getUid()));
                     //写入ES
                     pointRecordESRepository.save(pointRecordDO);
+
+                    //成长任务发送积分通知
+                    List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = pointTaskConfigInfoRepository.getByTaskIdAndSubId(pointRecordDO.getTaskId(), pointRecordDO.getSubId());
+                    if (pointTaskConfigInfoDOS != null && pointTaskConfigInfoDOS.size() > 0) {
+                        PointTaskConfigInfoDO pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().findFirst().orElse(null);
+                        if (pointTaskConfigInfoDO != null && pointTaskConfigInfoDO.getTaskType().equals(Integer.valueOf(PointRecordStatusEnum.UNCLAIMED.getCode()))) {
+                            messageService.sendMessage(pointRecordDO.getUid(), "", pointFrontUrl + "/message/index");
+                        }
+                    }
                 }
             }
             //手工提交offset
