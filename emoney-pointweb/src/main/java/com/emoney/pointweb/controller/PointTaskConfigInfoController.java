@@ -108,7 +108,7 @@ public class PointTaskConfigInfoController {
             ptci.setRemark("");
             int result=0;
             if(id>0){
-                if(checkData.size()>1){
+                if(checkData.size()>=2){
                     return "已存在相同任务，不允许重复创建";
                 }
 
