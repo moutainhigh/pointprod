@@ -20,4 +20,11 @@ public interface UserInfoService {
      * @return
      */
     UserPeriodResult getUserPeriod(long uid);
+
+    /**
+     * 根据uid获取pid
+     * @param uid
+     * @return
+     */
+    String getPidByUserId(Long uid);
 }

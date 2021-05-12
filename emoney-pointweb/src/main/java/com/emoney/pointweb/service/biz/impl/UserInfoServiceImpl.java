@@ -1,6 +1,7 @@
 package com.emoney.pointweb.service.biz.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.emoeny.pointcommon.result.ResultInfo;
 import com.emoeny.pointcommon.result.userperiod.UserPeriodResult;
 import com.emoeny.pointcommon.utils.JsonUtil;
 import com.emoeny.pointcommon.utils.OkHttpUtil;
@@ -26,6 +27,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Value("${dsapiurl}")
     private String dsapiurl;
 
+    @Value("${webApiUrl}")
+    private String webApiUrl;
 
     @Override
     public List<UserInfoVO> getUserInfoByUid(Long uid) {
@@ -47,6 +50,29 @@ public class UserInfoServiceImpl implements UserInfoService {
         if (!StringUtils.isEmpty(ret)) {
             UserPeriodResult userPeriodResult = JSON.parseObject(ret, UserPeriodResult.class);
             return userPeriodResult;
+        }
+        return null;
+    }
+
+    @Override
+    public String getPidByUserId(Long uid) {
+        String pid = null;
+        String userName = "";
+        List<UserInfoVO> userInfoVOS = getUserInfoByUid(uid);
+        if (userInfoVOS != null) {
+            UserInfoVO userInfoVO = userInfoVOS.stream().filter(h -> h.getAccountType() == 0).findFirst().orElse(null);
+            if (userInfoVO != null) {
+                userName = userInfoVO.getAccountName();
+            }
+        }
+        if (!StringUtils.isEmpty(userName)) {
+            Map<String, String> stringMap = new HashMap<>();
+            stringMap.put("appid", "10199");
+            stringMap.put("username", userName);
+            String res = OkHttpUtil.get(webApiUrl + "/User/api/User.GetAccountPID", stringMap);
+            if (!StringUtils.isEmpty(res)) {
+               return  JsonUtil.getValue(res, "Message");
+            }
         }
         return null;
     }

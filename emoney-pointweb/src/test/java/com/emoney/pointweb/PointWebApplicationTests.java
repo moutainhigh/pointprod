@@ -122,6 +122,9 @@ class PointWebApplicationTests {
 
 
 
+        //String pid=userInfoService.getPidByUserId(1001471383L);
+
+
         //List<PointRecordSummaryDO> pointRecordSummaryDOS= pointRecordService.getPointRecordSummaryByUid(1001471383L);
 
 //        QueryStockUpLogisticsOrderDTO queryStockUpLogisticsOrderDTO=new QueryStockUpLogisticsOrderDTO();
