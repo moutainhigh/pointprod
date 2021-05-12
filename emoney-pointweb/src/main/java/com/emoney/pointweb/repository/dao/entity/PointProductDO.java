@@ -18,6 +18,8 @@ public class PointProductDO implements Serializable {
      */
     private Integer productType;
 
+    private String publishPlatFormType;
+
     /**
      * 0:全部 1:小智盈 2:深度资金版 3:掘金版
      */

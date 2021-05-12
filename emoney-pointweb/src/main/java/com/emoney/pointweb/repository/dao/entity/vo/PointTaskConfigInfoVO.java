@@ -40,4 +40,5 @@ public class PointTaskConfigInfoVO {
     private String updateBy;
     private String remark;
     private String userGroup;
+    private Boolean sendType;
 }

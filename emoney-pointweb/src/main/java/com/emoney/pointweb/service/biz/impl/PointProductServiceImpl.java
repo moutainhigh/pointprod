@@ -84,11 +84,11 @@ public class PointProductServiceImpl implements PointProductService {
     }
 
     @Override
-    public List<PointProductDO> getAllEffectiveProducts(Date curDate, String productVersion, Long uid) {
+    public List<PointProductDO> getAllEffectiveProducts(Date curDate, String productVersion, Long uid, String publishPlatFormType) {
         List<PointProductDO> retPointProducts = new ArrayList<>();
         List<PointProductDO> pointProductDOS = pointProductRepository.getAllEffectiveProducts(new Date());
         if (pointProductDOS != null) {
-            pointProductDOS = pointProductDOS.stream().filter(h -> h.getProductVersion().contains(productVersion)).collect(Collectors.toList());
+            pointProductDOS = pointProductDOS.stream().filter(h -> h.getProductVersion().contains(productVersion) && h.getPublishPlatFormType().contains(publishPlatFormType)).collect(Collectors.toList());
         }
 
         //接入用户画像

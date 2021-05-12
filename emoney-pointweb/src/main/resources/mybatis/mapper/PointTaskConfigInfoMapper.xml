@@ -1,220 +1,231 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.emoney.pointweb.repository.dao.mapper.PointTaskConfigInfoMapper">
-  <resultMap id="BaseResultMap" type="com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO">
-    <!--@mbg.generated-->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="task_id" jdbcType="BIGINT" property="taskId" />
-    <result column="sub_id" jdbcType="VARCHAR" property="subId"/>
-    <result column="task_type" jdbcType="INTEGER" property="taskType" />
-    <result column="task_name" jdbcType="VARCHAR" property="taskName" />
-    <result column="task_points" jdbcType="FLOAT" property="taskPoints" />
-    <result column="task_starttime" jdbcType="TIMESTAMP" property="taskStartTime" />
-    <result column="task_endtime" jdbcType="TIMESTAMP" property="taskEndTime" />
-    <result column="activation_starttime" jdbcType="TIMESTAMP" property="activationStartTime" />
-    <result column="activation_endtime" jdbcType="TIMESTAMP" property="activationEndTime" />
-    <result column="expire_starttime" jdbcType="TIMESTAMP" property="expireStartTime" />
-    <result column="expire_endtime" jdbcType="TIMESTAMP" property="expireEndTime" />
-    <result column="is_directional" jdbcType="BIT" property="isDirectional" />
-    <result column="is_dailytask" jdbcType="BIT" property="isDailyTask" />
-    <result column="is_bigimg" jdbcType="BIT" property="isBigImg" />
-    <result column="product_version" jdbcType="VARCHAR" property="productVersion" />
-    <result column="publish_platformtype" jdbcType="VARCHAR" property="publishPlatFormType" />
-    <result column="is_showinhomepage" jdbcType="BIT" property="isShowInHomePage" />
-    <result column="task_order" jdbcType="INTEGER" property="taskOrder" />
-    <result column="daily_jointimes" jdbcType="INTEGER" property="dailyJoinTimes" />
-    <result column="pc_redirecturl" jdbcType="VARCHAR" property="pcRedirectUrl" />
-    <result column="app_redirecturl" jdbcType="VARCHAR" property="appRedirectUrl" />
-    <result column="wechat_redirecturl" jdbcType="VARCHAR" property="wechatRedirectUrl" />
-    <result column="task_remark" jdbcType="VARCHAR" property="taskRemark" />
-    <result column="task_buttontext" jdbcType="VARCHAR" property="taskButtonText" />
-    <result column="pc_taskimgurl" jdbcType="VARCHAR" property="pcTaskImgUrl" />
-    <result column="app_taskimgurl" jdbcType="VARCHAR" property="appTaskImgUrl" />
-    <result column="wechat_taskimgurl" jdbcType="VARCHAR" property="wechatTaskImgUrl" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
-    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="user_group" jdbcType="VARCHAR" property="userGroup"/>
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="task_id" jdbcType="BIGINT" property="taskId"/>
+        <result column="sub_id" jdbcType="VARCHAR" property="subId"/>
+        <result column="task_type" jdbcType="INTEGER" property="taskType"/>
+        <result column="task_name" jdbcType="VARCHAR" property="taskName"/>
+        <result column="task_points" jdbcType="FLOAT" property="taskPoints"/>
+        <result column="task_starttime" jdbcType="TIMESTAMP" property="taskStartTime"/>
+        <result column="task_endtime" jdbcType="TIMESTAMP" property="taskEndTime"/>
+        <result column="activation_starttime" jdbcType="TIMESTAMP" property="activationStartTime"/>
+        <result column="activation_endtime" jdbcType="TIMESTAMP" property="activationEndTime"/>
+        <result column="expire_starttime" jdbcType="TIMESTAMP" property="expireStartTime"/>
+        <result column="expire_endtime" jdbcType="TIMESTAMP" property="expireEndTime"/>
+        <result column="send_Type" jdbcType="BIT" property="sendType"/>
+        <result column="is_directional" jdbcType="BIT" property="isDirectional"/>
+        <result column="is_dailytask" jdbcType="BIT" property="isDailyTask"/>
+        <result column="is_bigimg" jdbcType="BIT" property="isBigImg"/>
+        <result column="product_version" jdbcType="VARCHAR" property="productVersion"/>
+        <result column="publish_platformtype" jdbcType="VARCHAR" property="publishPlatFormType"/>
+        <result column="is_showinhomepage" jdbcType="BIT" property="isShowInHomePage"/>
+        <result column="task_order" jdbcType="INTEGER" property="taskOrder"/>
+        <result column="daily_jointimes" jdbcType="INTEGER" property="dailyJoinTimes"/>
+        <result column="pc_redirecturl" jdbcType="VARCHAR" property="pcRedirectUrl"/>
+        <result column="app_redirecturl" jdbcType="VARCHAR" property="appRedirectUrl"/>
+        <result column="wechat_redirecturl" jdbcType="VARCHAR" property="wechatRedirectUrl"/>
+        <result column="task_remark" jdbcType="VARCHAR" property="taskRemark"/>
+        <result column="task_buttontext" jdbcType="VARCHAR" property="taskButtonText"/>
+        <result column="pc_taskimgurl" jdbcType="VARCHAR" property="pcTaskImgUrl"/>
+        <result column="app_taskimgurl" jdbcType="VARCHAR" property="appTaskImgUrl"/>
+        <result column="wechat_taskimgurl" jdbcType="VARCHAR" property="wechatTaskImgUrl"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="user_group" jdbcType="VARCHAR" property="userGroup"/>
+    </resultMap>
+    <sql id="Base_Column_List">
 
-            id, task_id,sub_id, task_type, task_name, task_points, task_starttime, task_endtime,activation_starttime,
-            activation_endtime,expire_starttime,expire_endtime,is_directional,is_dailytask,is_bigimg,
-            product_version, publish_platformtype, is_showinhomepage, task_order, daily_jointimes,
-            pc_redirecturl, app_redirecturl, wechat_redirecturl, task_remark, task_buttontext,
-            pc_taskimgurl, app_taskimgurl, wechat_taskimgurl, create_time, update_time, create_by,
-            update_by, remark,user_group
+                id, task_id, sub_id, send_Type, task_type, task_name, task_points, task_starttime, task_endtime,
+                activation_starttime,
+                activation_endtime, expire_starttime, expire_endtime, is_directional, is_dailytask, is_bigimg,
+                product_version, publish_platformtype, is_showinhomepage, task_order, daily_jointimes,
+                pc_redirecturl, app_redirecturl, wechat_redirecturl, task_remark, task_buttontext,
+                pc_taskimgurl, app_taskimgurl, wechat_taskimgurl, create_time, update_time, create_by,
+                update_by, remark, user_group
 
-  </sql>
-  <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO
-     t_point_taskconfiginfo
-    (task_id,sub_id,task_type,task_name, task_points, task_starttime, task_endtime, is_dailytask,activation_starttime,
-     activation_endtime,expire_starttime,expire_endtime,is_directional,is_bigimg,
-     product_version, publish_platformtype, is_showinhomepage, task_order, daily_jointimes,
-     pc_redirecturl, app_redirecturl, wechat_redirecturl, task_remark, task_buttontext,
-     pc_taskimgurl, app_taskimgurl, wechat_taskimgurl, create_time, update_time, create_by,
-     update_by, remark,user_group)
-    VALUES
-    (#{taskId},#{subId},#{taskType},#{taskName}, #{taskPoints}, #{taskStartTime}, #{taskEndTime}, #{isDailyTask},
-     #{activationStartTime},#{activationEndTime},#{expireStartTime},#{expireEndTime},#{isDirectional},#{isBigImg},
-     #{productVersion}, #{publishPlatFormType}, #{isShowInHomePage}, #{taskOrder}, #{dailyJoinTimes},
-     #{pcRedirectUrl}, #{appRedirectUrl}, #{wechatRedirectUrl}, #{taskRemark}, #{taskButtonText},
-     #{pcTaskImgUrl}, #{appTaskImgUrl}, #{wechatTaskImgUrl}, #{createTime}, #{updateTime}, #{createBy},
-     #{updateBy}, #{remark},#{userGroup})
+    </sql>
+    <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_point_taskconfiginfo
+        (task_id, sub_id, task_type, send_Type, task_name, task_points, task_starttime, task_endtime, is_dailytask,
+         activation_starttime,
+         activation_endtime, expire_starttime, expire_endtime, is_directional, is_bigimg,
+         product_version, publish_platformtype, is_showinhomepage, task_order, daily_jointimes,
+         pc_redirecturl, app_redirecturl, wechat_redirecturl, task_remark, task_buttontext,
+         pc_taskimgurl, app_taskimgurl, wechat_taskimgurl, create_time, update_time, create_by,
+         update_by, remark, user_group)
+        VALUES (#{taskId}, #{subId}, #{taskType}, #{sendType}, #{taskName}, #{taskPoints}, #{taskStartTime},
+                #{taskEndTime},
+                #{isDailyTask},
+                #{activationStartTime}, #{activationEndTime}, #{expireStartTime}, #{expireEndTime}, #{isDirectional},
+                #{isBigImg},
+                #{productVersion}, #{publishPlatFormType}, #{isShowInHomePage}, #{taskOrder}, #{dailyJoinTimes},
+                #{pcRedirectUrl}, #{appRedirectUrl}, #{wechatRedirectUrl}, #{taskRemark}, #{taskButtonText},
+                #{pcTaskImgUrl}, #{appTaskImgUrl}, #{wechatTaskImgUrl}, #{createTime}, #{updateTime}, #{createBy},
+                #{updateBy}, #{remark}, #{userGroup})
 
-  </insert>
+    </insert>
 
-  <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO">
+    <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO">
 
-    UPDATE t_point_taskconfiginfo
-    <set>
-        <if test="subId != null">
-            sub_id = #{subId},
-        </if>
-        <if test="userGroup != null">
-            user_group = #{userGroup},
-        </if>
-        <if test="taskType != null">
-            task_type=#{taskType},
-        </if>
-        <if test="taskName != null">
-            task_name=#{taskName},
-        </if>
-        <if test="taskPoints != null">
-            task_points=#{taskPoints},
-        </if>
-        <if test="taskStartTime != null">
-            task_starttime=#{taskStartTime},
-        </if>
-        <if test="taskEndTime != null">
-            task_endtime=#{taskEndTime},
-        </if>
-        <if test="activationStartTime != null">
-            activation_starttime=#{activationStartTime},
-        </if>
-        <if test="activationEndTime != null">
-            activation_endtime=#{activationEndTime},
-        </if>
-        <if test="expireStartTime != null">
-            expire_starttime=#{expireStartTime},
-        </if>
-        <if test="expireEndTime != null">
-            expire_endtime=#{expireEndTime},
-        </if>
-        <if test="isDirectional != null">
-            is_directional=#{isDirectional},
-        </if>
-        <if test="isDailyTask != null">
-            is_dailytask=#{isDailyTask},
-        </if>
-        <if test="productVersion != null">
-            product_version=#{productVersion},
-        </if>
-        <if test="publishPlatFormType != null">
-            publish_platformtype=#{publishPlatFormType},
-        </if>
-        <if test="isShowInHomePage != null">
-            is_showinhomepage=#{isShowInHomePage},
-        </if>
-        <if test="isBigImg != null">
-            is_bigimg=#{isBigImg},
-        </if>
-        <if test="taskOrder != null">
-            task_order=#{taskOrder},
-        </if>
-        <if test="dailyJoinTimes != null">
-            daily_jointimes=#{dailyJoinTimes},
-        </if>
-        <if test="pcRedirectUrl != null">
-            pc_redirecturl=#{pcRedirectUrl},
-        </if>
-        <if test="appRedirectUrl != null">
-            app_redirecturl=#{appRedirectUrl},
-        </if>
-        <if test="wechatRedirectUrl != null">
-            wechat_redirecturl=#{wechatRedirectUrl},
-        </if>
-        <if test="taskRemark != null">
-            task_remark=#{taskRemark},
-        </if>
-        <if test="taskButtonText != null">
-            task_buttontext=#{taskButtonText},
-        </if>
-        <if test="pcTaskImgUrl != null">
-            pc_taskimgurl=#{pcTaskImgUrl},
-        </if>
-        <if test="appTaskImgUrl != null">
-            app_taskimgurl=#{appTaskImgUrl},
-        </if>
-        <if test="wechatTaskImgUrl != null">
-            wechat_taskimgurl=#{wechatTaskImgUrl},
-        </if>
-        <if test="createTime != null">
-            create_time=#{createTime},
-        </if>
-        <if test="updateTime != null">
-            update_time=#{updateTime},
-        </if>
-        <if test="createBy != null">
-            create_by=#{createBy},
-        </if>
-        <if test="updateBy != null">
-            update_by=#{updateBy},
-        </if>
-        <if test="remark != null">
-            remark=#{remark},
-        </if>
-    </set>
-    WHERE id=#{id}
+        UPDATE t_point_taskconfiginfo
+        <set>
+            <if test="subId != null">
+                sub_id = #{subId},
+            </if>
+            <if test="userGroup != null">
+                user_group = #{userGroup},
+            </if>
+            <if test="taskType != null">
+                task_type=#{taskType},
+            </if>
+            <if test="sendType != null">
+                send_type=#{sendType},
+            </if>
+            <if test="taskName != null">
+                task_name=#{taskName},
+            </if>
+            <if test="taskPoints != null">
+                task_points=#{taskPoints},
+            </if>
+            <if test="taskStartTime != null">
+                task_starttime=#{taskStartTime},
+            </if>
+            <if test="taskEndTime != null">
+                task_endtime=#{taskEndTime},
+            </if>
+            <if test="activationStartTime != null">
+                activation_starttime=#{activationStartTime},
+            </if>
+            <if test="activationEndTime != null">
+                activation_endtime=#{activationEndTime},
+            </if>
+            <if test="expireStartTime != null">
+                expire_starttime=#{expireStartTime},
+            </if>
+            <if test="expireEndTime != null">
+                expire_endtime=#{expireEndTime},
+            </if>
+            <if test="isDirectional != null">
+                is_directional=#{isDirectional},
+            </if>
+            <if test="isDailyTask != null">
+                is_dailytask=#{isDailyTask},
+            </if>
+            <if test="productVersion != null">
+                product_version=#{productVersion},
+            </if>
+            <if test="publishPlatFormType != null">
+                publish_platformtype=#{publishPlatFormType},
+            </if>
+            <if test="isShowInHomePage != null">
+                is_showinhomepage=#{isShowInHomePage},
+            </if>
+            <if test="isBigImg != null">
+                is_bigimg=#{isBigImg},
+            </if>
+            <if test="taskOrder != null">
+                task_order=#{taskOrder},
+            </if>
+            <if test="dailyJoinTimes != null">
+                daily_jointimes=#{dailyJoinTimes},
+            </if>
+            <if test="pcRedirectUrl != null">
+                pc_redirecturl=#{pcRedirectUrl},
+            </if>
+            <if test="appRedirectUrl != null">
+                app_redirecturl=#{appRedirectUrl},
+            </if>
+            <if test="wechatRedirectUrl != null">
+                wechat_redirecturl=#{wechatRedirectUrl},
+            </if>
+            <if test="taskRemark != null">
+                task_remark=#{taskRemark},
+            </if>
+            <if test="taskButtonText != null">
+                task_buttontext=#{taskButtonText},
+            </if>
+            <if test="pcTaskImgUrl != null">
+                pc_taskimgurl=#{pcTaskImgUrl},
+            </if>
+            <if test="appTaskImgUrl != null">
+                app_taskimgurl=#{appTaskImgUrl},
+            </if>
+            <if test="wechatTaskImgUrl != null">
+                wechat_taskimgurl=#{wechatTaskImgUrl},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="createBy != null">
+                create_by=#{createBy},
+            </if>
+            <if test="updateBy != null">
+                update_by=#{updateBy},
+            </if>
+            <if test="remark != null">
+                remark=#{remark},
+            </if>
+        </set>
+        WHERE id=#{id}
 
-  </update>
+    </update>
 
-  <select id="pageList"  resultMap="BaseResultMap">
-    SELECT <include refid="Base_Column_List"/>
-    FROM t_point_taskconfiginfo
-    <trim prefix="WHERE" prefixOverrides="AND | OR" >
-        <if test="task_type != 0">
-          AND task_type = #{task_type}
-        </if>
-    </trim>
-    ORDER BY task_order
-  </select>
+    <select id="pageList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_point_taskconfiginfo
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="task_type != 0">
+                AND task_type = #{task_type}
+            </if>
+        </trim>
+        ORDER BY task_order
+    </select>
 
-  <select id="getPointTaskConfigInfoByOrderAndType"  resultMap="BaseResultMap">
-      SELECT <include refid="Base_Column_List"/>
-      FROM t_point_taskconfiginfo WHERE task_type=#{task_type} AND task_order=#{task_order}
-  </select>
+    <select id="getPointTaskConfigInfoByOrderAndType" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_point_taskconfiginfo WHERE task_type=#{task_type} AND task_order=#{task_order}
+    </select>
 
     <select id="getPointTaskConfigInfoByIsDirectional" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List"/>
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM t_point_taskconfiginfo WHERE is_directional=#{is_directional}
     </select>
 
-  <select id="getByTaskIdAndSubId" resultMap="BaseResultMap">
-      SELECT
-      <include refid="Base_Column_List"/>
-      FROM t_point_taskconfiginfo
-      WHERE task_id=#{taskId}
-       <if test="subId !=null and subId !=''">
-          AND sub_id = #{subId}
+    <select id="getByTaskIdAndSubId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_point_taskconfiginfo
+        WHERE task_id=#{taskId}
+        <if test="subId !=null and subId !=''">
+            AND sub_id = #{subId}
         </if>
-  </select>
+    </select>
 
     <select id="getAllEffectiveTasks" resultMap="BaseResultMap">
-      SELECT
-      <include refid="Base_Column_List"/>
-      FROM t_point_taskconfiginfo
-      WHERE task_starttime &lt;= #{curDate} AND task_endtime &gt;= #{curDate} AND task_type IN(1,2,3,4)
-  </select>
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_point_taskconfiginfo
+        WHERE task_starttime &lt;= #{curDate} AND task_endtime &gt;= #{curDate} AND task_type IN(1,2,3,4)
+    </select>
 
     <select id="getTasksByTaskType" resultMap="BaseResultMap">
-      SELECT
-      <include refid="Base_Column_List"/>
-      FROM t_point_taskconfiginfo
-      WHERE task_type = #{taskType}
-  </select>
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_point_taskconfiginfo
+        WHERE task_type = #{taskType}
+    </select>
 
 </mapper>

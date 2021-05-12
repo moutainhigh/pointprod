@@ -27,7 +27,7 @@ public interface PointProductFacade {
      * @return
      */
     @GetMapping("/query")
-    Result<List<PointProductVO>> queryPointProducts(@NotNull(message = "用户id不能为空") Long uid,@NotNull(message = "产品版本不能为空") String productVersion);
+    Result<List<PointProductVO>> queryPointProducts(@NotNull(message = "用户id不能为空") Long uid,@NotNull(message = "产品版本不能为空") String productVersion,@NotNull(message = "发布平台不能为空") String publishPlatFormType);
 
     /**
      * 根据用户id查询单个商品信息

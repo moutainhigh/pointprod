@@ -225,6 +225,11 @@ $(function() {
             ver +=  $(this).val() + ',';
         })
         obj.ver=ver;
+        var plat="";
+        $("#platfrom input[type=checkbox]:checked").each(function() {
+            plat +=  $(this).val() + ',';
+        })
+        obj.plat=plat;
         var str = "";
         var goodsArr = $("#GroupList").select2("val");
         for (var i = 0; i < goodsArr.length; i++) {
@@ -309,6 +314,9 @@ $(function() {
         $("#ver1").attr("checked", false);
         $("#ver2").attr("checked", false);
         $("#ver3").attr("checked", false);
+        $("#plat1").attr("checked", false);
+        $("#plat2").attr("checked", false);
+        $("#plat3").attr("checked", false);
         $("#exchange1").attr("checked", false);
         $("#exchange2").attr("checked", false);
         $("#GroupList").val("").trigger('change');

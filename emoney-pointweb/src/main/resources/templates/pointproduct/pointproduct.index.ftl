@@ -244,6 +244,17 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">发布平台<font color="red">*</font></label>
+                            <div class="col-sm-4">
+                                <div style="margin-top: 6px;" id="platfrom">
+                                    <input id="plat1" type="checkbox" name="ver" value="1" /><label for="plat1">PC</label>
+                                    <input id="plat2" type="checkbox" name="ver" value="2" /><label for="plat2">APP</label>
+                                    <input id="plat3" type="checkbox" name="ver" value="3" /><label for="plat3">微信</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label for="txtMerchantName" class="col-sm-2 control-label">商品介绍</label>
                             <div class="col-sm-10">
                                 <div id="txtContent"></div>
@@ -344,7 +355,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=1234"></script>
+<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=12345678"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
 
 <script>
@@ -446,6 +457,9 @@
         $("#ver1").attr("checked", false);
         $("#ver2").attr("checked", false);
         $("#ver3").attr("checked", false);
+        $("#plat1").attr("checked", false);
+        $("#plat2").attr("checked", false);
+        $("#plat3").attr("checked", false);
         $("#exchange1").attr("checked", false);
         $("#exchange2").attr("checked", false);
 
@@ -488,6 +502,20 @@
                 }
                 if(ver[i]==3){
                     $("#ver3").attr("checked", true);
+                }
+            }
+        }
+        if(res.publishPlatFormType){
+            var plat=res.publishPlatFormType.split(',');
+            for (var i=0;i<plat.length;i++){
+                if(plat[i]==1){
+                    $("#plat1").attr("checked", true);
+                }
+                if(plat[i]==2){
+                    $("#plat2").attr("checked", true);
+                }
+                if(plat[i]==3){
+                    $("#plat3").attr("checked", true);
                 }
             }
         }

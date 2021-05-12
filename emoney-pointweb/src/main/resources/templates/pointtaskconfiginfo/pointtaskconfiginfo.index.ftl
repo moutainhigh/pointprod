@@ -112,6 +112,13 @@
                             <div class="col-sm-4">
                                 <label for="firstname" class="control-label" id="taskId"></label>
                             </div>
+                            <label for="lastname" class="col-sm-2 control-label">立即发送<font color="red">*</font></label>
+                            <div class="col-sm-4">
+                                <div style="margin-top: 6px;" id="sendType">
+                                    <input id="send1" type="radio" name="send" value="1" /><label for="send1">是</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input id="send2" type="radio" name="send" value="0" /><label for="send2">否</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">任务类型<font color="red">*</font></label>
@@ -238,13 +245,13 @@
                             <label for="firstname" class="col-sm-2 control-label">跳转地址</label>
                             <div class="col-sm-10">
                                 <div style="margin-top: 6px;">
-                                    <input type="text" class="form-control" name="jobDesc" id="pcurl" placeholder="PC跳转地址" maxlength="50" >
+                                    <input type="text" class="form-control" name="jobDesc" id="pcurl" placeholder="PC跳转地址" >
                                 </div>
                                 <div style="margin-top: 6px;">
-                                    <input type="text" class="form-control" name="jobDesc" id="appurl" placeholder="APP地址" maxlength="50" >
+                                    <input type="text" class="form-control" name="jobDesc" id="appurl" placeholder="APP地址" >
                                 </div>
                                 <div style="margin-top: 6px;">
-                                    <input type="text" class="form-control" name="jobDesc" id="wechaturl" placeholder="微信跳转地址" maxlength="50" >
+                                    <input type="text" class="form-control" name="jobDesc" id="wechaturl" placeholder="微信跳转地址" >
                                 </div>
                             </div>
                         </div>
@@ -330,7 +337,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointtaskconfiginfo.index.1.js?v=12345"></script>
+<script src="${request.contextPath}/static/js/pointtaskconfiginfo.index.1.js?v=1234567"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
 
 <script>
@@ -386,6 +393,8 @@
         $("#plat1").attr("checked", false);
         $("#plat2").attr("checked", false);
         $("#plat3").attr("checked", false);
+        $("#send1").attr("checked", false);
+        $("#send2").attr("checked", false);
         $("#show1").attr("checked", false);
         $("#show2").attr("checked", false);
         $("#directional1").attr("checked", false);
@@ -469,6 +478,12 @@
         }
         else {
             $("#directional2").attr("checked", true);
+        }
+
+        if(res.sendType){
+            $("#send1").attr("checked", true);
+        }else {
+            $("#send2").attr("checked", true);
         }
 
         if(res.isDailyTask){
@@ -581,6 +596,8 @@
         $("#plat3").attr("checked", false);
         $("#show1").attr("checked", false);
         $("#show2").attr("checked", false);
+        $("#send1").attr("checked", false);
+        $("#send2").attr("checked", false);
         $("#directional1").attr("checked", false);
         $("#directional2").attr("checked", false);
         $("#daily1").attr("checked", false);

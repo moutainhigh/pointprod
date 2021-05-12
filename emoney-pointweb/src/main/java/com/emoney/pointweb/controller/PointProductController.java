@@ -67,7 +67,7 @@ public class PointProductController {
 
     @RequestMapping("/edit")
     @ResponseBody
-    public String edit(@RequestParam(required = false, defaultValue = "0") Integer id, Integer productType, String ver, String pcimg, String appimg, String wechatimg,
+    public String edit(@RequestParam(required = false, defaultValue = "0") Integer id, Integer productType, String ver,String plat, String pcimg, String appimg, String wechatimg,
                        Integer exchangeType, String acCode, @RequestParam(required = false, defaultValue = "0") Integer productDays, String actStartTime, String actEndTime, String productName,
                        @RequestParam(required = false, defaultValue = "0")float productPrice, String exChangeStartTime, String exChangeEndTime,String groupList,
                        @RequestParam(required = false, defaultValue = "0") BigDecimal productCash, @RequestParam(required = false, defaultValue = "0")float productPoint,
@@ -82,6 +82,7 @@ public class PointProductController {
             pointProductDO.setProductType(productType);
             pointProductDO.setProductDays(productDays);
             pointProductDO.setProductVersion(ver);
+            pointProductDO.setPublishPlatFormType(plat);
             pointProductDO.setActivityCode(acCode);
             pointProductDO.setProductName(productName);
             pointProductDO.setPerLimit(perLimit);

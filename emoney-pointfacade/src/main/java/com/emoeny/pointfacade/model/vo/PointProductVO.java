@@ -30,6 +30,8 @@ public class PointProductVO {
      */
     private String productVersion;
 
+    private String publishPlatFormType;
+
     /**
      *
      */

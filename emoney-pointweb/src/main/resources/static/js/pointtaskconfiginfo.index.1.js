@@ -243,6 +243,7 @@ $(function() {
 		obj.daily=$("#daily input[type=radio]:checked").val();
 		obj.is_directional=$("#Directional input[type=radio]:checked").val();
 		obj.is_bigimg=$("#isBigImg input[type=radio]:checked").val();
+		obj.sendType=$("#sendType input[type=radio]:checked").val();
 		obj.jointimes=$("#jointimes").val();
 		obj.taskorder=$("#taskorder").val();
 
@@ -377,6 +378,8 @@ $(function() {
 		$("#plat3").attr("checked", false);
 		$("#show1").attr("checked", false);
 		$("#show2").attr("checked", false);
+		$("#send1").attr("checked", false);
+		$("#send2").attr("checked", false);
 		$("#directional1").attr("checked", false);
 		$("#directional2").attr("checked", false);
 		$("#daily1").attr("checked", false);

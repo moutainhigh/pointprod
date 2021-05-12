@@ -42,8 +42,8 @@ public class PointTaskConfigInfoController {
     private UserLoginService userLoginService;
 
     @RequestMapping
-    public String index(Model model){
-        List<UserGroupVO> userGroupVOList= pointTaskConfigInfoService.getUserGroupList();
+    public String index(Model model) {
+        List<UserGroupVO> userGroupVOList = pointTaskConfigInfoService.getUserGroupList();
         model.addAttribute("userGroupVOList", userGroupVOList);
         return "pointtaskconfiginfo/pointtaskconfiginfo.index";
     }
@@ -58,29 +58,29 @@ public class PointTaskConfigInfoController {
 
     @RequestMapping("/edit")
     @ResponseBody
-    public String edit(@RequestParam(required = false, defaultValue = "0") Integer id, @RequestParam(required = false, defaultValue = "0")Long taskId,
+    public String edit(@RequestParam(required = false, defaultValue = "0") Integer id, @RequestParam(required = false, defaultValue = "0") Long taskId,
                        String subid, Integer tasktype, String taskname, Float taskpoints, String starttime, String endtime,
-                       Integer is_directional, Integer daily, String taskremark,String groupList,
+                       Integer is_directional, Integer daily, String taskremark, String groupList, Integer sendType,
                        Integer jointimes, String ver, @RequestParam(required = false, defaultValue = "0") Integer ishomepage,
                        String platfrom, String pcurl, String appurl, Integer taskorder,
                        String wechaturl, String buttontext, String pcimageurl, String appimageurl, String wechatimageurl,
-                       @RequestParam(required = false, defaultValue = "0") Integer is_bigimg,HttpServletRequest request, HttpServletResponse response) {
+                       @RequestParam(required = false, defaultValue = "0") Integer is_bigimg, HttpServletRequest request, HttpServletResponse response) {
         try {
-            TicketInfo user=userLoginService.getLoginAdminUser(request,response);
+            TicketInfo user = userLoginService.getLoginAdminUser(request, response);
 
             //获取同一类型同一排序
-            List<PointTaskConfigInfoDO> data=pointTaskConfigInfoService.getPointTaskConfigInfoByOrderAndType(tasktype,taskorder);
-            if((data.size()>=1&&id==0)||(data.size()>1&&id>0)){
+            List<PointTaskConfigInfoDO> data = pointTaskConfigInfoService.getPointTaskConfigInfoByOrderAndType(tasktype, taskorder);
+            if ((data.size() >= 1 && id == 0) || (data.size() > 1 && id > 0)) {
                 return "排序相同，不能保存";
             }
 
-            List<PointTaskConfigInfoDO> checkData = pointTaskConfigInfoService.getByTaskIdAndSubId(taskId,subid);
+            List<PointTaskConfigInfoDO> checkData = pointTaskConfigInfoService.getByTaskIdAndSubId(taskId, subid);
 
             PointTaskConfigInfoDO ptci = new PointTaskConfigInfoDO();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             ptci.setId(id);
             ptci.setTaskId(taskId);
-            ptci.setSubId(subid.isEmpty()?null:subid);
+            ptci.setSubId(subid.isEmpty() ? null : subid);
             ptci.setTaskOrder(taskorder);
             ptci.setTaskType(tasktype);
             ptci.setTaskName(taskname);
@@ -90,6 +90,7 @@ public class PointTaskConfigInfoController {
             ptci.setTaskRemark(taskremark);
             ptci.setUserGroup(groupList);
             ptci.setIsDirectional(is_directional == 1);
+            ptci.setSendType(sendType == 1);
             ptci.setIsBigImg(is_bigimg == 1);
             ptci.setIsDailyTask(daily == 1);
             ptci.setDailyJoinTimes(jointimes);
@@ -106,41 +107,40 @@ public class PointTaskConfigInfoController {
             ptci.setUpdateBy(user.UserName);
             ptci.setUpdateTime(new Date());
             ptci.setRemark("");
-            int result=0;
-            if(id>0){
-                if(checkData.size()>=2){
+            int result = 0;
+            if (id > 0) {
+                if (checkData.size() >= 2) {
                     return "已存在相同任务，不允许重复创建";
                 }
 
-                result= pointTaskConfigInfoService.update(ptci);
-            }else {
-                if(checkData.size()>0){
+                result = pointTaskConfigInfoService.update(ptci);
+            } else {
+                if (checkData.size() > 0) {
                     return "已存在相同任务，不允许重复创建";
                 }
 
                 ptci.setCreateTime(new Date());
                 ptci.setCreateBy(user.UserName);
-                result= pointTaskConfigInfoService.insert(ptci);
+                result = pointTaskConfigInfoService.insert(ptci);
             }
-            return result> 0 ? "success" : "保存出错";
-        }
-        catch (ParseException e) {
+            return result > 0 ? "success" : "保存出错";
+        } catch (ParseException e) {
             log.error("保存任务配置出错：" + e);
         }
-        return null;
+        return "保存出错";
     }
 
     @RequestMapping("/checkTaskStatus")
     @ResponseBody
-    public Boolean checkTaskStatus(Long taskId,String subId){
-        Long queryNum = pointRecordService.calPointRecordByTaskId(taskId,subId.isEmpty()?null:subId,0,1);
-        return queryNum > 0 ? true : false ;
+    public Boolean checkTaskStatus(Long taskId, String subId) {
+        Long queryNum = pointRecordService.calPointRecordByTaskId(taskId, subId.isEmpty() ? null : subId, 0, 1);
+        return queryNum > 0 ? true : false;
     }
 
     @RequestMapping("/getTaskId")
     @ResponseBody
-    public String getTaskId(){
-        Long taskid=IdUtil.getSnowflake(1, 1).nextId();
+    public String getTaskId() {
+        Long taskid = IdUtil.getSnowflake(1, 1).nextId();
         return taskid.toString();
     }
 }
