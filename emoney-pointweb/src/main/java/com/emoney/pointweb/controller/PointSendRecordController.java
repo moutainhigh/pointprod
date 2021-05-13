@@ -73,7 +73,9 @@ public class PointSendRecordController {
                 userdata.add(map);
             }
             else {
-                if (file==null) return null;
+                if (file==null){
+                    return null;
+                }
                 userdata = ExcelUtils.excelToList(file,"Sheet1");
             }
 

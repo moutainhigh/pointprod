@@ -121,8 +121,10 @@ $(function() {
         var postUrl=base_url + "/pointsendrecord/importUserData";
         $('.form').ajaxSubmit({
             beforeSubmit: function () {
+                $(".btnSave").attr("disabled",true);
             },
             success: function (data) {
+                $(".btnSave").attr("disabled",false);
                 sendrecordTable.ajax.reload();
                 clertAndCloseModal();
                 if(data){

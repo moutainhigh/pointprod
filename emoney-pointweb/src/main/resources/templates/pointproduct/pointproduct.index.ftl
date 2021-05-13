@@ -355,7 +355,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=12345678"></script>
+<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=111"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
 
 <script>

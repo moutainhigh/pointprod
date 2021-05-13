@@ -319,6 +319,7 @@
             data: obj,
             datatype: "text",
             success: function (data) {
+                $(".btnSave").attr("disabled",false);
                 if (data == "success") {
                     feedbackTable.ajax.reload();
                     clertAndCloseModal();
@@ -328,6 +329,7 @@
                 }
             },
             beforeSend: function () {
+                $(".btnSave").attr("disabled",true);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
             }

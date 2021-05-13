@@ -258,6 +258,7 @@ $(function() {
             data: obj,
             datatype: "text",
             success: function (data) {
+                $(".btnSave").attr("disabled",false);
                 if (data == "success") {
                     productTable.ajax.reload();
                     clertAndCloseModal();
@@ -266,6 +267,7 @@ $(function() {
                 }
             },
             beforeSend: function () {
+                $(".btnSave").attr("disabled",true);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
             }

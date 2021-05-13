@@ -284,6 +284,7 @@ $(function() {
 			data: obj,
 			datatype: "text",
 			success: function (data) {
+				$(".btnSave").attr("disabled",false);
 				if (data == "success") {
 					taskTable.ajax.reload();
 					clertAndCloseModal();
@@ -293,6 +294,7 @@ $(function() {
 				}
 			},
 			beforeSend: function () {
+				$(".btnSave").attr("disabled",true);
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
 			}
@@ -300,6 +302,10 @@ $(function() {
 	});
 
 	function validate(obj){
+		if(!obj.is_directional){
+			alert("请选择是否为定向任务");
+			return false;
+		}
 		if(!obj.tasktype){
 			alert("请选择任务类型");
 			return false;

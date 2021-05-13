@@ -92,7 +92,7 @@
 <!-- moment -->
 <script src="${request.contextPath}/static/adminlte/bower_components/moment/moment.min.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-<script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
+<script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js?v=111"></script>
 <script src="${request.contextPath}/static/js/pointquotation.index.1.js"></script>
 
 <script>

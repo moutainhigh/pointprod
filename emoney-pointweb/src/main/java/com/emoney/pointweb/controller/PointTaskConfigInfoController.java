@@ -60,7 +60,7 @@ public class PointTaskConfigInfoController {
     @ResponseBody
     public String edit(@RequestParam(required = false, defaultValue = "0") Integer id, @RequestParam(required = false, defaultValue = "0") Long taskId,
                        String subid, Integer tasktype, String taskname, Float taskpoints, String starttime, String endtime,
-                       Integer is_directional, Integer daily, String taskremark, String groupList, Integer sendType,
+                       @RequestParam(required = false, defaultValue = "0") Integer is_directional, Integer daily, String taskremark, String groupList, Integer sendType,
                        Integer jointimes, String ver, @RequestParam(required = false, defaultValue = "0") Integer ishomepage,
                        String platfrom, String pcurl, String appurl, Integer taskorder,
                        String wechaturl, String buttontext, String pcimageurl, String appimageurl, String wechatimageurl,
