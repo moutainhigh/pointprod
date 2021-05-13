@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.emoeny.pointcommon.result.Result;
 import com.emoeny.pointfacade.model.dto.PointRecordCreateDTO;
+import com.emoney.pointweb.repository.dao.entity.PointRecordDO;
 import com.emoney.pointweb.repository.dao.entity.dto.QueryCancelLogisticsOrderDTO;
 import com.emoney.pointweb.repository.dao.entity.dto.QueryStockUpLogisticsOrderDTO;
 import com.emoney.pointweb.repository.dao.entity.vo.QueryLogisticsOrderVO;
@@ -62,19 +63,22 @@ public class AutoSendRecordToLogisticsOrderJob {
                 ) {
                     String uid = userInfoService.getUidByEmNo(queryStockUp.getEmCard());
                     if (!StringUtils.isEmpty(uid)) {
-                        pointRecordCreateDTO = new PointRecordCreateDTO();
-                        pointRecordCreateDTO.setUid(Long.parseLong(uid));
-                        pointRecordCreateDTO.setTaskId(Long.parseLong(logisticsOrderTaskId));
-                        pointRecordCreateDTO.setPlatform(1);
-                        pointRecordCreateDTO.setTaskName("消费奖励积分  +N积分 ");
-                        pointRecordCreateDTO.setPid(queryStockUp.getProductID());
-                        pointRecordCreateDTO.setLockDays(15);
-                        pointRecordCreateDTO.setEmNo(queryStockUp.getEmCard());
-                        pointRecordCreateDTO.setRemark(queryStockUp.getORDER_ID());
-                        Result<Object> objectResult = pointRecordService.createPointRecord(pointRecordCreateDTO);
-                        log.info("购买赠送积分成功" + JSON.toJSONString(objectResult));
-                    } else {
-                        log.warn("购买赠送积分失败" + JSON.toJSONString(queryStockUp));
+                        List<PointRecordDO> pointRecordDOS = pointRecordService.getByUid(Long.parseLong(uid));
+                        if (pointRecordDOS == null || pointRecordDOS.stream().filter(h -> h.getTaskId().equals(Long.parseLong(logisticsOrderTaskId)) && h.getRemark().equals(queryStockUp.getDetID())).count() == 0) {
+                            pointRecordCreateDTO = new PointRecordCreateDTO();
+                            pointRecordCreateDTO.setUid(Long.parseLong(uid));
+                            pointRecordCreateDTO.setTaskId(Long.parseLong(logisticsOrderTaskId));
+                            pointRecordCreateDTO.setPlatform(1);
+                            pointRecordCreateDTO.setTaskName("消费奖励积分  +N积分 ");
+                            pointRecordCreateDTO.setPid(queryStockUp.getProductID());
+                            pointRecordCreateDTO.setLockDays(15);
+                            pointRecordCreateDTO.setEmNo(queryStockUp.getEmCard());
+                            pointRecordCreateDTO.setRemark(queryStockUp.getDetID());
+                            Result<Object> objectResult = pointRecordService.createPointRecord(pointRecordCreateDTO);
+                            log.info("购买赠送积分成功" + JSON.toJSONString(objectResult));
+                        } else {
+                            log.warn("购买赠送积分失败" + JSON.toJSONString(queryStockUp));
+                        }
                     }
                 }
             }
@@ -90,24 +94,25 @@ public class AutoSendRecordToLogisticsOrderJob {
                 ) {
                     String uid = userInfoService.getUidByEmNo(queryCancel.getEmCard());
                     if (!StringUtils.isEmpty(uid)) {
-                        pointRecordCreateDTO = new PointRecordCreateDTO();
-                        pointRecordCreateDTO.setUid(Long.parseLong(uid));
-                        pointRecordCreateDTO.setTaskId(Long.parseLong(logisticsOrderTaskId));
-                        pointRecordCreateDTO.setPlatform(1);
-                        pointRecordCreateDTO.setTaskName("退货扣除积分 -N积分 ");
-                        pointRecordCreateDTO.setPid(queryCancel.getProductID());
-                        pointRecordCreateDTO.setLockDays(15);
-                        pointRecordCreateDTO.setEmNo(queryCancel.getEmCard());
-                        pointRecordCreateDTO.setRemark(queryCancel.getORDER_ID());
-                        Result<Object> objectResult = pointRecordService.createPointRecord(pointRecordCreateDTO);
-                        log.info("退款订单扣积分成功:" + JSON.toJSONString(objectResult));
-                    } else {
-                        log.warn("退款订单扣积分失败" + JSON.toJSONString(queryCancel));
+                        List<PointRecordDO> pointRecordDOS = pointRecordService.getByUid(Long.parseLong(uid));
+                        if (pointRecordDOS == null || pointRecordDOS.stream().filter(h -> h.getTaskId().equals(Long.parseLong(logisticsOrderTaskId)) && h.getRemark().equals(queryCancel.getDetID())).count() == 0) {
+                            pointRecordCreateDTO = new PointRecordCreateDTO();
+                            pointRecordCreateDTO.setUid(Long.parseLong(uid));
+                            pointRecordCreateDTO.setTaskId(Long.parseLong(logisticsOrderTaskId));
+                            pointRecordCreateDTO.setPlatform(1);
+                            pointRecordCreateDTO.setTaskName("消费退款扣减积分   -N积分");
+                            pointRecordCreateDTO.setPid(queryCancel.getProductID());
+                            pointRecordCreateDTO.setLockDays(15);
+                            pointRecordCreateDTO.setEmNo(queryCancel.getEmCard());
+                            pointRecordCreateDTO.setRemark(queryCancel.getORDER_ID());
+                            Result<Object> objectResult = pointRecordService.createPointRecord(pointRecordCreateDTO);
+                            log.info("退款订单扣积分成功:" + JSON.toJSONString(objectResult));
+                        } else {
+                            log.warn("退款订单扣积分失败" + JSON.toJSONString(queryCancel));
+                        }
                     }
                 }
             }
-
-
             XxlJobLogger.log("AutoSendRecordToLogisticsOrderJob, end:" + DateUtil.formatDateTime(new Date()));
             return ReturnT.SUCCESS;
 

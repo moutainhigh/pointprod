@@ -30,4 +30,6 @@ public interface PointRecordService {
     List<PointRecordDO> getPointRecordByTaskIds(Long uid,List<Long> taskIds);
 
     Integer update(PointRecordDO pointRecordDO);
+
+    List<PointRecordDO> getByUid(Long uid);
 }

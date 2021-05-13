@@ -248,6 +248,11 @@ public class PointRecordServiceImpl implements PointRecordService {
         return pointRecordRepository.update(pointRecordDO);
     }
 
+    @Override
+    public List<PointRecordDO> getByUid(Long uid) {
+        return pointRecordRepository.getByUid(uid);
+    }
+
     private PointRecordDO setPointRecordDO(PointRecordCreateDTO pointRecordCreateDTO, PointTaskConfigInfoDO pointTaskConfigInfoDO) {
         PointRecordDO pointRecordDO = new PointRecordDO();
         pointRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
