@@ -116,7 +116,7 @@
                             <div class="col-sm-4">
                                 <div style="margin-top: 6px;" id="sendType">
                                     <input id="send1" type="radio" name="send" value="1" /><label for="send1">是</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input id="send2" type="radio" name="send" value="0" /><label for="send2">否</label>
+                                    <input id="send2" type="radio" name="send" value="0" checked/><label for="send2">否</label>
                                 </div>
                             </div>
                         </div>
@@ -337,7 +337,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointtaskconfiginfo.index.1.js?v=1234567"></script>
+<script src="${request.contextPath}/static/js/pointtaskconfiginfo.index.1.js?v=123456788"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
 
 <script>

@@ -304,6 +304,10 @@ $(function() {
 			alert("请选择任务类型");
 			return false;
 		}
+		if(!obj.sendType){
+			alert("请选择是否立即发送");
+			return false;
+		}
 		if(!obj.taskname){
 			alert("请填写任务名称");
 			return false;
