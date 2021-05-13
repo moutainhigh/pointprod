@@ -46,4 +46,6 @@ public class QueryLogisticsOrderVO {
     private String Cancel_Time;
     //产品实际退款金额
     private BigDecimal RealBackPrice;
+    //订单明细ID
+    private String DetID;
 }

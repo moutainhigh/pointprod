@@ -8,6 +8,7 @@ import com.emoeny.pointcommon.utils.OkHttpUtil;
 import com.emoney.pointweb.repository.dao.entity.vo.UserInfoVO;
 import com.emoney.pointweb.service.biz.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -41,6 +42,19 @@ public class UserInfoServiceImpl implements UserInfoService {
             return JsonUtil.toBeanList(JsonUtil.getValue(apiResult, "Message"), UserInfoVO.class);
         }
         return null;
+    }
+
+    @Override
+    public String getUidByEmNo(String emNo) {
+        Map<String, String> stringMap = new HashMap<>();
+        stringMap.put("gate_appid", "10015");
+        stringMap.put("userName", emNo);
+        stringMap.put("createLogin", "0");
+        //#根据用户em or 手机号获取用户uid
+        String res = OkHttpUtil.get(insideGatewayUrl + "/api/roboadvisor/1.0/user.getloginidbyname", stringMap);
+        String apiResult = JsonUtil.getValue(res, "Message");
+        String message = JsonUtil.getValue(apiResult, "Message");
+        return  JsonUtil.getValue(message, "PID");
     }
 
     @Override

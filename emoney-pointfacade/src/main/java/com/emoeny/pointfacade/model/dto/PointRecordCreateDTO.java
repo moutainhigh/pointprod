@@ -14,6 +14,8 @@ public class PointRecordCreateDTO {
     @NotNull(message = "任务id不能为空")
     private Long taskId;
 
+    private String taskName;
+
     @NotNull(message = "客户端类型不能为空")
     private Integer platform;
 

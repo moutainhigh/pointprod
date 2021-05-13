@@ -27,4 +27,11 @@ public interface UserInfoService {
      * @return
      */
     String getPidByUserId(Long uid);
+
+    /**
+     * 根据emNo获取Uid
+     * @param emNo
+     * @return
+     */
+    String getUidByEmNo(String emNo);
 }

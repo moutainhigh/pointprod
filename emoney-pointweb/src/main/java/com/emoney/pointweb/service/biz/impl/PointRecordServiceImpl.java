@@ -31,6 +31,7 @@ import com.emoney.pointweb.service.biz.UserLoginService;
 import com.emoney.pointweb.service.biz.kafka.KafkaProducerService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -254,8 +255,13 @@ public class PointRecordServiceImpl implements PointRecordService {
         pointRecordDO.setTaskId(pointTaskConfigInfoDO.getTaskId());
         pointRecordDO.setTaskName(pointTaskConfigInfoDO.getTaskName());
         pointRecordDO.setTaskPoint(pointTaskConfigInfoDO.getTaskPoints());
+
         if (pointRecordCreateDTO.getManualPoint() != null) {
             pointRecordDO.setTaskPoint(pointRecordCreateDTO.getManualPoint());
+        }
+
+        if(!StringUtils.isEmpty(pointRecordCreateDTO.getTaskName())){
+            pointRecordDO.setTaskName(pointRecordCreateDTO.getTaskName());
         }
         pointRecordDO.setIsDailytask(pointTaskConfigInfoDO.getIsDailyTask());
         pointRecordDO.setSubId(pointTaskConfigInfoDO.getSubId());

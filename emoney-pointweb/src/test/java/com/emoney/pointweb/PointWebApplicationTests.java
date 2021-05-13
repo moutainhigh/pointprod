@@ -126,7 +126,7 @@ class PointWebApplicationTests {
 
 
         //String pid=userInfoService.getPidByUserId(1001471383L);
-
+        String uid=userInfoService.getUidByEmNo("syjsb1710003");
 
         //String ret =messageService.sendMessage(1001471383L,"","http://test.point.emoney.cn/message/index");
 
