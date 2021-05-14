@@ -16,6 +16,7 @@
         <result column="pay_type" property="payType" jdbcType="VARCHAR"/>
         <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
         <result column="mobile_mask" property="mobileMask" jdbcType="VARCHAR"/>
+        <result column="product_file" property="productFile" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
         <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
@@ -31,7 +32,7 @@
     <sql id="Base_Column_List">
 
 
-        id, uid,em_no,order_no, trade_no, order_status, product_id,product_title,product_qty,point,cash,pay_type,mobile,mobile_mask,create_time,update_time,create_by,update_by,remark
+        id, uid,em_no,order_no, trade_no, order_status, product_id,product_title,product_qty,point,cash,pay_type,mobile,mobile_mask,product_file,create_time,update_time,create_by,update_by,remark
 
 
     </sql>
@@ -115,9 +116,9 @@
 
        INSERT INTO
        		t_point_order
-       		(uid,em_no,order_no, trade_no, order_status, product_id,product_title,product_qty,point,cash,pay_type,mobile,mobile_mask,create_time,update_time,create_by,update_by,remark)
+       		(uid,em_no,order_no, trade_no, order_status, product_id,product_title,product_qty,point,cash,pay_type,mobile,mobile_mask,product_file,create_time,update_time,create_by,update_by,remark)
        	VALUES
-       		(#{uid},#{emNo},#{orderNo},#{tradeNo}, #{orderStatus}, #{productId}, #{productTitle},#{productQty},#{point},#{cash},#{payType},#{mobile},#{mobileMask},#{createTime}, #{updateTime}, #{createBy}, #{updateBy},#{remark})
+       		(#{uid},#{emNo},#{orderNo},#{tradeNo}, #{orderStatus}, #{productId}, #{productTitle},#{productQty},#{point},#{cash},#{payType},#{mobile},#{mobileMask},#{productFile},#{createTime}, #{updateTime}, #{createBy}, #{updateBy},#{remark})
 
 
     </insert>
@@ -187,6 +188,11 @@
               <if test="mobileMask != null">
 
         mobile_mask = #{mobileMask,jdbcType=INTEGER},
+
+            </if>
+                          <if test="productFile != null">
+
+        product_file = #{productFile,jdbcType=INTEGER},
 
             </if>
             <if test="createTime != null">
