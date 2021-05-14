@@ -178,9 +178,9 @@
                             <label for="firstname" class="col-sm-2 control-label">产品版本<font color="red">*</font></label>
                             <div class="col-sm-4">
                                 <div style="margin-top: 6px;" id="ver">
-                                    <input id="ver1" type="checkbox" name="ver" value="1" /><label for="ver1">小智盈</label>
-                                    <input id="ver2" type="checkbox" name="ver" value="2" /><label for="ver2">深度资金版</label>
-                                    <input id="ver3" type="checkbox" name="ver" value="3" /><label for="ver3">掘金版</label>
+                                    <input id="ver1" type="checkbox" name="ver" value="888010000" /><label for="ver1">小智盈</label>
+                                    <input id="ver2" type="checkbox" name="ver" value="888020000" /><label for="ver2">深度资金版</label>
+                                    <input id="ver3" type="checkbox" name="ver" value="888080000" /><label for="ver3">掘金版</label>
                                 </div>
                             </div>
                             <label for="firstname" class="col-sm-2 control-label">是否定向<font color="red">*</font></label>
@@ -497,13 +497,13 @@
         if(res.productVersion){
             var ver=res.productVersion.split(',');
             for (var i=0;i<ver.length;i++){
-                if(ver[i]==1){
+                if(ver[i]=="888010000"){
                     $("#ver1").attr("checked", true);
                 }
-                if(ver[i]==2){
+                if(ver[i]=="888020000"){
                     $("#ver2").attr("checked", true);
                 }
-                if(ver[i]==3){
+                if(ver[i]=="888080000"){
                     $("#ver3").attr("checked", true);
                 }
             }

@@ -99,6 +99,7 @@
                 <li class="nav-click <#if pageName == "pointannounce">active</#if>" ><a href="/pointannounce"><i class="fa fa-circle-o text-yellow"></i><span>消息通知</span></a></li>
                 <li class="nav-click <#if pageName == "pointfeedback">active</#if>" ><a href="/pointfeedback"><i class="fa fa-circle-o text-yellow"></i><span>意见反馈</span></a></li>
                 <li class="nav-click <#if pageName == "pointquestion">active</#if>" ><a href="/pointquestion"><i class="fa fa-circle-o text-yellow"></i><span>每日一答</span></a></li>
+                <li class="nav-click <#if pageName == "pointsendconfiginfo">active</#if>" ><a href="/pointsendconfiginfo"><i class="fa fa-circle-o text-yellow"></i><span>购买赠送配置</span></a></li>
             </ul>
         </section>
         <!-- /.sidebar -->

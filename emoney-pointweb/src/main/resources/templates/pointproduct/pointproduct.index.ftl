@@ -494,13 +494,13 @@
         if(res.productVersion){
             var ver=res.productVersion.split(',');
             for (var i=0;i<ver.length;i++){
-                if(ver[i]==1){
+                if(ver[i]=="888010000"){
                     $("#ver1").attr("checked", true);
                 }
-                if(ver[i]==2){
+                if(ver[i]=="888020000"){
                     $("#ver2").attr("checked", true);
                 }
-                if(ver[i]==3){
+                if(ver[i]=="888080000"){
                     $("#ver3").attr("checked", true);
                 }
             }
