@@ -70,8 +70,8 @@ public class AutoSendRecordToLogisticsOrderJob {
             if (logisticsStockUpDateOrderVOS != null && logisticsStockUpDateOrderVOS.size() > 0) {
                 for (QueryLogisticsOrderVO queryStockUp : logisticsStockUpDateOrderVOS
                 ) {
-                    if (!StringUtils.isEmpty(queryStockUp.getEmCard())) {
-                        String uid = userInfoService.getUidByEmNo(queryStockUp.getEmCard());
+                    if (!StringUtils.isEmpty(queryStockUp.getMIDPWD())) {
+                        String uid = userInfoService.getUidByEmNo(queryStockUp.getMIDPWD());
                         if (!StringUtils.isEmpty(uid)) {
                             List<PointRecordDO> pointRecordDOS = pointRecordService.getByUid(Long.parseLong(uid));
                             if (pointRecordDOS == null || pointRecordDOS.stream().filter(h -> h.getTaskId().equals(Long.parseLong(logisticsOrderTaskId)) && h.getRemark().equals(queryStockUp.getDetID())).count() == 0) {
@@ -109,8 +109,8 @@ public class AutoSendRecordToLogisticsOrderJob {
             if (logisticsCancelDateOrderVOS != null && logisticsCancelDateOrderVOS.size() > 0) {
                 for (QueryLogisticsOrderVO queryCancel : logisticsCancelDateOrderVOS
                 ) {
-                    if (!StringUtils.isEmpty(queryCancel.getEmCard())) {
-                        String uid = userInfoService.getUidByEmNo(queryCancel.getEmCard());
+                    if (!StringUtils.isEmpty(queryCancel.getMIDPWD())) {
+                        String uid = userInfoService.getUidByEmNo(queryCancel.getMIDPWD());
                         if (!StringUtils.isEmpty(uid)) {
                             List<PointRecordDO> pointRecordDOS = pointRecordService.getByUid(Long.parseLong(uid));
                             if (pointRecordDOS == null || pointRecordDOS.stream().filter(h -> h.getTaskId().equals(Long.parseLong(logisticsOrderTaskId)) && h.getRemark().equals(queryCancel.getDetID())).count() == 0) {
