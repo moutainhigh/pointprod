@@ -35,7 +35,7 @@ public class LogisticsOrderServiceImpl implements LogisticsOrderService {
             ResultInfo<String> resultInfo = JSON.parseObject(ret, ResultInfo.class);
             if (resultInfo != null && resultInfo.getRetCode().equals(0)) {
                 OrderResultInfo<List<QueryLogisticsOrderVO>> orderResultInfo=JsonUtil.toBean(resultInfo.getMessage(),OrderResultInfo.class);
-                return JsonUtil.toBeanList(JSON.toJSONString(orderResultInfo),QueryLogisticsOrderVO.class);
+                return JsonUtil.toBeanList(JSON.toJSONString(orderResultInfo.getData()),QueryLogisticsOrderVO.class);
             }
         }
         return null;
@@ -49,7 +49,7 @@ public class LogisticsOrderServiceImpl implements LogisticsOrderService {
             ResultInfo<String> resultInfo = JSON.parseObject(ret, ResultInfo.class);
             if (resultInfo != null && resultInfo.getRetCode().equals(0)) {
                 OrderResultInfo<List<QueryLogisticsOrderVO>> orderResultInfo=JsonUtil.toBean(resultInfo.getMessage(),OrderResultInfo.class);
-                return JsonUtil.toBeanList(JSON.toJSONString(orderResultInfo),QueryLogisticsOrderVO.class);
+                return JsonUtil.toBeanList(JSON.toJSONString(orderResultInfo.getData()),QueryLogisticsOrderVO.class);
             }
         }
         return null;
