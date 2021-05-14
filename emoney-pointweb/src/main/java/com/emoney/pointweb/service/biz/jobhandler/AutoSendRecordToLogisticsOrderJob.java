@@ -5,11 +5,13 @@ import com.alibaba.fastjson.JSON;
 import com.emoeny.pointcommon.result.Result;
 import com.emoeny.pointfacade.model.dto.PointRecordCreateDTO;
 import com.emoney.pointweb.repository.dao.entity.PointRecordDO;
+import com.emoney.pointweb.repository.dao.entity.PointSendConfigInfoDO;
 import com.emoney.pointweb.repository.dao.entity.dto.QueryCancelLogisticsOrderDTO;
 import com.emoney.pointweb.repository.dao.entity.dto.QueryStockUpLogisticsOrderDTO;
 import com.emoney.pointweb.repository.dao.entity.vo.QueryLogisticsOrderVO;
 import com.emoney.pointweb.service.biz.LogisticsOrderService;
 import com.emoney.pointweb.service.biz.PointRecordService;
+import com.emoney.pointweb.service.biz.PointSendConfigInfoService;
 import com.emoney.pointweb.service.biz.UserInfoService;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.annotation.XxlJob;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +38,9 @@ public class AutoSendRecordToLogisticsOrderJob {
 
     @Autowired
     private UserInfoService userInfoService;
+
+    @Autowired
+    private PointSendConfigInfoService pointSendConfigInfoService;
 
     @Value("${logisticsOrderTaskId}")
     private String logisticsOrderTaskId;
@@ -74,10 +80,14 @@ public class AutoSendRecordToLogisticsOrderJob {
                             pointRecordCreateDTO.setLockDays(15);
                             pointRecordCreateDTO.setEmNo(queryStockUp.getEmCard());
                             pointRecordCreateDTO.setRemark(queryStockUp.getDetID());
-                            Result<Object> objectResult = pointRecordService.createPointRecord(pointRecordCreateDTO);
-                            log.info("购买赠送积分成功" + JSON.toJSONString(objectResult));
-                        } else {
-                            log.warn("购买赠送积分失败" + JSON.toJSONString(queryStockUp));
+                            BigDecimal rato = getRate(pointRecordCreateDTO.getPid(), queryStockUp.getProdType());
+                            if (rato != null) {
+                                pointRecordCreateDTO.setManualPoint(Float.parseFloat(String.valueOf(Math.round(queryStockUp.getSPRICE().floatValue() * (rato.floatValue() / 100)))));
+                                Result<Object> objectResult = pointRecordService.createPointRecord(pointRecordCreateDTO);
+                                log.info("购买赠送积分成功" + JSON.toJSONString(objectResult));
+                            } else {
+                                log.warn("购买赠送积分失败,没有配置比例" + JSON.toJSONString(queryStockUp));
+                            }
                         }
                     }
                 }
@@ -105,10 +115,14 @@ public class AutoSendRecordToLogisticsOrderJob {
                             pointRecordCreateDTO.setLockDays(15);
                             pointRecordCreateDTO.setEmNo(queryCancel.getEmCard());
                             pointRecordCreateDTO.setRemark(queryCancel.getORDER_ID());
-                            Result<Object> objectResult = pointRecordService.createPointRecord(pointRecordCreateDTO);
-                            log.info("退款订单扣积分成功:" + JSON.toJSONString(objectResult));
-                        } else {
-                            log.warn("退款订单扣积分失败" + JSON.toJSONString(queryCancel));
+                            BigDecimal rato = getRate(pointRecordCreateDTO.getPid(), queryCancel.getProdType());
+                            if (rato != null) {
+                                pointRecordCreateDTO.setManualPoint(-Float.parseFloat(String.valueOf(Math.round(queryCancel.getSPRICE().floatValue() * (rato.floatValue() / 100)))));
+                                Result<Object> objectResult = pointRecordService.createPointRecord(pointRecordCreateDTO);
+                                log.info("退款订单扣积分成功" + JSON.toJSONString(objectResult));
+                            } else {
+                                log.warn("退款订单扣积分失败,没有配置比例" + JSON.toJSONString(queryCancel));
+                            }
                         }
                     }
                 }
@@ -120,5 +134,11 @@ public class AutoSendRecordToLogisticsOrderJob {
             log.error("AutoSendRecordToLogisticsOrderJob error:", e);
         }
         return ReturnT.FAIL;
+    }
+
+    private BigDecimal getRate(String pid, String prodType) {
+        List<PointSendConfigInfoDO> pointSendConfigInfoDOS = pointSendConfigInfoService.queryAll();
+        PointSendConfigInfoDO pointSendConfigInfoDO = pointSendConfigInfoDOS.stream().filter(h -> h.getBuyType().equals((prodType.equals("A23001") || prodType.equals("A23004")) ? 1 : 2) && h.getProductVersion().equals(pid)).findFirst().orElse(null);
+        return pointSendConfigInfoDO != null ? pointSendConfigInfoDO.getRatio() : null;
     }
 }
