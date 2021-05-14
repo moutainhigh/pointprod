@@ -69,7 +69,7 @@ public class PointProductController {
     @ResponseBody
     public String edit(@RequestParam(required = false, defaultValue = "0") Integer id, Integer productType, String ver,String plat, String pcimg, String appimg, String wechatimg,
                        Integer exchangeType, String acCode, @RequestParam(required = false, defaultValue = "0") Integer productDays, String actStartTime, String actEndTime, String productName,
-                       @RequestParam(required = false, defaultValue = "0")float productPrice, String exChangeStartTime, String exChangeEndTime,String groupList,
+                       @RequestParam(required = false, defaultValue = "0")float productPrice, String exChangeStartTime, String exChangeEndTime,String groupList,String fileurl,
                        @RequestParam(required = false, defaultValue = "0") BigDecimal productCash, @RequestParam(required = false, defaultValue = "0")float productPoint,
                        Integer totalLimit, Integer perLimit, String exChangeContent, String pcdetailimg, String appdetailimg, String wechatdetailimg,String remark,
                        HttpServletRequest request, HttpServletResponse response){
@@ -88,6 +88,7 @@ public class PointProductController {
             pointProductDO.setPerLimit(perLimit);
             pointProductDO.setTotalLimit(totalLimit);
             pointProductDO.setUserGroup(groupList);
+            pointProductDO.setProductFile(fileurl);
             if(!exChangeStartTime.isEmpty()){
                 pointProductDO.setExchangeStarttime(sdf.parse(exChangeStartTime));
             }

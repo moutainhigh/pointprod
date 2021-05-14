@@ -236,9 +236,9 @@
                             <label for="firstname" class="col-sm-2 control-label">产品版本<font color="red">*</font></label>
                             <div class="col-sm-4">
                                 <div style="margin-top: 6px;" id="ver">
-                                    <input id="ver1" type="checkbox" name="ver" value="1" /><label for="ver1">小智盈</label>
-                                    <input id="ver2" type="checkbox" name="ver" value="2" /><label for="ver2">深度资金版</label>
-                                    <input id="ver3" type="checkbox" name="ver" value="3" /><label for="ver3">掘金版</label>
+                                    <input id="ver1" type="checkbox" name="ver" value="888010000" /><label for="ver1">小智盈</label>
+                                    <input id="ver2" type="checkbox" name="ver" value="888020000" /><label for="ver2">深度资金版</label>
+                                    <input id="ver3" type="checkbox" name="ver" value="888080000" /><label for="ver3">掘金版</label>
                                 </div>
                             </div>
                         </div>
@@ -265,6 +265,17 @@
                             <label for="txtMerchantName" class="col-sm-2 control-label">使用说明</label>
                             <div class="col-sm-10">
                                 <div id="txtRemark"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">附件</label>
+                            <div class="col-sm-10">
+                                <div id="pcPicUploader" style="width: 100%;">
+                                    <div id="FileList" style="position:relative;width: 100%;" class="uploader-list">
+                                    </div>
+                                    <div id="FilePicker" class="FilePicker">上传附件</div>
+                                </div>
                             </div>
                         </div>
 
@@ -334,6 +345,7 @@
     <input type="hidden" id="pcdetailimg" value="">
     <input type="hidden" id="appdetailimg" value="">
     <input type="hidden" id="wechatdetailimg" value="">
+    <input type="hidden" id="fileurl" value="">
 
     <!-- footer -->
     <@netCommon.commonFooter />
@@ -356,7 +368,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
 <script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=111"></script>
-<script src="${request.contextPath}/static/js/webuploader.js"></script>
+<script src="${request.contextPath}/static/js/webuploader.js?v=111"></script>
 
 <script>
 
@@ -525,6 +537,10 @@
         $("#pcdetailimg").val(res.pcExangeDetailimgurl);
         $("#appdetailimg").val(res.appExangeDetailimgurl);
         $("#wechatdetailimg").val(res.webchatExangeDetailimgurl);
+        $("#fileurl").val(res.productFile);
+        if(res.productFile != "" && res.productFile != null){
+            $("#FileList").html(res.productFile);
+        }
         if (res.pcExangeimgurl != "" && res.pcExangeimgurl != null) {
             var imagestr = "<div class=\"file-item thumbnail upload-state-done oldImage\">" +
                 "<img src=\"" + res.pcExangeimgurl + "\">" +

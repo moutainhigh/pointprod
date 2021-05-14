@@ -34,6 +34,8 @@ public class PointProductDO implements Serializable {
 
     private Integer productDays;
 
+    private String productFile;
+
     /**
      *
      */

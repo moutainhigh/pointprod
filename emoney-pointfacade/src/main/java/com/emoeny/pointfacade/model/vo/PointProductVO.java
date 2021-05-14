@@ -41,6 +41,8 @@ public class PointProductVO {
 
     private Integer productDays;
 
+    private String productFile;
+
     /**
      *
      */

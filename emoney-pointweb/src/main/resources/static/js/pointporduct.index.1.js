@@ -81,9 +81,9 @@ $(function() {
                 "data": 'productVersion',
                 "render": function (data, type, row) {
                     if(data){
-                        data=data.substring(0,data.length-1).replace("1","小智盈");
-                        data=data.replace("2","深度资金版");
-                        data=data.replace("3","掘金版");
+                        data=data.substring(0,data.length-1).replace("888010000","小智盈");
+                        data=data.replace("888020000","深度资金版");
+                        data=data.replace("888080000","掘金版");
                         return data;
                     }else {
                         return "";
@@ -220,6 +220,7 @@ $(function() {
         obj.productPoint=$("#productPoint").val();
         obj.totalLimit=$("#totalLimit").val();
         obj.perLimit=$("#perLimit").val();
+        obj.fileurl=$("#fileurl").val();
         var ver="";
         $("#ver input[type=checkbox]:checked").each(function() {
             ver +=  $(this).val() + ',';

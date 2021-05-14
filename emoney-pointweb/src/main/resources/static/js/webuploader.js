@@ -535,4 +535,52 @@ $(function() {
 
         $error.text('上传失败');
     });
+
+    //wechat
+    var $filelist = $('#FileList'),
+
+        // Web Uploader实例
+        fileuploader;
+
+    var fileuploader = WebUploader.create({
+
+        auto: true,
+
+        // swf文件路径
+        swf: base_url + '/static/js/webuploader-0.1.5/webuploader.swf',
+
+        // 文件接收服务端。
+        server: base_url+'/fileuploader/upload',
+
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#FilePicker',
+
+        duplicate: true
+    });
+
+    // 当有文件添加进来的时候
+    fileuploader.on( 'fileQueued', function( file ) {
+        $filelist.find(".file-item").remove();
+    });
+
+    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+    fileuploader.on('uploadSuccess', function (file, response) {
+        $('#' + file.id).addClass('upload-state-done');
+        $("#FileList").html(response.url);
+        $("#fileurl").val(response.url);
+    });
+
+    // 文件上传失败，现实上传出错。
+    fileuploader.on('uploadError', function (file) {
+        var $li = $('#' + file.id),
+            $error = $li.find('div.error');
+
+        // 避免重复创建
+        if (!$error.length) {
+            $error = $('<div class="error"></div>').appendTo($li);
+        }
+
+        $error.text('上传失败');
+    });
 });
