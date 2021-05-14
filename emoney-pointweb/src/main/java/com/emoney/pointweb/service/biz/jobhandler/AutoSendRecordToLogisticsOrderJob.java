@@ -61,8 +61,11 @@ public class AutoSendRecordToLogisticsOrderJob {
             QueryStockUpLogisticsOrderDTO queryStockUpLogisticsOrderDTO = new QueryStockUpLogisticsOrderDTO();
             queryStockUpLogisticsOrderDTO.setProductID("888010000,888020000,888080000,888040000,888090000");
             queryStockUpLogisticsOrderDTO.setRefund_Sign(1);
-            queryStockUpLogisticsOrderDTO.setStockUpDate_Start(DateUtil.format(DateUtil.date(), "yyyy-MM-dd"));
-            queryStockUpLogisticsOrderDTO.setStockUpDate_End(DateUtil.format(DateUtil.offsetDay(DateUtil.date(), 1), "yyyy-MM-dd"));
+            //queryStockUpLogisticsOrderDTO.setStockUpDate_Start(DateUtil.format(DateUtil.date(), "yyyy-MM-dd"));
+            //queryStockUpLogisticsOrderDTO.setStockUpDate_End(DateUtil.format(DateUtil.offsetDay(DateUtil.date(), 1), "yyyy-MM-dd"));
+            queryStockUpLogisticsOrderDTO.setStockUpDate_Start("2021-01-01");
+            queryStockUpLogisticsOrderDTO.setStockUpDate_End("2021-05-01");
+
             List<QueryLogisticsOrderVO> logisticsStockUpDateOrderVOS = logisticsOrderService.getStockUpLogisticsOrder(queryStockUpLogisticsOrderDTO);
             if (logisticsStockUpDateOrderVOS != null && logisticsStockUpDateOrderVOS.size() > 0) {
                 for (QueryLogisticsOrderVO queryStockUp : logisticsStockUpDateOrderVOS
@@ -96,8 +99,10 @@ public class AutoSendRecordToLogisticsOrderJob {
             QueryCancelLogisticsOrderDTO queryCancelLogisticsOrderDTO = new QueryCancelLogisticsOrderDTO();
             queryCancelLogisticsOrderDTO.setProductID("888010000,888020000,888080000,888040000,888090000");
             queryCancelLogisticsOrderDTO.setRefund_Sign(-1);
-            queryCancelLogisticsOrderDTO.setCancel_Time_Start(DateUtil.format(DateUtil.date(), "yyyy-MM-dd"));
-            queryCancelLogisticsOrderDTO.setCancel_Time_End(DateUtil.format(DateUtil.offsetDay(DateUtil.date(), 1), "yyyy-MM-dd"));
+            //queryCancelLogisticsOrderDTO.setCancel_Time_Start(DateUtil.format(DateUtil.date(), "yyyy-MM-dd"));
+            //queryCancelLogisticsOrderDTO.setCancel_Time_End(DateUtil.format(DateUtil.offsetDay(DateUtil.date(), 1), "yyyy-MM-dd"));
+            queryCancelLogisticsOrderDTO.setCancel_Time_Start("2021-01-01");
+            queryCancelLogisticsOrderDTO.setCancel_Time_End("2021-05-01");
             List<QueryLogisticsOrderVO> logisticsCancelDateOrderVOS = logisticsOrderService.getCancelLogisticsOrder(queryCancelLogisticsOrderDTO);
             if (logisticsCancelDateOrderVOS != null && logisticsCancelDateOrderVOS.size() > 0) {
                 for (QueryLogisticsOrderVO queryCancel : logisticsCancelDateOrderVOS
