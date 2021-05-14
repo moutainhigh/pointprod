@@ -33,6 +33,7 @@ $(function() {
         },
         "searching": false,
         "ordering": false,
+        "scrollX": true,
         "columns": [
             {
                 "data": null

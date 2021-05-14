@@ -38,7 +38,7 @@ $(function() {
 		},
 		"searching": true,
 		"ordering": true,
-		//"scrollX": true,	// scroll x，close self-adaption
+		"scrollX": true,	// scroll x，close self-adaption
 		"columns": [
 			{
 				"data": null
