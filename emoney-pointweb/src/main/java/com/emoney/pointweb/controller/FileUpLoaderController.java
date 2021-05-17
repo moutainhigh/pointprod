@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -18,8 +19,8 @@ import java.util.*;
 @Slf4j
 public class FileUpLoaderController {
 
-    private final String newLine= "\r\n" ;
-    private final String Point="Point";
+    private final String newLine = "\r\n";
+    private final String Point = "Point";
 
     @Value("${fileurl}")
     private String fileurl;
@@ -28,7 +29,7 @@ public class FileUpLoaderController {
     @ResponseBody
     public String uploadFile(MultipartFile file) throws Exception {
         try {
-            String fileName = DateUtil.format(new Date(),"yyyyMMddHHmmss") + "." + file.getOriginalFilename().split("\\.")[1];
+            String fileName = DateUtil.format(new Date(), "yyyyMMddHHmmss") + "." + file.getOriginalFilename().split("\\.")[1];
             URL url = new URL(fileurl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
@@ -53,7 +54,7 @@ public class FileUpLoaderController {
             sb.append("------------");
             sb.append(newLine);
             // 文件参数,photo参数名可以随意修改
-            sb.append("Content-Disposition: form-data;name=\"file1\";filename=\"" + fileName  + "\"" + newLine);
+            sb.append("Content-Disposition: form-data;name=\"file1\";filename=\"" + fileName + "\"" + newLine);
             sb.append("Content-Type:application/octet-stream");
             // 参数头设置完以后需要两个换行，然后才是参数内容
             sb.append(newLine);
@@ -85,7 +86,7 @@ public class FileUpLoaderController {
             out.close();
 
             // 定义BufferedReader输入流来读取URL的响应
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"gb2312"));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "gb2312"));
 
             String line = null;
             StringBuffer strs = new StringBuffer("");
@@ -97,7 +98,7 @@ public class FileUpLoaderController {
             return txt;
 
         } catch (Exception e) {
-            log.error("上传文件发生错误："+e);
+            log.error("上传文件发生错误：" + e);
         }
 
         return null;
@@ -105,9 +106,9 @@ public class FileUpLoaderController {
 
     @RequestMapping(value = "/uploadimg")
     @ResponseBody
-    public String uploadImg(@RequestParam("myFile") MultipartFile file){
+    public String uploadImg(@RequestParam("myFile") MultipartFile file) {
         try {
-            String fileName = DateUtil.format(new Date(),"yyyyMMddHHmmss") + "." + file.getOriginalFilename().split("\\.")[1];
+            String fileName = DateUtil.format(new Date(), "yyyyMMddHHmmss") + "." + file.getOriginalFilename().split("\\.")[1];
             URL url = new URL(fileurl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
@@ -132,7 +133,7 @@ public class FileUpLoaderController {
             sb.append("------------");
             sb.append(newLine);
             // 文件参数,photo参数名可以随意修改
-            sb.append("Content-Disposition: form-data;name=\"file1\";filename=\"" + fileName  + "\"" + newLine);
+            sb.append("Content-Disposition: form-data;name=\"file1\";filename=\"" + fileName + "\"" + newLine);
             sb.append("Content-Type:application/octet-stream");
             // 参数头设置完以后需要两个换行，然后才是参数内容
             sb.append(newLine);
@@ -164,7 +165,7 @@ public class FileUpLoaderController {
             out.close();
 
             // 定义BufferedReader输入流来读取URL的响应
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"gb2312"));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "gb2312"));
 
             String line = null;
             StringBuffer strs = new StringBuffer("");
@@ -172,13 +173,13 @@ public class FileUpLoaderController {
                 strs.append(line);
             }
 
-            String [] urls = {JsonUtil.getValue(strs.toString(),"url")};
+            String[] urls = {JsonUtil.getValue(strs.toString(), "url")};
             WangEditor we = new WangEditor(urls);
-            String data=JSON.toJSONString(we);
+            String data = JSON.toJSONString(we);
             System.out.print(data);
             return data;
-        }catch (Exception e){
-            log.error("上传文件失败："+e);
+        } catch (Exception e) {
+            log.error("上传文件失败：" + e);
         }
         return null;
     }
