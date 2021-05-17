@@ -38,6 +38,7 @@ $(function() {
         },
         "searching": true,
         "ordering": true,
+        "scrollX": true,
         "columns": [
             {
                 "data": null

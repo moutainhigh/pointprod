@@ -61,10 +61,10 @@
             </div>
 
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-sm-12">
                     <div class="box">
                         <div class="box-body" >
-                            <table id="task_list" class="table table-bordered table-striped" width="100%" >
+                            <table id="task_list" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>序号</th>
