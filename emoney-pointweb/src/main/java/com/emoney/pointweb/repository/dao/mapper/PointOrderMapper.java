@@ -31,6 +31,12 @@ public interface PointOrderMapper {
     List<PointOrderDO> getByUidAndProductId(Long uid,Integer productId);
 
     /**
+     * 查询优惠券和新功能体验的已支付订单
+     * @return
+     */
+    List<PointOrderDO> getOrdersByStatusAndIsSend();
+
+    /**
      * 根据产品id获取已经购买数量
      * @param productId
      * @return

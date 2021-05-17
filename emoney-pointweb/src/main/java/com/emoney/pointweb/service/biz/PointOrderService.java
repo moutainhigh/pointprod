@@ -45,4 +45,6 @@ public interface PointOrderService {
     PointOrderDO getByOrderNo(String orderNo);
 
     List<PointOrderDO> getByUidAndProductId(Long uid,Integer productId);
+
+    List<PointOrderDO> getOrdersByStatusAndIsSend();
 }

@@ -56,4 +56,10 @@ public interface PointOrderRepository {
     Integer update(PointOrderDO pointOrderDO);
 
     List<PointOrderDO> getAllByOrderStatus(Integer orderStatus);
+
+    /**
+     * 查询优惠券和新功能体验的已支付订单
+     * @return
+     */
+    List<PointOrderDO> getOrdersByStatusAndIsSend();
 }

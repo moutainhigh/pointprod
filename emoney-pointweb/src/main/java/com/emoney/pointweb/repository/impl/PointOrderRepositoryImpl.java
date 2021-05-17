@@ -95,4 +95,9 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
     public List<PointOrderDO> getAllByOrderStatus(Integer orderStatus) {
         return pointOrderMapper.getAllByOrderStatus(orderStatus);
     }
+
+    @Override
+    public List<PointOrderDO> getOrdersByStatusAndIsSend() {
+        return pointOrderMapper.getOrdersByStatusAndIsSend();
+    }
 }
