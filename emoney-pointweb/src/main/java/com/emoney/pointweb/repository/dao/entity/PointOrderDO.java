@@ -32,6 +32,7 @@ public class PointOrderDO {
     private String mobile;
     private String mobileMask;
     private String productFile;
+    private Boolean isSend;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
