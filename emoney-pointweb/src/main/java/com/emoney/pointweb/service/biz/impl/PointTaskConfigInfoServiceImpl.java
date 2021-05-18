@@ -108,9 +108,9 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
             ) {
                 if (!StringUtils.isEmpty(pointTaskConfigInfoDO.getPcRedirectUrl()) && pointTaskConfigInfoDO.getPcRedirectUrl().contains("http") && !pointTaskConfigInfoDO.getPcRedirectUrl().contains("source=point")) {
                     if (pointTaskConfigInfoDO.getPcRedirectUrl().contains("?")) {
-                        pointTaskConfigInfoDO.setPcRedirectUrl("&source=point");
+                        pointTaskConfigInfoDO.setPcRedirectUrl(pointTaskConfigInfoDO.getPcRedirectUrl()+"&source=point");
                     } else {
-                        pointTaskConfigInfoDO.setPcRedirectUrl("?source=point");
+                        pointTaskConfigInfoDO.setPcRedirectUrl(pointTaskConfigInfoDO.getPcRedirectUrl()+"?source=point");
                     }
                 }
             }
@@ -204,9 +204,9 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
             ) {
                 if (!StringUtils.isEmpty(pointTaskConfigInfoDO.getPcRedirectUrl()) && pointTaskConfigInfoDO.getPcRedirectUrl().contains("http") && !pointTaskConfigInfoDO.getPcRedirectUrl().contains("source=point")) {
                     if (pointTaskConfigInfoDO.getPcRedirectUrl().contains("?")) {
-                        pointTaskConfigInfoDO.setPcRedirectUrl("&source=point");
+                        pointTaskConfigInfoDO.setPcRedirectUrl(pointTaskConfigInfoDO.getPcRedirectUrl()+"&source=point");
                     } else {
-                        pointTaskConfigInfoDO.setPcRedirectUrl("?source=point");
+                        pointTaskConfigInfoDO.setPcRedirectUrl(pointTaskConfigInfoDO.getPcRedirectUrl()+"?source=point");
                     }
                 }
             }
