@@ -79,7 +79,7 @@ public class LogisticsServiceImpl implements LogisticsService {
             ResultInfo<String> resultInfo = JSON.parseObject(ret, ResultInfo.class);
             if (resultInfo != null && resultInfo.getRetCode().equals(0)) {
                 LogisticsResultInfo<String> logisticsResultInfo = JsonUtil.toBean(resultInfo.getMessage(), LogisticsResultInfo.class);
-                return logisticsResultInfo == null;
+                return (logisticsResultInfo != null && logisticsResultInfo.getCode().equals(0)) ? true : false;
             }
         }
         return false;
@@ -93,7 +93,7 @@ public class LogisticsServiceImpl implements LogisticsService {
             ResultInfo<String> resultInfo = JSON.parseObject(ret, ResultInfo.class);
             if (resultInfo != null && resultInfo.getRetCode().equals(0)) {
                 LogisticsResultInfo<String> logisticsResultInfo = JsonUtil.toBean(resultInfo.getMessage(), LogisticsResultInfo.class);
-                return logisticsResultInfo == null;
+                return (logisticsResultInfo != null && logisticsResultInfo.getCode().equals(0)) ? true : false;
             }
         }
         return false;

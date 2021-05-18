@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.emoney.pointweb.repository.dao.entity.PointOrderDO;
 import com.emoney.pointweb.repository.dao.entity.PointProductDO;
 import com.emoney.pointweb.repository.dao.entity.PointRecordDO;
+import com.emoney.pointweb.repository.dao.entity.dto.CreateActivityGrantApplyAccountDTO;
 import com.emoney.pointweb.repository.dao.entity.dto.SendCouponDTO;
 import com.emoney.pointweb.repository.dao.entity.dto.SendPrivilegeDTO;
 import com.emoney.pointweb.repository.dao.entity.vo.QueryCouponActivityVO;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -79,16 +81,15 @@ public class AutoSendCouponOrPrivilegeJob {
                         } else if (pointOrderDO.getProductType().equals(3)) {
                             //新功能体验
                             SendPrivilegeDTO sendPrivilegeDTO=new SendPrivilegeDTO();
+                            List<CreateActivityGrantApplyAccountDTO> activityGrantApplyAccountDTOS=new ArrayList<>();
                             sendPrivilegeDTO.setAppId("a002");
-                            sendPrivilegeDTO.setGrantPolicy("P1002");
-                            sendPrivilegeDTO.setGrantCategory("");
-                            sendPrivilegeDTO.setOAProposalID("");
-                            sendPrivilegeDTO.setOAProposalName("");
                             sendPrivilegeDTO.setReason("");
-                            sendPrivilegeDTO.setIsSendMobile(0);
                             sendPrivilegeDTO.setCostBearDeptCode("");
                             sendPrivilegeDTO.setApplyUserID("");
-
+                            CreateActivityGrantApplyAccountDTO createActivityGrantApplyAccountDTO=new CreateActivityGrantApplyAccountDTO();
+                            createActivityGrantApplyAccountDTO.setAccountType(2);
+                            createActivityGrantApplyAccountDTO.setMID(pointOrderDO.getMobile());
+                            activityGrantApplyAccountDTOS.add(createActivityGrantApplyAccountDTO);
                             Boolean ret=logisticsService.SenddPrivilege(sendPrivilegeDTO);
                             if (ret) {
                                 log.info("积分赠送特权成功,参数:" + JSON.toJSONString(sendPrivilegeDTO));
