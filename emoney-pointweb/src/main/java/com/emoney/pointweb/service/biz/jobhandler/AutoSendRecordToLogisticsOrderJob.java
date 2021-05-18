@@ -9,7 +9,7 @@ import com.emoney.pointweb.repository.dao.entity.PointSendConfigInfoDO;
 import com.emoney.pointweb.repository.dao.entity.dto.QueryCancelLogisticsOrderDTO;
 import com.emoney.pointweb.repository.dao.entity.dto.QueryStockUpLogisticsOrderDTO;
 import com.emoney.pointweb.repository.dao.entity.vo.QueryLogisticsOrderVO;
-import com.emoney.pointweb.service.biz.LogisticsOrderService;
+import com.emoney.pointweb.service.biz.LogisticsService;
 import com.emoney.pointweb.service.biz.PointRecordService;
 import com.emoney.pointweb.service.biz.PointSendConfigInfoService;
 import com.emoney.pointweb.service.biz.UserInfoService;
@@ -31,7 +31,7 @@ import java.util.List;
 public class AutoSendRecordToLogisticsOrderJob {
 
     @Autowired
-    private LogisticsOrderService logisticsOrderService;
+    private LogisticsService logisticsService;
 
     @Autowired
     private PointRecordService pointRecordService;
@@ -66,7 +66,7 @@ public class AutoSendRecordToLogisticsOrderJob {
             //queryStockUpLogisticsOrderDTO.setStockUpDate_Start("2021-01-01");
             //queryStockUpLogisticsOrderDTO.setStockUpDate_End("2021-05-01");
 
-            List<QueryLogisticsOrderVO> logisticsStockUpDateOrderVOS = logisticsOrderService.getStockUpLogisticsOrder(queryStockUpLogisticsOrderDTO);
+            List<QueryLogisticsOrderVO> logisticsStockUpDateOrderVOS = logisticsService.getStockUpLogisticsOrder(queryStockUpLogisticsOrderDTO);
             if (logisticsStockUpDateOrderVOS != null && logisticsStockUpDateOrderVOS.size() > 0) {
                 for (QueryLogisticsOrderVO queryStockUp : logisticsStockUpDateOrderVOS
                 ) {
@@ -105,7 +105,7 @@ public class AutoSendRecordToLogisticsOrderJob {
             queryCancelLogisticsOrderDTO.setCancel_Time_End(DateUtil.format(DateUtil.offsetDay(DateUtil.date(), 1), "yyyy-MM-dd"));
 //            queryCancelLogisticsOrderDTO.setCancel_Time_Start("2021-01-01");
 //            queryCancelLogisticsOrderDTO.setCancel_Time_End("2021-05-01");
-            List<QueryLogisticsOrderVO> logisticsCancelDateOrderVOS = logisticsOrderService.getCancelLogisticsOrder(queryCancelLogisticsOrderDTO);
+            List<QueryLogisticsOrderVO> logisticsCancelDateOrderVOS = logisticsService.getCancelLogisticsOrder(queryCancelLogisticsOrderDTO);
             if (logisticsCancelDateOrderVOS != null && logisticsCancelDateOrderVOS.size() > 0) {
                 for (QueryLogisticsOrderVO queryCancel : logisticsCancelDateOrderVOS
                 ) {

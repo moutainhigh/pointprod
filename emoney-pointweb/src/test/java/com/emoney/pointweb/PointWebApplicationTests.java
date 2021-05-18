@@ -1,29 +1,14 @@
 package com.emoney.pointweb;
 
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.IdUtil;
-import com.emoeny.pointcommon.result.Result;
-import com.emoeny.pointcommon.result.ResultInfo;
-import com.emoeny.pointcommon.result.userinfo.TicketInfo;
-import com.emoeny.pointcommon.utils.OkHttpUtil;
 import com.emoeny.pointfacade.facade.pointquestion.PointQuestionFacade;
-import com.emoeny.pointfacade.model.vo.PointQuestionVO;
 import com.emoney.pointweb.repository.*;
-import com.emoney.pointweb.repository.dao.entity.*;
-import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupDTO;
-import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupData;
-import com.emoney.pointweb.repository.dao.entity.dto.QueryStockUpLogisticsOrderDTO;
-import com.emoney.pointweb.repository.dao.entity.vo.CheckUserGroupVO;
-import com.emoney.pointweb.repository.dao.entity.vo.QueryLogisticsOrderVO;
-import com.emoney.pointweb.repository.dao.entity.vo.UserInfoVO;
 import com.emoney.pointweb.repository.dao.mapper.PointLimitMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointMessageMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointRecordMapper;
 import com.emoney.pointweb.service.biz.*;
 import com.emoney.pointweb.service.biz.kafka.KafkaProducerService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
-import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.KafkaAdminClient;
 import org.junit.jupiter.api.Test;
@@ -32,16 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 
 import java.text.ParseException;
-import java.util.*;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 import static cn.hutool.core.date.DateUtil.date;
 
@@ -115,7 +94,7 @@ class PointWebApplicationTests {
     private UserInfoService userInfoService;
 
     @Autowired
-    private LogisticsOrderService logisticsOrderService;
+    private LogisticsService logisticsService;
 
     @Autowired
     private MessageService messageService;

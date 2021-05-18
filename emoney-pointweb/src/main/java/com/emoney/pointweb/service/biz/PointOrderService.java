@@ -47,4 +47,6 @@ public interface PointOrderService {
     List<PointOrderDO> getByUidAndProductId(Long uid,Integer productId);
 
     List<PointOrderDO> getOrdersByStatusAndIsSend();
+
+    Integer update(PointOrderDO pointOrderDO);
 }

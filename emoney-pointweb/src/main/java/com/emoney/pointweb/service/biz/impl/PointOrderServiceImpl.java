@@ -231,6 +231,11 @@ public class PointOrderServiceImpl implements PointOrderService {
         return pointOrderRepository.getOrdersByStatusAndIsSend();
     }
 
+    @Override
+    public Integer update(PointOrderDO pointOrderDO) {
+        return pointOrderRepository.update(pointOrderDO);
+    }
+
     /**
      * 订单检查
      *
