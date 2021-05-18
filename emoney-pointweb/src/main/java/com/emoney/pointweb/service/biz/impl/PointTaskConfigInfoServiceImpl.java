@@ -80,9 +80,6 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
                         checkUserGroupDataList.add(checkUserGroupData);
                     }
                 } else {
-                    if (!StringUtils.isEmpty(pointTaskConfigInfoDO.getPcRedirectUrl()) && pointTaskConfigInfoDO.getPcRedirectUrl().toLowerCase().startsWith("http")) {
-                        pointTaskConfigInfoDO.setPcRedirectUrl(pointTaskConfigInfoDO.getPcTaskImgUrl()+"&source=point");
-                    }
                     retPointTaskConfigInfoList.add(pointTaskConfigInfoDO);
                 }
             }
@@ -95,9 +92,6 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
                     if (!StringUtils.isEmpty(pointTaskConfigInfoDO.getUserGroup())) {
                         for (String groupId : pointTaskConfigInfoDO.getUserGroup().split(",")) {
                             if (checkUserGroupVO.getUserGroupList().stream().filter(h -> h.getGroupId().equals(Integer.valueOf(groupId)) && h.getCheckResult()).count() > 0) {
-                                if (!StringUtils.isEmpty(pointTaskConfigInfoDO.getPcRedirectUrl()) && pointTaskConfigInfoDO.getPcRedirectUrl().toLowerCase().startsWith("http")) {
-                                    pointTaskConfigInfoDO.setPcRedirectUrl(pointTaskConfigInfoDO.getPcTaskImgUrl()+"&source=point");
-                                }
                                 retPointTaskConfigInfoList.add(pointTaskConfigInfoDO);
                                 break;
                             }
