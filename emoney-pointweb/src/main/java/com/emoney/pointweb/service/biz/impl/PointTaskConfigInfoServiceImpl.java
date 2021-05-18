@@ -106,6 +106,21 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
                 }
             }
         }
+
+
+        //处理链接
+        if (retPointTaskConfigInfoList != null) {
+            for (PointTaskConfigInfoDO pointTaskConfigInfoDO : retPointTaskConfigInfoList
+            ) {
+                if (!StringUtils.isEmpty(pointTaskConfigInfoDO.getPcRedirectUrl()) && pointTaskConfigInfoDO.getPcRedirectUrl().contains("http") && !pointTaskConfigInfoDO.getPcRedirectUrl().contains("source=point")) {
+                    if (pointTaskConfigInfoDO.getPcRedirectUrl().contains("?")) {
+                        pointTaskConfigInfoDO.setPcRedirectUrl("&source=point");
+                    } else {
+                        pointTaskConfigInfoDO.setPcRedirectUrl("?source=point");
+                    }
+                }
+            }
+        }
         return retPointTaskConfigInfoList;
     }
 
@@ -184,6 +199,20 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
                                 break;
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        //处理链接
+        if (retPointTaskConfigInfoList != null) {
+            for (PointTaskConfigInfoDO pointTaskConfigInfoDO : retPointTaskConfigInfoList
+            ) {
+                if (!StringUtils.isEmpty(pointTaskConfigInfoDO.getPcRedirectUrl()) && pointTaskConfigInfoDO.getPcRedirectUrl().contains("http") && !pointTaskConfigInfoDO.getPcRedirectUrl().contains("source=point")) {
+                    if (pointTaskConfigInfoDO.getPcRedirectUrl().contains("?")) {
+                        pointTaskConfigInfoDO.setPcRedirectUrl("&source=point");
+                    } else {
+                        pointTaskConfigInfoDO.setPcRedirectUrl("?source=point");
                     }
                 }
             }

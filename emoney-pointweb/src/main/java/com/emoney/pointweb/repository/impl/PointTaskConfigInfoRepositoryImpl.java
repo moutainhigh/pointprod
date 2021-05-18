@@ -11,6 +11,7 @@ import com.emoney.pointweb.repository.dao.mapper.PointTaskConfigInfoMapper;
 import com.emoney.pointweb.service.biz.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.text.MessageFormat;
 import java.util.Date;
@@ -45,7 +46,7 @@ public class PointTaskConfigInfoRepositoryImpl implements PointTaskConfigInfoRep
         List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = redisCache1.getList(RedisConstants.REDISKEY_PointTaskConfigInfo_GETALLEFFECTIVETASKS, PointTaskConfigInfoDO.class);
         if (pointTaskConfigInfoDOS == null) {
             pointTaskConfigInfoDOS = pointTaskConfigInfoMapper.getAllEffectiveTasks(curDate);
-            if (pointTaskConfigInfoDOS != null&&pointTaskConfigInfoDOS.size()>0) {
+            if (pointTaskConfigInfoDOS != null && pointTaskConfigInfoDOS.size() > 0) {
                 redisCache1.set(RedisConstants.REDISKEY_PointTaskConfigInfo_GETALLEFFECTIVETASKS, pointTaskConfigInfoDOS, ToolUtils.GetExpireTime(60));
             }
         }
@@ -57,7 +58,7 @@ public class PointTaskConfigInfoRepositoryImpl implements PointTaskConfigInfoRep
         List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETTASKSBYTASKTYPE, taskType), PointTaskConfigInfoDO.class);
         if (pointTaskConfigInfoDOS == null) {
             pointTaskConfigInfoDOS = pointTaskConfigInfoMapper.getTasksByTaskType(taskType);
-            if (pointTaskConfigInfoDOS != null&&pointTaskConfigInfoDOS.size()>0) {
+            if (pointTaskConfigInfoDOS != null && pointTaskConfigInfoDOS.size() > 0) {
                 redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETTASKSBYTASKTYPE, taskType), pointTaskConfigInfoDOS, ToolUtils.GetExpireTime(60));
             }
         }
