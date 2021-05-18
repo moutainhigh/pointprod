@@ -12,4 +12,5 @@ ENV JAVA_OPTS -Xms4096m -Xmx4096m -Xss4m -XX:MetaspaceSize=256m -XX:MaxMetaspace
 ADD ./target/point-prod.jar emoney-pointprod.jar
 # 暴露端口信息
 EXPOSE 8080
+EXPOSE 8081
 ENTRYPOINT java ${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom -jar /emoney-pointprod.jar
