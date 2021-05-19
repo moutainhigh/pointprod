@@ -1,8 +1,10 @@
 package com.emoney.pointweb;
 
 
+import com.emoeny.pointcommon.enums.PointRecordStatusEnum;
 import com.emoeny.pointfacade.facade.pointquestion.PointQuestionFacade;
 import com.emoney.pointweb.repository.*;
+import com.emoney.pointweb.repository.dao.entity.PointRecordDO;
 import com.emoney.pointweb.repository.dao.mapper.PointLimitMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointMessageMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointRecordMapper;
@@ -20,6 +22,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static cn.hutool.core.date.DateUtil.date;
@@ -101,6 +104,12 @@ class PointWebApplicationTests {
 
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
+
+
+        List<PointRecordDO> pointRecordDOS = pointRecordRepository.getByUid(1001471383L);
+
+        long L=    pointRecordDOS.stream().filter(h -> h.getTaskId().equals(1392719202749648896L)&&h.getSubId().equals(null) && h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.UNCLAIMED.getCode()))).count();
+
 
 
         //String pid=userInfoService.getPidByUserId(1001471383L);

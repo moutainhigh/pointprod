@@ -41,10 +41,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.text.MessageFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static cn.hutool.core.date.DateUtil.date;
@@ -105,14 +102,20 @@ public class PointRecordServiceImpl implements PointRecordService {
             }
             //获取积分记录
             List<PointRecordDO> pointRecordDOS = pointRecordRepository.getByUid(pointRecordCreateDTO.getUid());
+            List<PointRecordDO> tmpPointRecords=new ArrayList<>();
             if (pointRecordDOS != null && pointRecordDOS.size() > 0) {
-                long dailyTaskCount = pointRecordDOS.stream().filter(h -> h.getTaskId().equals(pointRecordCreateDTO.getTaskId()) &&h.getSubId().equals(pointRecordCreateDTO.getSubId())&& DateUtil.formatDate(h.getCreateTime()).equals(DateUtil.formatDate(date()))).count() + 1;
-                long nDailyTaskCount = pointRecordDOS.stream().filter(h -> h.getTaskId().equals(pointRecordCreateDTO.getTaskId())&&h.getSubId().equals(pointRecordCreateDTO.getSubId())).count() + 1;
+                if(pointRecordCreateDTO.getSubId()!=null){
+                    tmpPointRecords= pointRecordDOS.stream().filter(h -> h.getTaskId().equals(pointRecordCreateDTO.getTaskId()) &&h.getSubId().equals(pointRecordCreateDTO.getSubId())).collect(Collectors.toList());
+                }else {
+                    tmpPointRecords=pointRecordDOS.stream().filter(h -> h.getTaskId().equals(pointRecordCreateDTO.getTaskId())).collect(Collectors.toList());
+                }
+                long dailyTaskCount = tmpPointRecords.stream().filter(h -> DateUtil.formatDate(h.getCreateTime()).equals(DateUtil.formatDate(date()))).count() + 1;
+                long nDailyTaskCount = tmpPointRecords.stream().count() + 1;
                 if (
                         (pointTaskConfigInfoDO.getIsDailyTask() && dailyTaskCount <= pointTaskConfigInfoDO.getDailyJoinTimes())
                                 || (!pointTaskConfigInfoDO.getIsDailyTask() && nDailyTaskCount <= pointTaskConfigInfoDO.getDailyJoinTimes())
                 ) {
-                    if (pointRecordDOS.stream().filter(h -> h.getTaskId().equals(pointRecordCreateDTO.getTaskId())&&h.getSubId().equals(pointRecordCreateDTO.getSubId()) && h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.UNCLAIMED.getCode()))).count() > 0) {
+                    if (tmpPointRecords.stream().filter(h -> h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.UNCLAIMED.getCode()))).count() > 0) {
                         return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "当前存在待领取的任务,请先去任务中心领取");
                     } else {
                         pointRecordDO = setPointRecordDO(pointRecordCreateDTO, pointTaskConfigInfoDO);
