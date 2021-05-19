@@ -54,7 +54,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         String res = OkHttpUtil.get(insideGatewayUrl + "/api/roboadvisor/1.0/user.getloginidbyname", stringMap);
         String apiResult = JsonUtil.getValue(res, "Message");
         String message = JsonUtil.getValue(apiResult, "Message");
-        return  JsonUtil.getValue(message, "PID");
+        return JsonUtil.getValue(message, "PID");
     }
 
     @Override
@@ -74,6 +74,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         String userName = "";
         List<UserInfoVO> userInfoVOS = getUserInfoByUid(uid);
         if (userInfoVOS != null) {
+            log.info("积分弹窗1" + JSON.toJSONString(userInfoVOS));
             UserInfoVO userInfoVO = userInfoVOS.stream().filter(h -> h.getAccountType() == 0).findFirst().orElse(null);
             if (userInfoVO != null) {
                 userName = userInfoVO.getAccountName();
@@ -84,8 +85,9 @@ public class UserInfoServiceImpl implements UserInfoService {
             stringMap.put("appid", "10199");
             stringMap.put("username", userName);
             String res = OkHttpUtil.get(webApiUrl + "/User/api/User.GetAccountPID", stringMap);
+            log.info("积分弹窗2" + res);
             if (!StringUtils.isEmpty(res)) {
-               return  JsonUtil.getValue(res, "Message");
+                return JsonUtil.getValue(res, "Message");
             }
         }
         return null;
