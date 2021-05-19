@@ -7,5 +7,5 @@ public class SendMessageDTO {
     private String type;
     private String time;
     private String appid;
-    private SendMessageData sendMessageData;
+    private SendMessageData message;
 }

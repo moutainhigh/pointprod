@@ -36,7 +36,7 @@ public class ExceptionAdvice {
     public Result<?> handleAllException(Exception ex) {
         log.error("ExceptionAdvice.handleAllException", ex);
         // 返回统一的error Result
-        return new Result(false);
+        return Result.buildErrorResult(BaseResultCodeEnum.SYSTEM_ERROR.getCode(),BaseResultCodeEnum.SYSTEM_ERROR.getMsg());
     }
 
     @ExceptionHandler(ApiException.class)

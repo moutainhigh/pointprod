@@ -5,6 +5,7 @@ import com.emoeny.pointcommon.enums.PointRecordStatusEnum;
 import com.emoeny.pointfacade.facade.pointquestion.PointQuestionFacade;
 import com.emoney.pointweb.repository.*;
 import com.emoney.pointweb.repository.dao.entity.PointRecordDO;
+import com.emoney.pointweb.repository.dao.entity.vo.QueryCouponActivityVO;
 import com.emoney.pointweb.repository.dao.mapper.PointLimitMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointMessageMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointRecordMapper;
@@ -105,17 +106,20 @@ class PointWebApplicationTests {
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
 
+        //List<QueryCouponActivityVO> queryCouponActivityVOS=logisticsService.getCouponRulesByAcCode("cp-1210126151518711");
 
-        List<PointRecordDO> pointRecordDOS = pointRecordRepository.getByUid(1001471383L);
 
-        long L=    pointRecordDOS.stream().filter(h -> h.getTaskId().equals(1392719202749648896L)&&h.getSubId().equals(null) && h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.UNCLAIMED.getCode()))).count();
 
+//        List<PointRecordDO> pointRecordDOS = pointRecordRepository.getByUid(1001471383L);
+//
+//        long L=    pointRecordDOS.stream().filter(h -> h.getTaskId().equals(1392719202749648896L)&&h.getSubId().equals(null) && h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.UNCLAIMED.getCode()))).count();
+//
 
 
         //String pid=userInfoService.getPidByUserId(1001471383L);
         // String uid = userInfoService.getUidByEmNo("syjsb1710003");
 
-        //String ret =messageService.sendMessage(1001471383L,"","http://test.point.emoney.cn/message/index");
+        String ret =messageService.sendMessage(1001471383L,"","http://test.point.emoney.cn/message/index");
 
         //List<PointRecordSummaryDO> pointRecordSummaryDOS= pointRecordService.getPointRecordSummaryByUid(1001471383L);
 
