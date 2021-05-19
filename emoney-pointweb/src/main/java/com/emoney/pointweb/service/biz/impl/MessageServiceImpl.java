@@ -46,7 +46,10 @@ public class MessageServiceImpl implements MessageService {
                 stringMap.put("uid", String.valueOf(uid));
                 stringMap.put("group", "softonline_" + pid);
                 stringMap.put("message", JSON.toJSONString(sendMessageDTO));
+
+                log.info("调用积分弹窗入参:" + JSON.toJSONString(stringMap));
                 String res = OkHttpUtil.get(swscUrl + "/pushmessage", stringMap);
+                log.info("调用积分弹窗出参:" + res);
                 return res;
             }
         } catch (Exception e) {
