@@ -120,7 +120,7 @@ public class AutoSendRecordToLogisticsOrderJob {
                                 pointRecordCreateDTO.setPlatform(1);
 
                                 pointRecordCreateDTO.setPid(queryCancel.getProductID());
-                                pointRecordCreateDTO.setLockDays(15);
+                                //pointRecordCreateDTO.setLockDays(15);
                                 pointRecordCreateDTO.setEmNo(queryCancel.getEmCard());
                                 pointRecordCreateDTO.setRemark(queryCancel.getORDER_ID());
                                 BigDecimal rato = getRate(pointRecordCreateDTO.getPid(), queryCancel.getProdType());
