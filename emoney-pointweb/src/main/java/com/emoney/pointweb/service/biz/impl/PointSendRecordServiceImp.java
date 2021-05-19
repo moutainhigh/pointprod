@@ -53,6 +53,11 @@ public class PointSendRecordServiceImp implements PointSendRecordService {
     }
 
     @Override
+    public List<PointSendRecordVO> queryPointSendRecordBybatchIdAndstatus(String batchId,String status){
+        return pointSendRecordMapper.getPointSendRecordByBatchId(batchId, status);
+    }
+
+    @Override
     public Map<String, Object> PointUserSend(List<Map<String, Object>> userList, long taskId, String remark) {
         Map<String, Object> resultMap = new HashMap<>();
         int successCount = 0;
