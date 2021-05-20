@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.emoeny.pointcommon.constants.RedisConstants;
 import com.emoeny.pointcommon.enums.BaseResultCodeEnum;
@@ -79,6 +80,9 @@ public class PointRecordServiceImpl implements PointRecordService {
 
     @Override
     public Result<Object> createPointRecord(PointRecordCreateDTO pointRecordCreateDTO) {
+
+        log.info("增加积分,参数:"+ JSON.toJSONString(pointRecordCreateDTO));
+
         //是否发送消息
         boolean canSendMessage = false;
         PointRecordDO pointRecordDO = new PointRecordDO();
@@ -158,7 +162,6 @@ public class PointRecordServiceImpl implements PointRecordService {
                         } catch (Exception e) {
                             log.error("积分发放异常通知,sendSimpleTextMailActual error", e);
                         }
-
                         return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "今天积分发送额度已满，请明天早点来吧！ ");
                     } else {
                         redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointRecordCreateDTO.getUid()), pointRecordDOS, ToolUtils.GetExpireTime(60));
