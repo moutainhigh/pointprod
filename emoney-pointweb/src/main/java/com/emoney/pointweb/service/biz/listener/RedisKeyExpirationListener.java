@@ -71,7 +71,7 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
         try {
             String expiredKey = message.toString();
             String[] arrString = expiredKey.split("_");
-            //订单15分钟没支付自动关闭
+            //订单30分钟没支付自动关闭
             if (expiredKey.startsWith("pointprod:pointorder_setorderkey")) {
                 if (arrString.length == 3) {
                     int orderId = Integer.parseInt(arrString[2]);
