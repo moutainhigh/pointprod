@@ -63,8 +63,7 @@ public class KafkaConsumerPointRecordService {
                 if (ret > 0) {
                     //将成长任务id写入redis，如果在0点未领取，则清掉
                     if (pointRecordDO.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.UNCLAIMED.getCode()))) {
-                        //ToolUtils.GetExpireTime(1)
-                        redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_SETPOINTRECORDID, pointRecordDO.getUid(), pointRecordDO.getId()), pointRecordDO, 5*60L);
+                        redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_SETPOINTRECORDID, pointRecordDO.getUid(), pointRecordDO.getId()), pointRecordDO, ToolUtils.GetExpireTime(60));
                     }
                     //去掉积分统计
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, pointRecordDO.getUid()));

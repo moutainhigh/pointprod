@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static cn.hutool.core.date.DateUtil.date;
 
@@ -79,6 +80,7 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
         if (pointRecordDOS == null) {
             pointRecordDOS = pointRecordMapper.getUnClaimRecordsByUid(uid);
             if (pointRecordDOS != null && pointRecordDOS.size() > 0) {
+                pointRecordDOS = pointRecordDOS.stream().filter(h -> h.getCreateTime().after(DateUtil.beginOfDay(date()))).collect(Collectors.toList());
                 redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETUNCLAIMRECORDSBYUID, uid), pointRecordDOS, ToolUtils.GetExpireTime(60));
             }
         }
@@ -121,6 +123,6 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
 
     @Override
     public List<PointRecordDO> getByUidAndCreateTime(Long uid, Date endDate) {
-        return pointRecordMapper.getByUidAndCreateTime(uid,endDate);
+        return pointRecordMapper.getByUidAndCreateTime(uid, endDate);
     }
 }
