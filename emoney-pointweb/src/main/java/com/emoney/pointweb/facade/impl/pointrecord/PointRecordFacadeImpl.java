@@ -113,7 +113,6 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
                             redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointRecordRecevieDTO.getUid()), pointRecordDOS, ToolUtils.GetExpireTime(60));
                             //去掉积分统计
                             redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, pointRecordRecevieDTO.getUid()));
-                            //redisCache1.removePattern("pointprod:pointrecord_getsummarybyuidandcreatetime_" + pointRecordRecevieDTO.getUid() + "_*");
                             //去掉待领取任务记录
                             redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_SETPOINTRECORDID, pointRecordDO.get().getUid(), pointRecordDO.get().getId()));
                             redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETUNCLAIMRECORDSBYUID, pointRecordDO.get().getUid()));

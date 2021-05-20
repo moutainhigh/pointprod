@@ -1,5 +1,6 @@
 package com.emoney.pointweb.service.biz.listener;
 
+import com.alibaba.fastjson.JSON;
 import com.emoeny.pointcommon.constants.RedisConstants;
 import com.emoeny.pointcommon.enums.MessageTypeEnum;
 import com.emoeny.pointcommon.enums.PointOrderStatusEnum;
@@ -126,7 +127,9 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
                             redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointRecordDO.getUid()));
                             //去掉积分统计
                             redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, pointRecordDO.getUid()));
-                            //redisCache1.removePattern("pointprod:pointrecord_getsummarybyuidandcreatetime_" + pointRecordDO.getUid() + "_*");
+                            //去掉待领取任务积分记录
+                            redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETUNCLAIMRECORDSBYUID, pointRecordDO.getUid()));
+                            log.info("------------------待领取任务取消成功; 参数 = " + JSON.toJSONString(pointRecordDO));
                         }
                     }
                 }
