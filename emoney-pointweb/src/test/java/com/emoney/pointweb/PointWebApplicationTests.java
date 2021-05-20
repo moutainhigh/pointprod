@@ -106,7 +106,7 @@ class PointWebApplicationTests {
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
 
-        //List<QueryCouponActivityVO> queryCouponActivityVOS=logisticsService.getCouponRulesByAcCode("cp-1210126151518711");
+        List<QueryCouponActivityVO> queryCouponActivityVOS=logisticsService.getCouponRulesByAcCode("cp-1210126151518711");
 
 
 
@@ -119,7 +119,7 @@ class PointWebApplicationTests {
         //String pid=userInfoService.getPidByUserId(1001471383L);
         // String uid = userInfoService.getUidByEmNo("syjsb1710003");
 
-        String ret =messageService.sendMessage(1001471383L,"","http://test.point.emoney.cn/message/index");
+        //String ret =messageService.sendMessage(1001471383L,"","http://test.point.emoney.cn/message/index");
 
         //List<PointRecordSummaryDO> pointRecordSummaryDOS= pointRecordService.getPointRecordSummaryByUid(1001471383L);
 

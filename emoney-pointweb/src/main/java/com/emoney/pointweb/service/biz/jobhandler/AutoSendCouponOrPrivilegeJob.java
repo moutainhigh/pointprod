@@ -52,7 +52,6 @@ public class AutoSendCouponOrPrivilegeJob {
             if (pointOrderDOS != null && pointOrderDOS.size() > 0) {
                 for (PointOrderDO pointOrderDO : pointOrderDOS
                 ) {
-
                     PointProductDO pointProductDO = pointProductService.getById(pointOrderDO.getProductId());
                     if (pointProductDO != null && !StringUtils.isEmpty(pointProductDO.getActivityCode())) {
                         if (pointOrderDO.getProductType().equals(2)) {
@@ -66,7 +65,7 @@ public class AutoSendCouponOrPrivilegeJob {
                                     sendCouponDTO.setPRESENT_ACCOUNT(pointOrderDO.getMobile());
                                     sendCouponDTO.setPRESENT_FROM_ORDERID(pointProductDO.getActivityCode());
                                     sendCouponDTO.setCOUPON_RULE_PRICE(queryCouponActivityVO.getCOUPON_RULE_PRICE());
-                                    sendCouponDTO.setPRESENT_PERSON("pointweb");
+                                    sendCouponDTO.setPRESENT_PERSON("积分商城");
                                     Boolean ret = logisticsService.SendCoupon(sendCouponDTO);
                                     if (ret) {
                                         log.info("积分赠送优惠券成功,参数:" + JSON.toJSONString(sendCouponDTO));
