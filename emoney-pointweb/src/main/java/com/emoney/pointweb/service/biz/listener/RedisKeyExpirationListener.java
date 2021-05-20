@@ -117,7 +117,7 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
                     long uid = Long.parseLong(arrString[2].replace(",", ""));
                     long id = Long.parseLong(arrString[3].replace(",", ""));
                     PointRecordDO pointRecordDO = pointRecordRepository.getById(uid, id);
-                    if (pointRecordDO != null) {
+                    if (pointRecordDO != null && pointRecordDO.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.UNCLAIMED.getCode()))) {
                         //修改积分记录状态
                         pointRecordDO.setPointStatus(Integer.parseInt(PointRecordStatusEnum.CANCELED.getCode()));
                         int ret = pointRecordRepository.update(pointRecordDO);
