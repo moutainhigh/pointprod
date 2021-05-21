@@ -477,6 +477,7 @@
 
         $("#hiddenid").val(res.id);
         $("#productType").val(res.productType);
+        $("#productDays").val(res.productDays);
         if(res.userGroup){
             $("#GroupList").val(res.userGroup.split(",")).trigger('change');
         }else {
