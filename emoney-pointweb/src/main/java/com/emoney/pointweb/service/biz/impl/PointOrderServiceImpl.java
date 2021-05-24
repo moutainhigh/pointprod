@@ -19,14 +19,17 @@ import com.emoney.pointweb.service.biz.redis.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.emoeny.pointcommon.result.Result.buildErrorResult;
@@ -65,6 +68,10 @@ public class PointOrderServiceImpl implements PointOrderService {
 
     @Autowired
     private MailerService mailerService;
+
+    @Resource(name = "taskExecutor")
+    private ThreadPoolTaskExecutor executor;
+
 
     @Autowired
     private UserInfoService userInfoService;
@@ -282,27 +289,29 @@ public class PointOrderServiceImpl implements PointOrderService {
         if ((curPoint + (productQty * pointProductDO.getExchangePoint())) > totalPoint) {
             return "积分不足,无法兑换";
         }
-
         PointLimitDO pointLimitDO = pointLimitRepository.getByType(Integer.valueOf(PointLimitTypeEnum.EXCHANGE.code()), Integer.valueOf(PointLimitToEnum.PERSONAL.code()));
         if (pointLimitDO != null) {
             if ((curPoint + (productQty * pointProductDO.getExchangePoint())) > pointLimitDO.getPointLimitvalue()) {
-                try {
-                    //发送邮件
-                    String subject = "积分兑换异常通知";
-                    String userName = "";
-                    List<UserInfoVO> userInfoVOS = userInfoService.getUserInfoByUid(uid);
-                    if (userInfoVOS != null) {
-                        UserInfoVO userInfoVO = userInfoVOS.stream().filter(h -> h.getAccountType() == 0).findFirst().orElse(null);
-                        if (userInfoVO != null) {
-                            userName = userInfoVO.getAccountName();
+                //异步处理
+                CompletableFuture.runAsync(() -> {
+                    try {
+                        //发送邮件
+                        String subject = "积分兑换异常通知";
+                        String userName = "";
+                        List<UserInfoVO> userInfoVOS = userInfoService.getUserInfoByUid(uid);
+                        if (userInfoVOS != null) {
+                            UserInfoVO userInfoVO = userInfoVOS.stream().filter(h -> h.getAccountType() == 0).findFirst().orElse(null);
+                            if (userInfoVO != null) {
+                                userName = userInfoVO.getAccountName();
+                            }
                         }
+                        String content = MessageFormat.format("积分兑换超限，用户ID：{0},用户名称：{1},商品ID:{2},商品名称:{3},发生时间:{4}", uid, userName, pointProductDO.getId(), pointProductDO.getProductName(), new Date());
+                        mailerService.sendSimpleTextMailActual(subject, content, toMailAddress.split(","), null, null, null);
+                    } catch (Exception e) {
+                        log.error("积分兑换异常通知,sendSimpleTextMailActual error", e);
                     }
-                    //String content = MessageFormat.format("积分兑换超限，用户ID：{0},用户名称：{1},商品ID:{2},商品名称:{3},发生时间:{4}", uid, userName, pointProductDO.getId(), pointProductDO.getProductName(), new Date());
-                    //mailerService.sendSimpleTextMailActual(subject, content, toMailAddress.split(","), null, null, null);
-                } catch (Exception e) {
-                    log.error("积分兑换异常通知,sendSimpleTextMailActual error", e);
-                }
 
+                }, executor);
                 return "今天积分兑换额度已满，请明天早点来吧！";
             }
         }

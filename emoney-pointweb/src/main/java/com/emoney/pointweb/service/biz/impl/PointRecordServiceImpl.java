@@ -38,11 +38,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static cn.hutool.core.date.DateUtil.date;
@@ -71,6 +74,9 @@ public class PointRecordServiceImpl implements PointRecordService {
 
     @Autowired
     private MailerService mailerService;
+
+    @Resource(name = "taskExecutor")
+    private ThreadPoolTaskExecutor executor;
 
     @Autowired
     private UserInfoService userInfoService;
@@ -146,22 +152,27 @@ public class PointRecordServiceImpl implements PointRecordService {
                         }
                     }
                     if (curTotal > pointLimitDO.getPointLimitvalue()) {
-                        try {
-                            //发送邮件
-                            String subject = "积分发放异常通知";
-                            String userName = "";
-                            List<UserInfoVO> userInfoVOS = userInfoService.getUserInfoByUid(pointRecordCreateDTO.getUid());
-                            if (userInfoVOS != null) {
-                                UserInfoVO userInfoVO = userInfoVOS.stream().filter(h -> h.getAccountType() == 0).findFirst().orElse(null);
-                                if (userInfoVO != null) {
-                                    userName = userInfoVO.getAccountName();
+                        String cTaskId=String.valueOf(pointTaskConfigInfoDO.getTaskId());
+                        String cTaskName=pointTaskConfigInfoDO.getTaskName();
+                        //异步处理
+                        CompletableFuture.runAsync(() -> {
+                            try {
+                                //发送邮件
+                                String subject = "积分发放异常通知";
+                                String userName = "";
+                                List<UserInfoVO> userInfoVOS = userInfoService.getUserInfoByUid(pointRecordCreateDTO.getUid());
+                                if (userInfoVOS != null) {
+                                    UserInfoVO userInfoVO = userInfoVOS.stream().filter(h -> h.getAccountType() == 0).findFirst().orElse(null);
+                                    if (userInfoVO != null) {
+                                        userName = userInfoVO.getAccountName();
+                                    }
                                 }
+                                String content = MessageFormat.format("积分发放超限，用户ID：{0},用户名：{1},任务ID:{2},任务名称:{3},发生时间:{4}", pointRecordCreateDTO.getUid(), userName, cTaskId, cTaskName, new Date());
+                                mailerService.sendSimpleTextMailActual(subject, content, toMailAddress.split(","), null, null, null);
+                            } catch (Exception e) {
+                                log.error("积分发放异常通知,sendSimpleTextMailActual error", e);
                             }
-                            String content = MessageFormat.format("积分发放超限，用户ID：{0},用户名：{1},任务ID:{2},任务名称:{3},发生时间:{4}", pointRecordCreateDTO.getUid(), userName, pointTaskConfigInfoDO.getTaskId(), pointTaskConfigInfoDO.getTaskName(), new Date());
-                            mailerService.sendSimpleTextMailActual(subject, content, toMailAddress.split(","), null, null, null);
-                        } catch (Exception e) {
-                            log.error("积分发放异常通知,sendSimpleTextMailActual error", e);
-                        }
+                        }, executor);
                         return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "今天积分发送额度已满，请明天早点来吧！ ");
                     } else {
                         redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointRecordCreateDTO.getUid()), pointRecordDOS, ToolUtils.GetExpireTime(60));
