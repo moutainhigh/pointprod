@@ -297,8 +297,8 @@ public class PointOrderServiceImpl implements PointOrderService {
                             userName = userInfoVO.getAccountName();
                         }
                     }
-                    String content = MessageFormat.format("积分兑换超限，用户ID：{0},用户名称：{1},商品ID:{2},商品名称:{3},发生时间:{4}", uid, userName, pointProductDO.getId(), pointProductDO.getProductName(), new Date());
-                    mailerService.sendSimpleTextMailActual(subject, content, toMailAddress.split(","), null, null, null);
+                    //String content = MessageFormat.format("积分兑换超限，用户ID：{0},用户名称：{1},商品ID:{2},商品名称:{3},发生时间:{4}", uid, userName, pointProductDO.getId(), pointProductDO.getProductName(), new Date());
+                    //mailerService.sendSimpleTextMailActual(subject, content, toMailAddress.split(","), null, null, null);
                 } catch (Exception e) {
                     log.error("积分兑换异常通知,sendSimpleTextMailActual error", e);
                 }
