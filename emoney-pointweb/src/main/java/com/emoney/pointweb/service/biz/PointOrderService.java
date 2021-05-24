@@ -49,4 +49,6 @@ public interface PointOrderService {
     List<PointOrderDO> getOrdersByStatusAndIsSend();
 
     Integer update(PointOrderDO pointOrderDO);
+
+    List<PointOrderDO> queryAllByProductType(Integer productType);
 }

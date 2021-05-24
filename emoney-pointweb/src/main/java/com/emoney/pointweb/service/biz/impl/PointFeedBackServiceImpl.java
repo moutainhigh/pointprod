@@ -38,6 +38,10 @@ public class PointFeedBackServiceImpl implements PointFeedBackService {
         return pointFeedBackMapper.getAll();
     }
 
+    public List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status,Integer isReply){
+        return pointFeedBackMapper.queryAllByRemarkAndStatus(status,isReply);
+    }
+
     @Override
     public PointFeedBackDO getById(Integer id){
         return pointFeedBackMapper.getById(id);

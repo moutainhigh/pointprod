@@ -350,6 +350,7 @@ $(function() {
         $("#appDetailPicFileList").html("");
         $("#wechatDetailPicFileList").html("");
         editor.txt.html("");
+        editor1.txt.html("");
         $("#modal-default").modal('hide');
     }
 })

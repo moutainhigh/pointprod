@@ -75,7 +75,26 @@
         FROM t_point_feedback
     </select>
     <select id="getById" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List" />
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM t_point_feedback WHERE id = #{id}
+    </select>
+    <select id="queryAllByRemarkAndStatus" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_point_feedback
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="status != 0 ">
+                feed_type = #{status}
+            </if>
+            <if test="isReply == 0 ">
+            </if>
+            <if test="isReply == 1 ">
+                AND remark IS NOT NULL
+            </if>
+            <if test="isReply == 2 ">
+                AND remark IS NULL
+            </if>
+        </trim>
     </select>
 </mapper>

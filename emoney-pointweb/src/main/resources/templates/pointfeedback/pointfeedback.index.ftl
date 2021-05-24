@@ -154,7 +154,9 @@
 
     // init date tables
     var feedbackTable = $("#feedback_list").DataTable({
+        "deferRender": true,
         "processing" : true,
+        "serverSide": true,
         language: {
             "sProcessing": "处理中...",
             "sLengthMenu": "显示 _MENU_ 项结果",
@@ -186,6 +188,8 @@
                 var obj = {};
                 obj.classType=$("#opType").val();
                 obj.isReply=$("#opReply").val();
+                obj.start = (d.start / d.length) + 1 ;
+                obj.length = d.length;
                 return obj;
             }
         },
@@ -285,10 +289,11 @@
                 }
             }
         ],
-        fnDrawCallback: function () {
+        fnDrawCallback: function (d) {
             let api = this.api();
+            let startIndex = api.context[0]._iDisplayStart;//获取本页开始的条数
             api.column(0).nodes().each(function(cell, i) {
-                cell.innerHTML =  i + 1;
+                cell.innerHTML = startIndex + i + 1;
             });
         },
         columnDefs: [{

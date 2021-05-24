@@ -12,4 +12,5 @@ public interface PointFeedBackService {
     List<PointFeedBackDO> getAll();
     PointFeedBackDO getById(Integer id);
     Result<Object> createFeedBack(PointFeedBackCreateDTO pointFeedBackCreateDTO);
+    List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status,Integer isReply);
 }

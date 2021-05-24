@@ -11,4 +11,5 @@ public interface PointFeedBackMapper {
     Integer update(PointFeedBackDO pointFeedBackDO);
     List<PointFeedBackDO> getAll();
     PointFeedBackDO getById(Integer id);
+    List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status,Integer isReply);
 }
