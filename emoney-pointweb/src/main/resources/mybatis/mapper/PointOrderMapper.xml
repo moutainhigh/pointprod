@@ -121,6 +121,18 @@
 
     </select>
 
+    <select id="queryAllByProductType" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_point_order
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="productType != 0">
+                product_type = #{productType}
+            </if>
+        </trim>
+    </select>
+
+
     <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointOrderDO" useGeneratedKeys="true" keyProperty="id">
 
 

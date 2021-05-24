@@ -71,4 +71,13 @@ public interface PointOrderMapper {
     Integer update(PointOrderDO pointOrderDO);
 
     List<PointOrderDO> getAllByOrderStatus(Integer orderStatus);
+
+    /*
+     * 根据类型查询所有成功订单
+     * @author lipengcheng
+     * @date 2021-5-24 15:42
+     * @param productType
+     * @return java.util.List<com.emoney.pointweb.repository.dao.entity.PointOrderDO>
+     */
+    List<PointOrderDO> queryAllByProductType(Integer productType);
 }

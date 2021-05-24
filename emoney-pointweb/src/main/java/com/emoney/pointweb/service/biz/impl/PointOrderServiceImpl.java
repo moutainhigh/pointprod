@@ -15,6 +15,7 @@ import com.emoney.pointweb.repository.dao.entity.dto.SendCouponDTO;
 import com.emoney.pointweb.repository.dao.entity.dto.SendPrivilegeDTO;
 import com.emoney.pointweb.repository.dao.entity.vo.QueryCouponActivityVO;
 import com.emoney.pointweb.repository.dao.entity.vo.UserInfoVO;
+import com.emoney.pointweb.repository.dao.mapper.PointOrderMapper;
 import com.emoney.pointweb.service.biz.LogisticsService;
 import com.emoney.pointweb.service.biz.MailerService;
 import com.emoney.pointweb.service.biz.PointOrderService;
@@ -66,6 +67,9 @@ public class PointOrderServiceImpl implements PointOrderService {
     private PointLimitRepository pointLimitRepository;
 
     @Autowired
+    private PointOrderMapper pointOrderMapper;
+
+    @Autowired
     private RedisService redisCache1;
 
     @Autowired
@@ -90,6 +94,10 @@ public class PointOrderServiceImpl implements PointOrderService {
     @Override
     public List<PointOrderDO> getByUid(Long uid, Integer orderStatus, int pageIndex, int pageSize) {
         return pointOrderRepository.getByUid(uid, orderStatus, pageIndex, pageSize);
+    }
+
+    public List<PointOrderDO> queryAllByProductType(Integer porductType){
+        return pointOrderMapper.queryAllByProductType(porductType);
     }
 
     @Override

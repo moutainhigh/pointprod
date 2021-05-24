@@ -1,8 +1,11 @@
 package com.emoney.pointweb.controller;
 
 import com.emoeny.pointcommon.utils.ExcelUtils;
+import com.emoney.pointweb.repository.dao.entity.PointFeedBackDO;
 import com.emoney.pointweb.repository.dao.entity.PointOrderDO;
 import com.emoney.pointweb.service.biz.PointOrderService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,72 +27,87 @@ public class PointOrderController {
     private PointOrderService pointOrderService;
 
     @RequestMapping
-    public String index(){
+    public String index() {
         return "pointorder/pointorder.index";
     }
 
+//    @RequestMapping("/pageList")
+//    @ResponseBody
+//    public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") Integer productType) {
+//        List<PointOrderDO> list = pointOrderService.getAllByOrderStatus(1);
+//        if (productType != 0) {
+//            list = list.stream().filter(h -> h.getProductQty() == productType).collect(Collectors.toList());
+//        }
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("data", list);
+//        return result;
+//    }
+
     @RequestMapping("/pageList")
     @ResponseBody
-    public Map<String,Object> pageList(@RequestParam(required = false, defaultValue = "0") int productType){
-        List<PointOrderDO> list = pointOrderService.getAllByOrderStatus(1);
-        if(productType!=0){
-            list=list.stream().filter(h->h.getProductQty()==productType).collect(Collectors.toList());
-        }
-        Map<String,Object> result=new HashMap<>();
-        result.put("data",list);
+    public Map<String, Object> queryPointOrder(@RequestParam(required = false, defaultValue = "0") Integer start,
+                                               @RequestParam(required = false, defaultValue = "10") Integer length,
+                                               @RequestParam(required = false, defaultValue = "0") Integer productType) {
+        PageHelper.startPage(start, length);
+        List<PointOrderDO> list = pointOrderService.queryAllByProductType(productType);
+        PageInfo<PointOrderDO> pageInfo = new PageInfo<>(list);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", list);
+        result.put("recordsTotal", pageInfo.getTotal());
+        result.put("recordsFiltered", pageInfo.getTotal());
         return result;
     }
 
     @RequestMapping("/exportData")
-    public String exportData(HttpServletResponse response,@RequestParam(required = false, defaultValue = "0") int productType){
+    public String exportData(HttpServletResponse response, @RequestParam(required = false, defaultValue = "0") int productType) {
         List<PointOrderDO> list = pointOrderService.getAllByOrderStatus(1);
-        if(productType!=0){
-            list = list.stream().filter(h->h.getProductQty()==productType).collect(Collectors.toList());
+        if (productType != 0) {
+            list = list.stream().filter(h -> h.getProductQty() == productType).collect(Collectors.toList());
         }
-        List<LinkedHashMap<String,Object>> maps=new ArrayList<>();
+        List<LinkedHashMap<String, Object>> maps = new ArrayList<>();
 
-        if(list!=null&&list.size()>0){
+        if (list != null && list.size() > 0) {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            for (PointOrderDO item:list) {
-                LinkedHashMap<String,Object> map=new LinkedHashMap<>();
-                map.put("商品名称",item.getProductTitle());
-                map.put("商品类型",getProductTypeName(item.getProductQty()));
-                map.put("用户账号",item.getEmNo());
-                map.put("兑换时间",formatter.format(item.getCreateTime()));
+            for (PointOrderDO item : list) {
+                LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+                map.put("商品名称", item.getProductTitle());
+                map.put("商品类型", getProductTypeName(item.getProductQty()));
+                map.put("用户账号", item.getEmNo());
+                map.put("兑换时间", formatter.format(item.getCreateTime()));
 
                 maps.add(map);
             }
-        }else {
-            LinkedHashMap<String,Object> map=new LinkedHashMap<>();
-            map.put("商品名称","");
-            map.put("商品类型","");
-            map.put("用户账号","");
-            map.put("兑换时间","");
+        } else {
+            LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+            map.put("商品名称", "");
+            map.put("商品类型", "");
+            map.put("用户账号", "");
+            map.put("兑换时间", "");
 
             maps.add(map);
         }
-        ExcelUtils.exportToExcel(response,"兑换记录", maps);
+        ExcelUtils.exportToExcel(response, "兑换记录", maps);
         return null;
     }
 
-    public String getProductTypeName(Integer productType){
-        String result="";
-        switch (productType)
-        {
+    public String getProductTypeName(Integer productType) {
+        String result = "";
+        switch (productType) {
             case 1:
-                result="产品使用期";
+                result = "产品使用期";
                 break;
             case 2:
-                result="优惠券";
+                result = "优惠券";
                 break;
             case 3:
-                result="新功能体验";
+                result = "新功能体验";
                 break;
             case 4:
-                result="门票兑换";
+                result = "门票兑换";
                 break;
             case 5:
-                result="实物兑换";
+                result = "实物兑换";
                 break;
         }
         return result;

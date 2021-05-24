@@ -1,7 +1,9 @@
 $(function (){
     // init date tables
     var orderTable = $("#order_list").DataTable({
+        "deferRender": true,
         "processing" : true,
+        "serverSide": true,
         language: {
             "sProcessing": "处理中...",
             "sLengthMenu": "显示 _MENU_ 项结果",
@@ -32,6 +34,8 @@ $(function (){
             data : function ( d ) {
                 var obj = {};
                 obj.productType=$("#opType").val();
+                obj.start = (d.start / d.length) + 1 ;
+                obj.length = d.length;
                 return obj;
             }
         },
@@ -46,7 +50,7 @@ $(function (){
                 "data": 'productTitle'
             },
             {
-                "data": 'productQty',
+                "data": 'productType',
                 "render": function (data, type, row) {
                     if(data)
                     {
@@ -87,10 +91,11 @@ $(function (){
                 }
             }
         ],
-        fnDrawCallback: function () {
+        fnDrawCallback: function (d) {
             let api = this.api();
+            let startIndex = api.context[0]._iDisplayStart;//获取本页开始的条数
             api.column(0).nodes().each(function(cell, i) {
-                cell.innerHTML =  i + 1;
+                cell.innerHTML = startIndex + i + 1;
             });
         }
     });
