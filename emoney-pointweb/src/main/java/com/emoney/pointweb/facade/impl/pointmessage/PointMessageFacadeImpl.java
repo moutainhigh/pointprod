@@ -77,7 +77,7 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
             }
 
             if (pointMessageVOS != null) {
-                pointMessageVOS = pointMessageVOS.stream().sorted(Comparator.comparing(PointMessageVO::getCreateTime)).collect(Collectors.toList());
+                pointMessageVOS = pointMessageVOS.stream().sorted(Comparator.comparing(PointMessageVO::getCreateTime).reversed()).collect(Collectors.toList());
             }
 
             return Result.buildSuccessResult(pointMessageVOS);
