@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,14 +53,12 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
             }
             //商品上新，活动上新
             if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE0.getCode())) || queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE2.getCode())) || queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()))) {
-                if(queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE0.getCode()))){
+                if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE0.getCode()))) {
                     mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE2.getCode()));
                     mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()));
-                }
-                else if(queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE2.getCode()))){
+                } else if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE2.getCode()))) {
                     mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE2.getCode()));
-                }
-                else if(queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()))){
+                } else if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()))) {
                     mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()));
                 }
                 List<PointAnnounceDO> pointAnnounceDOS = pointAnnounceService.getPointAnnouncesByType(mstTypes);
@@ -76,6 +75,11 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
                     }
                 }
             }
+
+            if (pointMessageVOS != null) {
+                pointMessageVOS = pointMessageVOS.stream().sorted(Comparator.comparing(PointMessageVO::getCreateTime)).collect(Collectors.toList());
+            }
+
             return Result.buildSuccessResult(pointMessageVOS);
         } catch (Exception e) {
             log.error("queryPointMessages error:", e);
