@@ -240,7 +240,7 @@ public class PointOrderServiceImpl implements PointOrderService {
                                     SendPrivilegeDTO sendPrivilegeDTO = new SendPrivilegeDTO();
                                     sendPrivilegeDTO.setAppId("A009");
                                     sendPrivilegeDTO.setActivityID(pointProductDO.getActivityCode());
-                                    sendPrivilegeDTO.setApplyUserID("xueqiuyun@emoney.cn");
+                                    sendPrivilegeDTO.setApplyUserID("scb_public");
                                     List<CreateActivityGrantApplyAccountDTO> createActivityGrantApplyAccountDTOS = new ArrayList<>();
                                     CreateActivityGrantApplyAccountDTO createActivityGrantApplyAccountDTO = new CreateActivityGrantApplyAccountDTO();
                                     createActivityGrantApplyAccountDTO.setAccountType(2);
