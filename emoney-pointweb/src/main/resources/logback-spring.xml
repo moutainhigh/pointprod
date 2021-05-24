@@ -51,7 +51,7 @@
         <appender-ref ref ="filelog"/>
     </appender>
 
-    <appender name="logstash_test" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>192.168.42.172:4569</destination>
         <!-- encoder必须配置,有多种可选 -->
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
@@ -65,24 +65,10 @@
     </appender>
 
 
-    <appender name="logstash_prod" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>172.31.25.11:4569</destination>
-        <!-- encoder必须配置,有多种可选 -->
-        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"appname":"pointweblog"}</customFields>
-        </encoder>
-        <connectionStrategy>
-            <roundRobin>
-                <connectionTTL>5 minutes</connectionTTL>
-            </roundRobin>
-        </connectionStrategy>
-    </appender>
-
 
     <logger name="org.springframework.kafka.listener.KafkaMessageListenerContainer" level="warn">
         <appender-ref ref="filelog"/>
-        <appender-ref ref="logstash_test"/>
-        <appender-ref ref="logstash_prod"/>
+        <appender-ref ref="logstash"/>
     </logger>
 
     <springProfile name="dev">
@@ -95,20 +81,20 @@
     <springProfile name="test">
         <root level="INFO">
             <appender-ref ref="filelog"/>
-            <appender-ref ref="logstash_test"/>
+            <appender-ref ref="logstash"/>
         </root>
     </springProfile>
 
     <springProfile name="uat">
         <root level="INFO">
             <appender-ref ref="filelog"/>
-            <appender-ref ref="logstash_prod"/>
+            <appender-ref ref="logstash"/>
         </root>
     </springProfile>
     <springProfile name="prod">
         <root level="INFO">
             <appender-ref ref="filelog"/>
-            <appender-ref ref="logstash_prod"/>
+            <appender-ref ref="logstash"/>
         </root>
     </springProfile>
 </configuration>
