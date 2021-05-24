@@ -1,6 +1,7 @@
 package com.emoney.pointweb;
 
 
+import cn.hutool.core.util.IdUtil;
 import com.emoeny.pointcommon.enums.PointRecordStatusEnum;
 import com.emoeny.pointfacade.facade.pointquestion.PointQuestionFacade;
 import com.emoney.pointweb.repository.*;
@@ -28,6 +29,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -121,19 +123,19 @@ class PointWebApplicationTests {
 //        sendCouponDTO.setPRESENT_PERSON("积分商城");
 //        Boolean result = logisticsService.SendCoupon(sendCouponDTO);
 //
-
-        SendPrivilegeDTO sendPrivilegeDTO=new SendPrivilegeDTO();
-        sendPrivilegeDTO.setAppId("A009");
-        sendPrivilegeDTO.setActivityID("PAC1210519101327340");
-        sendPrivilegeDTO.setApplyUserID("xueqiuyun");
-        sendPrivilegeDTO.setReason("积分商城");
-        List<CreateActivityGrantApplyAccountDTO> createActivityGrantApplyAccountDTOS=new ArrayList<>();
-        CreateActivityGrantApplyAccountDTO createActivityGrantApplyAccountDTO=new CreateActivityGrantApplyAccountDTO();
-        createActivityGrantApplyAccountDTO.setAccountType(2);
-        createActivityGrantApplyAccountDTO.setMID("0x44FF54D091ADCBCA1E7B88FC75276469");
-        createActivityGrantApplyAccountDTOS.add(createActivityGrantApplyAccountDTO);
-        sendPrivilegeDTO.setAccounts(createActivityGrantApplyAccountDTOS);
-        Boolean result = logisticsService.SenddPrivilege(sendPrivilegeDTO);
+      //  SendPrivilegeDTO sendPrivilegeDTO = new SendPrivilegeDTO();
+//        sendPrivilegeDTO.setAppId("A009");
+//        sendPrivilegeDTO.setActivityID("PAC1210519101327340");
+//        sendPrivilegeDTO.setApplyUserID("xueqiuyun");
+//        sendPrivilegeDTO.setReason("积分商城");
+//        List<CreateActivityGrantApplyAccountDTO> createActivityGrantApplyAccountDTOS=new ArrayList<>();
+//        CreateActivityGrantApplyAccountDTO createActivityGrantApplyAccountDTO=new CreateActivityGrantApplyAccountDTO();
+//        createActivityGrantApplyAccountDTO.setAccountType(2);
+//        createActivityGrantApplyAccountDTO.setMID("0x44FF54D091ADCBCA1E7B88FC75276469");
+//        createActivityGrantApplyAccountDTOS.add(createActivityGrantApplyAccountDTO);
+//        sendPrivilegeDTO.setAccounts(createActivityGrantApplyAccountDTOS);
+//        Boolean result = logisticsService.SenddPrivilege(sendPrivilegeDTO);
+//
 
 //        List<PointRecordDO> pointRecordDOS = pointRecordRepository.getByUid(1001471383L);
 //
@@ -179,7 +181,7 @@ class PointWebApplicationTests {
 //
 //        CheckUserGroupVO checkUserGroupVO = pointTaskConfigInfoService.getUserGroupCheckUser(checkUserGroupDTO);
 
-        //List<PointRecordDO> pointRecordDOS=pointRecordRepository.getByPager(1001539325L,-1,null,null,0,5);
+       // List<PointRecordDO> pointRecordDOS=pointRecordRepository.getByPager(1001539325L,-1,null,null,1,5);
 
         //Date dt=DateUtil.parseDateTime((DateUtil.year(DateUtil.date()) +1) + "-03-31 23:59:59");
 //        Date dt =DateUtil.parseDate("2099-12-31");
@@ -235,7 +237,7 @@ class PointWebApplicationTests {
 //        pointRecordDO.setLockDays(0);
 //        pointRecordDO.setPointStatus(2);
 //        pointRecordDO.setIsValid(true);
-//       // pointRecordMapper.insert(pointRecordDO);
+//        pointRecordMapper.insert(pointRecordDO);
 //
 ////        SignInRecordDO signInRecordDO=new SignInRecordDO();
 ////        signInRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
@@ -245,7 +247,7 @@ class PointWebApplicationTests {
 //
 //        //pointRecordESRepository.deleteById(1371816217081417728l);
 //
-////        List<PointRecordDO> pointRecordDOS = pointRecordMapper.getByUid(10000772);
+        //List<PointRecordDO> pointRecordDOS = pointRecordService.getByUid(10000772L);
 ////        //spring-data-elasticsearch 测试
 //        pointRecordESRepository.save(pointRecordDO);
 //
