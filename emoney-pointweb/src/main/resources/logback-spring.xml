@@ -51,8 +51,22 @@
         <appender-ref ref ="filelog"/>
     </appender>
 
-    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <appender name="logstash_test" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>192.168.42.172:4569</destination>
+        <!-- encoder必须配置,有多种可选 -->
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"appname":"pointweblog"}</customFields>
+        </encoder>
+        <connectionStrategy>
+            <roundRobin>
+                <connectionTTL>5 minutes</connectionTTL>
+            </roundRobin>
+        </connectionStrategy>
+    </appender>
+
+
+    <appender name="logstash_prod" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>172.31.25.11:4569</destination>
         <!-- encoder必须配置,有多种可选 -->
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"appname":"pointweblog"}</customFields>
@@ -67,7 +81,8 @@
 
     <logger name="org.springframework.kafka.listener.KafkaMessageListenerContainer" level="warn">
         <appender-ref ref="filelog"/>
-        <appender-ref ref="logstash"/>
+        <appender-ref ref="logstash_test"/>
+        <appender-ref ref="logstash_prod"/>
     </logger>
 
     <springProfile name="dev">
@@ -80,20 +95,20 @@
     <springProfile name="test">
         <root level="INFO">
             <appender-ref ref="filelog"/>
-            <appender-ref ref="logstash"/>
+            <appender-ref ref="logstash_test"/>
         </root>
     </springProfile>
 
     <springProfile name="uat">
         <root level="INFO">
             <appender-ref ref="filelog"/>
-            <appender-ref ref="logstash"/>
+            <appender-ref ref="logstash_prod"/>
         </root>
     </springProfile>
     <springProfile name="prod">
         <root level="INFO">
             <appender-ref ref="filelog"/>
-            <appender-ref ref="logstash"/>
+            <appender-ref ref="logstash_prod"/>
         </root>
     </springProfile>
 </configuration>
