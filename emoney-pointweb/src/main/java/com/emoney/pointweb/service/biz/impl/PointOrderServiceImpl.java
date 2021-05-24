@@ -171,58 +171,58 @@ public class PointOrderServiceImpl implements PointOrderService {
                     pointOrderDO.setUpdateTime(new Date());
                     int retOrder = pointOrderRepository.update(pointOrderDO);
                     if (retOrder > 0) {
-                        //修改分摊记录
-                        float exchangePoint = Math.abs(pointRecordDO.getTaskPoint());
-                        float tmpExchangePoint = 0f;
-                        //当前获得的未使用积分
-                        List<PointRecordDO> pointRecordDOS = pointRecordRepository.getByUidAndCreateTime(pointRecordDO.getUid(), pointRecordDO.getCreateTime());
-                        List<PointRecordDO> tmpPointRecordDOS = new ArrayList<>();
-                        if (pointRecordDOS != null && pointRecordDOS.size() > 0) {
-                            //非定向积分
-                            for (PointRecordDO p : pointRecordDOS.stream().filter(h -> !h.getIsDirectional()).sorted(Comparator.comparing(PointRecordDO::getCreateTime)).collect(Collectors.toList())
-                            ) {
-                                tmpExchangePoint += p.getLeftPoint();
-                                if (tmpExchangePoint <= exchangePoint) {
-                                    p.setLeftPoint(0f);
-                                    p.setUpdateTime(new Date());
-                                    tmpPointRecordDOS.add(p);
-                                } else {
-                                    p.setLeftPoint(tmpExchangePoint - exchangePoint);
-                                    p.setUpdateTime(new Date());
-                                    tmpPointRecordDOS.add(p);
-                                    break;
-                                }
-                            }
-                            if (tmpExchangePoint < exchangePoint) {
-                                //定向积分
-                                for (PointRecordDO p : pointRecordDOS.stream().filter(h -> h.getIsDirectional()).sorted(Comparator.comparing(PointRecordDO::getCreateTime)).collect(Collectors.toList())
-                                ) {
-                                    tmpExchangePoint += p.getLeftPoint();
-                                    if (tmpExchangePoint <= exchangePoint) {
-                                        p.setLeftPoint(0f);
-                                        p.setUpdateTime(new Date());
-                                        tmpPointRecordDOS.add(p);
-                                    } else {
-                                        p.setLeftPoint(tmpExchangePoint - exchangePoint);
-                                        p.setUpdateTime(new Date());
-                                        tmpPointRecordDOS.add(p);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        if (tmpPointRecordDOS != null && tmpPointRecordDOS.size() > 0) {
-                            log.info("积分兑换记录分摊：兑换记录:" + JSON.toJSONString(pointRecordDO) + "分摊记录:" + JSON.toJSONString(tmpPointRecordDOS));
-                            for (PointRecordDO p : tmpPointRecordDOS
-                            ) {
-                                pointRecordRepository.update(p);
-                                pointRecordESRepository.save(p);
-                            }
-                        }
-
                         //异步处理
                         CompletableFuture.runAsync(() -> {
                             try {
+                                //修改分摊记录
+                                float exchangePoint = Math.abs(pointRecordDO.getTaskPoint());
+                                float tmpExchangePoint = 0f;
+                                //当前获得的未使用积分
+                                List<PointRecordDO> pointRecordDOS = pointRecordRepository.getByUidAndCreateTime(pointRecordDO.getUid(), pointRecordDO.getCreateTime());
+                                List<PointRecordDO> tmpPointRecordDOS = new ArrayList<>();
+                                if (pointRecordDOS != null && pointRecordDOS.size() > 0) {
+                                    //非定向积分
+                                    for (PointRecordDO p : pointRecordDOS.stream().filter(h -> !h.getIsDirectional()).sorted(Comparator.comparing(PointRecordDO::getCreateTime)).collect(Collectors.toList())
+                                    ) {
+                                        tmpExchangePoint += p.getLeftPoint();
+                                        if (tmpExchangePoint <= exchangePoint) {
+                                            p.setLeftPoint(0f);
+                                            p.setUpdateTime(new Date());
+                                            tmpPointRecordDOS.add(p);
+                                        } else {
+                                            p.setLeftPoint(tmpExchangePoint - exchangePoint);
+                                            p.setUpdateTime(new Date());
+                                            tmpPointRecordDOS.add(p);
+                                            break;
+                                        }
+                                    }
+                                    if (tmpExchangePoint < exchangePoint) {
+                                        //定向积分
+                                        for (PointRecordDO p : pointRecordDOS.stream().filter(h -> h.getIsDirectional()).sorted(Comparator.comparing(PointRecordDO::getCreateTime)).collect(Collectors.toList())
+                                        ) {
+                                            tmpExchangePoint += p.getLeftPoint();
+                                            if (tmpExchangePoint <= exchangePoint) {
+                                                p.setLeftPoint(0f);
+                                                p.setUpdateTime(new Date());
+                                                tmpPointRecordDOS.add(p);
+                                            } else {
+                                                p.setLeftPoint(tmpExchangePoint - exchangePoint);
+                                                p.setUpdateTime(new Date());
+                                                tmpPointRecordDOS.add(p);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                if (tmpPointRecordDOS != null && tmpPointRecordDOS.size() > 0) {
+                                    log.info("积分兑换记录分摊：兑换记录:" + JSON.toJSONString(pointRecordDO) + "分摊记录:" + JSON.toJSONString(tmpPointRecordDOS));
+                                    for (PointRecordDO p : tmpPointRecordDOS
+                                    ) {
+                                        pointRecordRepository.update(p);
+                                        pointRecordESRepository.save(p);
+                                    }
+                                }
+
                                 if (pointProductDO.getProductType().equals(2)) {
                                     List<QueryCouponActivityVO> queryCouponActivityVOS = logisticsService.getCouponRulesByAcCode(pointProductDO.getActivityCode());
                                     if (queryCouponActivityVOS != null && queryCouponActivityVOS.size() > 0) {
