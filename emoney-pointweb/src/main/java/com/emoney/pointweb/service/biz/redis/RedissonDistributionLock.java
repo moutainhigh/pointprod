@@ -48,12 +48,13 @@ public class RedissonDistributionLock {
 
     public void unlock(String lockKey) {
         RLock lock = redissonClient.getLock(lockKey);
-        lock.unlock();
+        if (lock.isLocked()) {
+            if (lock.isHeldByCurrentThread()) {
+                lock.unlock();
+            }
+        }
     }
 
-    public void unlock(RLock lock) {
-        lock.unlock();
-    }
 
     public void setRedissonClient(RedissonClient redissonClient) {
         this.redissonClient = redissonClient;
