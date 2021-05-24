@@ -10,7 +10,12 @@ import com.emoeny.pointfacade.model.dto.PointOrderExchangeDTO;
 import com.emoeny.pointfacade.model.dto.PointOrderCreateDTO;
 import com.emoney.pointweb.repository.*;
 import com.emoney.pointweb.repository.dao.entity.*;
+import com.emoney.pointweb.repository.dao.entity.dto.CreateActivityGrantApplyAccountDTO;
+import com.emoney.pointweb.repository.dao.entity.dto.SendCouponDTO;
+import com.emoney.pointweb.repository.dao.entity.dto.SendPrivilegeDTO;
+import com.emoney.pointweb.repository.dao.entity.vo.QueryCouponActivityVO;
 import com.emoney.pointweb.repository.dao.entity.vo.UserInfoVO;
+import com.emoney.pointweb.service.biz.LogisticsService;
 import com.emoney.pointweb.service.biz.MailerService;
 import com.emoney.pointweb.service.biz.PointOrderService;
 import com.emoney.pointweb.service.biz.UserInfoService;
@@ -72,6 +77,9 @@ public class PointOrderServiceImpl implements PointOrderService {
     @Resource(name = "taskExecutor")
     private ThreadPoolTaskExecutor executor;
 
+
+    @Autowired
+    private LogisticsService logisticsService;
 
     @Autowired
     private UserInfoService userInfoService;
@@ -203,6 +211,57 @@ public class PointOrderServiceImpl implements PointOrderService {
                                 pointRecordESRepository.save(p);
                             }
                         }
+
+                        //异步处理
+                        CompletableFuture.runAsync(() -> {
+                            try {
+                                if (pointProductDO.getProductType().equals(2)) {
+                                    List<QueryCouponActivityVO> queryCouponActivityVOS = logisticsService.getCouponRulesByAcCode(pointProductDO.getActivityCode());
+                                    if (queryCouponActivityVOS != null && queryCouponActivityVOS.size() > 0) {
+                                        SendCouponDTO sendCouponDTO = new SendCouponDTO();
+                                        sendCouponDTO.setPRESENT_ACCOUNT_TYPE(2);
+                                        sendCouponDTO.setPRESENT_ACCOUNT(pointOrderDO.getMobile());
+                                        sendCouponDTO.setCOUPON_ACTIVITY_ID(pointProductDO.getActivityCode());
+                                        sendCouponDTO.setCOUPON_RULE_PRICE(queryCouponActivityVOS.get(0).getCOUPON_RULE_PRICE());
+                                        sendCouponDTO.setPRESENT_PERSON("积分商城");
+                                        log.info("开始发放优惠券,参数:" + JSON.toJSONString(sendCouponDTO));
+                                        Boolean resSendCoupon = logisticsService.SendCoupon(sendCouponDTO);
+                                        if (resSendCoupon) {
+                                            log.info("发放优惠券成功,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
+                                        } else {
+                                            log.info("发放优惠券失败,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
+                                        }
+                                    } else {
+                                        log.warn("特权码无效,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
+                                    }
+                                }
+                                //发放新功能体验，特权
+                                if (pointProductDO.getProductType().equals(3)) {
+                                    SendPrivilegeDTO sendPrivilegeDTO = new SendPrivilegeDTO();
+                                    sendPrivilegeDTO.setAppId("A009");
+                                    sendPrivilegeDTO.setActivityID(pointProductDO.getActivityCode());
+                                    sendPrivilegeDTO.setApplyUserID("xueqiuyun@emoney.cn");
+                                    List<CreateActivityGrantApplyAccountDTO> createActivityGrantApplyAccountDTOS = new ArrayList<>();
+                                    CreateActivityGrantApplyAccountDTO createActivityGrantApplyAccountDTO = new CreateActivityGrantApplyAccountDTO();
+                                    createActivityGrantApplyAccountDTO.setAccountType(2);
+                                    createActivityGrantApplyAccountDTO.setMID(pointOrderDO.getMobile());
+                                    createActivityGrantApplyAccountDTOS.add(createActivityGrantApplyAccountDTO);
+                                    sendPrivilegeDTO.setAccounts(createActivityGrantApplyAccountDTOS);
+                                    log.info("开始发放特权,参数:" + JSON.toJSONString(sendPrivilegeDTO));
+                                    Boolean resultSenddPrivilege = logisticsService.SenddPrivilege(sendPrivilegeDTO);
+                                    if (resultSenddPrivilege) {
+                                        log.info("发放特权成功,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
+                                    } else {
+                                        log.info("发放特权失败,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
+                                    }
+                                }
+                            } catch (Exception e) {
+                                log.error("发放优惠券异常,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO), e);
+                            }
+
+                        }, executor);
+
+
                     }
                     return buildSuccessResult(pointOrderDO);
                 }

@@ -73,7 +73,7 @@ public class LogisticsServiceImpl implements LogisticsService {
 
     @Override
     public Boolean SendCoupon(SendCouponDTO sendCouponDTO) {
-        String url = MessageFormat.format("{0}/api/logistics/1.0/coupon.sendcoupon?gate_appid=?gate_appid={1}", insideGatewayUrl, "10199");
+        String url = MessageFormat.format("{0}/api/logistics/1.0/coupon.sendcoupon?gate_appid={1}", insideGatewayUrl, "10199");
         String ret = OkHttpUtil.postJsonParams(url, JSON.toJSONString(sendCouponDTO));
         if (!StringUtils.isEmpty(ret)) {
             ResultInfo<String> resultInfo = JSON.parseObject(ret, ResultInfo.class);
@@ -87,7 +87,7 @@ public class LogisticsServiceImpl implements LogisticsService {
 
     @Override
     public Boolean SenddPrivilege(SendPrivilegeDTO sendPrivilegeDTO) {
-        String url = MessageFormat.format("{0}/api/logistics/1.0/privilege.sendprivilege?gate_appid=?gate_appid={1}", insideGatewayUrl, "10199");
+        String url = MessageFormat.format("{0}/api/logistics/1.0/privilege.sendprivilege?gate_appid={1}", insideGatewayUrl, "10199");
         String ret = OkHttpUtil.postJsonParams(url, JSON.toJSONString(sendPrivilegeDTO));
         if (!StringUtils.isEmpty(ret)) {
             ResultInfo<String> resultInfo = JSON.parseObject(ret, ResultInfo.class);

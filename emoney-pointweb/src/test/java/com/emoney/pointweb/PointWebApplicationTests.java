@@ -5,6 +5,9 @@ import com.emoeny.pointcommon.enums.PointRecordStatusEnum;
 import com.emoeny.pointfacade.facade.pointquestion.PointQuestionFacade;
 import com.emoney.pointweb.repository.*;
 import com.emoney.pointweb.repository.dao.entity.PointRecordDO;
+import com.emoney.pointweb.repository.dao.entity.dto.CreateActivityGrantApplyAccountDTO;
+import com.emoney.pointweb.repository.dao.entity.dto.SendCouponDTO;
+import com.emoney.pointweb.repository.dao.entity.dto.SendPrivilegeDTO;
 import com.emoney.pointweb.repository.dao.entity.vo.QueryCouponActivityVO;
 import com.emoney.pointweb.repository.dao.mapper.PointLimitMapper;
 import com.emoney.pointweb.repository.dao.mapper.PointMessageMapper;
@@ -22,7 +25,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -106,9 +111,29 @@ class PointWebApplicationTests {
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
 
-   //     List<QueryCouponActivityVO> queryCouponActivityVOS=logisticsService.getCouponRulesByAcCode("cp-1210126151518711");
+//        List<QueryCouponActivityVO> queryCouponActivityVOS = logisticsService.getCouponRulesByAcCode("cp-1210126151518711");
+//
+//        SendCouponDTO sendCouponDTO = new SendCouponDTO();
+//        sendCouponDTO.setPRESENT_ACCOUNT_TYPE(2);
+//        sendCouponDTO.setPRESENT_ACCOUNT("0x44FF54D091ADCBCA1E7B88FC75276469");
+//        sendCouponDTO.setCOUPON_ACTIVITY_ID("cp-1210126151518711");
+//        sendCouponDTO.setCOUPON_RULE_PRICE(BigDecimal.valueOf(100));
+//        sendCouponDTO.setPRESENT_PERSON("积分商城");
+//        Boolean result = logisticsService.SendCoupon(sendCouponDTO);
+//
 
-
+        SendPrivilegeDTO sendPrivilegeDTO=new SendPrivilegeDTO();
+        sendPrivilegeDTO.setAppId("A009");
+        sendPrivilegeDTO.setActivityID("PAC1210519101327340");
+        sendPrivilegeDTO.setApplyUserID("xueqiuyun");
+        sendPrivilegeDTO.setReason("积分商城");
+        List<CreateActivityGrantApplyAccountDTO> createActivityGrantApplyAccountDTOS=new ArrayList<>();
+        CreateActivityGrantApplyAccountDTO createActivityGrantApplyAccountDTO=new CreateActivityGrantApplyAccountDTO();
+        createActivityGrantApplyAccountDTO.setAccountType(2);
+        createActivityGrantApplyAccountDTO.setMID("0x44FF54D091ADCBCA1E7B88FC75276469");
+        createActivityGrantApplyAccountDTOS.add(createActivityGrantApplyAccountDTO);
+        sendPrivilegeDTO.setAccounts(createActivityGrantApplyAccountDTOS);
+        Boolean result = logisticsService.SenddPrivilege(sendPrivilegeDTO);
 
 //        List<PointRecordDO> pointRecordDOS = pointRecordRepository.getByUid(1001471383L);
 //
@@ -119,7 +144,7 @@ class PointWebApplicationTests {
         //String pid=userInfoService.getPidByUserId(1001471383L);
         // String uid = userInfoService.getUidByEmNo("syjsb1710003");
 
-       // String ret =messageService.sendMessage(1001471383L,"","http://test.point.emoney.cn/message/index");
+        // String ret =messageService.sendMessage(1001471383L,"","http://test.point.emoney.cn/message/index");
 
         //List<PointRecordSummaryDO> pointRecordSummaryDOS= pointRecordService.getPointRecordSummaryByUid(1001471383L);
 
