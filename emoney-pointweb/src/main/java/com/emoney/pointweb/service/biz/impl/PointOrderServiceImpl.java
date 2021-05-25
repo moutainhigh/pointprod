@@ -348,7 +348,9 @@ public class PointOrderServiceImpl implements PointOrderService {
             curQty = myPointOrders.stream().filter(h -> h.getProductId().equals(pointProductDO.getId())).mapToInt(PointOrderDO::getProductQty).sum();
             for (PointOrderDO pointOrderDO : myPointOrders
             ) {
-                curPoint += pointOrderDO.getPoint() * pointOrderDO.getProductQty();
+                if(DateUtil.formatDate(pointOrderDO.getCreateTime()).equals(DateUtil.formatDate(DateUtil.date()))) {
+                    curPoint += pointOrderDO.getPoint() * pointOrderDO.getProductQty();
+                }
             }
         }
         if ((curQty + productQty) > pointProductDO.getPerLimit()) {
