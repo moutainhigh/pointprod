@@ -181,8 +181,8 @@
                                     <input id="ver1" type="checkbox" name="ver" value="888010000" /><label for="ver1">小智盈</label>
                                     <input id="ver2" type="checkbox" name="ver" value="888020000" /><label for="ver2">深度资金版</label>
                                     <input id="ver3" type="checkbox" name="ver" value="888080000" /><label for="ver3">掘金版</label>
-                                    <input id="ver4" type="checkbox" name="ver" value="888010400" /><label for="ver3">小智盈过期</label>
-                                    <input id="ver5" type="checkbox" name="ver" value="888020400" /><label for="ver3">大师过期</label>
+                                    <input id="ver4" type="checkbox" name="ver" value="888010400" /><label for="ver4">小智盈过期</label>
+                                    <input id="ver5" type="checkbox" name="ver" value="888020400" /><label for="ver5">大师过期</label>
                                 </div>
                             </div>
                         </div>
