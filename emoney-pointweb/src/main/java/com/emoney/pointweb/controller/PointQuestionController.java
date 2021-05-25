@@ -55,6 +55,9 @@ public class PointQuestionController {
                        HttpServletRequest request,HttpServletResponse response){
         try {
             TicketInfo user = userLoginService.getLoginAdminUser(request,response);
+            if(user==null){
+                return "用户登录已过期，请重新登录";
+            }
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 

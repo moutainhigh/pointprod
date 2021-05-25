@@ -59,6 +59,9 @@ public class PointSendConfigInfoController {
                        @RequestParam(required = false, defaultValue = "0") BigDecimal ratio, String remark) {
         try {
             TicketInfo user = userLoginService.getLoginAdminUser(request, response);
+            if(user==null){
+                return "用户登录已过期，请重新登录";
+            }
 
             PointSendConfigInfoDO pointSendConfigInfoDO = new PointSendConfigInfoDO();
             pointSendConfigInfoDO.setId(id);
