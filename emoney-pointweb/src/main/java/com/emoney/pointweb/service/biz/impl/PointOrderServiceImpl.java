@@ -108,11 +108,13 @@ public class PointOrderServiceImpl implements PointOrderService {
         if (pointProductDO != null) {
             String errMsg = checkPointOrder(pointOrderCreateDTO.getUid(), pointOrderCreateDTO.getProductQty(), pointProductDO);
             if (StringUtils.isEmpty(errMsg)) {
+                log.info("订单测试9:"+DateUtil.formatDateTime(DateUtil.date()));
                 //保存订单
                 PointOrderDO pointOrderDO = new PointOrderDO();
                 pointOrderDO.setUid(pointOrderCreateDTO.getUid());
                 pointOrderDO.setEmNo(pointOrderCreateDTO.getEmNo());
                 pointOrderDO.setOrderNo("EJF" + IdUtil.getSnowflake(1, 1).nextId());
+                log.info("订单测试9-1:"+DateUtil.formatDateTime(DateUtil.date()));
                 pointOrderDO.setProductId(pointOrderCreateDTO.getProductId());
                 pointOrderDO.setProductTitle(pointProductDO.getProductName());
                 pointOrderDO.setProductQty(pointOrderCreateDTO.getProductQty());
@@ -124,8 +126,9 @@ public class PointOrderServiceImpl implements PointOrderService {
                 pointOrderDO.setProductFile(pointProductDO.getProductFile());
                 pointOrderDO.setProductType(pointProductDO.getProductType());
                 pointOrderDO.setCreateTime(new Date());
+                log.info("订单测试9-2:"+DateUtil.formatDateTime(DateUtil.date()));
                 if (pointOrderRepository.insert(pointOrderDO) > 0) {
-                    log.info("订单测试9:"+DateUtil.formatDateTime(DateUtil.date()));
+                    log.info("订单测试10:"+DateUtil.formatDateTime(DateUtil.date()));
                     return buildSuccessResult(pointOrderDO);
                 }
             } else {
@@ -392,6 +395,8 @@ public class PointOrderServiceImpl implements PointOrderService {
                 return "今天积分兑换额度已满，请明天早点来吧！";
             }
         }
+
+        log.info("订单测试6-1:"+DateUtil.formatDateTime(DateUtil.date()));
         return "";
     }
 }
