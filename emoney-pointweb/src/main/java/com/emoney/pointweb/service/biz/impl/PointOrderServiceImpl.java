@@ -103,9 +103,7 @@ public class PointOrderServiceImpl implements PointOrderService {
 
     @Override
     public Result<Object> createPointOrder(PointOrderCreateDTO pointOrderCreateDTO) {
-        log.info("step1"+ DateUtil.formatDateTime(DateUtil.date()));
         PointProductDO pointProductDO = pointProductRepository.getById(pointOrderCreateDTO.getProductId());
-        log.info("step2"+ DateUtil.formatDateTime(DateUtil.date()));
         if (pointProductDO != null) {
             String errMsg = checkPointOrder(pointOrderCreateDTO.getUid(), pointOrderCreateDTO.getProductQty(), pointProductDO);
             if (StringUtils.isEmpty(errMsg)) {
@@ -126,7 +124,6 @@ public class PointOrderServiceImpl implements PointOrderService {
                 pointOrderDO.setProductType(pointProductDO.getProductType());
                 pointOrderDO.setCreateTime(new Date());
                 if (pointOrderRepository.insert(pointOrderDO) > 0) {
-                    log.info("step6"+ DateUtil.formatDateTime(DateUtil.date()));
                     return buildSuccessResult(pointOrderDO);
                 }
             } else {
@@ -341,13 +338,11 @@ public class PointOrderServiceImpl implements PointOrderService {
                 return "商品库存不足";
             }
         }
-        log.info("step3"+ DateUtil.formatDateTime(DateUtil.date()));
         List<PointRecordSummaryDO> pointRecordSummaryDOS = pointRecordRepository.getPointRecordSummaryByUid(uid);
         if (pointRecordSummaryDOS != null && pointRecordSummaryDOS.size() > 0) {
             PointRecordSummaryDO pointRecordSummaryDO = pointRecordSummaryDOS.stream().filter(h -> h.getPointStatus() != null && h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode()))).findAny().orElse(null);
             totalPoint = pointRecordSummaryDO != null ? pointRecordSummaryDO.getPointTotal() : 0;
         }
-        log.info("step4"+ DateUtil.formatDateTime(DateUtil.date()));
         List<PointOrderDO> myPointOrders = pointOrderRepository.getByUidAndProductId(uid, null);
         if (myPointOrders != null && myPointOrders.size() > 0) {
             curQty = myPointOrders.stream().filter(h -> h.getProductId().equals(pointProductDO.getId())).mapToInt(PointOrderDO::getProductQty).sum();
@@ -356,7 +351,6 @@ public class PointOrderServiceImpl implements PointOrderService {
                 curPoint += pointOrderDO.getPoint() * pointOrderDO.getProductQty();
             }
         }
-        log.info("step5"+ DateUtil.formatDateTime(DateUtil.date()));
         if ((curQty + productQty) > pointProductDO.getPerLimit()) {
             return "个人购买商品超限";
         }

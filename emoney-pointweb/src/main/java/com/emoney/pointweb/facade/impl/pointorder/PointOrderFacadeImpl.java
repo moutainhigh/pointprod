@@ -60,9 +60,7 @@ public class PointOrderFacadeImpl implements PointOrderFacade {
     public Result<Object> createPointOrder(@RequestBody @Valid PointOrderCreateDTO pointOrderCreateDTO) {
             String lockKey = MessageFormat.format(RedisConstants.REDISKEY_PointOrder_CREATE_LOCKKEY, pointOrderCreateDTO.getUid(), pointOrderCreateDTO.getProductId());
             try {
-                log.info("step0"+ DateUtil.formatDateTime(DateUtil.date()));
                 if (redissonDistributionLock.tryLock(lockKey, TimeUnit.SECONDS, 10, 10)) {
-                    log.info("step0.1"+ DateUtil.formatDateTime(DateUtil.date()));
                     return pointOrderService.createPointOrder(pointOrderCreateDTO);
                 }
                 return Result.buildErrorResult(BaseResultCodeEnum.REPETITIVE_OPERATION.code(), BaseResultCodeEnum.REPETITIVE_OPERATION.getMsg());
@@ -71,7 +69,6 @@ public class PointOrderFacadeImpl implements PointOrderFacade {
                 log.error("createPointOrder error:", e);
                 return Result.buildErrorResult(e.getMessage());
             }finally {
-                log.info("step7"+ DateUtil.formatDateTime(DateUtil.date()));
                 redissonDistributionLock.unlock(lockKey);
             }
 
