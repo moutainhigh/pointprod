@@ -129,6 +129,8 @@ $(function() {
 						data=data.substring(0,data.length-1).replace("888010000","小智盈");
 						data=data.replace("888020000","深度资金版");
 						data=data.replace("888080000","掘金版");
+						data=data.replace("888010400","小智盈过期");
+						data=data.replace("888020400","大师过期");
 						return data;
 					}else {
 						return "";
@@ -181,6 +183,8 @@ $(function() {
 		$("#ver1").attr("checked", false);
 		$("#ver2").attr("checked", false);
 		$("#ver3").attr("checked", false);
+		$("#ver4").attr("checked", false);
+		$("#ver5").attr("checked", false);
 		$("#plat1").attr("checked", false);
 		$("#plat2").attr("checked", false);
 		$("#plat3").attr("checked", false);

@@ -239,6 +239,8 @@
                                     <input id="ver1" type="checkbox" name="ver" value="888010000" /><label for="ver1">小智盈</label>
                                     <input id="ver2" type="checkbox" name="ver" value="888020000" /><label for="ver2">深度资金版</label>
                                     <input id="ver3" type="checkbox" name="ver" value="888080000" /><label for="ver3">掘金版</label>
+                                    <input id="ver4" type="checkbox" name="ver" value="888010400" /><label for="ver3">小智盈过期</label>
+                                    <input id="ver5" type="checkbox" name="ver" value="888020400" /><label for="ver3">大师过期</label>
                                 </div>
                             </div>
                         </div>
@@ -367,7 +369,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=1111"></script>
+<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=11111"></script>
 <script src="${request.contextPath}/static/js/webuploader.js?v=111"></script>
 
 <script>
@@ -469,6 +471,8 @@
         $("#ver1").attr("checked", false);
         $("#ver2").attr("checked", false);
         $("#ver3").attr("checked", false);
+        $("#ver4").attr("checked", false);
+        $("#ver5").attr("checked", false);
         $("#plat1").attr("checked", false);
         $("#plat2").attr("checked", false);
         $("#plat3").attr("checked", false);
@@ -515,6 +519,12 @@
                 }
                 if(ver[i]=="888080000"){
                     $("#ver3").attr("checked", true);
+                }
+                if(ver[i]=="888010400"){
+                    $("#ver4").attr("checked", true);
+                }
+                if(ver[i]=="888020400"){
+                    $("#ver5").attr("checked", true);
                 }
             }
         }
