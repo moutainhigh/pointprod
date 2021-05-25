@@ -67,7 +67,9 @@ public class PointTaskConfigInfoController {
                        @RequestParam(required = false, defaultValue = "0") Integer is_bigimg, HttpServletRequest request, HttpServletResponse response) {
         try {
             TicketInfo user = userLoginService.getLoginAdminUser(request, response);
-
+            if(user==null){
+                return "用户登录已过期，请重新登录";
+            }
             //获取同一类型同一排序
             List<PointTaskConfigInfoDO> data = pointTaskConfigInfoService.getPointTaskConfigInfoByOrderAndType(tasktype, taskorder);
             if ((data.size() >= 1 && id == 0) || (data.size() > 1 && id > 0)) {

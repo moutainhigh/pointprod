@@ -49,6 +49,9 @@ public class PointQuotationController {
                        String content, HttpServletRequest request, HttpServletResponse response){
         try{
             TicketInfo user = userLoginService.getLoginAdminUser(request,response);
+            if(user==null){
+                return "用户登录已过期，请重新登录";
+            }
 
             PointQuotationDO pointQuotationDO=new PointQuotationDO();
             pointQuotationDO.setId(id);
