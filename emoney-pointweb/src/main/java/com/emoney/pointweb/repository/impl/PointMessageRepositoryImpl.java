@@ -10,7 +10,9 @@ import com.emoney.pointweb.service.biz.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.xml.crypto.Data;
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,10 +37,10 @@ public class PointMessageRepositoryImpl implements PointMessageRepository {
     }
 
     @Override
-    public List<PointMessageDO> getByUid(Long uid) {
+    public List<PointMessageDO> getByUid(Long uid, Date endDate) {
         List<PointMessageDO> pointMessageDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointMessage_GETBYUID, uid), PointMessageDO.class);
         if (pointMessageDOS == null) {
-            pointMessageDOS = pointMessageMapper.getByUid(uid);
+            pointMessageDOS = pointMessageMapper.getByUid(uid,endDate);
             if (pointMessageDOS != null&&pointMessageDOS.size()>0) {
                 redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointMessage_GETBYUID, uid), pointMessageDOS, ToolUtils.GetExpireTime(60));
             }

@@ -3,6 +3,7 @@ package com.emoney.pointweb.repository.dao.mapper;
 import com.emoney.pointweb.repository.dao.entity.PointMessageDO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public interface PointMessageMapper {
      * @param uid
      * @return
      */
-    List<PointMessageDO> getByUid(Long uid);
+    List<PointMessageDO> getByUid(Long uid, Date endDate);
 
     /**
      *

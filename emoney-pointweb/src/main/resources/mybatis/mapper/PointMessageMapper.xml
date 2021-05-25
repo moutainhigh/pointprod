@@ -43,7 +43,7 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_point_message
-         WHERE uid=#{uid} order by create_time desc
+         WHERE uid=#{uid}  AND create_time>#{endDate}  order by create_time desc
     </select>
 
     <select id="getByUidAndExt" resultType="java.lang.Integer">

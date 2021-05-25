@@ -2,6 +2,7 @@ package com.emoney.pointweb.repository;
 
 import com.emoney.pointweb.repository.dao.entity.PointMessageDO;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public interface PointMessageRepository {
      * @param uid
      * @return
      */
-    List<PointMessageDO> getByUid(Long uid);
+    List<PointMessageDO> getByUid(Long uid, Date endDate);
 
     /**
      *

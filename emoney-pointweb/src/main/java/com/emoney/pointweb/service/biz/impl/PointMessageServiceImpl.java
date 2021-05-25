@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class PointMessageServiceImpl implements PointMessageService {
     }
 
     @Override
-    public List<PointMessageDO> getByUid(Long uid) {
-        return pointMessageRepository.getByUid(uid);
+    public List<PointMessageDO> getByUid(Long uid, Date endDate) {
+        return pointMessageRepository.getByUid(uid,endDate);
     }
 }
