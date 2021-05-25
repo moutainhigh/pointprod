@@ -176,13 +176,18 @@
 
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">产品版本<font color="red">*</font></label>
-                            <div class="col-sm-4">
+                            <div class="col-sm-8">
                                 <div style="margin-top: 6px;" id="ver">
                                     <input id="ver1" type="checkbox" name="ver" value="888010000" /><label for="ver1">小智盈</label>
                                     <input id="ver2" type="checkbox" name="ver" value="888020000" /><label for="ver2">深度资金版</label>
                                     <input id="ver3" type="checkbox" name="ver" value="888080000" /><label for="ver3">掘金版</label>
+                                    <input id="ver4" type="checkbox" name="ver" value="888010400" /><label for="ver4">小智盈过期</label>
+                                    <input id="ver5" type="checkbox" name="ver" value="888020400" /><label for="ver5">大师过期</label>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">是否定向<font color="red">*</font></label>
                             <div class="col-sm-4">
                                 <div style="margin-top: 6px;" id="Directional">
@@ -337,7 +342,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointtaskconfiginfo.index.1.js?v=111"></script>
+<script src="${request.contextPath}/static/js/pointtaskconfiginfo.index.1.js?v=1111"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
 
 <script>
@@ -390,6 +395,8 @@
         $("#ver1").attr("checked", false);
         $("#ver2").attr("checked", false);
         $("#ver3").attr("checked", false);
+        $("#ver4").attr("checked", false);
+        $("#ver5").attr("checked", false);
         $("#plat1").attr("checked", false);
         $("#plat2").attr("checked", false);
         $("#plat3").attr("checked", false);
@@ -506,6 +513,12 @@
                 if(ver[i]=="888080000"){
                     $("#ver3").attr("checked", true);
                 }
+                if(ver[i]=="888010400"){
+                    $("#ver4").attr("checked", true);
+                }
+                if(ver[i]=="888020400"){
+                    $("#ver5").attr("checked", true);
+                }
             }
         }
 
@@ -591,6 +604,8 @@
         $("#ver1").attr("checked", false);
         $("#ver2").attr("checked", false);
         $("#ver3").attr("checked", false);
+        $("#ver4").attr("checked", false);
+        $("#ver5").attr("checked", false);
         $("#plat1").attr("checked", false);
         $("#plat2").attr("checked", false);
         $("#plat3").attr("checked", false);
