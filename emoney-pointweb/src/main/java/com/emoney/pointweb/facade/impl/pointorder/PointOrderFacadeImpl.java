@@ -58,16 +58,12 @@ public class PointOrderFacadeImpl implements PointOrderFacade {
 
     @Override
     public Result<Object> createPointOrder(@RequestBody @Valid PointOrderCreateDTO pointOrderCreateDTO) {
-
-            log.info("订单测试1:"+DateUtil.formatDateTime(DateUtil.date()));
             String lockKey = MessageFormat.format(RedisConstants.REDISKEY_PointOrder_CREATE_LOCKKEY, pointOrderCreateDTO.getUid(), pointOrderCreateDTO.getProductId());
             try {
                 if (redissonDistributionLock.tryLock(lockKey, TimeUnit.SECONDS, 10, 10)) {
-                    log.info("订单测试2:"+DateUtil.formatDateTime(DateUtil.date()));
                     return pointOrderService.createPointOrder(pointOrderCreateDTO);
                 }
                 return Result.buildErrorResult(BaseResultCodeEnum.REPETITIVE_OPERATION.code(), BaseResultCodeEnum.REPETITIVE_OPERATION.getMsg());
-
             } catch (Exception e) {
                 log.error("createPointOrder error:", e);
                 return Result.buildErrorResult(e.getMessage());

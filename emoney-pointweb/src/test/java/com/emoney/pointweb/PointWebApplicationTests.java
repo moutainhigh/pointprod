@@ -1,10 +1,12 @@
 package com.emoney.pointweb;
 
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.emoeny.pointcommon.enums.PointRecordStatusEnum;
 import com.emoeny.pointfacade.facade.pointquestion.PointQuestionFacade;
 import com.emoney.pointweb.repository.*;
+import com.emoney.pointweb.repository.dao.entity.PointOrderDO;
 import com.emoney.pointweb.repository.dao.entity.PointRecordDO;
 import com.emoney.pointweb.repository.dao.entity.dto.CreateActivityGrantApplyAccountDTO;
 import com.emoney.pointweb.repository.dao.entity.dto.SendCouponDTO;
@@ -137,7 +139,7 @@ class PointWebApplicationTests {
 //        Boolean result = logisticsService.SenddPrivilege(sendPrivilegeDTO);
 //
 
-//        List<PointRecordDO> pointRecordDOS = pointRecordRepository.getByUid(1001471383L);
+        //List<PointRecordDO> pointRecordDOS = pointRecordRepository.getByUid(1001471383L);
 //
 //        long L=    pointRecordDOS.stream().filter(h -> h.getTaskId().equals(1392719202749648896L)&&h.getSubId().equals(null) && h.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.UNCLAIMED.getCode()))).count();
 //
@@ -238,6 +240,20 @@ class PointWebApplicationTests {
 //        pointRecordDO.setPointStatus(2);
 //        pointRecordDO.setIsValid(true);
 //        pointRecordMapper.insert(pointRecordDO);
+
+
+
+
+//        for (int i=0;i<1000;i++){
+//            PointOrderDO pointOrderDO=new PointOrderDO();
+//            pointOrderDO.setOrderNo("ETJ"+IdUtil.getSnowflake(1, 1).nextId());
+//            pointOrderDO.setUid(10000772L);
+//            pointOrderDO.setCreateTime(new Date());
+//            pointOrderRepository.insert(pointOrderDO);
+//            log.info("订单测试"+ DateUtil.formatDateTime(DateUtil.date()));
+//        }
+
+
 //
 ////        SignInRecordDO signInRecordDO=new SignInRecordDO();
 ////        signInRecordDO.setId(IdUtil.getSnowflake(1, 1).nextId());
