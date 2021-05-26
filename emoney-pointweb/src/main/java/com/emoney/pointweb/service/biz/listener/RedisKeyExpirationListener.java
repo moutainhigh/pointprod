@@ -77,7 +77,7 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
                     if (expiredKey.startsWith("pointprod:pointorder_setorderkey")) {
                         if (arrString.length == 3) {
                             if (!StringUtils.isEmpty(arrString[2])) {
-                                int orderId = Integer.parseInt(arrString[2]);
+                                int orderId = Integer.parseInt(arrString[2].replace(",",""));
                                 PointOrderDO pointOrderDO = pointOrderRepository.getById(orderId);
                                 if (pointOrderDO != null && pointOrderDO.getOrderStatus().equals(Integer.valueOf(PointOrderStatusEnum.UNFINISHED.getCode()))) {
                                     pointOrderDO.setOrderStatus(Integer.valueOf(PointOrderStatusEnum.CANCELLED.getCode()));
@@ -94,7 +94,7 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
                     else if (expiredKey.startsWith("pointprod:pointordermind_setorderkey")) {
                         if (arrString.length == 3) {
                             if (!StringUtils.isEmpty(arrString[2])) {
-                                int orderId = Integer.parseInt(arrString[2]);
+                                int orderId = Integer.parseInt(arrString[2].replace(",",""));
                                 PointOrderDO pointOrderDO = pointOrderRepository.getById(orderId);
                                 if (pointOrderDO != null && pointOrderDO.getOrderStatus().equals(Integer.valueOf(PointOrderStatusEnum.UNFINISHED.getCode()))) {
                                     lockKey = MessageFormat.format(RedisConstants.REDISKEY_PointMessage_CREATE_LOCKKEY, pointOrderDO.getUid(), pointOrderDO.getOrderNo());
