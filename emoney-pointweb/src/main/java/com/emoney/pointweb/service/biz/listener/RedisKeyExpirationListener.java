@@ -68,9 +68,9 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
     @Override
     public void onMessage(Message message, byte[] pattern) {
         String lockKey = "";
+        String expiredKey = message.toString();
+        String[] arrString = expiredKey.split("_");
         try {
-            String expiredKey = message.toString();
-            String[] arrString = expiredKey.split("_");
             //订单30分钟没支付自动关闭
             if (expiredKey.startsWith("pointprod:pointorder_setorderkey")) {
                 if (arrString.length == 3) {
@@ -141,7 +141,7 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
                 }
             }
         } catch (Exception e) {
-            log.error("RedisKeyExpirationListener error:", e);
+            log.error("RedisKeyExpirationListener error:" + expiredKey, e);
         } finally {
             if (!StringUtils.isEmpty(lockKey)) {
                 redissonDistributionLock.unlock(lockKey);

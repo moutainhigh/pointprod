@@ -12,6 +12,7 @@ import com.emoney.pointweb.repository.PointTaskConfigInfoRepository;
 import com.emoney.pointweb.repository.dao.entity.PointRecordDO;
 import com.emoney.pointweb.repository.dao.entity.PointRecordSummaryDO;
 import com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO;
+import com.emoney.pointweb.repository.dao.entity.vo.UserInfoVO;
 import com.emoney.pointweb.service.biz.MessageService;
 import com.emoney.pointweb.service.biz.impl.PointRecordServiceImpl;
 import com.emoney.pointweb.service.biz.redis.RedisService;
@@ -22,11 +23,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Component
 @Slf4j
@@ -50,6 +55,9 @@ public class KafkaConsumerPointRecordService {
     @Value("${pointFrontUrl}")
     private String pointFrontUrl;
 
+    @Resource(name = "taskExecutor")
+    private ThreadPoolTaskExecutor executor;
+
     // 消费监听
     @KafkaListener(topics = {"pointrecordadd"}, groupId = "pointrecordgroup")
     public void onMessage(@Payload ConsumerRecord<?, ?> record, Acknowledgment acknowledgment) {
@@ -71,14 +79,22 @@ public class KafkaConsumerPointRecordService {
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETUNCLAIMRECORDSBYUID, pointRecordDO.getUid()));
                     //写入ES
                     pointRecordESRepository.save(pointRecordDO);
-                    //成长任务发送积分通知
-                    List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = pointTaskConfigInfoRepository.getByTaskIdAndSubId(pointRecordDO.getTaskId(), pointRecordDO.getSubId());
-                    if (pointTaskConfigInfoDOS != null && pointTaskConfigInfoDOS.size() > 0) {
-                        PointTaskConfigInfoDO pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().findFirst().orElse(null);
-                        if (pointTaskConfigInfoDO != null && pointTaskConfigInfoDO.getTaskType().equals(2)) {
-                            messageService.sendMessage(pointRecordDO.getUid(), "积分弹窗", pointFrontUrl + "/message/index");
+                    //异步处理
+                    CompletableFuture.runAsync(() -> {
+                        try {
+                            //成长任务发送积分通知
+                            List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = pointTaskConfigInfoRepository.getByTaskIdAndSubId(pointRecordDO.getTaskId(), pointRecordDO.getSubId());
+                            if (pointTaskConfigInfoDOS != null && pointTaskConfigInfoDOS.size() > 0) {
+                                PointTaskConfigInfoDO pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().findFirst().orElse(null);
+                                if (pointTaskConfigInfoDO != null && pointTaskConfigInfoDO.getTaskType().equals(2)) {
+                                    Thread.sleep(1000 * 3);
+                                    messageService.sendMessage(pointRecordDO.getUid(), "积分弹窗", pointFrontUrl + "/message/index");
+                                }
+                            }
+                        } catch (Exception e) {
+                            log.error("调用积分弹窗异常", e);
                         }
-                    }
+                    }, executor);
                 }
             }
             //手工提交offset
