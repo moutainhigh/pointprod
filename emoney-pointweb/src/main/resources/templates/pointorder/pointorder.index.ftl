@@ -83,7 +83,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/moment/moment.min.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointorder.index.1.js"></script>
+<script src="${request.contextPath}/static/js/pointorder.index.1.js?v=1"></script>
 <script>
 
     $("#exportData").on("click",function (){

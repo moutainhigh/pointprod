@@ -156,7 +156,7 @@
     var feedbackTable = $("#feedback_list").DataTable({
         "deferRender": true,
         "processing" : true,
-        "serverSide": true,
+        //"serverSide": true,
         language: {
             "sProcessing": "处理中...",
             "sLengthMenu": "显示 _MENU_ 项结果",
@@ -291,11 +291,17 @@
         ],
         fnDrawCallback: function (d) {
             let api = this.api();
-            let startIndex = api.context[0]._iDisplayStart;//获取本页开始的条数
             api.column(0).nodes().each(function(cell, i) {
-                cell.innerHTML = startIndex + i + 1;
+                cell.innerHTML =  i + 1;
             });
         },
+        // fnDrawCallback: function (d) {
+        //     let api = this.api();
+        //     let startIndex = api.context[0]._iDisplayStart;//获取本页开始的条数
+        //     api.column(0).nodes().each(function(cell, i) {
+        //         cell.innerHTML = startIndex + i + 1;
+        //     });
+        // },
         columnDefs: [{
             targets: 12,
             render: function (data, type, row, meta) {
