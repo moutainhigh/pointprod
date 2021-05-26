@@ -179,7 +179,7 @@
     </select>
 
 
-    <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointOrderDO">
+    <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointOrderDO" useGeneratedKeys="true" keyProperty="id">
        INSERT INTO
        		t_point_order
        		(uid,em_no,order_no, trade_no, order_status, product_id,product_title,product_qty,point,cash,pay_type,mobile,mobile_mask,product_file,is_send,product_type,create_time,update_time,create_by,update_by,remark)
