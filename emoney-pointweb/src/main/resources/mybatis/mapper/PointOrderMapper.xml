@@ -83,11 +83,17 @@
         <include refid="Base_Column_List"/>
 
         FROM t_point_order
-        WHERE uid=#{uid}
+        WHERE uid=#{uid} AND order_status <![CDATA[!= ]]> 2
 
-        <if test="orderStatus != -1">
+        <if test="orderStatus ==0 or orderStatus==1 ">
 
           AND order_status = #{orderStatus}
+
+        </if>
+
+         <if test="orderStatus ==2 ">
+
+          AND product_file <![CDATA[!= ]]> null
 
         </if>
 
