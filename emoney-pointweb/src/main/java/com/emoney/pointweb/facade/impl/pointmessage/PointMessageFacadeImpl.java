@@ -99,7 +99,7 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
                         pointMessageVO = new PointMessageVO();
                         pointMessageVO.setUid(uid);
                         pointMessageVO.setMsgType(Integer.valueOf(MessageTypeEnum.TYPE5.getCode()));
-                        pointMessageVO.setMsgContent(pointFeedBack.getRemark());
+                        pointMessageVO.setMsgContent("【意见反馈】"+pointFeedBack.getRemark());
                         pointMessageVO.setCreateTime(pointFeedBack.getCreateTime());
                         pointMessageVOS.add(pointMessageVO);
                     }
