@@ -45,7 +45,7 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
             List<Integer> mstTypes = new ArrayList<>();
             //即将到期,待支付
             if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE0.getCode())) || queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE1.getCode())) || queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE3.getCode()))) {
-                pointMessageVOS = JsonUtil.copyList(pointMessageService.getByUid(uid, DateUtil.beginOfDay(DateUtil.offsetDay(DateUtil.date(), -7))), PointMessageVO.class);
+                pointMessageVOS = JsonUtil.copyList(pointMessageService.getByUid(uid, DateUtil.beginOfDay(DateUtil.offsetDay(DateUtil.date(), -3))), PointMessageVO.class);
                 if (pointMessageVOS != null) {
                     if (!queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE0.getCode()))) {
                         pointMessageVOS = pointMessageVOS.stream().filter(h -> h.getMsgType().equals(queryType)).collect(Collectors.toList());
