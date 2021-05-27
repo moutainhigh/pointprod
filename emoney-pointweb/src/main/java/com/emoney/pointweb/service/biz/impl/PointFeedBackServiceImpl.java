@@ -7,6 +7,7 @@ import com.emoney.pointweb.repository.dao.mapper.PointFeedBackMapper;
 import com.emoney.pointweb.service.biz.PointFeedBackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.java2d.pipe.SolidTextRenderer;
 
 import java.util.Date;
 import java.util.List;
@@ -40,6 +41,11 @@ public class PointFeedBackServiceImpl implements PointFeedBackService {
 
     public List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status,Integer isReply){
         return pointFeedBackMapper.queryAllByRemarkAndStatus(status,isReply);
+    }
+
+    @Override
+    public List<PointFeedBackDO> getByUid(String accountName, Date endDate) {
+        return pointFeedBackMapper.getByUid(accountName,endDate);
     }
 
     @Override

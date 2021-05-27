@@ -97,4 +97,11 @@
             </if>
         </trim>
     </select>
+
+        <select id="getByUid" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_point_feedback
+         WHERE account=#{accountName}  AND create_time>#{endDate}  AND remark IS NOT NULL  order by create_time desc
+    </select>
 </mapper>

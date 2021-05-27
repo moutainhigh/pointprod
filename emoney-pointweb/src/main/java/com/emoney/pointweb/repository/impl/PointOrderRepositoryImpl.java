@@ -79,7 +79,7 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
             //30分钟没支付，自动取消订单
             redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_SETORDERKEY, pointOrderDO.getId()), pointOrderDO.getOrderNo(), 60 * 30L);
             //10分钟没支付，发消息提醒
-            redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrderMIND_SETORDERKEY, pointOrderDO.getId()), pointOrderDO.getOrderNo(), 60 * 10L);
+            //redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrderMIND_SETORDERKEY, pointOrderDO.getId()), pointOrderDO.getOrderNo(), 60 * 10L);
             //订单更新将订单列表缓存清除
             redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, pointOrderDO.getUid()));
         }
