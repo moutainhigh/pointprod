@@ -3,11 +3,14 @@ package com.emoney.pointweb.controller;
 import com.emoeny.pointcommon.result.userinfo.TicketInfo;
 import com.emoney.pointweb.repository.dao.entity.PointQuestionDO;
 import com.emoney.pointweb.repository.dao.entity.PointQuotationDO;
+import com.emoney.pointweb.repository.dao.entity.vo.UserGroupVO;
 import com.emoney.pointweb.service.biz.PointQuestionService;
+import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
 import com.emoney.pointweb.service.biz.UserLoginService;
 import org.apache.commons.lang3.Conversion;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,8 +37,13 @@ public class PointQuestionController {
     @Resource
     private UserLoginService userLoginService;
 
+    @Resource
+    private PointTaskConfigInfoService pointTaskConfigInfoService;
+
     @RequestMapping
-    public String index() {
+    public String index(Model model) {
+        List<UserGroupVO> userGroupVOList = pointTaskConfigInfoService.getUserGroupList();
+        model.addAttribute("userGroupVOList", userGroupVOList);
         return "pointquestion/pointquestion.index";
     }
 
@@ -50,12 +58,13 @@ public class PointQuestionController {
 
     @RequestMapping("/edit")
     @ResponseBody
-    public String edit(@RequestParam(required = false, defaultValue = "0") Integer id,Integer questionType,
-                       String showTime,String questionContent,String questionOptions,String questionRightoptions,
-                       HttpServletRequest request,HttpServletResponse response){
+    public String edit(@RequestParam(required = false, defaultValue = "0") Integer id, Integer questionType,
+                       String showTime, String questionContent, String questionOptions, String questionRightoptions,
+                       String ver, String plat, String groupList,
+                       HttpServletRequest request, HttpServletResponse response) {
         try {
-            TicketInfo user = userLoginService.getLoginAdminUser(request,response);
-            if(user==null){
+            TicketInfo user = userLoginService.getLoginAdminUser(request, response);
+            if (user == null) {
                 return "用户登录已过期，请重新登录";
             }
 
@@ -63,26 +72,29 @@ public class PointQuestionController {
 
             PointQuestionDO pointQuestionDO = new PointQuestionDO();
             pointQuestionDO.setId(id);
-            if(!StringUtils.isEmpty(showTime)){
+            pointQuestionDO.setUserGroup(groupList);
+            pointQuestionDO.setPublishPlatFormType(plat);
+            pointQuestionDO.setProductVersion(ver);
+            if (!StringUtils.isEmpty(showTime)) {
                 pointQuestionDO.setShowTime(sdf.parse(showTime));
             }
-            if(!StringUtils.isEmpty(questionRightoptions)){
-                String[] rightStr= questionRightoptions.split("\\|");
-                if(questionType.equals(1)&&rightStr.length>1){
+            if (!StringUtils.isEmpty(questionRightoptions)) {
+                String[] rightStr = questionRightoptions.split("\\|");
+                if (questionType.equals(1) && rightStr.length > 1) {
                     return "单选题不能有多个正确答案";
-                }else if(questionType.equals(2)&&rightStr.length<2){
+                } else if (questionType.equals(2) && rightStr.length < 2) {
                     return "多选题正确答案不能少于2个";
                 }
-            }else {
+            } else {
                 return "请填写正确答案";
             }
-            if(!StringUtils.isEmpty(questionOptions)){
-                String[] opStr=questionOptions.split("\\|");
-                int[] rightOp= Arrays.asList(questionRightoptions.split("\\|")).stream().mapToInt(Integer::parseInt).toArray();
-                if(opStr.length < Arrays.stream(rightOp).max().getAsInt()){
+            if (!StringUtils.isEmpty(questionOptions)) {
+                String[] opStr = questionOptions.split("\\|");
+                int[] rightOp = Arrays.asList(questionRightoptions.split("\\|")).stream().mapToInt(Integer::parseInt).toArray();
+                if (opStr.length < Arrays.stream(rightOp).max().getAsInt()) {
                     return "正确答案超过选项范围";
                 }
-            }else {
+            } else {
                 return "请输入题目选项";
             }
             pointQuestionDO.setQuestionContent(questionContent);
@@ -92,10 +104,10 @@ public class PointQuestionController {
             pointQuestionDO.setUpdateBy(user.UserName);
             pointQuestionDO.setUpdateTime(new Date());
 
-            int result=0;
-            if(id>0){
+            int result = 0;
+            if (id > 0) {
                 result = pointQuestionService.update(pointQuestionDO);
-            }else {
+            } else {
                 pointQuestionDO.setIsValid(true);
                 pointQuestionDO.setCreateBy(user.UserName);
                 pointQuestionDO.setCreateTime(new Date());
@@ -111,7 +123,7 @@ public class PointQuestionController {
     @ResponseBody
     public String delete(Integer id, HttpServletRequest request, HttpServletResponse response) {
         try {
-            TicketInfo user = userLoginService.getLoginAdminUser(request,response);
+            TicketInfo user = userLoginService.getLoginAdminUser(request, response);
 
             PointQuestionDO pointQuestionDO = new PointQuestionDO();
             pointQuestionDO.setId(id);

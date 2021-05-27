@@ -1,7 +1,7 @@
-$(function() {
+$(function () {
     // init date tables
     var questionTable = $("#question_list").DataTable({
-        "processing" : true,
+        "processing": true,
         language: {
             "sProcessing": "处理中...",
             "sLengthMenu": "显示 _MENU_ 项结果",
@@ -28,7 +28,7 @@ $(function() {
         },
         "ajax": {
             url: base_url + "/pointquestion/pageList",
-            type:"post"
+            type: "post"
         },
         "searching": true,
         "ordering": true,
@@ -40,11 +40,9 @@ $(function() {
             {
                 "data": 'questionType',
                 "render": function (data, type, row) {
-                    if(data)
-                    {
+                    if (data) {
                         //单选、多选
-                        switch (data)
-                        {
+                        switch (data) {
                             case 1:
                                 return "单选";
                                 break;
@@ -55,8 +53,7 @@ $(function() {
                                 return "其他";
                                 break;
                         }
-                    }
-                    else {
+                    } else {
                         return "";
                     }
                 }
@@ -67,16 +64,16 @@ $(function() {
             {
                 "data": 'questionRightoptions',
                 "render": function (data, type, row) {
-                    if(data){
-                        data=data.replace("1","A");
-                        data=data.replace("2","B");
-                        data=data.replace("3","C");
-                        data=data.replace("4","D");
-                        data=data.replace("5","E");
-                        data=data.replace("6","F");
-                        data=data.replace("7","G");
+                    if (data) {
+                        data = data.replace("1", "A");
+                        data = data.replace("2", "B");
+                        data = data.replace("3", "C");
+                        data = data.replace("4", "D");
+                        data = data.replace("5", "E");
+                        data = data.replace("6", "F");
+                        data = data.replace("7", "G");
                         return data;
-                    }else {
+                    } else {
                         return "";
                     }
                 }
@@ -90,8 +87,8 @@ $(function() {
         ],
         fnDrawCallback: function () {
             let api = this.api();
-            api.column(0).nodes().each(function(cell, i) {
-                cell.innerHTML =  i + 1;
+            api.column(0).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
             });
         },
         columnDefs: [{
@@ -105,21 +102,40 @@ $(function() {
         }]
     });
 
-    $('#btnAdd').on('click', function(){
-        $("#modal-default").modal({ backdrop: false, keyboard: false }).modal('show');
+    $('#btnAdd').on('click', function () {
+        $("#modal-default").modal({backdrop: false, keyboard: false}).modal('show');
     });
 
     //保存
-    $(".btnSave").on("click",function (){
-        var obj=new Object();
-        obj.id=$("#hiddenid").val();
-        obj.questionType=$("#question_type input[type=radio]:checked").val();
-        obj.showTime=$("#showTime").val();
-        obj.questionContent=$("#txtContent").val();
-        obj.questionOptions=$("#txtOption").val();
-        obj.questionRightoptions=$("#txtRight").val();
+    $(".btnSave").on("click", function () {
+        var obj = new Object();
+        obj.id = $("#hiddenid").val();
+        obj.questionType = $("#question_type input[type=radio]:checked").val();
+        obj.showTime = $("#showTime").val();
+        obj.questionContent = $("#txtContent").val();
+        obj.questionOptions = $("#txtOption").val();
+        obj.questionRightoptions = $("#txtRight").val();
+        var ver = "";
+        $("#ver input[type=checkbox]:checked").each(function () {
+            ver += $(this).val() + ',';
+        })
+        obj.ver = ver;
+        var plat = "";
+        $("#platfrom input[type=checkbox]:checked").each(function () {
+            plat += $(this).val() + ',';
+        })
+        obj.plat = plat;
+        var str = "";
+        var goodsArr = $("#GroupList").select2("val");
+        for (var i = 0; i < goodsArr.length; i++) {
+            str += goodsArr[i];
+            if (i + 1 < goodsArr.length) {
+                str += ",";
+            }
+        }
+        obj.groupList = str;
 
-        if(!validate(obj)){
+        if (!validate(obj)) {
             return false;
         }
 
@@ -129,49 +145,66 @@ $(function() {
             data: obj,
             datatype: "text",
             success: function (data) {
-                $(".btnSave").attr("disabled",false);
+                $(".btnSave").attr("disabled", false);
                 if (data == "success") {
                     questionTable.ajax.reload();
                     clertAndCloseModal();
-                }else {
+                } else {
                     alert(data);
                 }
             },
             beforeSend: function () {
-                $(".btnSave").attr("disabled",true);
+                $(".btnSave").attr("disabled", true);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
             }
         });
     })
 
-    function validate(obj){
-        if(!obj.questionType){
+    function validate(obj) {
+        if (!obj.questionType) {
             alert("请选择答题类型");
             return false;
         }
-        if(!obj.questionContent){
+        if (!obj.questionContent) {
             alert("请填写标题内容");
             return false;
         }
-        if(!obj.questionOptions){
+        if (!obj.questionOptions) {
             alert("请填写标题选项");
             return false;
         }
-        if(!obj.questionRightoptions){
+        if (!obj.questionRightoptions) {
             alert("请填写正确选项");
+            return false;
+        }
+        if (!obj.ver) {
+            alert("请勾选用户版本");
+            return false;
+        }
+        if (!obj.plat) {
+            alert("请勾选发布平台");
             return false;
         }
         return true;
     }
 
-    $(".btnClose").on('click',function (){
-        if(confirm("你的编辑未保存，确认要关闭吗？")){
+    $(".btnClose").on('click', function () {
+        if (confirm("你的编辑未保存，确认要关闭吗？")) {
             clertAndCloseModal();
         }
     });
 
-    function clertAndCloseModal(){
+    function clertAndCloseModal() {
+        $("#ver1").attr("checked", false);
+        $("#ver2").attr("checked", false);
+        $("#ver3").attr("checked", false);
+        $("#ver4").attr("checked", false);
+        $("#ver5").attr("checked", false);
+        $("#plat1").attr("checked", false);
+        $("#plat2").attr("checked", false);
+        $("#plat3").attr("checked", false);
+        $("#GroupList").val("").trigger('change');
         $("#questionType1").attr("checked", false);
         $("#questionType2").attr("checked", false);
         $("#hiddenid").val("");

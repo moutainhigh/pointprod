@@ -18,7 +18,7 @@ public interface PointQuestionFacade {
      * @return com.emoeny.pointcommon.result.Result<com.emoeny.pointfacade.model.vo.PointQuestionVO>
      */
     @GetMapping("/querypointquestion")
-    Result<PointQuestionVO> queryPointQuestion();
+    Result<PointQuestionVO> queryPointQuestion(@NotNull(message = "用户id不能为空") Long uid,@NotNull(message = "产品版本不能为空") String productVersion,@NotNull(message = "发布平台不能为空") String publishPlatFormType);
 
     /*
      * 根据id获取题目内容

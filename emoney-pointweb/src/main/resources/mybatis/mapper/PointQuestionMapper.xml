@@ -9,6 +9,9 @@
         <result property="questionOptions" column="question_options" jdbcType="VARCHAR"/>
         <result property="questionRightoptions" column="question_rightoptions" jdbcType="VARCHAR"/>
         <result property="showTime" column="show_time" jdbcType="TIMESTAMP"/>
+        <result column="user_group" property="userGroup" jdbcType="VARCHAR"/>
+        <result column="product_version" property="productVersion" jdbcType="VARCHAR"/>
+        <result column="publish_platformtype" property="publishPlatFormType" jdbcType="VARCHAR"/>
         <result property="isValid" column="is_valid" jdbcType="BOOLEAN"/>
         <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
         <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
@@ -17,16 +20,20 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-                id, question_type, question_content,
+                id, question_type, question_content, user_group, product_version, publish_platformtype,
                 question_options, question_rightoptions, show_time, is_valid,
                 create_by, update_by, create_time,
                 update_time
     </sql>
     <insert id="insert">
         INSERT INTO t_point_question
-        (question_type, question_content, question_options, question_rightoptions, show_time, is_valid, create_by, update_by,
+        (question_type, question_content, question_options, question_rightoptions, show_time, user_group,
+         product_version, publish_platformtype, is_valid, create_by,
+         update_by,
          create_time, update_time)
-        VALUES (#{questionType}, #{questionContent}, #{questionOptions}, #{questionRightoptions}, #{showTime}, #{isValid},
+        VALUES (#{questionType}, #{questionContent}, #{questionOptions}, #{questionRightoptions}, #{showTime},
+                #{userGroup}, #{productVersion}, #{publishPlatFormType},
+                #{isValid},
                 #{createBy}, #{updateBy}, #{createTime}, #{updateTime})
     </insert>
     <update id="update">
@@ -47,6 +54,15 @@
             <if test="showTime != null">
                 show_time = #{showTime},
             </if>
+            <if test="userGroup != null">
+                user_group = #{userGroup},
+            </if>
+            <if test="productVersion != null">
+                product_version = #{productVersion},
+            </if>
+            <if test="publishPlatFormType != null">
+                publish_platformtype = #{publishPlatFormType},
+            </if>
             <if test="isValid != null">
                 is_valid = #{isValid},
             </if>
@@ -66,11 +82,13 @@
         WHERE id = #{id}
     </update>
     <select id="queryAll" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List"/>
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM t_point_question WHERE is_valid = 1
     </select>
     <select id="queryAllById" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List"/>
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM t_point_question WHERE id = #{id}
     </select>
 

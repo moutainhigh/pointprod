@@ -4,26 +4,33 @@
     <resultMap id="BaseResultMap" type="com.emoney.pointweb.repository.dao.entity.PointQuotationDO">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="user_group" property="userGroup" jdbcType="VARCHAR"/>
+        <result column="product_version" property="productVersion" jdbcType="VARCHAR"/>
+        <result column="publish_platformtype" property="publishPlatFormType" jdbcType="VARCHAR"/>
         <result column="is_valid" property="isValid" jdbcType="BOOLEAN"/>
         <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
         <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
-     </resultMap>
+    </resultMap>
 
     <sql id="Base_Column_List">
-        id,content,is_valid,create_by,update_by,create_time,update_time
+                id, content, user_group, product_version, publish_platformtype, is_valid, create_by, update_by,
+                create_time, update_time
     </sql>
 
     <select id="getAll" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List" />
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM t_point_quotation WHERE is_valid=1
     </select>
 
     <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointQuotationDO">
         INSERT INTO t_point_quotation
-        (content, is_valid, create_by, update_by, create_time, update_time) VALUES
-        (#{content},#{isValid},#{createBy},#{updateBy},#{createTime},#{updateTime})
+        (content, user_group, product_version, publish_platformtype, , is_valid, create_by, update_by, create_time,
+         update_time)
+        VALUES (#{content}, #{userGroup}, #{productVersion}, #{publishPlatFormType}, #{isValid}, #{createBy},
+                #{updateBy}, #{createTime}, #{updateTime})
     </insert>
 
     <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointQuotationDO">
@@ -31,6 +38,15 @@
         <set>
             <if test="content != null">
                 content=#{content},
+            </if>
+            <if test="userGroup != null">
+                user_group = #{userGroup},
+            </if>
+            <if test="productVersion != null">
+                product_version = #{productVersion},
+            </if>
+            <if test="publishPlatFormType != null">
+                publish_platformtype = #{publishPlatFormType},
             </if>
             <if test="isValid != null">
                 is_valid=#{isValid},
@@ -48,6 +64,6 @@
                 update_time=#{updateTime},
             </if>
         </set>
-            WHERE id=#{id}
+        WHERE id=#{id}
     </update>
 </mapper>
