@@ -163,7 +163,7 @@ public class SignInRecordFacadeImpl implements SignInRecordFacade {
                 }
             }
 
-            return Result.buildErrorResult(result.getContent());
+            return Result.buildSuccessResult(result.getContent());
         } catch (Exception e) {
             log.error("querySignInRecordTips error:", e);
             return Result.buildErrorResult(e.getMessage());
