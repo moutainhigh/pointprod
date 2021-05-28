@@ -63,7 +63,7 @@ $(function() {
             });
         },
         columnDefs: [{
-            targets: 4,
+            targets: 5,
             render: function (data, type, row, meta) {
                 var html = "<button type=\"button\" class=\"btn btn-primary btn-flat btn-sm\" onclick='editdata(" + row.id + ")'>编辑</button>";
                 html += "<button type=\"button\" class=\"btn btn-danger btn-flat btn-sm\" onclick='deletedata(" + row.id + ")'>删除</button>";
