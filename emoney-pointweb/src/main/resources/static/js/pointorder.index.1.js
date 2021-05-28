@@ -1,8 +1,8 @@
-$(function (){
+$(function () {
     // init date tables
     var orderTable = $("#order_list").DataTable({
         "deferRender": true,
-        "processing" : true,
+        "processing": true,
         //"serverSide": true,
         language: {
             "sProcessing": "处理中...",
@@ -30,11 +30,11 @@ $(function (){
         },
         "ajax": {
             url: base_url + "/pointorder/pageList",
-            type:"post",
-            data : function ( d ) {
+            type: "post",
+            data: function (d) {
                 var obj = {};
-                obj.productType=$("#opType").val();
-                obj.start = (d.start / d.length) + 1 ;
+                obj.productType = $("#opType").val();
+                obj.start = (d.start / d.length) + 1;
                 obj.length = d.length;
                 return obj;
             }
@@ -52,10 +52,8 @@ $(function (){
             {
                 "data": 'productType',
                 "render": function (data, type, row) {
-                    if(data)
-                    {
-                        switch (data)
-                        {
+                    if (data) {
+                        switch (data) {
                             case 1:
                                 return "产品使用期";
                                 break;
@@ -75,14 +73,16 @@ $(function (){
                                 return "";
                                 break;
                         }
-                    }
-                    else {
+                    } else {
                         return "";
                     }
                 }
             },
             {
-                "data":'emNo'
+                "data": 'emNo'
+            },
+            {
+                'data': 'orderNo'
             },
             {
                 "data": 'updateTime',
@@ -93,8 +93,8 @@ $(function (){
         ],
         fnDrawCallback: function (d) {
             let api = this.api();
-            api.column(0).nodes().each(function(cell, i) {
-                cell.innerHTML =  i + 1;
+            api.column(0).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
             });
         },
         // fnDrawCallback: function (d) {
@@ -107,7 +107,7 @@ $(function (){
     });
 
     // search btn
-    $('#opType').on('change', function(){
+    $('#opType').on('change', function () {
         orderTable.ajax.reload();
     });
 })

@@ -67,7 +67,7 @@
                             <table id="product_list" class="table table-bordered table-striped" width="100%" >
                                 <thead>
                                 <tr>
-                                    <th>序号</th>
+                                    <th>Id</th>
                                     <th>商品类型</th>
                                     <th>商品名称</th>
                                     <th>用户版本</th>

@@ -3,10 +3,13 @@ package com.emoney.pointweb.controller;
 import com.emoeny.pointcommon.result.userinfo.TicketInfo;
 import com.emoney.pointweb.repository.dao.entity.PointAnnounceDO;
 import com.emoney.pointweb.repository.dao.entity.PointOrderDO;
+import com.emoney.pointweb.repository.dao.entity.vo.UserGroupVO;
 import com.emoney.pointweb.service.biz.PointAnnounceService;
+import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
 import com.emoney.pointweb.service.biz.UserLoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,36 +39,41 @@ public class PointAnnounceController {
     @Resource
     private UserLoginService userLoginService;
 
+    @Resource
+    private PointTaskConfigInfoService pointTaskConfigInfoService;
+
     @RequestMapping
-    public String index(){
+    public String index(Model model) {
+        List<UserGroupVO> userGroupVOList = pointTaskConfigInfoService.getUserGroupList();
+        model.addAttribute("userGroupVOList", userGroupVOList);
         return "/pointannounce/pointannounce.index";
     }
 
     @RequestMapping("/pageList")
     @ResponseBody
-    public Map<String,Object> pageList(Integer msgType){
-        List<PointAnnounceDO> list=pointAnnounceService.getAll();
-        if(msgType!=null&&!msgType.equals(0)){
-            list=list.stream().filter(x->x.getMsgType().equals(msgType)).collect(Collectors.toList());
+    public Map<String, Object> pageList(Integer msgType) {
+        List<PointAnnounceDO> list = pointAnnounceService.getAll();
+        if (msgType != null && !msgType.equals(0)) {
+            list = list.stream().filter(x -> x.getMsgType().equals(msgType)).collect(Collectors.toList());
         }
-        Map<String,Object> result=new HashMap<>();
-        result.put("data",list);
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", list);
         return result;
     }
 
     @RequestMapping("/edit")
     @ResponseBody
-    public String edit(@RequestParam(required = false, defaultValue = "0")Integer id, Integer msgType, String msgContent,
+    public String edit(@RequestParam(required = false, defaultValue = "0") Integer id, Integer msgType, String msgContent,
                        String msgSrc, String productVersion, String publishTime, String remark,
-                       HttpServletRequest request, HttpServletResponse response){
+                       HttpServletRequest request, HttpServletResponse response) {
         try {
-            TicketInfo user = userLoginService.getLoginAdminUser(request,response);
-            if(user==null){
+            TicketInfo user = userLoginService.getLoginAdminUser(request, response);
+            if (user == null) {
                 return "用户登录已过期，请重新登录";
             }
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            PointAnnounceDO pointAnnounceDO=new PointAnnounceDO();
+            PointAnnounceDO pointAnnounceDO = new PointAnnounceDO();
             pointAnnounceDO.setMsgType(msgType);
             pointAnnounceDO.setMsgContent(msgContent);
             pointAnnounceDO.setMsgSrc(msgSrc);
@@ -74,18 +82,18 @@ public class PointAnnounceController {
             pointAnnounceDO.setRemark(remark);
             pointAnnounceDO.setUpdateTime(new Date());
             pointAnnounceDO.setUpdateBy(user.UserName);
-            Integer result=0;
-            if(id>0){
+            Integer result = 0;
+            if (id > 0) {
                 pointAnnounceDO.setId(id);
-                result=pointAnnounceService.update(pointAnnounceDO);
-            }else {
+                result = pointAnnounceService.update(pointAnnounceDO);
+            } else {
                 pointAnnounceDO.setCreateBy(user.UserName);
                 pointAnnounceDO.setCreateTime(new Date());
-                result=pointAnnounceService.insert(pointAnnounceDO);
+                result = pointAnnounceService.insert(pointAnnounceDO);
             }
-            return result>0?"success":"保存失败";
-        }catch (Exception e){
-            log.error("保存消息通知失败："+e);
+            return result > 0 ? "success" : "保存失败";
+        } catch (Exception e) {
+            log.error("保存消息通知失败：" + e);
         }
         return null;
     }

@@ -55,11 +55,11 @@ public class PointSendConfigInfoController {
     @RequestMapping("/edit")
     @ResponseBody
     public String edit(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false,
-            defaultValue = "0") Integer id, String ver, Integer buyType,
+            defaultValue = "0") Integer id, String ver, Integer buyType, @RequestParam(required = false, defaultValue = "0") Float pointNum,
                        @RequestParam(required = false, defaultValue = "0") BigDecimal ratio, String remark) {
         try {
             TicketInfo user = userLoginService.getLoginAdminUser(request, response);
-            if(user==null){
+            if (user == null) {
                 return "用户登录已过期，请重新登录";
             }
 
@@ -68,6 +68,7 @@ public class PointSendConfigInfoController {
             pointSendConfigInfoDO.setProductVersion(ver);
             pointSendConfigInfoDO.setBuyType(buyType);
             pointSendConfigInfoDO.setRatio(ratio);
+            pointSendConfigInfoDO.setPointNum(pointNum);
             pointSendConfigInfoDO.setRemark(remark);
             pointSendConfigInfoDO.setIsValid(true);
             pointSendConfigInfoDO.setUpdateBy(user.UserName);
@@ -77,7 +78,7 @@ public class PointSendConfigInfoController {
                 result = pointSendConfigInfoService.update(pointSendConfigInfoDO);
             } else {
                 List<PointSendConfigInfoDO> list = pointSendConfigInfoService.queryAll();
-                if(list.stream().anyMatch(x->x.getProductVersion().equals(ver)&&x.getBuyType().equals(buyType))){
+                if (list.stream().anyMatch(x -> x.getProductVersion().equals(ver) && x.getBuyType().equals(buyType))) {
                     return "已存在该类型配置规则，不允许保存";
                 }
                 pointSendConfigInfoDO.setCreateBy(user.UserName);
@@ -95,7 +96,7 @@ public class PointSendConfigInfoController {
     @RequestMapping("/delete")
     @ResponseBody
     public String delete(@RequestParam(required = false, defaultValue = "0") Integer id,
-                         HttpServletRequest request, HttpServletResponse response){
+                         HttpServletRequest request, HttpServletResponse response) {
         TicketInfo user = userLoginService.getLoginAdminUser(request, response);
 
         PointSendConfigInfoDO pointSendConfigInfoDO = new PointSendConfigInfoDO();

@@ -41,7 +41,7 @@ $(function() {
         "scrollX": true,
         "columns": [
             {
-                "data": null
+                "data": 'id'
             },
             {
                 "data": 'productType',
@@ -137,12 +137,6 @@ $(function() {
                 "data":'updateBy'
             }
         ],
-        fnDrawCallback: function () {
-            //自增长替换第一列
-            this.api().column(0).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
-            });
-        },
         columnDefs: [{
             targets: 12,
             render: function (data, type, row, meta) {

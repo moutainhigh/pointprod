@@ -33,6 +33,11 @@ public class PointSendConfigInfoDO implements Serializable {
     private BigDecimal ratio;
 
     /**
+     * 积分数量
+     */
+    private Float pointNum;
+
+    /**
      * 备注
      */
     private String remark;

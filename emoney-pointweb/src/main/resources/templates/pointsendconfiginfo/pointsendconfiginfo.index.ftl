@@ -59,6 +59,7 @@
                                     <th>产品版本</th>
                                     <th>购买类型</th>
                                     <th>赠送比例</th>
+                                    <th>赠送数量</th>
                                     <th>编辑人</th>
                                     <th>更新时间</th>
                                     <th>操作</th>
@@ -115,6 +116,13 @@
                             <label for="lastname" class="col-sm-2 control-label">赠送比例<font color="red">*</font></label>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control" id="ratio" placeholder="赠送比例" maxlength="10">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastname" class="col-sm-2 control-label">赠送数量<font color="red">*</font></label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="pointNum" placeholder="赠送数量" maxlength="10">
                             </div>
                         </div>
                     </form>
@@ -236,12 +244,15 @@
             {
                 "data": 'ratio',
                 "render": function (data, type, row) {
-                    if(data){
+                    if (data) {
                         return data + "%";
-                    }else {
+                    } else {
                         return "";
                     }
                 }
+            },
+            {
+                "data": 'pointNum'
             },
             {"data": 'updateBy'},
             {
@@ -258,7 +269,7 @@
             });
         },
         columnDefs: [{
-            targets: 6,
+            targets: 7,
             render: function (data, type, row, meta) {
                 var html = "<button type=\"button\" class=\"btn btn-primary btn-flat btn-sm\" onclick='editdata(" + row.id + ")'>编辑</button>";
                 html += "<button type=\"button\" class=\"btn btn-danger btn-flat btn-sm\" onclick='deletedata(" + row.id + ")'>删除</button>";
@@ -279,6 +290,7 @@
 
         $("#hiddenid").val(res.id);
         $("#ratio").val(res.ratio);
+        $("#pointNum").val(res.pointNum);
         $("#ver").val(res.productVersion);
         if (res.buyType == 1) {
             $("#buyType1").attr("checked", true);
@@ -294,6 +306,7 @@
         obj.id = $("#hiddenid").val();
         obj.ver = $("#ver option:selected").val();
         obj.ratio = $("#ratio").val();
+        obj.pointnum = $("#pointNum").val();
         obj.buyType = $("#buyType input[type=radio]:checked").val();
 
         if (!validate(obj)) {
@@ -321,9 +334,9 @@
         });
     });
 
-    function deletedata(id){
-        if(confirm("确认要删除吗？")){
-            var obj=new Object();
+    function deletedata(id) {
+        if (confirm("确认要删除吗？")) {
+            var obj = new Object();
             obj.id = id;
 
             $.ajax({
@@ -334,7 +347,7 @@
                 success: function (data) {
                     if (data == "success") {
                         sendconfigTable.ajax.reload();
-                    }else {
+                    } else {
                         alert("删除失败");
                     }
                 },

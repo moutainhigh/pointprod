@@ -8,6 +8,7 @@
         <result property="productVersion" column="product_version" jdbcType="VARCHAR"/>
         <result property="buyType" column="buy_type" jdbcType="INTEGER"/>
         <result property="ratio" column="ratio" jdbcType="DECIMAL"/>
+        <result property="pointNum" column="point_num" jdbcType="FLOAT"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
         <result property="isValid" column="is_valid" jdbcType="BOOLEAN"/>
         <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
@@ -17,15 +18,16 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-                id, product_version, buy_type,
+                id, product_version, buy_type, point_num,
                 ratio, remark, is_valid, create_by,
                 update_by, create_time, update_time
     </sql>
     <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointSendConfigInfoDO">
-        INSERT INTO t_point_sendconfiginfo(product_version, buy_type,
+        INSERT INTO t_point_sendconfiginfo(product_version, buy_type, point_num,
                                            ratio, remark, is_valid, create_by,
                                            update_by, create_time, update_time)
-        VALUES (#{productVersion}, #{buyType}, #{ratio}, #{remark}, #{isValid}, #{createBy}, #{updateBy}, #{createTime},
+        VALUES (#{productVersion}, #{buyType}, #{pointNum}, #{ratio}, #{remark}, #{isValid}, #{createBy}, #{updateBy},
+                #{createTime},
                 #{updateTime})
     </insert>
     <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointSendConfigInfoDO">
@@ -36,6 +38,9 @@
             </if>
             <if test="buyType != null">
                 buy_type = #{buyType},
+            </if>
+            <if test="pointNum != null">
+                point_num = #{pointNum},
             </if>
             <if test="ratio != null">
                 ratio = #{ratio},

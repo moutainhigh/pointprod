@@ -41,6 +41,12 @@ $(function() {
                 "data": 'content'
             },
             {
+                "data": 'showTime',
+                "render": function (data, type, row) {
+                    return data ? moment(new Date(data)).format("YYYY-MM-DD") : "";
+                }
+            },
+            {
                 "data": 'createTime',
                 "render": function (data, type, row) {
                     return data ? moment(new Date(data)).format("YYYY-MM-DD") : "";
