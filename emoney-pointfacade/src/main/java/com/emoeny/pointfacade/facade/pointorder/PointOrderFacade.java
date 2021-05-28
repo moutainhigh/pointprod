@@ -1,6 +1,7 @@
 package com.emoeny.pointfacade.facade.pointorder;
 
 import com.emoeny.pointcommon.result.Result;
+import com.emoeny.pointfacade.model.dto.PointOrderCancelDTO;
 import com.emoeny.pointfacade.model.dto.PointOrderExchangeDTO;
 import com.emoeny.pointfacade.model.dto.PointOrderCreateDTO;
 import com.emoeny.pointfacade.model.vo.PointOrderSummaryVO;
@@ -65,4 +66,7 @@ public interface PointOrderFacade {
 
     @GetMapping("/querybyuidandproductid")
     Result<List<PointOrderVO>> getByUidAndProductId(@NotNull(message = "用户id不能为空") Long uid, Integer productId);
+
+    @PostMapping("/cancel")
+    Result<Object> cancelPointOrder(@RequestBody @Valid PointOrderCancelDTO pointOrderCancelDTO);
 }
