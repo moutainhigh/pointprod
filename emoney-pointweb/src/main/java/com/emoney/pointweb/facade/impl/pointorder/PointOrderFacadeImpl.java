@@ -126,7 +126,7 @@ public class PointOrderFacadeImpl implements PointOrderFacade {
                 pointOrderDO.setUpdateTime(new Date());
                 int result = pointOrderService.update(pointOrderDO);
                 if (result > 0) {
-                    return Result.buildSuccessResult();
+                    return Result.buildSuccessResult(result);
                 }
             }
             return Result.buildErrorResult("取消失败");
