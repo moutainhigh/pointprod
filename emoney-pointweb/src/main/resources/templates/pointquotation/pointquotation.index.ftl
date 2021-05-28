@@ -4,9 +4,15 @@
     <#import "../common/common.macro.ftl" as netCommon>
     <@netCommon.commonStyle />
     <!-- DataTables -->
-    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css">
-    <link rel="stylesheet" href="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.css">
+    <link rel="stylesheet"
+          href="${request.contextPath}/static/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet"
+          href="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet"
+          href="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/select2/select2.css">
+    <link rel="stylesheet"
+          href="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/css/multi-select.css">
     <title>语录编辑</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -31,8 +37,8 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
-                        <div class="box-body" >
-                            <table id="quotation_list" class="table table-bordered table-striped" width="100%" >
+                        <div class="box-body">
+                            <table id="quotation_list" class="table table-bordered table-striped" width="100%">
                                 <thead>
                                 <tr>
                                     <th>序号</th>
@@ -52,14 +58,14 @@
         </section>
     </div>
 
-    <div class="modal fade" id="modal-default" role="dialog"  aria-hidden="true">
+    <div class="modal fade" id="modal-default" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close btnClose" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" >创建/编辑</h4>
+                    <h4 class="modal-title">创建/编辑</h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal form" role="form">
@@ -68,7 +74,62 @@
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">语录内容<font color="red">*</font></label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="content" id="content" placeholder="语录内容" >
+                                <input type="text" class="form-control" name="content" id="content" placeholder="语录内容">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">产品版本<font color="red">*</font></label>
+                            <div class="col-sm-8">
+                                <div style="margin-top: 6px;" id="ver">
+                                    <input id="ver1" type="checkbox" name="ver" value="888010000"/><label
+                                            for="ver1">小智盈</label>
+                                    <input id="ver2" type="checkbox" name="ver" value="888020000"/><label for="ver2">深度资金版</label>
+                                    <input id="ver3" type="checkbox" name="ver" value="888080000"/><label
+                                            for="ver3">掘金版</label>
+                                    <input id="ver4" type="checkbox" name="ver" value="888010400"/><label for="ver4">小智盈过期</label>
+                                    <input id="ver5" type="checkbox" name="ver" value="888020400"/><label for="ver5">大师过期</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">发布平台<font color="red">*</font></label>
+                            <div class="col-sm-4">
+                                <div style="margin-top: 6px;" id="platfrom">
+                                    <input id="plat1" type="checkbox" name="ver" value="1"/><label
+                                            for="plat1">PC</label>
+                                    <input id="plat2" type="checkbox" name="ver" value="2"/><label
+                                            for="plat2">APP</label>
+                                    <input id="plat3" type="checkbox" name="ver" value="3"/><label
+                                            for="plat3">微信</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">用户分组</label>
+                            <div class="col-sm-10">
+                                <select id="GroupList" class="select2" multiple="multiple" title="请选择"
+                                        style="width: 100%;">
+                                    <#if userGroupVOList?exists && userGroupVOList?size gt 0 >
+                                        <#list userGroupVOList as item>
+                                            <option value="${item.id}">${item.userGroupName}</option>
+                                        </#list>
+                                    </#if>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">显示时间</label>
+                            <div class="col-sm-4">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right datepicker" id="showTime">
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -92,24 +153,85 @@
 <!-- moment -->
 <script src="${request.contextPath}/static/adminlte/bower_components/moment/moment.min.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-<script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js?v=111"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.min.js"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/select2/select2.js"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/pointquotation.index.1.js"></script>
 
 <script>
 
-    function editdata(id){
+    $('.select2').select2();
+
+    $('.datepicker').datetimepicker({
+        language: 'zh-CN',
+        minView: "month",
+        format: 'yyyy-mm-dd',
+        minDate: 0
+    });
+
+    function editdata(id) {
         var jsondata = $('#json' + id).val();
         var res = JSON.parse(jsondata);
 
         $("#hiddenid").val(res.id);
         $("#content").val(res.content);
+        $("#ver1").attr("checked", false);
+        $("#ver2").attr("checked", false);
+        $("#ver3").attr("checked", false);
+        $("#ver4").attr("checked", false);
+        $("#ver5").attr("checked", false);
+        $("#plat1").attr("checked", false);
+        $("#plat2").attr("checked", false);
+        $("#plat3").attr("checked", false);
+        $("#showTime").val(res.showTime);
+        if (res.userGroup) {
+            $("#GroupList").val(res.userGroup.split(",")).trigger('change');
+        } else {
+            $("#GroupList").val("").trigger('change');
+        }
+        if(res.productVersion){
+            var ver=res.productVersion.split(',');
+            for (var i=0;i<ver.length;i++){
+                if(ver[i]=="888010000"){
+                    $("#ver1").attr("checked", true);
+                }
+                if(ver[i]=="888020000"){
+                    $("#ver2").attr("checked", true);
+                }
+                if(ver[i]=="888080000"){
+                    $("#ver3").attr("checked", true);
+                }
+                if(ver[i]=="888010400"){
+                    $("#ver4").attr("checked", true);
+                }
+                if(ver[i]=="888020400"){
+                    $("#ver5").attr("checked", true);
+                }
+            }
+        }
+        if(res.publishPlatFormType){
+            var plat=res.publishPlatFormType.split(',');
+            for (var i=0;i<plat.length;i++){
+                if(plat[i]==1){
+                    $("#plat1").attr("checked", true);
+                }
+                if(plat[i]==2){
+                    $("#plat2").attr("checked", true);
+                }
+                if(plat[i]==3){
+                    $("#plat3").attr("checked", true);
+                }
+            }
+        }
 
-        $("#modal-default").modal({ backdrop: false, keyboard: false }).modal('show');
+        $("#modal-default").modal({backdrop: false, keyboard: false}).modal('show');
     }
 
-    function deletedata(id){
-        if(confirm("确认要删除吗？")){
-            var obj=new Object();
+    function deletedata(id) {
+        if (confirm("确认要删除吗？")) {
+            var obj = new Object();
             obj.id = id;
 
             $.ajax({
@@ -120,7 +242,7 @@
                 success: function (data) {
                     if (data == "success") {
                         location.reload();
-                    }else {
+                    } else {
                         alert("删除失败");
                     }
                 },

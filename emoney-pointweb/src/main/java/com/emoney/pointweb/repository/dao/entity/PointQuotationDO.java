@@ -17,6 +17,8 @@ public class PointQuotationDO implements Serializable {
      */
     private String content;
 
+    private Date showTime;
+
     private String publishPlatFormType;
 
     /**

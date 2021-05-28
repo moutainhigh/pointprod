@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -93,7 +94,7 @@ public class PointQuestionFacadeImpl implements PointQuestionFacade {
             }
 
             List<PointQuestionVO> pointQuestionVOS = JsonUtil.copyList(retPointQuestionList, PointQuestionVO.class);
-            PointQuestionVO result = new PointQuestionVO();
+            PointQuestionVO result = pointQuestionVOS.stream().sorted(Comparator.comparing(PointQuestionVO::getId).reversed()).collect(Collectors.toList()).get(0);
 
             //获取有时间的集合
             List<PointQuestionVO> hasDateList = pointQuestionVOS.stream().filter(x -> x.getShowTime() != null).collect(Collectors.toList());

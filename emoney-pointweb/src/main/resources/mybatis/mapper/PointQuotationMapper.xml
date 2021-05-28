@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.emoney.pointweb.repository.dao.entity.PointQuotationDO">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="show_time" property="showTime" jdbcType="TIMESTAMP"/>
         <result column="user_group" property="userGroup" jdbcType="VARCHAR"/>
         <result column="product_version" property="productVersion" jdbcType="VARCHAR"/>
         <result column="publish_platformtype" property="publishPlatFormType" jdbcType="VARCHAR"/>
@@ -15,7 +16,8 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-                id, content, user_group, product_version, publish_platformtype, is_valid, create_by, update_by,
+                id, content, show_time, user_group, product_version, publish_platformtype, is_valid, create_by,
+                update_by,
                 create_time, update_time
     </sql>
 
@@ -27,9 +29,11 @@
 
     <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointQuotationDO">
         INSERT INTO t_point_quotation
-        (content, user_group, product_version, publish_platformtype, , is_valid, create_by, update_by, create_time,
+        (content, show_time, user_group, product_version, publish_platformtype, is_valid, create_by, update_by,
+         create_time,
          update_time)
-        VALUES (#{content}, #{userGroup}, #{productVersion}, #{publishPlatFormType}, #{isValid}, #{createBy},
+        VALUES (#{content}, #{showTime}, #{userGroup}, #{productVersion}, #{publishPlatFormType}, #{isValid},
+                #{createBy},
                 #{updateBy}, #{createTime}, #{updateTime})
     </insert>
 
@@ -39,12 +43,16 @@
             <if test="content != null">
                 content=#{content},
             </if>
+            <if test="showTime != null">
+                show_time = #{showTime},
+            </if>
             <if test="userGroup != null">
                 user_group = #{userGroup},
             </if>
             <if test="productVersion != null">
                 product_version = #{productVersion},
             </if>
+
             <if test="publishPlatFormType != null">
                 publish_platformtype = #{publishPlatFormType},
             </if>

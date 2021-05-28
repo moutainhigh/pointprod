@@ -76,7 +76,26 @@ $(function() {
         var obj=new Object();
         obj.id=$("#hiddenid").val();
         obj.content=$("#content").val();
-
+        obj.showTime = $("#showTime").val();
+        var ver = "";
+        $("#ver input[type=checkbox]:checked").each(function () {
+            ver += $(this).val() + ',';
+        })
+        obj.ver = ver;
+        var plat = "";
+        $("#platfrom input[type=checkbox]:checked").each(function () {
+            plat += $(this).val() + ',';
+        })
+        obj.plat = plat;
+        var str = "";
+        var goodsArr = $("#GroupList").select2("val");
+        for (var i = 0; i < goodsArr.length; i++) {
+            str += goodsArr[i];
+            if (i + 1 < goodsArr.length) {
+                str += ",";
+            }
+        }
+        obj.groupList = str;
         if(!validate(obj)){
             return false;
         }
@@ -108,6 +127,14 @@ $(function() {
             alert("请填写语录内容");
             return false;
         }
+        if (!obj.ver) {
+            alert("请勾选用户版本");
+            return false;
+        }
+        if (!obj.plat) {
+            alert("请勾选发布平台");
+            return false;
+        }
         return true;
     }
 
@@ -120,6 +147,16 @@ $(function() {
     function clertAndCloseModal(){
         $("#hiddenid").val("");
         $("#content").val("");
+        $("#ver1").attr("checked", false);
+        $("#ver2").attr("checked", false);
+        $("#ver3").attr("checked", false);
+        $("#ver4").attr("checked", false);
+        $("#ver5").attr("checked", false);
+        $("#plat1").attr("checked", false);
+        $("#plat2").attr("checked", false);
+        $("#plat3").attr("checked", false);
+        $("#GroupList").val("").trigger('change');
+        $("#showTime").val("");
 
         $("#modal-default").modal('hide');
     }

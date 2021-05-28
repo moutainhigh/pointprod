@@ -39,5 +39,5 @@ public interface SignInRecordFacade {
      *
      */
     @GetMapping("/querytips")
-    Result<String> querySignInRecordTips();
+    Result<String> querySignInRecordTips(@NotNull(message = "用户id不能为空") Long uid,@NotNull(message = "产品版本不能为空") String productVersion,@NotNull(message = "发布平台不能为空") String publishPlatFormType);
 }

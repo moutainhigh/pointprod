@@ -22,6 +22,17 @@ public class PointQuotationVO {
      */
     private String content;
 
+    private Date showTime;
+
+    private String publishPlatFormType;
+
+    /**
+     * 0:全部 1:小智盈 2:深度资金版 3:掘金版
+     */
+    private String productVersion;
+
+    private String userGroup;
+
     /**
      * 是否有效（1有效；0无效）
      */
