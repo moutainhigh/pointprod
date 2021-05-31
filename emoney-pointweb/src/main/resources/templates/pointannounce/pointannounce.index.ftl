@@ -446,6 +446,9 @@
                             case 4:
                                 return "活动上新";
                                 break;
+                            case 5:
+                                return "通知";
+                                break;
                             default:
                                 return "";
                                 break;
