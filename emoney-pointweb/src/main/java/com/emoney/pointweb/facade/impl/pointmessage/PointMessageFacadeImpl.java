@@ -69,11 +69,12 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
                     }
                 }
             }
-            //商品上新，活动上新
+            //商品上新，活动上新,通知
             if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE0.getCode())) || queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE2.getCode())) || queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()))) {
                 if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE0.getCode()))) {
                     mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE2.getCode()));
                     mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()));
+                    mstTypes.add(5);
                 } else if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE2.getCode()))) {
                     mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE2.getCode()));
                 } else if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()))) {
