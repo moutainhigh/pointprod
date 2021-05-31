@@ -1,7 +1,9 @@
 package com.emoney.pointweb.controller;
 
 import com.emoeny.pointcommon.result.userinfo.TicketInfo;
+import com.emoeny.pointcommon.utils.JsonUtil;
 import com.emoney.pointweb.repository.dao.entity.PointQuotationDO;
+import com.emoney.pointweb.repository.dao.entity.vo.PointQuotationVO;
 import com.emoney.pointweb.repository.dao.entity.vo.UserGroupVO;
 import com.emoney.pointweb.service.biz.PointQuotationService;
 import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
@@ -48,15 +50,33 @@ public class PointQuotationController {
     @ResponseBody
     public Map<String, Object> pageList() {
         List<PointQuotationDO> list = pointQuotationService.getAll();
+        List<PointQuotationVO> data = JsonUtil.copyList(list, PointQuotationVO.class);
+        if (data != null && data.size() > 0) {
+            List<UserGroupVO> userGroupVOList = pointTaskConfigInfoService.getUserGroupList();
+            for (PointQuotationVO item : data) {
+                if (!StringUtils.isEmpty(item.getUserGroup())) {
+                    String[] groupArr = item.getUserGroup().split(",");
+                    if (groupArr.length > 0) {
+                        String name = "";
+                        for (String groupId : groupArr) {
+                            if (userGroupVOList.stream().anyMatch(h -> h.getId().equals(Integer.valueOf(groupId)))) {
+                                name += userGroupVOList.stream().filter(h -> h.getId().equals(Integer.valueOf(groupId))).findFirst().get().getUserGroupName() + ",";
+                            }
+                        }
+                        item.setUserGroupName(name);
+                    }
+                }
+            }
+        }
         Map<String, Object> result = new HashMap<>();
-        result.put("data", list);
+        result.put("data", data);
         return result;
     }
 
     @RequestMapping("/edit")
     @ResponseBody
     public String edit(@RequestParam(required = false, defaultValue = "0") Integer id,
-                       String ver, String plat, String groupList,String showTime,
+                       String ver, String plat, String groupList, String showTime,
                        String content, HttpServletRequest request, HttpServletResponse response) {
         try {
             TicketInfo user = userLoginService.getLoginAdminUser(request, response);
@@ -74,6 +94,8 @@ public class PointQuotationController {
             pointQuotationDO.setProductVersion(ver);
             if (!StringUtils.isEmpty(showTime)) {
                 pointQuotationDO.setShowTime(sdf.parse(showTime));
+            } else {
+                pointQuotationDO.setShowTime(null);
             }
             pointQuotationDO.setUpdateBy(user.UserName);
             pointQuotationDO.setUpdateTime(new Date());

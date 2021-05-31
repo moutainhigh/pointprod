@@ -52,7 +52,7 @@
                                 <option value="1">产品使用期</option>
                                 <option value="2">优惠券</option>
                                 <option value="3">新功能体验</option>
-                                <option value="4">门票兑换</option>
+                                <option value="4">特色服务</option>
                                 <option value="5">实物兑换</option>
                             </select>
                         </div>

@@ -4,9 +4,12 @@
     <#import "../common/common.macro.ftl" as netCommon>
     <@netCommon.commonStyle />
     <!-- DataTables -->
-    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css">
-    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet"
+          href="${request.contextPath}/static/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet"
+          href="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet"
+          href="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.css">
     <style>
         .FilePicker div:nth-child(2) {
@@ -45,7 +48,8 @@
                     <div class="form-group">
                         <div class="col-lg-2">
                             <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">反馈类型：</label>
-                            <select id="opType" class="form-control opType" style="float:left;width:150px;margin-top:5px;">
+                            <select id="opType" class="form-control opType"
+                                    style="float:left;width:150px;margin-top:5px;">
                                 <option value="0">全部</option>
                                 <option value="1">产品建议</option>
                                 <option value="2">使用心得</option>
@@ -55,7 +59,8 @@
                         </div>
                         <div class="col-lg-2">
                             <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">处理状态：</label>
-                            <select id="opReply" class="form-control opType" style="float:left;width:150px;margin-top:5px;">
+                            <select id="opReply" class="form-control opType"
+                                    style="float:left;width:150px;margin-top:5px;">
                                 <option value="0">全部</option>
                                 <option value="1">已处理</option>
                                 <option value="2">待处理</option>
@@ -68,8 +73,8 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
-                        <div class="box-body" >
-                            <table id="feedback_list" class="table table-bordered table-striped" width="100%" >
+                        <div class="box-body">
+                            <table id="feedback_list" class="table table-bordered table-striped" width="100%">
                                 <thead>
                                 <tr>
                                     <th>序号</th>
@@ -97,14 +102,14 @@
         </section>
     </div>
 
-    <div class="modal fade" id="modal-default" role="dialog"  aria-hidden="true">
+    <div class="modal fade" id="modal-default" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close btnClose" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" >回复</h4>
+                    <h4 class="modal-title">回复</h4>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="hiddenid" value="">
@@ -147,15 +152,14 @@
 
 <script>
 
-    $("#exportData").on("click",function (){
-        var url= base_url + "/pointfeedback/exportData?classType=" + $("#opType").val() + "&isReply=" + $("#opReply").val();
+    $("#exportData").on("click", function () {
+        var url = base_url + "/pointfeedback/exportData?classType=" + $("#opType").val() + "&isReply=" + $("#opReply").val();
         window.open(url);
     });
 
     // init date tables
     var feedbackTable = $("#feedback_list").DataTable({
-        "deferRender": true,
-        "processing" : true,
+        "processing": true,
         //"serverSide": true,
         language: {
             "sProcessing": "处理中...",
@@ -183,12 +187,12 @@
         },
         "ajax": {
             url: base_url + "/pointfeedback/pageList",
-            type:"post",
-            data : function ( d ) {
+            type: "post",
+            data: function (d) {
                 var obj = {};
-                obj.classType=$("#opType").val();
-                obj.isReply=$("#opReply").val();
-                obj.start = (d.start / d.length) + 1 ;
+                obj.classType = $("#opType").val();
+                obj.isReply = $("#opReply").val();
+                obj.start = (d.start / d.length) + 1;
                 obj.length = d.length;
                 return obj;
             }
@@ -203,10 +207,8 @@
             {
                 "data": 'feedType',
                 "render": function (data, type, row) {
-                    if(data)
-                    {
-                        switch (data)
-                        {
+                    if (data) {
+                        switch (data) {
                             case 1:
                                 return "产品建议";
                                 break;
@@ -223,8 +225,7 @@
                                 return "";
                                 break;
                         }
-                    }
-                    else {
+                    } else {
                         return "";
                     }
                 }
@@ -235,10 +236,10 @@
                     return data ? moment(new Date(data)).format("YYYY-MM-DD HH:mm:ss") : "";
                 }
             },
-            {"data":'pid'},
-            {"data":'account'},
-            {"data":'mobileX'},
-            {"data":'email'},
+            {"data": 'pid'},
+            {"data": 'account'},
+            {"data": 'mobileX'},
+            {"data": 'email'},
             {
                 "data": "suggest", "render": function (data, type, full, meta) {
                     if (data) {
@@ -278,9 +279,9 @@
             {
                 "data": "status", "render": function (data, type, full, meta) {
                     if (data) {
-                        if(data!=0){
+                        if (data != 0) {
                             return "是"
-                        }else {
+                        } else {
                             return "否";
                         }
                     } else {
@@ -291,8 +292,8 @@
         ],
         fnDrawCallback: function (d) {
             let api = this.api();
-            api.column(0).nodes().each(function(cell, i) {
-                cell.innerHTML =  i + 1;
+            api.column(0).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
             });
         },
         // fnDrawCallback: function (d) {
@@ -306,7 +307,7 @@
             targets: 12,
             render: function (data, type, row, meta) {
                 var html = "<button type=\"button\" class=\"btn btn-primary btn-flat btn-sm\" onclick='Reply(" + row.id + ")'>回复</button>";
-                if(row.status!=1){
+                if (row.status != 1) {
                     html += "<button type=\"button\" class=\"btn btn-success btn-flat btn-sm\" onclick='Adopt(" + row.id + ")'>采纳</button>";
                 }
                 html += "<input type='hidden' id='json" + row.id + "' value='" + JSON.stringify(row) + "'>";
@@ -316,14 +317,14 @@
     });
 
     // search btn
-    $('.opType').on('change', function(){
+    $('.opType').on('change', function () {
         feedbackTable.ajax.reload();
     });
 
-    $('.btnSave').on('click',function (){
-        var obj=new Object();
-        obj.id=$("#hiddenid").val();
-        obj.remark=$("#txtRemark").val();
+    $('.btnSave').on('click', function () {
+        var obj = new Object();
+        obj.id = $("#hiddenid").val();
+        obj.remark = $("#txtRemark").val();
 
         $.ajax({
             type: "POST",
@@ -331,24 +332,23 @@
             data: obj,
             datatype: "text",
             success: function (data) {
-                $(".btnSave").attr("disabled",false);
+                $(".btnSave").attr("disabled", false);
                 if (data == "success") {
                     feedbackTable.ajax.reload();
                     clertAndCloseModal();
-                }
-                else {
+                } else {
                     alert(data);
                 }
             },
             beforeSend: function () {
-                $(".btnSave").attr("disabled",true);
+                $(".btnSave").attr("disabled", true);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
             }
         });
     });
 
-    function Reply(id){
+    function Reply(id) {
         var jsondata = $('#json' + id).val();
         var res = JSON.parse(jsondata);
 
@@ -357,12 +357,12 @@
         $("#txtContent").val(res.suggest);
         $("#txtRemark").val(res.remark);
 
-        $("#modal-default").modal({ backdrop: false, keyboard: false }).modal('show');
+        $("#modal-default").modal({backdrop: false, keyboard: false}).modal('show');
     }
 
-    function Adopt(id){
-        var obj=new Object();
-        obj.id=id;
+    function Adopt(id) {
+        var obj = new Object();
+        obj.id = id;
 
         $.ajax({
             type: "POST",
@@ -372,8 +372,7 @@
             success: function (data) {
                 if (data == "success") {
                     feedbackTable.ajax.reload();
-                }
-                else {
+                } else {
                     alert(data);
                 }
             },
@@ -384,18 +383,17 @@
         });
     }
 
-    $('.btnClose').on('click', function(){
+    $('.btnClose').on('click', function () {
         if ($("#Form input").val() != "") {
             if (confirm("当前有数据未保存，确认要关闭窗口吗?")) {
                 clertAndCloseModal();
             }
-        }
-        else {
+        } else {
             clertAndCloseModal();
         }
     });
 
-    function clertAndCloseModal(){
+    function clertAndCloseModal() {
         $("#hiddenid").val("");
         $("#txtEmail").val("");
         $("#txtContent").val("");

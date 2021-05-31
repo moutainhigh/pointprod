@@ -34,6 +34,9 @@ public class PointOrderDO {
     private String productFile;
     private Boolean isSend;
     private Integer productType;
+    private String expressMobile;
+    private String expressMobileMask;
+    private String expressAddress;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")

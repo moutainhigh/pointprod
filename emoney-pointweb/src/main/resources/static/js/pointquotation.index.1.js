@@ -1,7 +1,7 @@
-$(function() {
+$(function () {
     // init date tables
     var quotationTable = $("#quotation_list").DataTable({
-        "processing" : true,
+        "processing": true,
         language: {
             "sProcessing": "处理中...",
             "sLengthMenu": "显示 _MENU_ 项结果",
@@ -28,7 +28,7 @@ $(function() {
         },
         "ajax": {
             url: base_url + "/pointquotation/pageList",
-            type:"post"
+            type: "post"
         },
         "searching": true,
         "ordering": true,
@@ -47,23 +47,59 @@ $(function() {
                 }
             },
             {
+                "data": 'publishPlatFormType',
+                "render": function (data, type, row) {
+                    if (data) {
+                        data = data.substring(0, data.length - 1).replace("1", "PC");
+                        data = data.replace("2", "APP");
+                        data = data.replace("3", "微信");
+                        return data;
+                    } else {
+                        return "";
+                    }
+                }
+            },
+            {
+                "data": 'productVersion',
+                "render": function (data, type, row) {
+                    if (data) {
+                        data = data.substring(0, data.length - 1).replace("888010000", "小智盈");
+                        data = data.replace("888020000", "深度资金版");
+                        data = data.replace("888080000", "掘金版");
+                        data = data.replace("888010400", "小智盈过期");
+                        data = data.replace("888020400", "大师过期");
+                        return data;
+                    } else {
+                        return "";
+                    }
+                }
+            },
+            {
+                "data": 'userGroupName',
+                "render": function (data, type, row) {
+                    if(data){
+                    }
+                    return data;
+                }
+            },
+            {
                 "data": 'createTime',
                 "render": function (data, type, row) {
                     return data ? moment(new Date(data)).format("YYYY-MM-DD") : "";
                 }
             },
             {
-                "data":'updateBy'
+                "data": 'updateBy'
             }
         ],
         fnDrawCallback: function () {
             let api = this.api();
-            api.column(0).nodes().each(function(cell, i) {
-                cell.innerHTML =  i + 1;
+            api.column(0).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
             });
         },
         columnDefs: [{
-            targets: 5,
+            targets: 8,
             render: function (data, type, row, meta) {
                 var html = "<button type=\"button\" class=\"btn btn-primary btn-flat btn-sm\" onclick='editdata(" + row.id + ")'>编辑</button>";
                 html += "<button type=\"button\" class=\"btn btn-danger btn-flat btn-sm\" onclick='deletedata(" + row.id + ")'>删除</button>";
@@ -73,15 +109,15 @@ $(function() {
         }]
     });
 
-    $('#btnAdd').on('click', function(){
-        $("#modal-default").modal({ backdrop: false, keyboard: false }).modal('show');
+    $('#btnAdd').on('click', function () {
+        $("#modal-default").modal({backdrop: false, keyboard: false}).modal('show');
     });
 
     //保存
-    $(".btnSave").on("click",function (){
-        var obj=new Object();
-        obj.id=$("#hiddenid").val();
-        obj.content=$("#content").val();
+    $(".btnSave").on("click", function () {
+        var obj = new Object();
+        obj.id = $("#hiddenid").val();
+        obj.content = $("#content").val();
         obj.showTime = $("#showTime").val();
         var ver = "";
         $("#ver input[type=checkbox]:checked").each(function () {
@@ -102,7 +138,7 @@ $(function() {
             }
         }
         obj.groupList = str;
-        if(!validate(obj)){
+        if (!validate(obj)) {
             return false;
         }
 
@@ -112,24 +148,24 @@ $(function() {
             data: obj,
             datatype: "text",
             success: function (data) {
-                $(".btnSave").attr("disabled",false);
+                $(".btnSave").attr("disabled", false);
                 if (data == "success") {
                     quotationTable.ajax.reload();
                     clertAndCloseModal();
-                }else {
+                } else {
                     alert("保存失败");
                 }
             },
             beforeSend: function () {
-                $(".btnSave").attr("disabled",true);
+                $(".btnSave").attr("disabled", true);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
             }
         });
     })
 
-    function validate(obj){
-        if(!obj.content){
+    function validate(obj) {
+        if (!obj.content) {
             alert("请填写语录内容");
             return false;
         }
@@ -144,13 +180,13 @@ $(function() {
         return true;
     }
 
-    $(".btnClose").on('click',function (){
-        if(confirm("你的编辑未保存，确认要关闭吗？")){
+    $(".btnClose").on('click', function () {
+        if (confirm("你的编辑未保存，确认要关闭吗？")) {
             clertAndCloseModal();
         }
     });
 
-    function clertAndCloseModal(){
+    function clertAndCloseModal() {
         $("#hiddenid").val("");
         $("#content").val("");
         $("#ver1").attr("checked", false);

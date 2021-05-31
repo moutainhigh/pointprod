@@ -39,12 +39,8 @@
             <if test="buyType != null">
                 buy_type = #{buyType},
             </if>
-            <if test="pointNum != null">
-                point_num = #{pointNum},
-            </if>
-            <if test="ratio != null">
-                ratio = #{ratio},
-            </if>
+            point_num = #{pointNum},
+            ratio = #{ratio},
             <if test="remark != null">
                 remark = #{remark},
             </if>

@@ -102,7 +102,7 @@ public class PointQuestionFacadeImpl implements PointQuestionFacade {
             List<PointQuestionVO> noHasDateList = pointQuestionVOS.stream().filter(x -> x.getShowTime() == null).collect(Collectors.toList());
 
             if (hasDateList.stream().anyMatch(x -> x.getShowTime().equals(nowDate))) {
-                result = hasDateList.stream().filter(x -> x.getShowTime().equals(nowDate)).findFirst().get();
+                result = hasDateList.stream().filter(x -> x.getShowTime().equals(nowDate)).sorted(Comparator.comparing(PointQuestionVO::getUpdateTime)).findFirst().get();
             } else {
                 if (noHasDateList.size() > 0) {
                     result = noHasDateList.get((int) DateUtil.between(startDate, nowDate, DateUnit.DAY) % noHasDateList.size());

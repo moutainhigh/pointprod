@@ -1,7 +1,6 @@
 $(function () {
     // init date tables
     var orderTable = $("#order_list").DataTable({
-        "deferRender": true,
         "processing": true,
         //"serverSide": true,
         language: {
@@ -42,6 +41,7 @@ $(function () {
         "searching": true,
         "ordering": true,
         "scrollX": true,
+        "order": [[ 5, "desc" ]],
         "columns": [
             {
                 "data": null
@@ -89,6 +89,15 @@ $(function () {
                 "render": function (data, type, row) {
                     return data ? moment(new Date(data)).format("YYYY-MM-DD") : "";
                 }
+            },
+            {
+                'data': 'expressMobileMask'
+            },
+            {
+                'data': 'expressMobile'
+            },
+            {
+                'data': 'expressAddress'
             }
         ],
         fnDrawCallback: function (d) {

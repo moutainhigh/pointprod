@@ -51,9 +51,7 @@
             <if test="questionRightoptions != null">
                 question_rightoptions = #{questionRightoptions},
             </if>
-            <if test="showTime != null">
-                show_time = #{showTime},
-            </if>
+            show_time = #{showTime},
             <if test="userGroup != null">
                 user_group = #{userGroup},
             </if>

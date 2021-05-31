@@ -18,10 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -64,7 +61,7 @@ public class PointAnnounceController {
     @RequestMapping("/edit")
     @ResponseBody
     public String edit(@RequestParam(required = false, defaultValue = "0") Integer id, Integer msgType, String msgContent,
-                       String msgSrc, String productVersion, String publishTime, String remark,
+                       String msgSrc, String productVersion, String publishTime, String remark, String plat, String groupList,
                        HttpServletRequest request, HttpServletResponse response) {
         try {
             TicketInfo user = userLoginService.getLoginAdminUser(request, response);
@@ -78,6 +75,8 @@ public class PointAnnounceController {
             pointAnnounceDO.setMsgContent(msgContent);
             pointAnnounceDO.setMsgSrc(msgSrc);
             pointAnnounceDO.setProductVersion(productVersion);
+            pointAnnounceDO.setPublishPlatFormType(plat);
+            pointAnnounceDO.setUserGroup(groupList);
             pointAnnounceDO.setPublishTime(sdf.parse(publishTime));
             pointAnnounceDO.setRemark(remark);
             pointAnnounceDO.setUpdateTime(new Date());

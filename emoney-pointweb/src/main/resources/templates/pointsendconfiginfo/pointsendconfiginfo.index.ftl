@@ -306,7 +306,7 @@
         obj.id = $("#hiddenid").val();
         obj.ver = $("#ver option:selected").val();
         obj.ratio = $("#ratio").val();
-        obj.pointnum = $("#pointNum").val();
+        obj.pointNum = $("#pointNum").val();
         obj.buyType = $("#buyType input[type=radio]:checked").val();
 
         if (!validate(obj)) {

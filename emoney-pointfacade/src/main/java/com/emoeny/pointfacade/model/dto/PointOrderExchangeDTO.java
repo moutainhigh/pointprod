@@ -23,4 +23,10 @@ public class PointOrderExchangeDTO {
     private String tradeNo;
 
     private String payType;
+
+    private String expressMobile;
+
+    private String expressMobileMask;
+
+    private String expressAddress;
 }

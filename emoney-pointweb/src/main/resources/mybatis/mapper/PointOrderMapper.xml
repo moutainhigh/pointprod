@@ -24,6 +24,9 @@
         <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
         <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="express_mobile" property="expressMobile" jdbcType="VARCHAR"/>
+        <result column="express_mobileMask" property="expressMobileMask" jdbcType="VARCHAR"/>
+        <result column="express_address" property="expressAddress" jdbcType="VARCHAR"/>
     </resultMap>
 
     <resultMap id="SummaryResultMap" type="com.emoney.pointweb.repository.dao.entity.PointOrderSummaryDO">
@@ -34,45 +37,37 @@
     <sql id="Base_Column_List">
 
 
-
-        id, uid,em_no,order_no, trade_no, order_status, product_id,product_title,product_qty,point,cash,pay_type,mobile,mobile_mask,product_file,is_send,product_type,create_time,update_time,create_by,update_by,remark
-
+                id, uid, em_no, order_no, trade_no, order_status, product_id, product_title, product_qty, point, cash,
+                pay_type, mobile, mobile_mask, product_file, is_send, product_type, create_time, update_time, create_by,
+                update_by, remark, express_mobile, express_mobileMask, express_address
 
 
     </sql>
     <select id="getById" resultMap="BaseResultMap">
 
 
-
         SELECT
 
 
-
         <include refid="Base_Column_List"/>
-
 
 
         FROM t_point_order
         WHERE id=#{id}
 
 
-
     </select>
     <select id="getByOrderNo" resultMap="BaseResultMap">
-
 
 
         SELECT
 
 
-
         <include refid="Base_Column_List"/>
-
 
 
         FROM t_point_order
         WHERE order_no=#{orderNo}
-
 
 
     </select>
@@ -87,13 +82,13 @@
 
         <if test="orderStatus ==0 or orderStatus==1 ">
 
-          AND order_status = #{orderStatus}
+            AND order_status = #{orderStatus}
 
         </if>
 
-         <if test="orderStatus ==2 ">
+        <if test="orderStatus ==2 ">
 
-          AND product_file <![CDATA[!= ]]> null
+            AND product_file <![CDATA[!= ]]> null
 
         </if>
 
@@ -114,12 +109,12 @@
 
         <if test="uid != null">
 
-          AND uid = #{uid}
+            AND uid = #{uid}
 
         </if>
         <if test="productId != null">
 
-          AND product_id = #{productId}
+            AND product_id = #{productId}
 
         </if>
 
@@ -136,7 +131,7 @@
 
         FROM t_point_order
         WHERE order_status =1
-         AND  is_send <![CDATA[!= ]]>1 AND product_type IN (2,3)
+        AND is_send <![CDATA[!= ]]>1 AND product_type IN (2,3)
 
     </select>
 
@@ -144,11 +139,11 @@
 
         SELECT sum(product_qty) AS total_qty, product_id
         FROM t_point_order
-        WHERE  order_status <![CDATA[!= ]]>2
+        WHERE order_status <![CDATA[!= ]]>2
 
         <if test="productId != null">
 
-          AND product_id = #{productId}
+            AND product_id = #{productId}
 
         </if>
 
@@ -185,19 +180,22 @@
     </select>
 
 
-    <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointOrderDO" useGeneratedKeys="true" keyProperty="id">
-       INSERT INTO
-       		t_point_order
-       		(uid,em_no,order_no, trade_no, order_status, product_id,product_title,product_qty,point,cash,pay_type,mobile,mobile_mask,product_file,is_send,product_type,create_time,update_time,create_by,update_by,remark)
-       	VALUES
-       		(#{uid},#{emNo},#{orderNo},#{tradeNo}, #{orderStatus}, #{productId}, #{productTitle},#{productQty},#{point},#{cash},#{payType},#{mobile},#{mobileMask},#{productFile},#{isSend},#{productType},#{createTime}, #{updateTime}, #{createBy}, #{updateBy},#{remark})
+    <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointOrderDO" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO t_point_order
+        (uid, em_no, order_no, trade_no, order_status, product_id, product_title, product_qty, point, cash, pay_type,
+         mobile, mobile_mask, product_file, is_send, product_type, create_time, update_time, create_by, update_by,
+         remark)
+        VALUES (#{uid}, #{emNo}, #{orderNo}, #{tradeNo}, #{orderStatus}, #{productId}, #{productTitle}, #{productQty},
+                #{point}, #{cash}, #{payType}, #{mobile}, #{mobileMask}, #{productFile}, #{isSend}, #{productType},
+                #{createTime}, #{updateTime}, #{createBy}, #{updateBy}, #{remark})
 
     </insert>
 
     <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointOrderDO">
 
 
-    update t_point_order
+        update t_point_order
 
 
         <set>
@@ -205,6 +203,15 @@
                 uid = #{uid,jdbcType=BIGINT},
 
 
+            </if>
+            <if test="expressMobile != null">
+                express_mobile=#{expressMobile},
+            </if>
+            <if test="expressMobileMask != null">
+                express_mobileMask=#{expressMobileMask},
+            </if>
+            <if test="expressAddress != null">
+                express_address=#{expressAddress},
             </if>
             <if test="emNo != null">
 
@@ -221,131 +228,131 @@
             <if test="tradeNo != null">
 
 
-        trade_no = #{tradeNo,jdbcType=VARCHAR},
+                trade_no = #{tradeNo,jdbcType=VARCHAR},
 
 
             </if>
             <if test="orderStatus != null">
 
 
-        order_status = #{orderStatus,jdbcType=INTEGER},
+                order_status = #{orderStatus,jdbcType=INTEGER},
 
 
             </if>
             <if test="productId != null">
 
 
-        product_id = #{productId,jdbcType=INTEGER},
+                product_id = #{productId,jdbcType=INTEGER},
 
 
             </if>
             <if test="productTitle != null">
 
 
-        product_title = #{productTitle,jdbcType=VARCHAR},
+                product_title = #{productTitle,jdbcType=VARCHAR},
 
 
             </if>
             <if test="productQty != null">
 
 
-        product_qty = #{productQty,jdbcType=INTEGER},
+                product_qty = #{productQty,jdbcType=INTEGER},
 
 
             </if>
             <if test="point != null">
 
 
-        point = #{point,jdbcType=FLOAT},
+                point = #{point,jdbcType=FLOAT},
 
 
             </if>
             <if test="cash != null">
 
 
-        cash = #{cash,jdbcType=DECIMAL},
+                cash = #{cash,jdbcType=DECIMAL},
 
 
             </if>
             <if test="payType != null">
 
 
-        pay_type = #{payType,jdbcType=INTEGER},
+                pay_type = #{payType,jdbcType=INTEGER},
 
 
             </if>
             <if test="mobile != null">
 
 
-        mobile = #{mobile,jdbcType=INTEGER},
+                mobile = #{mobile,jdbcType=INTEGER},
 
 
             </if>
             <if test="mobileMask != null">
 
 
-        mobile_mask = #{mobileMask,jdbcType=INTEGER},
+                mobile_mask = #{mobileMask,jdbcType=INTEGER},
 
 
             </if>
             <if test="productFile != null">
 
 
-        product_file = #{productFile,jdbcType=INTEGER},
+                product_file = #{productFile,jdbcType=INTEGER},
 
 
             </if>
             <if test="isSend != null">
 
 
-        is_send = #{isSend,jdbcType=BOOLEAN},
+                is_send = #{isSend,jdbcType=BOOLEAN},
 
 
             </if>
             <if test="productType != null">
 
 
-        product_type = #{productType,jdbcType=INTEGER},
+                product_type = #{productType,jdbcType=INTEGER},
 
 
             </if>
             <if test="createTime != null">
 
 
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+                create_time = #{createTime,jdbcType=TIMESTAMP},
 
 
             </if>
             <if test="updateTime != null">
 
 
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
 
 
             </if>
             <if test="createBy != null">
 
 
-        create_by = #{createBy,jdbcType=VARCHAR},
+                create_by = #{createBy,jdbcType=VARCHAR},
 
 
             </if>
             <if test="updateBy != null">
 
 
-        update_by = #{updateBy,jdbcType=VARCHAR},
+                update_by = #{updateBy,jdbcType=VARCHAR},
 
 
             </if>
             <if test="remark != null">
 
 
-        remark = #{remark,jdbcType=VARCHAR},
+                remark = #{remark,jdbcType=VARCHAR},
             </if>
         </set>
 
 
-    where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
 
 
     </update>

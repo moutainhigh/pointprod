@@ -60,8 +60,9 @@
                                     <th>用户账号</th>
                                     <th>订单号</th>
                                     <th>兑换时间</th>
-<#--                                    <th>加密手机号</th>-->
-<#--                                    <th>用户地址</th>-->
+                                    <th>手机号掩码</th>
+                                    <th>加密手机号</th>
+                                    <th>用户地址</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -86,7 +87,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/moment/moment.min.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointorder.index.1.js?v=1"></script>
+<script src="${request.contextPath}/static/js/pointorder.index.1.js?v=111"></script>
 <script>
 
     $("#exportData").on("click",function (){

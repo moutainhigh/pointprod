@@ -44,6 +44,9 @@
                                     <th>序号</th>
                                     <th>内容</th>
                                     <th>显示时间</th>
+                                    <th>平台</th>
+                                    <th>版本</th>
+                                    <th>用户分组</th>
                                     <th>创建时间</th>
                                     <th>编辑人</th>
                                     <th>操作</th>
@@ -121,7 +124,6 @@
                                 </select>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">显示时间</label>
                             <div class="col-sm-4">
@@ -159,9 +161,9 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
-<script src="${request.contextPath}/static/js/pointquotation.index.1.js"></script>
+<script src="${request.contextPath}/static/js/pointquotation.index.1.js?v=11"></script>
 
-<script>
+<script th:type="javascript">
 
     $('.select2').select2();
 
@@ -192,36 +194,36 @@
         } else {
             $("#GroupList").val("").trigger('change');
         }
-        if(res.productVersion){
-            var ver=res.productVersion.split(',');
-            for (var i=0;i<ver.length;i++){
-                if(ver[i]=="888010000"){
+        if (res.productVersion) {
+            var ver = res.productVersion.split(',');
+            for (var i = 0; i < ver.length; i++) {
+                if (ver[i] == "888010000") {
                     $("#ver1").attr("checked", true);
                 }
-                if(ver[i]=="888020000"){
+                if (ver[i] == "888020000") {
                     $("#ver2").attr("checked", true);
                 }
-                if(ver[i]=="888080000"){
+                if (ver[i] == "888080000") {
                     $("#ver3").attr("checked", true);
                 }
-                if(ver[i]=="888010400"){
+                if (ver[i] == "888010400") {
                     $("#ver4").attr("checked", true);
                 }
-                if(ver[i]=="888020400"){
+                if (ver[i] == "888020400") {
                     $("#ver5").attr("checked", true);
                 }
             }
         }
-        if(res.publishPlatFormType){
-            var plat=res.publishPlatFormType.split(',');
-            for (var i=0;i<plat.length;i++){
-                if(plat[i]==1){
+        if (res.publishPlatFormType) {
+            var plat = res.publishPlatFormType.split(',');
+            for (var i = 0; i < plat.length; i++) {
+                if (plat[i] == 1) {
                     $("#plat1").attr("checked", true);
                 }
-                if(plat[i]==2){
+                if (plat[i] == 2) {
                     $("#plat2").attr("checked", true);
                 }
-                if(plat[i]==3){
+                if (plat[i] == 3) {
                     $("#plat3").attr("checked", true);
                 }
             }

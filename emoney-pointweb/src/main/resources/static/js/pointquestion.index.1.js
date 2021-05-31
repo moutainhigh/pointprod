@@ -82,6 +82,46 @@ $(function () {
                 "render": function (data, type, row) {
                     return data ? moment(new Date(data)).format("YYYY-MM-DD") : "";
                 }
+            },
+            {
+                "data": 'publishPlatFormType',
+                "render": function (data, type, row) {
+                    if (data) {
+                        data = data.substring(0, data.length - 1).replace("1", "PC");
+                        data = data.replace("2", "APP");
+                        data = data.replace("3", "微信");
+                        return data;
+                    } else {
+                        return "";
+                    }
+                }
+            },
+            {
+                "data": 'productVersion',
+                "render": function (data, type, row) {
+                    if (data) {
+                        data = data.substring(0, data.length - 1).replace("888010000", "小智盈");
+                        data = data.replace("888020000", "深度资金版");
+                        data = data.replace("888080000", "掘金版");
+                        data = data.replace("888010400", "小智盈过期");
+                        data = data.replace("888020400", "大师过期");
+                        return data;
+                    } else {
+                        return "";
+                    }
+                }
+            },
+            {
+                "data": 'userGroupName',
+                "render": function (data, type, row) {
+                    return data;
+                }
+            },
+            {
+                "data": 'updateBy',
+                "render": function (data, type, row) {
+                    return data;
+                }
             }
         ],
         fnDrawCallback: function () {
@@ -91,7 +131,7 @@ $(function () {
             });
         },
         columnDefs: [{
-            targets: 5,
+            targets: 9,
             render: function (data, type, row, meta) {
                 var html = "<button type=\"button\" class=\"btn btn-primary btn-flat btn-sm\" onclick='editdata(" + row.id + ")'>编辑</button>";
                 html += "<button type=\"button\" class=\"btn btn-danger btn-flat btn-sm\" onclick='deletedata(" + row.id + ")'>删除</button>";

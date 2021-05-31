@@ -97,7 +97,7 @@ public class PointOrderServiceImpl implements PointOrderService {
         return pointOrderRepository.getByUid(uid, orderStatus, pageIndex, pageSize);
     }
 
-    public List<PointOrderDO> queryAllByProductType(Integer porductType){
+    public List<PointOrderDO> queryAllByProductType(Integer porductType) {
         return pointOrderMapper.queryAllByProductType(porductType);
     }
 
@@ -169,6 +169,9 @@ public class PointOrderServiceImpl implements PointOrderService {
                     pointOrderDO.setPayType(pointExchangeDTO.getPayType());
                     pointOrderDO.setTradeNo(pointExchangeDTO.getTradeNo());
                     pointOrderDO.setOrderStatus(Integer.valueOf(PointOrderStatusEnum.FINISHED.getCode()));
+                    pointOrderDO.setExpressMobile(pointExchangeDTO.getExpressMobile());
+                    pointOrderDO.setExpressMobileMask(pointExchangeDTO.getExpressMobileMask());
+                    pointOrderDO.setExpressAddress(pointExchangeDTO.getExpressAddress());
                     pointOrderDO.setUpdateTime(new Date());
                     int retOrder = pointOrderRepository.update(pointOrderDO);
                     if (retOrder > 0) {
@@ -348,7 +351,7 @@ public class PointOrderServiceImpl implements PointOrderService {
             curQty = myPointOrders.stream().filter(h -> h.getProductId().equals(pointProductDO.getId())).mapToInt(PointOrderDO::getProductQty).sum();
             for (PointOrderDO pointOrderDO : myPointOrders
             ) {
-                if(DateUtil.formatDate(pointOrderDO.getCreateTime()).equals(DateUtil.formatDate(DateUtil.date()))) {
+                if (DateUtil.formatDate(pointOrderDO.getCreateTime()).equals(DateUtil.formatDate(DateUtil.date()))) {
                     curPoint += pointOrderDO.getPoint() * pointOrderDO.getProductQty();
                 }
             }

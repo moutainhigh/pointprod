@@ -4,9 +4,14 @@
     <#import "../common/common.macro.ftl" as netCommon>
     <@netCommon.commonStyle />
     <!-- DataTables -->
-    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet"
+          href="${request.contextPath}/static/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet"
+          href="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.css">
+    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/select2/select2.css">
+    <link rel="stylesheet"
+          href="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/css/multi-select.css">
     <title>消息通知</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -34,10 +39,12 @@
                     <div class="form-group">
                         <div class="col-lg-11">
                             <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">类型：</label>
-                            <select id="opType" class="form-control opType" style="float:left;width:150px;margin-top:5px;">
+                            <select id="opType" class="form-control opType"
+                                    style="float:left;width:150px;margin-top:5px;">
                                 <option value="0">全部</option>
                                 <option value="2">商品上架</option>
                                 <option value="4">最新活动</option>
+                                <option value="5">通知</option>
                             </select>
                             <#--<label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:36px;">任务名称:</label>
                             <input id="taskname" class="form-control" style="float:left;width:300px;margin-top:5px;">-->
@@ -49,8 +56,8 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
-                        <div class="box-body" >
-                            <table id="msg_list" class="table table-bordered table-striped" width="100%" >
+                        <div class="box-body">
+                            <table id="msg_list" class="table table-bordered table-striped" width="100%">
                                 <thead>
                                 <tr>
                                     <th>序号</th>
@@ -72,17 +79,17 @@
         </section>
     </div>
 
-    <div class="modal fade" id="modal-default" role="dialog"  aria-hidden="true">
+    <div class="modal fade" id="modal-default" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close btnClose" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" >创建/编辑</h4>
+                    <h4 class="modal-title">创建/编辑</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal form" role="form" >
+                    <form class="form-horizontal form" role="form">
                         <input type="hidden" id="hiddenid" value="">
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">类型<font color="red">*</font></label>
@@ -90,6 +97,7 @@
                                 <select class="form-control" name="msg_type" id="msg_type">
                                     <option value="2">商品上架</option>
                                     <option value="4">最新活动</option>
+                                    <option value="5">通知</option>
                                 </select>
                             </div>
                         </div>
@@ -97,14 +105,15 @@
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">主题<font color="red">*</font></label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="msg_content" id="msg_content" placeholder="主题" maxlength="50" >
+                                <input type="text" class="form-control" name="msg_content" id="msg_content"
+                                       placeholder="主题">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">跳转地址<font color="red">*</font></label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="msg_src" id="msg_src" placeholder="跳转地址" maxlength="50" >
+                                <input type="text" class="form-control" name="msg_src" id="msg_src" placeholder="跳转地址">
                             </div>
                         </div>
 
@@ -123,14 +132,47 @@
 
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">产品版本<font color="red">*</font></label>
-                            <div class="col-sm-4">
+                            <div class="col-sm-8">
                                 <div style="margin-top: 6px;" id="ver">
-                                    <input id="ver1" type="checkbox" name="ver" value="1" /><label for="ver1">小智盈</label>
-                                    <input id="ver2" type="checkbox" name="ver" value="2" /><label for="ver2">深度资金版</label>
-                                    <input id="ver3" type="checkbox" name="ver" value="3" /><label for="ver3">掘金版</label>
+                                    <input id="ver1" type="checkbox" name="ver" value="888010000"/><label
+                                            for="ver1">小智盈</label>
+                                    <input id="ver2" type="checkbox" name="ver" value="888020000"/><label for="ver2">深度资金版</label>
+                                    <input id="ver3" type="checkbox" name="ver" value="888080000"/><label
+                                            for="ver3">掘金版</label>
+                                    <input id="ver4" type="checkbox" name="ver" value="888010400"/><label for="ver4">小智盈过期</label>
+                                    <input id="ver5" type="checkbox" name="ver" value="888020400"/><label for="ver5">大师过期</label>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">发布平台<font color="red">*</font></label>
+                            <div class="col-sm-4">
+                                <div style="margin-top: 6px;" id="platfrom">
+                                    <input id="plat1" type="checkbox" name="ver" value="1"/><label
+                                            for="plat1">PC</label>
+                                    <input id="plat2" type="checkbox" name="ver" value="2"/><label
+                                            for="plat2">APP</label>
+                                    <input id="plat3" type="checkbox" name="ver" value="3"/><label
+                                            for="plat3">微信</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">用户分组</label>
+                            <div class="col-sm-10">
+                                <select id="GroupList" class="select2" multiple="multiple" title="请选择"
+                                        style="width: 100%;">
+                                    <#if userGroupVOList?exists && userGroupVOList?size gt 0 >
+                                        <#list userGroupVOList as item>
+                                            <option value="${item.id}">${item.userGroupName}</option>
+                                        </#list>
+                                    </#if>
+                                </select>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -153,37 +195,56 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/moment/moment.min.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.min.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/select2/select2.js"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 
 <script>
+    $('.select2').select2();
+
     $('.datepicker').datetimepicker({
         language: 'zh-CN',
         format: 'yyyy-mm-dd hh:ii:00',
         minDate: 0
     });
 
-    $('#btnAdd').on('click', function(){
-        $("#modal-default").modal({ backdrop: false, keyboard: false }).modal('show');
+    $('#btnAdd').on('click', function () {
+        $("#modal-default").modal({backdrop: false, keyboard: false}).modal('show');
     });
 
     // search btn
-    $('.opType').on('change', function(){
+    $('.opType').on('change', function () {
         msgTable.ajax.reload();
     });
 
-    $('.btnSave').on('click',function (){
-        var obj=new Object();
-        obj.id=$("#hiddenid").val();
-        obj.msgType=$("#msg_type option:selected").val();
-        obj.msgContent=$("#msg_content").val();
-        obj.msgSrc=$("#msg_src").val();
-        var ver="";
-        $("#ver input[type=checkbox]:checked").each(function() {
-            ver +=  $(this).val() + ',';
+    $('.btnSave').on('click', function () {
+        var obj = new Object();
+        obj.id = $("#hiddenid").val();
+        obj.msgType = $("#msg_type option:selected").val();
+        obj.msgContent = $("#msg_content").val();
+        obj.msgSrc = $("#msg_src").val();
+        var ver = "";
+        $("#ver input[type=checkbox]:checked").each(function () {
+            ver += $(this).val() + ',';
         })
-        obj.productVersion=ver;
-        obj.publishTime=$("#publish_time").val();
+        obj.productVersion = ver;
+        var plat = "";
+        $("#platfrom input[type=checkbox]:checked").each(function () {
+            plat += $(this).val() + ',';
+        })
+        obj.plat = plat;
+        var str = "";
+        var goodsArr = $("#GroupList").select2("val");
+        for (var i = 0; i < goodsArr.length; i++) {
+            str += goodsArr[i];
+            if (i + 1 < goodsArr.length) {
+                str += ",";
+            }
+        }
+        obj.groupList = str;
+        obj.publishTime = $("#publish_time").val();
 
-        if(!validate(obj)){
+        if (!validate(obj)) {
             return false;
         }
         $.ajax({
@@ -192,99 +253,148 @@
             data: obj,
             datatype: "text",
             success: function (data) {
-                $(".btnSave").attr("disabled",false);
+                $(".btnSave").attr("disabled", false);
                 if (data == "success") {
                     msgTable.ajax.reload();
                     clertAndCloseModal();
-                }
-                else {
+                } else {
                     alert(data);
                 }
             },
             beforeSend: function () {
-                $(".btnSave").attr("disabled",true);
+                $(".btnSave").attr("disabled", true);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
             }
         });
     });
 
-    function validate(obj){
-        if(!obj.msgType){
+    function validate(obj) {
+        if (!obj.msgType) {
             alert("请选择类型");
             return false;
         }
-        if(!obj.msgContent){
+        if (!obj.msgContent) {
             alert("请填写主题");
             return false;
         }
-        if(!obj.msgSrc){
-            alert("请填写跳转地址");
-            return false;
-        }
-        if(!obj.productVersion){
+        if (!obj.productVersion) {
             alert("请选择产品版本");
             return false;
         }
-        if(!obj.publishTime){
+        if (!obj.publishTime) {
             alert("请填写发布时间");
+            return false;
+        }
+        if (!obj.productVersion) {
+            alert("请勾选用户版本");
+            return false;
+        }
+        if (!obj.plat) {
+            alert("请勾选发布平台");
             return false;
         }
         return true;
     }
 
-    function editdata(id){
+    function editdata(id) {
         var jsondata = $('#json' + id).val();
         var res = JSON.parse(jsondata);
 
+        $("#ver1").attr("checked", false);
+        $("#ver2").attr("checked", false);
+        $("#ver3").attr("checked", false);
+        $("#ver4").attr("checked", false);
+        $("#ver5").attr("checked", false);
+        $("#plat1").attr("checked", false);
+        $("#plat2").attr("checked", false);
+        $("#plat3").attr("checked", false);
+        if (res.userGroup) {
+            $("#GroupList").val(res.userGroup.split(",")).trigger('change');
+        } else {
+            $("#GroupList").val("").trigger('change');
+        }
+        if (res.productVersion) {
+            var ver = res.productVersion.split(',');
+            for (var i = 0; i < ver.length; i++) {
+                if (ver[i] == "888010000") {
+                    $("#ver1").attr("checked", true);
+                }
+                if (ver[i] == "888020000") {
+                    $("#ver2").attr("checked", true);
+                }
+                if (ver[i] == "888080000") {
+                    $("#ver3").attr("checked", true);
+                }
+                if (ver[i] == "888010400") {
+                    $("#ver4").attr("checked", true);
+                }
+                if (ver[i] == "888020400") {
+                    $("#ver5").attr("checked", true);
+                }
+            }
+        }
+        if (res.publishPlatFormType) {
+            var plat = res.publishPlatFormType.split(',');
+            for (var i = 0; i < plat.length; i++) {
+                if (plat[i] == 1) {
+                    $("#plat1").attr("checked", true);
+                }
+                if (plat[i] == 2) {
+                    $("#plat2").attr("checked", true);
+                }
+                if (plat[i] == 3) {
+                    $("#plat3").attr("checked", true);
+                }
+            }
+        }
         $("#hiddenid").val(res.id);
         $("#msg_type").val(res.msgType);
         $("#msg_content").val(res.msgContent);
         $("#msg_src").val(res.msgSrc);
         $("#publish_time").val(moment(res.publishTime).format("YYYY-MM-DD HH:mm:ss"));
-        if(res.productVersion){
-            var ver=res.productVersion.split(',');
-            for (var i=0;i<ver.length;i++){
-                if(ver[i]==1){
+        if (res.productVersion) {
+            var ver = res.productVersion.split(',');
+            for (var i = 0; i < ver.length; i++) {
+                if (ver[i] == 1) {
                     $("#ver1").attr("checked", true);
                 }
-                if(ver[i]==2){
+                if (ver[i] == 2) {
                     $("#ver2").attr("checked", true);
                 }
-                if(ver[i]==3){
+                if (ver[i] == 3) {
                     $("#ver3").attr("checked", true);
                 }
             }
         }
 
-        $("#modal-default").modal({ backdrop: false, keyboard: false }).modal('show');
+        $("#modal-default").modal({backdrop: false, keyboard: false}).modal('show');
     }
 
-    $('.btnClose').on('click', function(){
+    $('.btnClose').on('click', function () {
         if ($("#Form input").val() != "") {
             if (confirm("当前有数据未保存，确认要关闭窗口吗?")) {
                 clertAndCloseModal();
             }
-        }
-        else {
+        } else {
             clertAndCloseModal();
         }
     });
 
-    function clertAndCloseModal(){
+    function clertAndCloseModal() {
         $("#msg_content").val("");
         $("#msg_src").val("");
         $("#publish_time").val("");
-        $("#ver1").attr("checked",false);
-        $("#ver2").attr("checked",false);
-        $("#ver3").attr("checked",false);
+        $("#ver1").attr("checked", false);
+        $("#ver2").attr("checked", false);
+        $("#ver3").attr("checked", false);
 
         $("#modal-default").modal('hide');
     }
 
     // init date tables
     var msgTable = $("#msg_list").DataTable({
-        "processing" : true,
+        "processing": true,
         language: {
             "sProcessing": "处理中...",
             "sLengthMenu": "显示 _MENU_ 项结果",
@@ -311,10 +421,10 @@
         },
         "ajax": {
             url: base_url + "/pointannounce/pageList",
-            type:"post",
-            data : function ( d ) {
+            type: "post",
+            data: function (d) {
                 var obj = {};
-                obj.msgType=$("#opType").val();
+                obj.msgType = $("#opType").val();
                 return obj;
             }
         },
@@ -328,10 +438,8 @@
             {
                 "data": 'msgType',
                 "render": function (data, type, row) {
-                    if(data)
-                    {
-                        switch (data)
-                        {
+                    if (data) {
+                        switch (data) {
                             case 2:
                                 return "商品上架";
                                 break;
@@ -342,8 +450,7 @@
                                 return "";
                                 break;
                         }
-                    }
-                    else {
+                    } else {
                         return "";
                     }
                 }
@@ -369,8 +476,8 @@
         ],
         fnDrawCallback: function () {
             let api = this.api();
-            api.column(0).nodes().each(function(cell, i) {
-                cell.innerHTML =  i + 1;
+            api.column(0).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
             });
         },
         columnDefs: [{

@@ -1,8 +1,9 @@
 package com.emoney.pointweb.controller;
 
 import com.emoeny.pointcommon.result.userinfo.TicketInfo;
+import com.emoeny.pointcommon.utils.JsonUtil;
 import com.emoney.pointweb.repository.dao.entity.PointQuestionDO;
-import com.emoney.pointweb.repository.dao.entity.PointQuotationDO;
+import com.emoney.pointweb.repository.dao.entity.vo.PointQuestionVO;
 import com.emoney.pointweb.repository.dao.entity.vo.UserGroupVO;
 import com.emoney.pointweb.service.biz.PointQuestionService;
 import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
@@ -51,8 +52,26 @@ public class PointQuestionController {
     @ResponseBody
     public Map<String, Object> pageList() {
         List<PointQuestionDO> list = pointQuestionService.getAll();
+        List<PointQuestionVO> data = JsonUtil.copyList(list, PointQuestionVO.class);
+        if (data != null && data.size() > 0) {
+            List<UserGroupVO> userGroupVOList = pointTaskConfigInfoService.getUserGroupList();
+            for (PointQuestionVO item : data) {
+                if (!StringUtils.isEmpty(item.getUserGroup())) {
+                    String[] groupArr = item.getUserGroup().split(",");
+                    if (groupArr.length > 0) {
+                        String name = "";
+                        for (String groupId : groupArr) {
+                            if (userGroupVOList.stream().anyMatch(h -> h.getId().equals(Integer.valueOf(groupId)))) {
+                                name += userGroupVOList.stream().filter(h -> h.getId().equals(Integer.valueOf(groupId))).findFirst().get().getUserGroupName() + ",";
+                            }
+                        }
+                        item.setUserGroupName(name);
+                    }
+                }
+            }
+        }
         Map<String, Object> result = new HashMap<>();
-        result.put("data", list);
+        result.put("data", data);
         return result;
     }
 
@@ -77,6 +96,8 @@ public class PointQuestionController {
             pointQuestionDO.setProductVersion(ver);
             if (!StringUtils.isEmpty(showTime)) {
                 pointQuestionDO.setShowTime(sdf.parse(showTime));
+            } else {
+                pointQuestionDO.setShowTime(null);
             }
             if (!StringUtils.isEmpty(questionRightoptions)) {
                 String[] rightStr = questionRightoptions.split("\\|");

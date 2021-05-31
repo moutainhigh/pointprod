@@ -67,8 +67,16 @@ public class PointSendConfigInfoController {
             pointSendConfigInfoDO.setId(id);
             pointSendConfigInfoDO.setProductVersion(ver);
             pointSendConfigInfoDO.setBuyType(buyType);
-            pointSendConfigInfoDO.setRatio(ratio);
-            pointSendConfigInfoDO.setPointNum(pointNum);
+            if (ratio.equals(BigDecimal.ZERO)) {
+                pointSendConfigInfoDO.setRatio(null);
+            } else {
+                pointSendConfigInfoDO.setRatio(ratio);
+            }
+            if (pointNum != 0) {
+                pointSendConfigInfoDO.setPointNum(pointNum);
+            } else {
+                pointSendConfigInfoDO.setPointNum(null);
+            }
             pointSendConfigInfoDO.setRemark(remark);
             pointSendConfigInfoDO.setIsValid(true);
             pointSendConfigInfoDO.setUpdateBy(user.UserName);

@@ -1,4 +1,4 @@
-package com.emoeny.pointfacade.model.vo;
+﻿package com.emoney.pointweb.repository.dao.entity.vo;
 
 import lombok.Data;
 
@@ -6,11 +6,15 @@ import java.util.Date;
 
 /**
  * @author lipengcheng
- * @date 2021-05-07
+ * @date 2021-05-31
  */
 @Data
 public class PointQuestionVO {
+    /**
+     *
+     */
     private Integer id;
+
     /**
      * 题目类型（1单选；2多选；3其他）
      */
@@ -36,5 +40,39 @@ public class PointQuestionVO {
      */
     private Date showTime;
 
+    private String publishPlatFormType;
+
+    /**
+     * 0:全部 1:小智盈 2:深度资金版 3:掘金版
+     */
+    private String productVersion;
+
+    private String userGroup;
+
+    private String userGroupName;
+
+    /**
+     * 是否有效
+     */
+    private Boolean isValid;
+
+    /**
+     * 创建人
+     */
+    private String createBy;
+
+    /**
+     * 更新人
+     */
+    private String updateBy;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
     private Date updateTime;
 }

@@ -20,6 +20,10 @@ public class PointAnnounceDO implements Serializable {
 
     private String productVersion;
 
+    private String publishPlatFormType;
+
+    private String userGroup;
+
     private Date publishTime;
 
     private Date createTime;
