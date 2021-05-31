@@ -50,7 +50,7 @@
                 user_group = #{userGroup},
             </if>
             <if test="publishPlatFormType != null">
-                publishPlatFormType = #{publishPlatFormType},
+                publish_platformtype = #{publishPlatFormType},
             </if>
             <if test="productVersion != null">
                 product_version = #{productVersion,jdbcType=VARCHAR},

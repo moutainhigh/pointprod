@@ -8,6 +8,7 @@ import com.emoney.pointweb.service.biz.PointAnnounceService;
 import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
 import com.emoney.pointweb.service.biz.UserLoginService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,7 +78,11 @@ public class PointAnnounceController {
             pointAnnounceDO.setProductVersion(productVersion);
             pointAnnounceDO.setPublishPlatFormType(plat);
             pointAnnounceDO.setUserGroup(groupList);
-            pointAnnounceDO.setPublishTime(sdf.parse(publishTime));
+            if(!StringUtils.isEmpty(publishTime)){
+                pointAnnounceDO.setPublishTime(sdf.parse(publishTime));
+            }else{
+                pointAnnounceDO.setPublishTime(null);
+            }
             pointAnnounceDO.setRemark(remark);
             pointAnnounceDO.setUpdateTime(new Date());
             pointAnnounceDO.setUpdateBy(user.UserName);
