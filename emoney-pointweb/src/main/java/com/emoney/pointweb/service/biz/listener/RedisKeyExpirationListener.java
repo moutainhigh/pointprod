@@ -43,9 +43,6 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
     private PointOrderRepository pointOrderRepository;
 
     @Autowired
-    private PointMessageService pointMessageService;
-
-    @Autowired
     private RedisService redisCache1;
 
     /**

@@ -17,10 +17,7 @@ import com.emoney.pointweb.repository.dao.entity.dto.SendPrivilegeDTO;
 import com.emoney.pointweb.repository.dao.entity.vo.QueryCouponActivityVO;
 import com.emoney.pointweb.repository.dao.entity.vo.UserInfoVO;
 import com.emoney.pointweb.repository.dao.mapper.PointOrderMapper;
-import com.emoney.pointweb.service.biz.LogisticsService;
-import com.emoney.pointweb.service.biz.MailerService;
-import com.emoney.pointweb.service.biz.PointOrderService;
-import com.emoney.pointweb.service.biz.UserInfoService;
+import com.emoney.pointweb.service.biz.*;
 import com.emoney.pointweb.service.biz.kafka.KafkaProducerService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
 import lombok.extern.slf4j.Slf4j;
@@ -72,6 +69,9 @@ public class PointOrderServiceImpl implements PointOrderService {
 
     @Autowired
     private RedisService redisCache1;
+
+    @Autowired
+    private PointMessageService pointMessageService;
 
     @Autowired
     private KafkaProducerService kafkaProducerService;
@@ -226,7 +226,20 @@ public class PointOrderServiceImpl implements PointOrderService {
                                         pointRecordESRepository.save(p);
                                     }
                                 }
-
+                                //实物商品发送通知
+                                if (pointProductDO.getProductType().equals(5)) {
+                                    PointMessageDO pointMessageDO = new PointMessageDO();
+                                    pointMessageDO.setUid(pointOrderDO.getUid());
+                                    pointMessageDO.setMsgType(Integer.parseInt(MessageTypeEnum.TYPE6.getCode()));
+                                    pointMessageDO.setMsgContent(MessageFormat.format("恭喜您兑换成功-【{0}】，您填写的地址是“用户填写的地址加星的电话和姓名”，如果有误，请下单1天内联系客服修改，客服电话：10108688！", pointOrderDO.getProductTitle()));
+                                    pointMessageDO.setMsgExt(String.valueOf(pointOrderDO.getOrderNo()));
+                                    pointMessageDO.setCreateTime(new Date());
+                                    int retMessage = pointMessageService.insert(pointMessageDO);
+                                    if (retMessage > 0) {
+                                        log.info("------------------实物商品发送通知成功，uid=" + pointOrderDO.getUid() + ", orderno = " + pointOrderDO.getOrderNo());
+                                    }
+                                }
+                                //发放优惠券
                                 if (pointProductDO.getProductType().equals(2)) {
                                     List<QueryCouponActivityVO> queryCouponActivityVOS = logisticsService.getCouponRulesByAcCode(pointProductDO.getActivityCode());
                                     if (queryCouponActivityVOS != null && queryCouponActivityVOS.size() > 0) {
