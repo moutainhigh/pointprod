@@ -1,6 +1,9 @@
 package com.emoney.pointweb.service.biz;
 
 import com.emoeny.pointcommon.result.userperiod.UserPeriodResult;
+import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupDTO;
+import com.emoney.pointweb.repository.dao.entity.vo.CheckUserGroupVO;
+import com.emoney.pointweb.repository.dao.entity.vo.UserGroupVO;
 import com.emoney.pointweb.repository.dao.entity.vo.UserInfoVO;
 
 import java.util.List;
@@ -34,4 +37,8 @@ public interface UserInfoService {
      * @return
      */
     String getUidByEmNo(String emNo);
+
+    List<UserGroupVO> getUserGroupList();
+
+    CheckUserGroupVO getUserGroupCheckUser(CheckUserGroupDTO checkUserGroupDTO);
 }

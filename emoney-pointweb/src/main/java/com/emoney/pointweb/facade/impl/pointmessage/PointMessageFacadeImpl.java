@@ -8,6 +8,10 @@ import com.emoeny.pointfacade.facade.pointmessage.PointMessageFacade;
 import com.emoeny.pointfacade.model.vo.PointMessageVO;
 import com.emoney.pointweb.repository.dao.entity.PointAnnounceDO;
 import com.emoney.pointweb.repository.dao.entity.PointFeedBackDO;
+import com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO;
+import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupDTO;
+import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupData;
+import com.emoney.pointweb.repository.dao.entity.vo.CheckUserGroupVO;
 import com.emoney.pointweb.repository.dao.entity.vo.UserInfoVO;
 import com.emoney.pointweb.service.biz.PointAnnounceService;
 import com.emoney.pointweb.service.biz.PointFeedBackService;
@@ -53,6 +57,7 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
     public Result<List<PointMessageVO>> queryPointMessages(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "产品版本不能为空") String productVersion, @NotNull(message = "查询类型不能为空") Integer queryType) {
         try {
             List<PointMessageVO> pointMessageVOS = new ArrayList<>();
+            List<PointAnnounceDO> retPointAnnounceDOList = new ArrayList<>();
             PointMessageVO pointMessageVO = null;
             List<Integer> mstTypes = new ArrayList<>();
             //即将到期,待支付
@@ -76,7 +81,45 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
                 }
                 List<PointAnnounceDO> pointAnnounceDOS = pointAnnounceService.getPointAnnouncesByType(mstTypes);
                 if (pointAnnounceDOS != null) {
-                    for (PointAnnounceDO p : pointAnnounceDOS
+                    pointAnnounceDOS = pointAnnounceDOS.stream().filter(h -> h.getProductVersion().contains(productVersion)).collect(Collectors.toList());
+                    //接入用户画像
+                    if (pointAnnounceDOS != null) {
+                        CheckUserGroupDTO checkUserGroupDTO = new CheckUserGroupDTO();
+                        List<CheckUserGroupData> checkUserGroupDataList = new ArrayList<>();
+                        CheckUserGroupData checkUserGroupData = null;
+                        for (PointAnnounceDO pointAnnounceDO : pointAnnounceDOS
+                        ) {
+                            if (!org.springframework.util.StringUtils.isEmpty(pointAnnounceDO.getUserGroup())) {
+                                for (String groupId : pointAnnounceDO.getUserGroup().split(",")
+                                ) {
+                                    checkUserGroupData = new CheckUserGroupData();
+                                    checkUserGroupData.setGroupId(Integer.valueOf(groupId));
+                                    checkUserGroupData.setCheckResult(false);
+                                    checkUserGroupDataList.add(checkUserGroupData);
+                                }
+                            } else {
+                                retPointAnnounceDOList.add(pointAnnounceDO);
+                            }
+                        }
+                        checkUserGroupDTO.setUid(String.valueOf(uid));
+                        checkUserGroupDTO.setUserGroupList(checkUserGroupDataList);
+                        CheckUserGroupVO checkUserGroupVO = userInfoService.getUserGroupCheckUser(checkUserGroupDTO);
+                        if (checkUserGroupVO != null && checkUserGroupVO.getUserGroupList() != null && checkUserGroupVO.getUserGroupList().size() > 0) {
+                            for (PointAnnounceDO pointAnnounceDO : pointAnnounceDOS
+                            ) {
+                                if (!org.springframework.util.StringUtils.isEmpty(pointAnnounceDO.getUserGroup())) {
+                                    for (String groupId : pointAnnounceDO.getUserGroup().split(",")) {
+                                        if (checkUserGroupVO.getUserGroupList().stream().filter(h -> h.getGroupId().equals(Integer.valueOf(groupId)) && h.getCheckResult()).count() > 0) {
+                                            retPointAnnounceDOList.add(pointAnnounceDO);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    for (PointAnnounceDO p : retPointAnnounceDOList
                     ) {
                         pointMessageVO = new PointMessageVO();
                         pointMessageVO.setUid(uid);

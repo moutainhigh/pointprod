@@ -16,6 +16,7 @@ import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupData;
 import com.emoney.pointweb.repository.dao.entity.vo.CheckUserGroupVO;
 import com.emoney.pointweb.service.biz.PointQuestionService;
 import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
+import com.emoney.pointweb.service.biz.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,9 @@ public class PointQuestionFacadeImpl implements PointQuestionFacade {
 
     @Autowired
     private PointTaskConfigInfoService pointTaskConfigInfoService;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     @Override
     public Result<PointQuestionVO> queryPointQuestion(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "产品版本不能为空") String productVersion, @NotNull(message = "发布平台不能为空") String publishPlatFormType) {
@@ -77,7 +81,7 @@ public class PointQuestionFacadeImpl implements PointQuestionFacade {
                 }
                 checkUserGroupDTO.setUid(String.valueOf(uid));
                 checkUserGroupDTO.setUserGroupList(checkUserGroupDataList);
-                CheckUserGroupVO checkUserGroupVO = pointTaskConfigInfoService.getUserGroupCheckUser(checkUserGroupDTO);
+                CheckUserGroupVO checkUserGroupVO = userInfoService.getUserGroupCheckUser(checkUserGroupDTO);
                 if (checkUserGroupVO != null && checkUserGroupVO.getUserGroupList() != null && checkUserGroupVO.getUserGroupList().size() > 0) {
                     for (PointQuestionDO pointQuestionDO : pointQuestionDOS
                     ) {

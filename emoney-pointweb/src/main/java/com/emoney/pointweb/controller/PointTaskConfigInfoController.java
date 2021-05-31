@@ -8,9 +8,12 @@ import com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO;
 import com.emoney.pointweb.repository.dao.entity.vo.UserGroupVO;
 import com.emoney.pointweb.service.biz.PointRecordService;
 import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
+import com.emoney.pointweb.service.biz.UserInfoService;
 import com.emoney.pointweb.service.biz.UserLoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,9 +44,12 @@ public class PointTaskConfigInfoController {
     @Resource
     private UserLoginService userLoginService;
 
+    @Autowired
+    private UserInfoService userInfoService;
+
     @RequestMapping
     public String index(Model model) {
-        List<UserGroupVO> userGroupVOList = pointTaskConfigInfoService.getUserGroupList();
+        List<UserGroupVO> userGroupVOList = userInfoService.getUserGroupList();
         model.addAttribute("userGroupVOList", userGroupVOList);
         return "pointtaskconfiginfo/pointtaskconfiginfo.index";
     }

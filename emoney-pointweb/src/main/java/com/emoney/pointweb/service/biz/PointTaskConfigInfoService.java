@@ -30,8 +30,4 @@ public interface PointTaskConfigInfoService {
     List<PointTaskConfigInfoDO> getTasksByTaskType(int taskType, Long uid, String productVersion, String publishPlatFormType);
 
     List<PointTaskConfigInfoDO> getByTaskIds(List<Long> listTaskIds);
-
-    List<UserGroupVO> getUserGroupList();
-
-    CheckUserGroupVO getUserGroupCheckUser(CheckUserGroupDTO checkUserGroupDTO);
 }

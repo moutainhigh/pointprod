@@ -15,6 +15,7 @@ import com.emoney.pointweb.repository.dao.entity.vo.CheckUserGroupVO;
 import com.emoney.pointweb.repository.dao.mapper.PointProductMapper;
 import com.emoney.pointweb.service.biz.PointProductService;
 import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
+import com.emoney.pointweb.service.biz.UserInfoService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +36,9 @@ public class PointProductServiceImpl implements PointProductService {
 
     @Autowired
     private PointTaskConfigInfoService pointTaskConfigInfoService;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     @Autowired
     private RedisService redisCache1;
@@ -112,7 +116,7 @@ public class PointProductServiceImpl implements PointProductService {
             }
             checkUserGroupDTO.setUid(String.valueOf(uid));
             checkUserGroupDTO.setUserGroupList(checkUserGroupDataList);
-            CheckUserGroupVO checkUserGroupVO = pointTaskConfigInfoService.getUserGroupCheckUser(checkUserGroupDTO);
+            CheckUserGroupVO checkUserGroupVO = userInfoService.getUserGroupCheckUser(checkUserGroupDTO);
             if (checkUserGroupVO != null && checkUserGroupVO.getUserGroupList() != null && checkUserGroupVO.getUserGroupList().size() > 0) {
                 for (PointProductDO pointProductDO : pointProductDOS
                 ) {

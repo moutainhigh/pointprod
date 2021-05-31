@@ -6,9 +6,11 @@ import com.emoney.pointweb.repository.dao.entity.PointOrderDO;
 import com.emoney.pointweb.repository.dao.entity.vo.UserGroupVO;
 import com.emoney.pointweb.service.biz.PointAnnounceService;
 import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
+import com.emoney.pointweb.service.biz.UserInfoService;
 import com.emoney.pointweb.service.biz.UserLoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,12 +39,15 @@ public class PointAnnounceController {
     @Resource
     private UserLoginService userLoginService;
 
+    @Autowired
+    private UserInfoService userInfoService;
+
     @Resource
     private PointTaskConfigInfoService pointTaskConfigInfoService;
 
     @RequestMapping
     public String index(Model model) {
-        List<UserGroupVO> userGroupVOList = pointTaskConfigInfoService.getUserGroupList();
+        List<UserGroupVO> userGroupVOList = userInfoService.getUserGroupList();
         model.addAttribute("userGroupVOList", userGroupVOList);
         return "/pointannounce/pointannounce.index";
     }

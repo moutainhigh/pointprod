@@ -20,6 +20,7 @@ import com.emoney.pointweb.repository.dao.entity.vo.PointTaskConfigInfoVO;
 import com.emoney.pointweb.repository.dao.entity.vo.UserGroupVO;
 import com.emoney.pointweb.repository.dao.mapper.PointTaskConfigInfoMapper;
 import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
+import com.emoney.pointweb.service.biz.UserInfoService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,9 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
 
     @Autowired
     private PointTaskConfigInfoRepository pointTaskConfigInfoRepository;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     @Autowired
     private RedisService redisCache1;
@@ -85,7 +89,7 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
             }
             checkUserGroupDTO.setUid(String.valueOf(uid));
             checkUserGroupDTO.setUserGroupList(checkUserGroupDataList);
-            CheckUserGroupVO checkUserGroupVO = getUserGroupCheckUser(checkUserGroupDTO);
+            CheckUserGroupVO checkUserGroupVO = userInfoService.getUserGroupCheckUser(checkUserGroupDTO);
             if (checkUserGroupVO != null && checkUserGroupVO.getUserGroupList() != null && checkUserGroupVO.getUserGroupList().size() > 0) {
                 for (PointTaskConfigInfoDO pointTaskConfigInfoDO : pointTaskConfigInfoDOS
                 ) {
@@ -182,7 +186,7 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
             }
             checkUserGroupDTO.setUid(String.valueOf(uid));
             checkUserGroupDTO.setUserGroupList(checkUserGroupDataList);
-            CheckUserGroupVO checkUserGroupVO = getUserGroupCheckUser(checkUserGroupDTO);
+            CheckUserGroupVO checkUserGroupVO = userInfoService.getUserGroupCheckUser(checkUserGroupDTO);
             if (checkUserGroupVO != null && checkUserGroupVO.getUserGroupList() != null && checkUserGroupVO.getUserGroupList().size() > 0) {
                 for (PointTaskConfigInfoDO pointTaskConfigInfoDO : pointTaskConfigInfoDOS
                 ) {
@@ -227,33 +231,4 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
         return pointTaskConfigInfoDOS;
     }
 
-    @Override
-    public List<UserGroupVO> getUserGroupList() {
-        List<UserGroupVO> userGroupVOList = new ArrayList<>();
-        String url = "http://api.userradar.emoney.cn/api/GetUserGroupList";
-        String res = OkHttpUtil.get(url, null);
-        ReturnInfo<List<UserGroupVO>> resultInfo = JsonUtil.toBean(res, ReturnInfo.class);
-        if (resultInfo.getRetCode().equals("0")) {
-            userGroupVOList = JsonUtil.toBeanList(resultInfo.getData() != null ? resultInfo.getData().toString() : "", UserGroupVO.class);
-            ;
-        }
-        return userGroupVOList;
-    }
-
-    @Override
-    public CheckUserGroupVO getUserGroupCheckUser(CheckUserGroupDTO checkUserGroupDTO) {
-        try {
-            String url = "http://api.userradar.emoney.cn/api/CheckUserGroup";
-            String ret = OkHttpUtil.postJsonParams(url, JSON.toJSONString(checkUserGroupDTO));
-            if (!StringUtils.isEmpty(ret)) {
-                ReturnInfo<CheckUserGroupVO> resultInfo = JsonUtil.toBean(ret, ReturnInfo.class);
-                if (resultInfo.getRetCode().equals("0")) {
-                    return JsonUtil.toBean(JSON.toJSONString(resultInfo.getData()), CheckUserGroupVO.class);
-                }
-            }
-        } catch (Exception e) {
-            log.error("getUserGroupCheckUser error", e);
-        }
-        return null;
-    }
 }

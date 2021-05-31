@@ -2,9 +2,13 @@ package com.emoney.pointweb.service.biz.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.emoeny.pointcommon.result.ResultInfo;
+import com.emoeny.pointcommon.result.ReturnInfo;
 import com.emoeny.pointcommon.result.userperiod.UserPeriodResult;
 import com.emoeny.pointcommon.utils.JsonUtil;
 import com.emoeny.pointcommon.utils.OkHttpUtil;
+import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupDTO;
+import com.emoney.pointweb.repository.dao.entity.vo.CheckUserGroupVO;
+import com.emoney.pointweb.repository.dao.entity.vo.UserGroupVO;
 import com.emoney.pointweb.repository.dao.entity.vo.UserInfoVO;
 import com.emoney.pointweb.service.biz.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,6 +92,40 @@ public class UserInfoServiceImpl implements UserInfoService {
             if (!StringUtils.isEmpty(res)) {
                 return JsonUtil.getValue(res, "Message");
             }
+        }
+        return null;
+    }
+
+    @Override
+    public List<UserGroupVO> getUserGroupList() {
+        try {
+            List<UserGroupVO> userGroupVOList = new ArrayList<>();
+            String url = "http://api.userradar.emoney.cn/api/GetUserGroupList";
+            String res = OkHttpUtil.get(url, null);
+            ReturnInfo<List<UserGroupVO>> resultInfo = JsonUtil.toBean(res, ReturnInfo.class);
+            if (resultInfo.getRetCode().equals("0")) {
+                userGroupVOList = JsonUtil.toBeanList(resultInfo.getData() != null ? resultInfo.getData().toString() : "", UserGroupVO.class);
+            }
+            return userGroupVOList;
+        } catch (Exception e) {
+            log.error("getUserGroupList error", e);
+        }
+        return null;
+    }
+
+    @Override
+    public CheckUserGroupVO getUserGroupCheckUser(CheckUserGroupDTO checkUserGroupDTO) {
+        try {
+            String url = "http://api.userradar.emoney.cn/api/CheckUserGroup";
+            String ret = OkHttpUtil.postJsonParams(url, JSON.toJSONString(checkUserGroupDTO));
+            if (!StringUtils.isEmpty(ret)) {
+                ReturnInfo<CheckUserGroupVO> resultInfo = JsonUtil.toBean(ret, ReturnInfo.class);
+                if (resultInfo.getRetCode().equals("0")) {
+                    return JsonUtil.toBean(JSON.toJSONString(resultInfo.getData()), CheckUserGroupVO.class);
+                }
+            }
+        } catch (Exception e) {
+            log.error("getUserGroupCheckUser error", e);
         }
         return null;
     }
