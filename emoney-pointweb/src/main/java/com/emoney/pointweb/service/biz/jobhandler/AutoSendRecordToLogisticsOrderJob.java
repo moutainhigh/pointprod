@@ -83,10 +83,15 @@ public class AutoSendRecordToLogisticsOrderJob {
                                 pointRecordCreateDTO.setLockDays(15);
                                 pointRecordCreateDTO.setEmNo(queryStockUp.getEmCard());
                                 pointRecordCreateDTO.setRemark(queryStockUp.getDetID());
-                                BigDecimal rato = getRate(pointRecordCreateDTO.getPid(), queryStockUp.getProdType());
-                                if (rato != null) {
-                                    pointRecordCreateDTO.setManualPoint(Float.parseFloat(String.valueOf(Math.round(queryStockUp.getSPRICE().floatValue() * (rato.floatValue() / 100)))));
-                                    pointRecordCreateDTO.setTaskName("消费奖励积分+" + pointRecordCreateDTO.getManualPoint() + "积分");
+                                PointSendConfigInfoDO pointSendConfigInfoDO = getPointSendConfigInfo(pointRecordCreateDTO.getPid(), queryStockUp.getProdType());
+                                if (pointSendConfigInfoDO != null) {
+                                    //pointRecordCreateDTO.setManualPoint(Float.parseFloat(String.valueOf(Math.round(queryStockUp.getSPRICE().floatValue() * (rato.floatValue() / 100)))));
+                                    if(pointSendConfigInfoDO.getPointNum()!=null){
+                                        pointRecordCreateDTO.setManualPoint(pointSendConfigInfoDO.getPointNum());
+                                    }else {
+                                        pointRecordCreateDTO.setManualPoint(Float.parseFloat(String.valueOf(Math.round(queryStockUp.getSPRICE().floatValue() * (pointSendConfigInfoDO.getRatio().floatValue() / 100)))));
+                                    }
+                                    pointRecordCreateDTO.setTaskName("积分收入明细提示语：消费奖励积分,产品激活后30天后可用");
                                     Result<Object> objectResult = pointRecordService.createPointRecord(pointRecordCreateDTO);
                                     log.info("购买赠送积分成功" + JSON.toJSONString(objectResult));
                                 } else {
@@ -120,13 +125,17 @@ public class AutoSendRecordToLogisticsOrderJob {
                                 pointRecordCreateDTO.setPlatform(1);
 
                                 pointRecordCreateDTO.setPid(queryCancel.getProductID());
-                                //pointRecordCreateDTO.setLockDays(15);
+                                //pointRecordCreateDTO.setLockDays(30);
                                 pointRecordCreateDTO.setEmNo(queryCancel.getEmCard());
                                 pointRecordCreateDTO.setRemark(queryCancel.getORDER_ID());
-                                BigDecimal rato = getRate(pointRecordCreateDTO.getPid(), queryCancel.getProdType());
-                                if (rato != null) {
-                                    pointRecordCreateDTO.setManualPoint(-Float.parseFloat(String.valueOf(Math.round(queryCancel.getSPRICE().floatValue() * (rato.floatValue() / 100)))));
-                                    pointRecordCreateDTO.setTaskName("消费退款扣减积分-" + pointRecordCreateDTO.getManualPoint() + "积分");
+                                PointSendConfigInfoDO pointSendConfigInfoDO = getPointSendConfigInfo(pointRecordCreateDTO.getPid(), queryCancel.getProdType());
+                                if (pointSendConfigInfoDO != null) {
+                                    if(pointSendConfigInfoDO.getPointNum()!=null){
+                                        pointRecordCreateDTO.setManualPoint(-pointSendConfigInfoDO.getPointNum());
+                                    }else {
+                                        pointRecordCreateDTO.setManualPoint(-Float.parseFloat(String.valueOf(Math.round(queryCancel.getSPRICE().floatValue() * (pointSendConfigInfoDO.getRatio().floatValue() / 100)))));
+                                    }
+                                    pointRecordCreateDTO.setTaskName("退货积分收入明细：消费退款扣减积分-" + pointRecordCreateDTO.getManualPoint() + "积分");
                                     Result<Object> objectResult = pointRecordService.createPointRecord(pointRecordCreateDTO);
                                     log.info("退款订单扣积分成功" + JSON.toJSONString(objectResult));
                                 } else {
@@ -146,9 +155,9 @@ public class AutoSendRecordToLogisticsOrderJob {
         return ReturnT.FAIL;
     }
 
-    private BigDecimal getRate(String pid, String prodType) {
+    private PointSendConfigInfoDO getPointSendConfigInfo(String pid, String prodType) {
         List<PointSendConfigInfoDO> pointSendConfigInfoDOS = pointSendConfigInfoService.queryAll();
         PointSendConfigInfoDO pointSendConfigInfoDO = pointSendConfigInfoDOS.stream().filter(h -> h.getBuyType().equals((prodType.equals("A23001") || prodType.equals("A23004")) ? 1 : 2) && h.getProductVersion().equals(pid)).findFirst().orElse(null);
-        return pointSendConfigInfoDO != null ? pointSendConfigInfoDO.getRatio() : null;
+        return pointSendConfigInfoDO;
     }
 }
