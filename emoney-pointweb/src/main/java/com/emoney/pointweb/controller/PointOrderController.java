@@ -36,7 +36,7 @@ public class PointOrderController {
     public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") Integer productType) {
         List<PointOrderDO> list = pointOrderService.getAllByOrderStatus(1);
         if (productType != 0) {
-            list = list.stream().filter(h -> h.getProductQty() == productType).collect(Collectors.toList());
+            list = list.stream().filter(h -> h.getProductType().equals(productType)).collect(Collectors.toList());
         }
         Map<String, Object> result = new HashMap<>();
         result.put("data", list);
