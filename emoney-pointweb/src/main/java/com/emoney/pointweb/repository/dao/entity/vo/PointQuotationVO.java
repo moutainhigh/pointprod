@@ -1,4 +1,4 @@
-﻿package com.emoney.pointweb.repository.dao.entity.vo;
+package com.emoney.pointweb.repository.dao.entity.vo;
 
 import lombok.Data;
 
