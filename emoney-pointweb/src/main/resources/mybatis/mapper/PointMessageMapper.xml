@@ -39,6 +39,45 @@
 
     </insert>
 
+
+       <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointMessageDO">
+        UPDATE t_point_message
+        <set>
+            <if test="uid != null">
+                uid = #{uid},
+            </if>
+            <if test="msgType != null">
+                msg_type = #{msgType},
+            </if>
+            <if test="msgContent != null">
+                msg_content = #{msgContent},
+            </if>
+            <if test="msgSrc != null">
+                msg_src = #{msgSrc},
+            </if>
+            <if test="msgExt != null">
+                msg_ext = #{msgExt},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
     <select id="getByUid" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
@@ -46,9 +85,10 @@
          WHERE uid=#{uid}  AND create_time>#{endDate}  order by create_time desc
     </select>
 
-    <select id="getByUidAndExt" resultType="java.lang.Integer">
+    <select id="getByUidAndExt" resultMap="BaseResultMap">
 
-        SELECT COUNT (*)
+        SELECT
+          <include refid="Base_Column_List"/>
         FROM t_point_message
          WHERE uid=#{uid} AND msg_ext = #{msgExt}
 

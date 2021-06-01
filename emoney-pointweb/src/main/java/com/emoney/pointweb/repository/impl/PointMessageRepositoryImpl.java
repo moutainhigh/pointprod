@@ -37,6 +37,12 @@ public class PointMessageRepositoryImpl implements PointMessageRepository {
     }
 
     @Override
+    public Integer update(PointMessageDO pointMessageDO) {
+        return pointMessageMapper.update(pointMessageDO);
+    }
+
+
+    @Override
     public List<PointMessageDO> getByUid(Long uid, Date endDate) {
         List<PointMessageDO> pointMessageDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointMessage_GETBYUID, uid), PointMessageDO.class);
         if (pointMessageDOS == null) {
@@ -49,7 +55,7 @@ public class PointMessageRepositoryImpl implements PointMessageRepository {
     }
 
     @Override
-    public Integer getByUidAndExt(Long uid, String msgExt) {
+    public List<PointMessageDO> getByUidAndExt(Long uid, String msgExt) {
         return pointMessageMapper.getByUidAndExt(uid,msgExt);
     }
 }

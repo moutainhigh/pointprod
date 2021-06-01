@@ -25,11 +25,14 @@ public class PointMessageServiceImpl implements PointMessageService {
 
     @Override
     public Integer insert(PointMessageDO pointMessageDO) {
-        Integer count = pointMessageRepository.getByUidAndExt(pointMessageDO.getUid(), pointMessageDO.getMsgExt());
-        if (count == 0) {
+       List<PointMessageDO> pointMessageDOS = pointMessageRepository.getByUidAndExt(pointMessageDO.getUid(), pointMessageDO.getMsgExt());
+        if (pointMessageDOS == null||pointMessageDOS.size()==0) {
             return pointMessageRepository.insert(pointMessageDO);
+        }else {
+            PointMessageDO tmpPointMessageDO=pointMessageDOS.get(0);
+            pointMessageDO.setId(tmpPointMessageDO.getId());
+            return pointMessageRepository.update(pointMessageDO);
         }
-        return 0;
     }
 
     @Override

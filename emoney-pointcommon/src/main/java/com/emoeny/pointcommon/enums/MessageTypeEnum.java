@@ -17,6 +17,7 @@ public enum MessageTypeEnum implements EnumBase {
     TYPE4("4", "最新活动"),
     TYPE5("5", "意见反馈"),
     TYPE6("6", "实物商品通知"),
+    TYPE7("7", "意见采纳"),
     ;
     /**
      * 枚举编号

@@ -1,13 +1,21 @@
 package com.emoney.pointweb.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.emoeny.pointcommon.enums.MessageTypeEnum;
 import com.emoeny.pointcommon.utils.ExcelUtils;
 import com.emoney.pointweb.repository.dao.entity.PointFeedBackDO;
+import com.emoney.pointweb.repository.dao.entity.PointMessageDO;
 import com.emoney.pointweb.repository.dao.entity.PointOrderDO;
 import com.emoney.pointweb.service.biz.PointFeedBackService;
+import com.emoney.pointweb.service.biz.PointMessageService;
 import com.emoney.pointweb.service.biz.PointSendRecordService;
+import com.emoney.pointweb.service.biz.UserInfoService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.asm.Advice;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,6 +33,7 @@ import java.util.stream.Collectors;
  * @date 2021-04-15
  */
 @Controller
+@Slf4j
 @RequestMapping("/pointfeedback")
 public class PointFeedBackController {
 
@@ -32,6 +42,12 @@ public class PointFeedBackController {
 
     @Resource
     private PointSendRecordService pointSendRecordService;
+
+    @Autowired
+    private PointMessageService pointMessageService;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     @RequestMapping
     public String index() {
@@ -82,6 +98,22 @@ public class PointFeedBackController {
         pointFeedBackDO.setId(id);
         pointFeedBackDO.setRemark(remark);
         int result = pointFeedBackService.update(pointFeedBackDO);
+        if (result > 0) {
+            pointFeedBackDO = pointFeedBackService.getById(id);
+            if (pointFeedBackDO != null) {
+                String uid = userInfoService.getUidByEmNo(pointFeedBackDO.getAccount());
+                if (!StringUtils.isEmpty(uid)) {
+                    PointMessageDO pointMessageDO = new PointMessageDO();
+                    pointMessageDO.setUid(Long.parseLong(uid));
+                    pointMessageDO.setMsgType(Integer.parseInt(MessageTypeEnum.TYPE5.getCode()));
+                    pointMessageDO.setMsgContent("【意见反馈】" + pointFeedBackDO.getRemark());
+                    pointMessageDO.setMsgExt(String.valueOf(pointFeedBackDO.getId()) + pointMessageDO.getMsgType());
+                    pointMessageDO.setCreateTime(new Date());
+                    pointMessageService.insert(pointMessageDO);
+                }
+            }
+        }
+
         return result > 0 ? "success" : "回复失败";
     }
 
@@ -93,10 +125,24 @@ public class PointFeedBackController {
         pointFeedBackDO.setStatus(1);
         pointFeedBackDO.setAdoptRemark(remark);
         int result = pointFeedBackService.update(pointFeedBackDO);
-        //赠送积分
-        pointFeedBackDO = pointFeedBackService.getById(id);
-        pointSendRecordService.sendPointRecord(Long.parseLong("1384354667126984704"), pointFeedBackDO.getAccount());
-
+        if (result > 0) {
+            //赠送积分
+            pointFeedBackDO = pointFeedBackService.getById(id);
+            pointSendRecordService.sendPointRecord(Long.parseLong("1384354667126984704"), pointFeedBackDO.getAccount());
+            pointFeedBackDO = pointFeedBackService.getById(id);
+            if (pointFeedBackDO != null) {
+                String uid = userInfoService.getUidByEmNo(pointFeedBackDO.getAccount());
+                if (!StringUtils.isEmpty(uid)) {
+                    PointMessageDO pointMessageDO = new PointMessageDO();
+                    pointMessageDO.setUid(Long.parseLong(uid));
+                    pointMessageDO.setMsgType(Integer.parseInt(MessageTypeEnum.TYPE7.getCode()));
+                    pointMessageDO.setMsgContent("【意见采纳】" + pointFeedBackDO.getAdoptRemark());
+                    pointMessageDO.setMsgExt(String.valueOf(pointFeedBackDO.getId()) + pointMessageDO.getMsgType());
+                    pointMessageDO.setCreateTime(new Date());
+                    pointMessageService.insert(pointMessageDO);
+                }
+            }
+        }
         return result > 0 ? "success" : "采纳失败";
     }
 

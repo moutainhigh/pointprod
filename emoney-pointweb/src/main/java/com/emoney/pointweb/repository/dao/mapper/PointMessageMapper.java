@@ -21,6 +21,8 @@ public interface PointMessageMapper {
      */
     Integer insert(PointMessageDO pointMessageDO);
 
+    Integer update(PointMessageDO pointMessageDO);
+
     /**
      * 根据uid获取所有消息记录
      * @param uid
@@ -34,5 +36,5 @@ public interface PointMessageMapper {
      * @param msgExt
      * @return
      */
-    Integer getByUidAndExt(Long uid,String msgExt);
+    List<PointMessageDO> getByUidAndExt(Long uid,String msgExt);
 }
