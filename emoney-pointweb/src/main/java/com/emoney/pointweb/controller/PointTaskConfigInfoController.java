@@ -56,10 +56,11 @@ public class PointTaskConfigInfoController {
 
     @RequestMapping("/pageList")
     @ResponseBody
-    public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") int start,
-                                        @RequestParam(required = false, defaultValue = "10") int length,
-                                        @RequestParam(required = false, defaultValue = "0") int task_type) {
-        return pointTaskConfigInfoService.pageList(start, length, task_type);
+    public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") Integer start,
+                                        @RequestParam(required = false, defaultValue = "10") Integer length,
+                                        @RequestParam(required = false, defaultValue = "0") Integer task_type,
+                                        @RequestParam(required = false, defaultValue = "0") Integer task_status) {
+        return pointTaskConfigInfoService.pageList(start, length, task_type, task_status);
     }
 
     @RequestMapping("/edit")
@@ -73,7 +74,7 @@ public class PointTaskConfigInfoController {
                        @RequestParam(required = false, defaultValue = "0") Integer is_bigimg, HttpServletRequest request, HttpServletResponse response) {
         try {
             TicketInfo user = userLoginService.getLoginAdminUser(request, response);
-            if(user==null){
+            if (user == null) {
                 return "用户登录已过期，请重新登录";
             }
             //获取同一类型同一排序

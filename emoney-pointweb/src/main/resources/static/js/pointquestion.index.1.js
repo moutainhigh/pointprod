@@ -118,6 +118,12 @@ $(function () {
                 }
             },
             {
+                "data": 'updateTime',
+                "render": function (data, type, row) {
+                    return data ? moment(new Date(data)).format("YYYY-MM-DD HH:mm:ss") : "";
+                }
+            },
+            {
                 "data": 'updateBy',
                 "render": function (data, type, row) {
                     return data;
@@ -131,7 +137,7 @@ $(function () {
             });
         },
         columnDefs: [{
-            targets: 9,
+            targets: 10,
             render: function (data, type, row, meta) {
                 var html = "<button type=\"button\" class=\"btn btn-primary btn-flat btn-sm\" onclick='editdata(" + row.id + ")'>编辑</button>";
                 html += "<button type=\"button\" class=\"btn btn-danger btn-flat btn-sm\" onclick='deletedata(" + row.id + ")'>删除</button>";

@@ -87,10 +87,11 @@ public class PointFeedBackController {
 
     @RequestMapping("/adopt")
     @ResponseBody
-    public String adopt(Integer id) {
+    public String adopt(Integer id, String remark) {
         PointFeedBackDO pointFeedBackDO = new PointFeedBackDO();
         pointFeedBackDO.setId(id);
         pointFeedBackDO.setStatus(1);
+        pointFeedBackDO.setAdoptRemark(remark);
         int result = pointFeedBackService.update(pointFeedBackDO);
         //赠送积分
         pointFeedBackDO = pointFeedBackService.getById(id);

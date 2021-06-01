@@ -89,6 +89,7 @@
                                     <th>最新进展</th>
                                     <th>回复意见</th>
                                     <th>是否采纳</th>
+                                    <th>采纳回复</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
@@ -136,6 +137,28 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal-remark" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close btnClose" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">回复</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="hiddenid" value="">
+                    <div class="form-group">
+                        <textarea class="form-control" id="txtAdoptRemark" rows="10" placeholder="回复"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btnClose">关闭</button>
+                    <button type="button" id="Adopt" class="btn btn-primary">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- footer -->
     <@netCommon.commonFooter />
 </div>
@@ -288,6 +311,15 @@
                         return "否";
                     }
                 }
+            },
+            {
+                "data": "adoptRemark", "render": function (data, type, full, meta) {
+                    if (data) {
+                        return "<td><span title='" + data + "'>" + data.substring(0, 30) + "</span></td>";
+                    } else {
+                        return "";
+                    }
+                }
             }
         ],
         fnDrawCallback: function (d) {
@@ -304,7 +336,7 @@
         //     });
         // },
         columnDefs: [{
-            targets: 12,
+            targets: 13,
             render: function (data, type, row, meta) {
                 var html = "<button type=\"button\" class=\"btn btn-primary btn-flat btn-sm\" onclick='Reply(" + row.id + ")'>回复</button>";
                 if (row.status != 1) {
@@ -361,8 +393,18 @@
     }
 
     function Adopt(id) {
+        var jsondata = $('#json' + id).val();
+        var res = JSON.parse(jsondata);
+
+        $("#hiddenid").val(res.id);
+
+        $("#modal-remark").modal({backdrop: false, keyboard: false}).modal('show');
+    }
+
+    $('#Adopt').on("click", function () {
         var obj = new Object();
-        obj.id = id;
+        obj.id = $("#hiddenid").val();
+        obj.remark = $("#txtAdoptRemark").val();
 
         $.ajax({
             type: "POST",
@@ -372,6 +414,7 @@
             success: function (data) {
                 if (data == "success") {
                     feedbackTable.ajax.reload();
+                    clertAndCloseModal();
                 } else {
                     alert(data);
                 }
@@ -381,7 +424,7 @@
             error: function (XMLHttpRequest, textStatus, errorThrown) {
             }
         });
-    }
+    });
 
     $('.btnClose').on('click', function () {
         if ($("#Form input").val() != "") {
@@ -398,7 +441,9 @@
         $("#txtEmail").val("");
         $("#txtContent").val("");
         $("#txtremark").val("");
+        $("#txtAdoptRemark").val("");
 
         $("#modal-default").modal('hide');
+        $("#modal-remark").modal('hide');
     }
 </script>

@@ -33,6 +33,7 @@ $(function() {
             data : function ( d ) {
                 var obj = {};
                 obj.productType=$("#opType").val();
+                obj.productStatus=$("#opStatus").val();
                 return obj;
             }
         },
@@ -149,7 +150,7 @@ $(function() {
     });
 
     // search btn
-    $('#opType').on('change', function(){
+    $('.op').on('change', function(){
         productTable.ajax.reload();
     });
 

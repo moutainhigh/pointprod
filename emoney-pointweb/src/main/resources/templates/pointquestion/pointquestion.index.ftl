@@ -49,6 +49,7 @@
                                     <th>平台</th>
                                     <th>版本</th>
                                     <th>用户分组</th>
+                                    <th>更新时间</th>
                                     <th>编辑人</th>
                                     <th style="width: 10%;">操作</th>
                                 </tr>
@@ -91,14 +92,14 @@
                         <div class="form-group">
                             <label for="txtMerchantName" class="col-sm-2 control-label">标题</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" id="txtContent" rows="2" placeholder="标题"></textarea>
+                                <textarea class="form-control" id="txtContent" rows="3" placeholder="标题"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="txtMerchantName" class="col-sm-2 control-label">选项</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" id="txtOption" rows="2"
+                                <textarea class="form-control" id="txtOption" rows="5"
                                           placeholder="选项（多个选项用'|'分隔）"></textarea>
                             </div>
                         </div>
