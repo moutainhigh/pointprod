@@ -74,8 +74,7 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
                 if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE0.getCode()))) {
                     mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE2.getCode()));
                     mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()));
-                    mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE5.getCode()));
-                    mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE7.getCode()));
+                    mstTypes.add(5);
                 } else if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE2.getCode()))) {
                     mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE2.getCode()));
                 } else if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()))) {

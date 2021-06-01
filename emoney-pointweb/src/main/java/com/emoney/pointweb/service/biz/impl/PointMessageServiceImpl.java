@@ -1,5 +1,6 @@
 package com.emoney.pointweb.service.biz.impl;
 
+import com.emoeny.pointcommon.constants.RedisConstants;
 import com.emoney.pointweb.repository.PointMessageRepository;
 import com.emoney.pointweb.repository.dao.entity.PointMessageDO;
 import com.emoney.pointweb.service.biz.PointMessageService;
@@ -7,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 

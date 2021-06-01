@@ -33,12 +33,20 @@ public class PointMessageRepositoryImpl implements PointMessageRepository {
 
     @Override
     public Integer insert(PointMessageDO pointMessageDO) {
-       return pointMessageMapper.insert(pointMessageDO);
+        int ret=pointMessageMapper.insert(pointMessageDO);
+        if(ret>0){
+            redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointMessage_GETBYUID, pointMessageDO.getUid()));
+        }
+       return ret;
     }
 
     @Override
     public Integer update(PointMessageDO pointMessageDO) {
-        return pointMessageMapper.update(pointMessageDO);
+        int ret= pointMessageMapper.update(pointMessageDO);
+        if(ret>0){
+            redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointMessage_GETBYUID, pointMessageDO.getUid()));
+        }
+        return ret;
     }
 
 
