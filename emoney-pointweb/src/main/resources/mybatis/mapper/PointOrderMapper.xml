@@ -88,7 +88,7 @@
 
         <if test="orderStatus ==2 ">
 
-            AND product_file IS NOT NULL
+            AND product_file IS NOT NULL  and product_file  <![CDATA[!= ]]> ''
 
         </if>
 
