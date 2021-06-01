@@ -112,9 +112,9 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
             ) {
                 if (!StringUtils.isEmpty(pointTaskConfigInfoDO.getPcRedirectUrl()) && pointTaskConfigInfoDO.getPcRedirectUrl().contains("http") && !pointTaskConfigInfoDO.getPcRedirectUrl().contains("source=point")) {
                     if (pointTaskConfigInfoDO.getPcRedirectUrl().contains("?")) {
-                        pointTaskConfigInfoDO.setPcRedirectUrl(pointTaskConfigInfoDO.getPcRedirectUrl()+"&source=point");
+                        pointTaskConfigInfoDO.setPcRedirectUrl(pointTaskConfigInfoDO.getPcRedirectUrl() + "&source=point");
                     } else {
-                        pointTaskConfigInfoDO.setPcRedirectUrl(pointTaskConfigInfoDO.getPcRedirectUrl()+"?source=point");
+                        pointTaskConfigInfoDO.setPcRedirectUrl(pointTaskConfigInfoDO.getPcRedirectUrl() + "?source=point");
                     }
                 }
             }
@@ -123,9 +123,18 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
     }
 
     @Override
-    public Map<String, Object> pageList(int start, int length, int task_type) {
+    public Map<String, Object> pageList(Integer start, Integer length, Integer task_type, Integer task_status) {
         List<PointTaskConfigInfoDO> list = pointTaskConfigInfoMapper.pageList(start, length, task_type);
-
+        switch (task_status) {
+            case 1:
+                list = list.stream().filter(x -> x.getTaskStartTime().before(new Date()) && x.getTaskEndTime().after(new Date())).collect(Collectors.toList());
+                break;
+            case 2:
+                list = list.stream().filter(x -> x.getTaskStartTime().after(new Date())).collect(Collectors.toList());
+                break;
+            case 3:
+                list = list.stream().filter(x -> x.getTaskEndTime().before(new Date())).collect(Collectors.toList());
+        }
         List<PointTaskConfigInfoVO> data = JsonUtil.copyList(list, PointTaskConfigInfoVO.class);
 
         // package result
@@ -208,9 +217,9 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
             ) {
                 if (!StringUtils.isEmpty(pointTaskConfigInfoDO.getPcRedirectUrl()) && pointTaskConfigInfoDO.getPcRedirectUrl().contains("http") && !pointTaskConfigInfoDO.getPcRedirectUrl().contains("source=point")) {
                     if (pointTaskConfigInfoDO.getPcRedirectUrl().contains("?")) {
-                        pointTaskConfigInfoDO.setPcRedirectUrl(pointTaskConfigInfoDO.getPcRedirectUrl()+"&source=point");
+                        pointTaskConfigInfoDO.setPcRedirectUrl(pointTaskConfigInfoDO.getPcRedirectUrl() + "&source=point");
                     } else {
-                        pointTaskConfigInfoDO.setPcRedirectUrl(pointTaskConfigInfoDO.getPcRedirectUrl()+"?source=point");
+                        pointTaskConfigInfoDO.setPcRedirectUrl(pointTaskConfigInfoDO.getPcRedirectUrl() + "?source=point");
                     }
                 }
             }

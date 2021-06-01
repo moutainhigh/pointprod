@@ -45,15 +45,25 @@
             <div class="box box-primary" style="margin-top:15px;">
                 <div class="box-header with-border">
                     <div class="form-group">
-                        <div class="col-lg-11">
+                        <div class="col-sm-2">
                             <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">商品类型：</label>
-                            <select id="opType" class="form-control" style="float:left;width:150px;margin-top:5px;">
+                            <select id="opType" class="form-control op" style="float:left;width:150px;margin-top:5px;">
                                 <option value="0">全部</option>
                                 <option value="1">产品使用期</option>
                                 <option value="2">优惠券</option>
                                 <option value="3">新功能体验</option>
                                 <option value="4">特色服务</option>
                                 <option value="5">实物兑换</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">状态：</label>
+                            <select id="opStatus" class="form-control op" style="float:left;width:150px;margin-top:5px;">
+                                <option value="0">全部</option>
+                                <option value="1">进行中</option>
+                                <option value="2">未开始</option>
+                                <option value="3">已结束</option>
                             </select>
                         </div>
                     </div>
@@ -369,8 +379,8 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=11111"></script>
-<script src="${request.contextPath}/static/js/webuploader.js?v=111"></script>
+<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=20210601"></script>
+<script src="${request.contextPath}/static/js/webuploader.js"></script>
 
 <script>
 

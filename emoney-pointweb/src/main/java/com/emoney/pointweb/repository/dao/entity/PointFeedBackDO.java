@@ -36,4 +36,6 @@ public class PointFeedBackDO {
      * 回复意见
      */
     private String remark;
+
+    private String adoptRemark;
 }

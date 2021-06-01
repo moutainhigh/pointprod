@@ -16,19 +16,20 @@
         <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
         <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="adopt_remark" property="adoptRemark" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
                 id, feed_type, pid, account, mobileX, email, suggest, img_url, status, create_time, update_time,
-                create_by, update_by, remark
+                create_by, update_by, remark, adopt_remark
     </sql>
     <insert id="insert" parameterType="com.emoney.pointweb.repository.dao.entity.PointFeedBackDO"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO t_point_feedback
         (feed_type, pid, account, mobileX, email, suggest, img_url, status, create_time, update_time, create_by,
-         update_by, remark)
+         update_by, remark, adopt_remark)
         VALUES (#{feedType}, #{pid}, #{account}, #{mobileX}, #{email}, #{suggest}, #{imgUrl}, #{status}, #{createTime},
-                #{updateTime}, #{createBy}, #{updateBy}, #{remark})
+                #{updateTime}, #{createBy}, #{updateBy}, #{remark}, #{adoptRemark})
     </insert>
     <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointFeedBackDO">
         UPDATE t_point_feedback
@@ -66,6 +67,9 @@
             <if test="remark != null">
                 remark = #{remark},
             </if>
+            <if test="adoptRemark != null">
+                adopt_remark = #{adoptRemark},
+            </if>
         </set>
         WHERE id = #{id}
     </update>
@@ -98,10 +102,10 @@
         </trim>
     </select>
 
-        <select id="getByUid" resultMap="BaseResultMap">
+    <select id="getByUid" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_point_feedback
-         WHERE account=#{accountName}  AND create_time>#{endDate}  AND remark IS NOT NULL  order by create_time desc
+        WHERE account=#{accountName} AND create_time>#{endDate} AND remark IS NOT NULL order by create_time desc
     </select>
 </mapper>

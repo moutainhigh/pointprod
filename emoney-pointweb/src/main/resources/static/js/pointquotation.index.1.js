@@ -77,15 +77,15 @@ $(function () {
             {
                 "data": 'userGroupName',
                 "render": function (data, type, row) {
-                    if(data){
+                    if (data) {
                     }
                     return data;
                 }
             },
             {
-                "data": 'createTime',
+                "data": 'updateTime',
                 "render": function (data, type, row) {
-                    return data ? moment(new Date(data)).format("YYYY-MM-DD") : "";
+                    return data ? moment(new Date(data)).format("YYYY-MM-DD HH:mm:ss") : "";
                 }
             },
             {

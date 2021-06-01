@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface PointTaskConfigInfoService {
-    Map<String, Object> pageList(int start, int length, int task_type);
+    Map<String, Object> pageList(Integer start, Integer length, Integer task_type, Integer task_status);
 
     int insert(PointTaskConfigInfoDO pointTaskConfigInfoDO);
 

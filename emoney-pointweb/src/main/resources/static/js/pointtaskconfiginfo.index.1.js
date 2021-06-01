@@ -33,6 +33,7 @@ $(function() {
 			data : function ( d ) {
 				var obj = {};
 				obj.task_type=$("#opType").val();
+				obj.task_status=$("#opStatus").val();
 				return obj;
 			}
 		},
@@ -161,7 +162,7 @@ $(function() {
 	});
 
 	// search btn
-	$('#opType').on('change', function(){
+	$('.op').on('change', function(){
 		taskTable.ajax.reload();
 	});
 
