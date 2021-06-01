@@ -115,6 +115,8 @@
                             <label for="firstname" class="col-sm-2 control-label">产品版本<font color="red">*</font></label>
                             <div class="col-sm-8">
                                 <div style="margin-top: 6px;" id="ver">
+                                    <button type="button" id="checkVer" class="btn btn-primary btn-xs" value="全选">全选
+                                    </button>
                                     <input id="ver1" type="checkbox" name="ver" value="888010000"/><label
                                             for="ver1">小智盈</label>
                                     <input id="ver2" type="checkbox" name="ver" value="888020000"/><label for="ver2">深度资金版</label>
@@ -130,11 +132,11 @@
                             <label for="firstname" class="col-sm-2 control-label">发布平台<font color="red">*</font></label>
                             <div class="col-sm-4">
                                 <div style="margin-top: 6px;" id="platfrom">
-                                    <input id="plat1" type="checkbox" name="ver" value="1"/><label
+                                    <input id="plat1" type="checkbox" name="plat" value="1"/><label
                                             for="plat1">PC</label>
-                                    <input id="plat2" type="checkbox" name="ver" value="2"/><label
+                                    <input id="plat2" type="checkbox" name="plat" value="2"/><label
                                             for="plat2">APP</label>
-                                    <input id="plat3" type="checkbox" name="ver" value="3"/><label
+                                    <input id="plat3" type="checkbox" name="plat" value="3"/><label
                                             for="plat3">微信</label>
                                 </div>
                             </div>
@@ -195,6 +197,13 @@
 <script src="${request.contextPath}/static/js/pointquestion.index.1.js?v=111"></script>
 
 <script>
+
+    $("#checkVer").on("click", function () {
+        var val = $("#checkVer").val();
+        if (val == "全选") {
+
+        }
+    })
 
     $('.select2').select2();
 

@@ -14,7 +14,6 @@ public class PointFeedBackCreateDTO {
     private Long uid;
     @NotNull(message = "反馈类型不能为空")
     private Integer feedType;
-    @NotNull(message = "邮箱不能为空")
     private String email;
     @NotNull(message = "建议不能为空")
     private String suggest;
