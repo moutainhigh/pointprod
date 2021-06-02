@@ -1,5 +1,6 @@
 package com.emoney.pointweb.service.config;
 
+import com.emoney.pointweb.interceptor.NetworkIntercepter;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;
@@ -13,10 +14,11 @@ public class OkHttpConfig {
     @Bean
     public OkHttpClient okHttpClient() {
         return new OkHttpClient.Builder()
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
+                .addNetworkInterceptor(new NetworkIntercepter()) //网络拦截器，统一打印日志
                 .connectionPool(new ConnectionPool(200, 100, TimeUnit.MINUTES))
                 .build();
     }
