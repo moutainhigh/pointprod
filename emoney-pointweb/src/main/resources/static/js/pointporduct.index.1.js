@@ -310,46 +310,4 @@ $(function() {
             clertAndCloseModal();
         }
     });
-
-    function clertAndCloseModal(){
-        $("#ver1").attr("checked", false);
-        $("#ver2").attr("checked", false);
-        $("#ver3").attr("checked", false);
-        $("#ver4").attr("checked", false);
-        $("#ver5").attr("checked", false);
-        $("#plat1").attr("checked", false);
-        $("#plat2").attr("checked", false);
-        $("#plat3").attr("checked", false);
-        $("#exchange1").attr("checked", false);
-        $("#exchange2").attr("checked", false);
-        $("#GroupList").val("").trigger('change');
-        $("#hiddenid").val("");
-        $("#productType").val("");
-        $("#actCode").val("");
-        $("#actStartTime").val("");
-        $("#actEndTime").val("");
-        $("#productName").val("");
-        $("#productPrice").val("");
-        $("#exChangeStartTime").val("");
-        $("#exChangeEndTime").val("");
-        $("#productCash").val("");
-        $("#productPoint").val("");
-        $("#totalLimit").val("");
-        $("#perLimit").val("");
-        $("#pcimg").val("");
-        $("#appimg").val("");
-        $("#wechatimg").val("");
-        $("#pcdetailimg").val("");
-        $("#appdetailimg").val("");
-        $("#wechatdetailimg").val("");
-        $("#pcPicFileList").html("");
-        $("#appPicFileList").html("");
-        $("#wechatPicFileList").html("");
-        $("#pcDetailPicFileList").html("");
-        $("#appDetailPicFileList").html("");
-        $("#wechatDetailPicFileList").html("");
-        editor.txt.html("");
-        editor1.txt.html("");
-        $("#modal-default").modal('hide');
-    }
 })

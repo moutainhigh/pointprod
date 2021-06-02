@@ -134,13 +134,16 @@
                             <label for="firstname" class="col-sm-2 control-label">产品版本<font color="red">*</font></label>
                             <div class="col-sm-8">
                                 <div style="margin-top: 6px;" id="ver">
-                                    <input id="ver1" type="checkbox" name="ver" value="888010000"/><label
+                                    <button type="button" style="margin-top: -6px;" id="checkVer"
+                                            class="btn btn-primary btn-xs" value="全选">全选
+                                    </button>
+                                    <input id="ver1" type="checkbox" name="ver" class="ver" value="888010000"/><label
                                             for="ver1">小智盈</label>
-                                    <input id="ver2" type="checkbox" name="ver" value="888020000"/><label for="ver2">深度资金版</label>
-                                    <input id="ver3" type="checkbox" name="ver" value="888080000"/><label
+                                    <input id="ver2" type="checkbox" name="ver" class="ver" value="888020000"/><label for="ver2">深度资金版</label>
+                                    <input id="ver3" type="checkbox" name="ver" class="ver" value="888080000"/><label
                                             for="ver3">掘金版</label>
-                                    <input id="ver4" type="checkbox" name="ver" value="888010400"/><label for="ver4">小智盈过期</label>
-                                    <input id="ver5" type="checkbox" name="ver" value="888020400"/><label for="ver5">大师过期</label>
+                                    <input id="ver4" type="checkbox" name="ver" class="ver" value="888010400"/><label for="ver4">小智盈过期</label>
+                                    <input id="ver5" type="checkbox" name="ver" class="ver" value="888020400"/><label for="ver5">大师过期</label>
                                 </div>
                             </div>
                         </div>
@@ -149,11 +152,14 @@
                             <label for="firstname" class="col-sm-2 control-label">发布平台<font color="red">*</font></label>
                             <div class="col-sm-4">
                                 <div style="margin-top: 6px;" id="platfrom">
-                                    <input id="plat1" type="checkbox" name="ver" value="1"/><label
+                                    <button type="button" style="margin-top: -6px;" id="checkPlat"
+                                            class="btn btn-primary btn-xs" value="全选">全选
+                                    </button>
+                                    <input id="plat1" type="checkbox" name="plat" class="plat" value="1"/><label
                                             for="plat1">PC</label>
-                                    <input id="plat2" type="checkbox" name="ver" value="2"/><label
+                                    <input id="plat2" type="checkbox" name="plat" class="plat" value="2"/><label
                                             for="plat2">APP</label>
-                                    <input id="plat3" type="checkbox" name="ver" value="3"/><label
+                                    <input id="plat3" type="checkbox" name="plat" class="plat" value="3"/><label
                                             for="plat3">微信</label>
                                 </div>
                             </div>
@@ -200,6 +206,72 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 
 <script>
+    //版本全选
+    var verBtn = document.getElementById('checkVer');
+    var verInput = document.getElementsByClassName('ver');
+    verBtn.onclick = function () {
+        if (verBtn.value === "全选") {
+            verBtn.value = "取消全选";
+            verBtn.innerHTML = "取消全选";
+            for (var i = 0; i < verInput.length; i++) {
+                verInput[i].checked = true;
+            }
+        } else {
+            for (var i = 0; i < verInput.length; i++) {
+                verInput[i].checked = false;
+            }
+            verBtn.value = "全选";
+            verBtn.innerHTML = "全选";
+        }
+        for (var i = 0; i < verInput.length; i++) {
+            verInput[i].onclick = function () {
+                if (!this.checked) {
+                    verBtn.value = "全选";
+                    verBtn.innerHTML = "全选";
+                }
+            }
+        }
+    };
+    $('.ver').on('click',function (){
+        if ($("#ver input[type=checkbox]:checked").length === 5) {
+            verBtn.value = "取消全选";
+            verBtn.innerHTML = "取消全选";
+        }
+    })
+
+    //平台全选
+    var platBtn = document.getElementById('checkPlat');
+    var platInput = document.getElementsByClassName('plat');
+    platBtn.onclick = function () {
+        if (platBtn.value === "全选") {
+            platBtn.value = "取消全选";
+            platBtn.innerHTML = "取消全选";
+            for (var i = 0; i < platInput.length; i++) {
+                platInput[i].checked = true;
+            }
+        } else {
+            for (var i = 0; i < platInput.length; i++) {
+                platInput[i].checked = false;
+            }
+            platBtn.value = "全选";
+            platBtn.innerHTML = "全选";
+        }
+        for (var i = 0; i < platInput.length; i++) {
+            platInput[i].onclick = function () {
+                if (!this.checked) {
+                    platBtn.value = "全选";
+                    platBtn.innerHTML = "全选";
+                }
+            }
+        }
+    }
+    $('.plat').on('click',function (){
+        if ($("#platfrom input[type=checkbox]:checked").length === 3) {
+            platBtn.value = "取消全选";
+            platBtn.innerHTML = "取消全选";
+        }
+    })
+
     $('.select2').select2();
 
     $('.datepicker').datetimepicker({
@@ -301,14 +373,6 @@
         var jsondata = $('#json' + id).val();
         var res = JSON.parse(jsondata);
 
-        $("#ver1").attr("checked", false);
-        $("#ver2").attr("checked", false);
-        $("#ver3").attr("checked", false);
-        $("#ver4").attr("checked", false);
-        $("#ver5").attr("checked", false);
-        $("#plat1").attr("checked", false);
-        $("#plat2").attr("checked", false);
-        $("#plat3").attr("checked", false);
         if (res.userGroup) {
             $("#GroupList").val(res.userGroup.split(",")).trigger('change');
         } else {
@@ -316,35 +380,43 @@
         }
         if (res.productVersion) {
             var ver = res.productVersion.split(',');
+            if (ver.length >= 5) {
+                verBtn.value = "取消全选";
+                verBtn.innerHTML = "取消全选";
+            }
             for (var i = 0; i < ver.length; i++) {
                 if (ver[i] == "888010000") {
-                    $("#ver1").attr("checked", true);
+                    verInput[0].checked = true;
                 }
                 if (ver[i] == "888020000") {
-                    $("#ver2").attr("checked", true);
+                    verInput[1].checked = true;
                 }
                 if (ver[i] == "888080000") {
-                    $("#ver3").attr("checked", true);
+                    verInput[2].checked = true;
                 }
                 if (ver[i] == "888010400") {
-                    $("#ver4").attr("checked", true);
+                    verInput[3].checked = true;
                 }
                 if (ver[i] == "888020400") {
-                    $("#ver5").attr("checked", true);
+                    verInput[4].checked = true;
                 }
             }
         }
         if (res.publishPlatFormType) {
             var plat = res.publishPlatFormType.split(',');
+            if (plat.length >= 3) {
+                platBtn.value = "取消全选";
+                platBtn.innerHTML = "取消全选";
+            }
             for (var i = 0; i < plat.length; i++) {
                 if (plat[i] == 1) {
-                    $("#plat1").attr("checked", true);
+                    platInput[0].checked = true;
                 }
                 if (plat[i] == 2) {
-                    $("#plat2").attr("checked", true);
+                    platInput[1].checked = true;
                 }
                 if (plat[i] == 3) {
-                    $("#plat3").attr("checked", true);
+                    platInput[2].checked = true;
                 }
             }
         }
@@ -385,9 +457,16 @@
         $("#msg_content").val("");
         $("#msg_src").val("");
         $("#publish_time").val("");
-        $("#ver1").attr("checked", false);
-        $("#ver2").attr("checked", false);
-        $("#ver3").attr("checked", false);
+        for (var i = 0; i < verInput.length; i++) {
+            verInput[i].checked = false;
+        }
+        for (var i = 0; i < platInput.length; i++) {
+            platInput[i].checked = false;
+        }
+        verBtn.value = "全选";
+        verBtn.innerHTML = "全选";
+        platBtn.value = "全选";
+        platBtn.innerHTML = "全选";
 
         $("#modal-default").modal('hide');
     }

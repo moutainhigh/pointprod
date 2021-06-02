@@ -185,21 +185,4 @@ $(function () {
             clertAndCloseModal();
         }
     });
-
-    function clertAndCloseModal() {
-        $("#hiddenid").val("");
-        $("#content").val("");
-        $("#ver1").attr("checked", false);
-        $("#ver2").attr("checked", false);
-        $("#ver3").attr("checked", false);
-        $("#ver4").attr("checked", false);
-        $("#ver5").attr("checked", false);
-        $("#plat1").attr("checked", false);
-        $("#plat2").attr("checked", false);
-        $("#plat3").attr("checked", false);
-        $("#GroupList").val("").trigger('change');
-        $("#showTime").val("");
-
-        $("#modal-default").modal('hide');
-    }
 })

@@ -239,25 +239,4 @@ $(function () {
             clertAndCloseModal();
         }
     });
-
-    function clertAndCloseModal() {
-        $("#ver1").attr("checked", false);
-        $("#ver2").attr("checked", false);
-        $("#ver3").attr("checked", false);
-        $("#ver4").attr("checked", false);
-        $("#ver5").attr("checked", false);
-        $("#plat1").attr("checked", false);
-        $("#plat2").attr("checked", false);
-        $("#plat3").attr("checked", false);
-        $("#GroupList").val("").trigger('change');
-        $("#questionType1").attr("checked", false);
-        $("#questionType2").attr("checked", false);
-        $("#hiddenid").val("");
-        $("#txtContent").val("");
-        $("#txtOption").val("");
-        $("#txtRight").val("");
-        $("#showTime").val("");
-
-        $("#modal-default").modal('hide');
-    }
 })

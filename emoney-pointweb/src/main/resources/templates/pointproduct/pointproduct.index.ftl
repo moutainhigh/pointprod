@@ -4,11 +4,15 @@
     <#import "../common/common.macro.ftl" as netCommon>
     <@netCommon.commonStyle />
     <!-- DataTables -->
-    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css">
-    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet"
+          href="${request.contextPath}/static/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet"
+          href="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet"
+          href="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/select2/select2.css">
-    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/css/multi-select.css">
+    <link rel="stylesheet"
+          href="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/css/multi-select.css">
     <link rel="stylesheet" href="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.css">
     <style>
         .FilePicker div:nth-child(2) {
@@ -59,7 +63,8 @@
 
                         <div class="col-sm-4">
                             <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">状态：</label>
-                            <select id="opStatus" class="form-control op" style="float:left;width:150px;margin-top:5px;">
+                            <select id="opStatus" class="form-control op"
+                                    style="float:left;width:150px;margin-top:5px;">
                                 <option value="0">全部</option>
                                 <option value="1">进行中</option>
                                 <option value="2">未开始</option>
@@ -73,8 +78,8 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
-                        <div class="box-body" >
-                            <table id="product_list" class="table table-bordered table-striped" width="100%" >
+                        <div class="box-body">
+                            <table id="product_list" class="table table-bordered table-striped" width="100%">
                                 <thead>
                                 <tr>
                                     <th>Id</th>
@@ -102,14 +107,14 @@
         </section>
     </div>
 
-    <div class="modal fade" id="modal-default" role="dialog"  aria-hidden="true">
+    <div class="modal fade" id="modal-default" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close btnClose" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" >创建/编辑</h4>
+                    <h4 class="modal-title">创建/编辑</h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal form" role="form" method="post">
@@ -132,17 +137,20 @@
                             <label for="lastname" class="col-sm-2 control-label">兑换类型<font color="red">*</font></label>
                             <div class="col-sm-4">
                                 <div style="margin-top: 6px;" id="exchange_type">
-                                    <input id="exchange1" type="radio" name="exchange_type" value="0" /><label for="exchange1">积分</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input id="exchange2" type="radio" name="exchange_type" value="1" /><label for="exchange2">积分+现金</label>
+                                    <input id="exchange1" type="radio" name="exchange_type" value="0"/><label
+                                            for="exchange1">积分</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input id="exchange2" type="radio" name="exchange_type" value="1"/><label
+                                            for="exchange2">积分+现金</label>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group" >
+                        <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">物流包|特权ID</label>
                             <div class="col-sm-6">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="actCode" id="actCode" placeholder="物流包|特权ID|优惠券">
+                                    <input type="text" class="form-control" name="actCode" id="actCode"
+                                           placeholder="物流包|特权ID|优惠券">
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-info btn-flat" id="checkAcCode">检查</button>
                                     </span>
@@ -153,42 +161,48 @@
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">赠送天数</label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="productDays" id="productDays" placeholder="仅针对特权" >
+                                <input type="text" class="form-control" name="productDays" id="productDays"
+                                       placeholder="仅针对特权">
                             </div>
                         </div>
 
-                        <div class="form-group" >
+                        <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">商品有效期</label>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control" name="actStartTime" id="actStartTime" placeholder="物流包开始时间" disabled>
+                                <input type="text" class="form-control" name="actStartTime" id="actStartTime"
+                                       placeholder="物流包开始时间" disabled>
                             </div>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control" name="actEndTime" id="actEndTime" placeholder="物流包结束时间" disabled>
+                                <input type="text" class="form-control" name="actEndTime" id="actEndTime"
+                                       placeholder="物流包结束时间" disabled>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">商品名称<font color="red">*</font></label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="productName" id="productName" placeholder="商品名称" >
+                                <input type="text" class="form-control" name="productName" id="productName"
+                                       placeholder="商品名称">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">商品原价</label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="productPrice" id="productPrice" placeholder="商品原价">
+                                <input type="text" class="form-control" name="productPrice" id="productPrice"
+                                       placeholder="商品原价">
                             </div>
                         </div>
 
-                        <div class="form-group" >
+                        <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">兑换时间</label>
                             <div class="col-sm-4">
                                 <div class="input-group date">
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" class="form-control pull-right datepicker" id="exChangeStartTime">
+                                    <input type="text" class="form-control pull-right datepicker"
+                                           id="exChangeStartTime">
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -204,7 +218,8 @@
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">用户分组</label>
                             <div class="col-sm-10">
-                                <select id="GroupList" class="select2" multiple="multiple" title="请选择" style="width: 100%;">
+                                <select id="GroupList" class="select2" multiple="multiple" title="请选择"
+                                        style="width: 100%;">
                                     <#if userGroupVOList?exists && userGroupVOList?size gt 0 >
                                         <#list userGroupVOList as item>
                                             <option value="${item.id}">${item.userGroupName}</option>
@@ -217,28 +232,32 @@
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">现金</label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="productCash" id="productCash" placeholder="现金">
+                                <input type="text" class="form-control" name="productCash" id="productCash"
+                                       placeholder="现金">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">积分</label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="productPoint" id="productPoint" placeholder="积分" >
+                                <input type="text" class="form-control" name="productPoint" id="productPoint"
+                                       placeholder="积分">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">总限兑</label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="totalLimit" id="totalLimit" placeholder="总限兑" >
+                                <input type="text" class="form-control" name="totalLimit" id="totalLimit"
+                                       placeholder="总限兑">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">每人限兑</label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="perLimit" id="perLimit" placeholder="每人限兑" >
+                                <input type="text" class="form-control" name="perLimit" id="perLimit"
+                                       placeholder="每人限兑">
                             </div>
                         </div>
 
@@ -246,11 +265,16 @@
                             <label for="firstname" class="col-sm-2 control-label">产品版本<font color="red">*</font></label>
                             <div class="col-sm-8">
                                 <div style="margin-top: 6px;" id="ver">
-                                    <input id="ver1" type="checkbox" name="ver" value="888010000" /><label for="ver1">小智盈</label>
-                                    <input id="ver2" type="checkbox" name="ver" value="888020000" /><label for="ver2">深度资金版</label>
-                                    <input id="ver3" type="checkbox" name="ver" value="888080000" /><label for="ver3">掘金版</label>
-                                    <input id="ver4" type="checkbox" name="ver" value="888010400" /><label for="ver4">小智盈过期</label>
-                                    <input id="ver5" type="checkbox" name="ver" value="888020400" /><label for="ver5">大师过期</label>
+                                    <button type="button" style="margin-top: -6px;" id="checkVer"
+                                            class="btn btn-primary btn-xs" value="全选">全选
+                                    </button>
+                                    <input id="ver1" type="checkbox" name="ver" class="ver" value="888010000"/><label
+                                            for="ver1">小智盈</label>
+                                    <input id="ver2" type="checkbox" name="ver" class="ver" value="888020000"/><label for="ver2">深度资金版</label>
+                                    <input id="ver3" type="checkbox" name="ver" class="ver" value="888080000"/><label
+                                            for="ver3">掘金版</label>
+                                    <input id="ver4" type="checkbox" name="ver" class="ver" value="888010400"/><label for="ver4">小智盈过期</label>
+                                    <input id="ver5" type="checkbox" name="ver" class="ver" value="888020400"/><label for="ver5">大师过期</label>
                                 </div>
                             </div>
                         </div>
@@ -259,9 +283,15 @@
                             <label for="firstname" class="col-sm-2 control-label">发布平台<font color="red">*</font></label>
                             <div class="col-sm-4">
                                 <div style="margin-top: 6px;" id="platfrom">
-                                    <input id="plat1" type="checkbox" name="ver" value="1" /><label for="plat1">PC</label>
-                                    <input id="plat2" type="checkbox" name="ver" value="2" /><label for="plat2">APP</label>
-                                    <input id="plat3" type="checkbox" name="ver" value="3" /><label for="plat3">微信</label>
+                                    <button type="button" style="margin-top: -6px;" id="checkPlat"
+                                            class="btn btn-primary btn-xs" value="全选">全选
+                                    </button>
+                                    <input id="plat1" type="checkbox" name="plat" class="plat" value="1"/><label
+                                            for="plat1">PC</label>
+                                    <input id="plat2" type="checkbox" name="plat" class="plat" value="2"/><label
+                                            for="plat2">APP</label>
+                                    <input id="plat3" type="checkbox" name="plat" class="plat" value="3"/><label
+                                            for="plat3">微信</label>
                                 </div>
                             </div>
                         </div>
@@ -379,10 +409,76 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=20210601"></script>
+<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=20210602"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
 
 <script>
+
+    //版本全选
+    var verBtn = document.getElementById('checkVer');
+    var verInput = document.getElementsByClassName('ver');
+    verBtn.onclick = function () {
+        if (verBtn.value === "全选") {
+            verBtn.value = "取消全选";
+            verBtn.innerHTML = "取消全选";
+            for (var i = 0; i < verInput.length; i++) {
+                verInput[i].checked = true;
+            }
+        } else {
+            for (var i = 0; i < verInput.length; i++) {
+                verInput[i].checked = false;
+            }
+            verBtn.value = "全选";
+            verBtn.innerHTML = "全选";
+        }
+        for (var i = 0; i < verInput.length; i++) {
+            verInput[i].onclick = function () {
+                if (!this.checked) {
+                    verBtn.value = "全选";
+                    verBtn.innerHTML = "全选";
+                }
+            }
+        }
+    };
+    $('.ver').on('click',function (){
+        if ($("#ver input[type=checkbox]:checked").length === 5) {
+            verBtn.value = "取消全选";
+            verBtn.innerHTML = "取消全选";
+        }
+    })
+
+    //平台全选
+    var platBtn = document.getElementById('checkPlat');
+    var platInput = document.getElementsByClassName('plat');
+    platBtn.onclick = function () {
+        if (platBtn.value === "全选") {
+            platBtn.value = "取消全选";
+            platBtn.innerHTML = "取消全选";
+            for (var i = 0; i < platInput.length; i++) {
+                platInput[i].checked = true;
+            }
+        } else {
+            for (var i = 0; i < platInput.length; i++) {
+                platInput[i].checked = false;
+            }
+            platBtn.value = "全选";
+            platBtn.innerHTML = "全选";
+        }
+        for (var i = 0; i < platInput.length; i++) {
+            platInput[i].onclick = function () {
+                if (!this.checked) {
+                    platBtn.value = "全选";
+                    platBtn.innerHTML = "全选";
+                }
+            }
+        }
+    }
+    $('.plat').on('click',function (){
+        if ($("#platfrom input[type=checkbox]:checked").length === 3) {
+            platBtn.value = "取消全选";
+            platBtn.innerHTML = "取消全选";
+        }
+    })
 
     const E = window.wangEditor
     const editor = new E('#txtContent')
@@ -461,16 +557,16 @@
 
     $('.select2').select2();
 
-    function changeModal(){
-        var optype=$("#productType option:selected").val();
+    function changeModal() {
+        var optype = $("#productType option:selected").val();
         $("#exchange1").attr("checked", false);
         $("#exchange2").attr("checked", false);
-        if(optype=="1"){
-            $("#exchange2").attr("checked",true);
-            $("#exchange_type input[type='radio']").attr("disabled",true);
-        }else {
-            $("#exchange1").attr("checked",true);
-            $("#exchange_type input[type='radio']").attr("disabled",false);
+        if (optype == "1") {
+            $("#exchange2").attr("checked", true);
+            $("#exchange_type input[type='radio']").attr("disabled", true);
+        } else {
+            $("#exchange1").attr("checked", true);
+            $("#exchange_type input[type='radio']").attr("disabled", false);
         }
     }
 
@@ -478,36 +574,27 @@
         var jsondata = $('#json' + id).val();
         var res = JSON.parse(jsondata);
 
-        $("#ver1").attr("checked", false);
-        $("#ver2").attr("checked", false);
-        $("#ver3").attr("checked", false);
-        $("#ver4").attr("checked", false);
-        $("#ver5").attr("checked", false);
-        $("#plat1").attr("checked", false);
-        $("#plat2").attr("checked", false);
-        $("#plat3").attr("checked", false);
         $("#exchange1").attr("checked", false);
         $("#exchange2").attr("checked", false);
 
         $("#hiddenid").val(res.id);
         $("#productType").val(res.productType);
         $("#productDays").val(res.productDays);
-        if(res.userGroup){
+        if (res.userGroup) {
             $("#GroupList").val(res.userGroup.split(",")).trigger('change');
-        }else {
+        } else {
             $("#GroupList").val("").trigger('change');
         }
-        if(res.exchangeType==1){
+        if (res.exchangeType == 1) {
             $("#exchange2").attr("checked", true);
-        }
-        else {
+        } else {
             $("#exchange1").attr("checked", true);
         }
         $("#actCode").val(res.activityCode);
-        if(res.activityStartTime) {
+        if (res.activityStartTime) {
             $("#actStartTime").val(moment(res.activityStartTime).format("YYYY-MM-DD HH:mm:ss"));
         }
-        if(res.activityEndTime) {
+        if (res.activityEndTime) {
             $("#actEndTime").val(moment(res.activityEndTime).format("YYYY-MM-DD HH:mm:ss"));
         }
         $("#productName").val(res.productName);
@@ -518,37 +605,45 @@
         $("#productPoint").val(res.exchangePoint);
         $("#totalLimit").val(res.totalLimit);
         $("#perLimit").val(res.perLimit);
-        if(res.productVersion){
-            var ver=res.productVersion.split(',');
-            for (var i=0;i<ver.length;i++){
-                if(ver[i]=="888010000"){
-                    $("#ver1").attr("checked", true);
+        if (res.productVersion) {
+            var ver = res.productVersion.split(',');
+            if (ver.length >= 5) {
+                verBtn.value = "取消全选";
+                verBtn.innerHTML = "取消全选";
+            }
+            for (var i = 0; i < ver.length; i++) {
+                if (ver[i] == "888010000") {
+                    verInput[0].checked = true;
                 }
-                if(ver[i]=="888020000"){
-                    $("#ver2").attr("checked", true);
+                if (ver[i] == "888020000") {
+                    verInput[1].checked = true;
                 }
-                if(ver[i]=="888080000"){
-                    $("#ver3").attr("checked", true);
+                if (ver[i] == "888080000") {
+                    verInput[2].checked = true;
                 }
-                if(ver[i]=="888010400"){
-                    $("#ver4").attr("checked", true);
+                if (ver[i] == "888010400") {
+                    verInput[3].checked = true;
                 }
-                if(ver[i]=="888020400"){
-                    $("#ver5").attr("checked", true);
+                if (ver[i] == "888020400") {
+                    verInput[4].checked = true;
                 }
             }
         }
-        if(res.publishPlatFormType){
-            var plat=res.publishPlatFormType.split(',');
-            for (var i=0;i<plat.length;i++){
-                if(plat[i]==1){
-                    $("#plat1").attr("checked", true);
+        if (res.publishPlatFormType) {
+            var plat = res.publishPlatFormType.split(',');
+            if (plat.length >= 3) {
+                platBtn.value = "取消全选";
+                platBtn.innerHTML = "取消全选";
+            }
+            for (var i = 0; i < plat.length; i++) {
+                if (plat[i] == 1) {
+                    platInput[0].checked = true;
                 }
-                if(plat[i]==2){
-                    $("#plat2").attr("checked", true);
+                if (plat[i] == 2) {
+                    platInput[1].checked = true;
                 }
-                if(plat[i]==3){
-                    $("#plat3").attr("checked", true);
+                if (plat[i] == 3) {
+                    platInput[2].checked = true;
                 }
             }
         }
@@ -559,7 +654,7 @@
         $("#appdetailimg").val(res.appExangeDetailimgurl);
         $("#wechatdetailimg").val(res.webchatExangeDetailimgurl);
         $("#fileurl").val(res.productFile);
-        if(res.productFile != "" && res.productFile != null){
+        if (res.productFile != "" && res.productFile != null) {
             $("#FileList").html(res.productFile);
         }
         if (res.pcExangeimgurl != "" && res.pcExangeimgurl != null) {
@@ -598,23 +693,23 @@
                 "</div>";
             $("#wechatDetailPicFileList").html(imagestr);
         }
-        if(res.exchangeRemark){
+        if (res.exchangeRemark) {
             editor.txt.html(res.exchangeRemark);
             //UE.getEditor('txtContent').setContent(res.exchangeRemark);
         }
-        if(res.remark){
+        if (res.remark) {
             editor1.txt.html(res.remark);
             //UE.getEditor('txtContent').setContent(res.exchangeRemark);
         }
         changeModal();
 
-        $("#modal-default").modal({ backdrop: false, keyboard: false }).modal('show');
+        $("#modal-default").modal({backdrop: false, keyboard: false}).modal('show');
     }
 
     //删除
-    function deleteproduct(id){
-        if(confirm("确认要删除吗？")){
-            var obj=new Object();
+    function deleteproduct(id) {
+        if (confirm("确认要删除吗？")) {
+            var obj = new Object();
             obj.id = id;
 
             $.ajax({
@@ -625,7 +720,7 @@
                 success: function (data) {
                     if (data == "success") {
                         location.reload();
-                    }else {
+                    } else {
                         alert("删除失败");
                     }
                 },
@@ -635,6 +730,50 @@
                 }
             });
         }
+    }
+
+    function clertAndCloseModal(){
+        for (var i = 0; i < verInput.length; i++) {
+            verInput[i].checked = false;
+        }
+        for (var i = 0; i < platInput.length; i++) {
+            platInput[i].checked = false;
+        }
+        verBtn.value = "全选";
+        verBtn.innerHTML = "全选";
+        platBtn.value = "全选";
+        platBtn.innerHTML = "全选";
+        $("#exchange1").attr("checked", false);
+        $("#exchange2").attr("checked", false);
+        $("#GroupList").val("").trigger('change');
+        $("#hiddenid").val("");
+        $("#productType").val("");
+        $("#actCode").val("");
+        $("#actStartTime").val("");
+        $("#actEndTime").val("");
+        $("#productName").val("");
+        $("#productPrice").val("");
+        $("#exChangeStartTime").val("");
+        $("#exChangeEndTime").val("");
+        $("#productCash").val("");
+        $("#productPoint").val("");
+        $("#totalLimit").val("");
+        $("#perLimit").val("");
+        $("#pcimg").val("");
+        $("#appimg").val("");
+        $("#wechatimg").val("");
+        $("#pcdetailimg").val("");
+        $("#appdetailimg").val("");
+        $("#wechatdetailimg").val("");
+        $("#pcPicFileList").html("");
+        $("#appPicFileList").html("");
+        $("#wechatPicFileList").html("");
+        $("#pcDetailPicFileList").html("");
+        $("#appDetailPicFileList").html("");
+        $("#wechatDetailPicFileList").html("");
+        editor.txt.html("");
+        editor1.txt.html("");
+        $("#modal-default").modal('hide');
     }
 
 </script>
