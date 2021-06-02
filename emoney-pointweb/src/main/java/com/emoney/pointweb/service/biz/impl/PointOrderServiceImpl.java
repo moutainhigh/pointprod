@@ -252,6 +252,9 @@ public class PointOrderServiceImpl implements PointOrderService {
                                         log.info("开始发放优惠券,参数:" + JSON.toJSONString(sendCouponDTO));
                                         Boolean resSendCoupon = logisticsService.SendCoupon(sendCouponDTO);
                                         if (resSendCoupon) {
+                                            pointOrderDO.setIsSend(true);
+                                            pointOrderDO.setUpdateTime(new Date());
+                                            pointOrderRepository.update(pointOrderDO);
                                             log.info("发放优惠券成功,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
                                         } else {
                                             log.info("发放优惠券失败,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
@@ -275,6 +278,9 @@ public class PointOrderServiceImpl implements PointOrderService {
                                     log.info("开始发放特权,参数:" + JSON.toJSONString(sendPrivilegeDTO));
                                     Boolean resultSenddPrivilege = logisticsService.SenddPrivilege(sendPrivilegeDTO);
                                     if (resultSenddPrivilege) {
+                                        pointOrderDO.setIsSend(true);
+                                        pointOrderDO.setUpdateTime(new Date());
+                                        pointOrderRepository.update(pointOrderDO);
                                         log.info("发放特权成功,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
                                     } else {
                                         log.info("发放特权失败,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
