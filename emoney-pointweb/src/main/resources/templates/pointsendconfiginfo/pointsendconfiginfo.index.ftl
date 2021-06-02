@@ -120,9 +120,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">赠送数量<font color="red">*</font></label>
+                            <label for="lastname" class="col-sm-2 control-label">赠送积分<font color="red">*</font></label>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control" id="pointNum" placeholder="赠送数量" maxlength="10">
+                                <input type="text" class="form-control" id="pointNum" placeholder="赠送积分" maxlength="10">
                             </div>
                         </div>
                     </form>
