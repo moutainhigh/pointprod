@@ -41,6 +41,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(ApiException.class)
     public Result<Object> handleApiException(ApiException ex) {
+        log.error("ExceptionAdvice.handleApiException", ex);
         Result<Object> result = new Result<>(false);
         result.setCode(ex.getCode() + "");
         result.setMsg(ex.getMessage());
