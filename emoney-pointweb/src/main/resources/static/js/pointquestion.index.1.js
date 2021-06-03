@@ -1,4 +1,9 @@
 $(function () {
+    // search btn
+    $('.op').on('change', function () {
+        questionTable.ajax.reload();
+    });
+
     // init date tables
     var questionTable = $("#question_list").DataTable({
         "processing": true,
@@ -28,7 +33,13 @@ $(function () {
         },
         "ajax": {
             url: base_url + "/pointquestion/pageList",
-            type: "post"
+            type: "post",
+            data: function (d) {
+                var obj = {};
+                obj.ver = $("#opVer").val();
+                obj.plat = $("#opPlat").val();
+                return obj;
+            }
         },
         "searching": true,
         "ordering": true,

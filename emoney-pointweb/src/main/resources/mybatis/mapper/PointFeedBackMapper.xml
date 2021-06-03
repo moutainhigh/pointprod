@@ -99,7 +99,11 @@
             <if test="isReply == 2 ">
                 AND remark IS NULL
             </if>
+            <if test="isAdopt != '-1' ">
+                AND status = #{isAdopt}
+            </if>
         </trim>
+             ORDER BY create_time DESC
     </select>
 
     <select id="getByUid" resultMap="BaseResultMap">

@@ -39,7 +39,7 @@
                                 <option value="1">产品使用期</option>
                                 <option value="2">优惠券</option>
                                 <option value="3">新功能体验</option>
-                                <option value="4">门票兑换</option>
+                                <option value="4">特色服务</option>
                                 <option value="5">实物兑换</option>
                             </select>
                         </div>
@@ -87,7 +87,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/moment/moment.min.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointorder.index.1.js?v=111"></script>
+<script src="${request.contextPath}/static/js/pointorder.index.1.js?v=20210603"></script>
 <script>
 
     $("#exportData").on("click",function (){

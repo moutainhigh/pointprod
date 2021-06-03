@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/pointquotation")
@@ -53,9 +54,15 @@ public class PointQuotationController {
 
     @RequestMapping("/pageList")
     @ResponseBody
-    public Map<String, Object> pageList() {
+    public Map<String, Object> pageList(String ver, String plat) {
         List<PointQuotationDO> list = pointQuotationService.getAll();
         List<PointQuotationVO> data = JsonUtil.copyList(list, PointQuotationVO.class);
+        if (!StringUtils.isEmpty(ver)) {
+            data = data.stream().filter(x -> x.getProductVersion().contains(ver)).collect(Collectors.toList());
+        }
+        if (!StringUtils.isEmpty(plat)) {
+            data = data.stream().filter(x -> x.getPublishPlatFormType().contains(plat)).collect(Collectors.toList());
+        }
         if (data != null && data.size() > 0) {
             List<UserGroupVO> userGroupVOList = userInfoService.getUserGroupList();
             for (PointQuotationVO item : data) {

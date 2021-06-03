@@ -123,7 +123,7 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
     }
 
     @Override
-    public Map<String, Object> pageList(Integer start, Integer length, Integer task_type, Integer task_status) {
+    public Map<String, Object> pageList(Integer start, Integer length, Integer task_type, Integer task_status, String ver, String plat) {
         List<PointTaskConfigInfoDO> list = pointTaskConfigInfoMapper.pageList(start, length, task_type);
         switch (task_status) {
             case 1:
@@ -134,6 +134,12 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
                 break;
             case 3:
                 list = list.stream().filter(x -> x.getTaskEndTime().before(new Date())).collect(Collectors.toList());
+        }
+        if (!StringUtils.isEmpty(ver)) {
+            list = list.stream().filter(x -> x.getProductVersion().contains(ver)).collect(Collectors.toList());
+        }
+        if (!StringUtils.isEmpty(plat)) {
+            list = list.stream().filter(x -> x.getPublishPlatFormType().contains(plat)).collect(Collectors.toList());
         }
         List<PointTaskConfigInfoVO> data = JsonUtil.copyList(list, PointTaskConfigInfoVO.class);
 

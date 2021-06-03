@@ -2,7 +2,7 @@ $(function () {
     // init date tables
     var orderTable = $("#order_list").DataTable({
         "processing": true,
-        //"serverSide": true,
+        "serverSide": true,
         language: {
             "sProcessing": "处理中...",
             "sLengthMenu": "显示 _MENU_ 项结果",
@@ -39,9 +39,8 @@ $(function () {
             }
         },
         "searching": true,
-        "ordering": true,
+        "ordering": false,
         "scrollX": true,
-        "order": [[ 5, "desc" ]],
         "columns": [
             {
                 "data": null
@@ -64,7 +63,7 @@ $(function () {
                                 return "新功能体验";
                                 break;
                             case 4:
-                                return "门票兑换";
+                                return "特色服务";
                                 break;
                             case 5:
                                 return "实物兑换";
@@ -100,19 +99,19 @@ $(function () {
                 'data': 'expressAddress'
             }
         ],
-        fnDrawCallback: function (d) {
-            let api = this.api();
-            api.column(0).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
-            });
-        },
         // fnDrawCallback: function (d) {
         //     let api = this.api();
-        //     let startIndex = api.context[0]._iDisplayStart;//获取本页开始的条数
-        //     api.column(0).nodes().each(function(cell, i) {
-        //         cell.innerHTML = startIndex + i + 1;
+        //     api.column(0).nodes().each(function (cell, i) {
+        //         cell.innerHTML = i + 1;
         //     });
-        // }
+        // },
+        fnDrawCallback: function (d) {
+            let api = this.api();
+            let startIndex = api.context[0]._iDisplayStart;//获取本页开始的条数
+            api.column(0).nodes().each(function(cell, i) {
+                cell.innerHTML = startIndex + i + 1;
+            });
+        }
     });
 
     // search btn

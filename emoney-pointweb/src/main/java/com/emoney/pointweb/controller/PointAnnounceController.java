@@ -54,10 +54,16 @@ public class PointAnnounceController {
 
     @RequestMapping("/pageList")
     @ResponseBody
-    public Map<String, Object> pageList(Integer msgType) {
+    public Map<String, Object> pageList(Integer msgType, String ver, String plat) {
         List<PointAnnounceDO> list = pointAnnounceService.getAll();
         if (msgType != null && !msgType.equals(0)) {
             list = list.stream().filter(x -> x.getMsgType().equals(msgType)).collect(Collectors.toList());
+        }
+        if (!StringUtils.isEmpty(ver)) {
+            list = list.stream().filter(x -> x.getProductVersion().contains(ver)).collect(Collectors.toList());
+        }
+        if (!StringUtils.isEmpty(plat)) {
+            list = list.stream().filter(x -> x.getPublishPlatFormType().contains(plat)).collect(Collectors.toList());
         }
         Map<String, Object> result = new HashMap<>();
         result.put("data", list);
@@ -83,9 +89,9 @@ public class PointAnnounceController {
             pointAnnounceDO.setProductVersion(productVersion);
             pointAnnounceDO.setPublishPlatFormType(plat);
             pointAnnounceDO.setUserGroup(groupList);
-            if(!StringUtils.isEmpty(publishTime)){
+            if (!StringUtils.isEmpty(publishTime)) {
                 pointAnnounceDO.setPublishTime(sdf.parse(publishTime));
-            }else{
+            } else {
                 pointAnnounceDO.setPublishTime(null);
             }
             pointAnnounceDO.setRemark(remark);

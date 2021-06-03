@@ -34,6 +34,8 @@ $(function() {
                 var obj = {};
                 obj.productType=$("#opType").val();
                 obj.productStatus=$("#opStatus").val();
+                obj.ver = $("#opVer").val();
+                obj.plat = $("#opPlat").val();
                 return obj;
             }
         },
@@ -61,7 +63,7 @@ $(function() {
                                 return "新功能体验";
                                 break;
                             case 4:
-                                return "门票兑换";
+                                return "特色服务";
                                 break;
                             case 5:
                                 return "实物兑换";

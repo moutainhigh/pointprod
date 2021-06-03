@@ -36,8 +36,8 @@ import java.util.Locale;
 @Service
 public class UserLoginServiceImpl implements UserLoginService {
 
-    private static String cookiekey="emoney.pointweb.userinfo";
-    private static String rediskey="emoney.pointweb.userinfo.redis.userid:";
+    private static String cookiekey = "emoney.pointweb.userinfo";
+    private static String rediskey = "emoney.pointweb.userinfo.redis.userid:";
     //随机生成密钥
     byte[] key = "emoney.pointweb.userinfo".getBytes(StandardCharsets.UTF_8);
     //构建
@@ -56,84 +56,84 @@ public class UserLoginServiceImpl implements UserLoginService {
     private RedisService redisCache1;
 
     @Override
-    public boolean isLogin(HttpServletRequest request, HttpServletResponse response){
-        TicketInfo ticketInfo = getLoginAdminUser(request,response);
-        if(ticketInfo!=null&&!ticketInfo.UserID.isEmpty()){
+    public boolean isLogin(HttpServletRequest request, HttpServletResponse response) {
+        TicketInfo ticketInfo = getLoginAdminUser(request, response);
+        if (ticketInfo != null && !ticketInfo.UserID.isEmpty()) {
             return true;
         }
         return false;
     }
 
     @Override
-    public TicketInfo getLoginAdminUser(HttpServletRequest request, HttpServletResponse response){
-        String userStr= CookieUtils.getValue(request,cookiekey);
-        if(userStr==null){
+    public TicketInfo getLoginAdminUser(HttpServletRequest request, HttpServletResponse response) {
+        String userStr = CookieUtils.getValue(request, cookiekey);
+        if (userStr == null) {
             return null;
         }
-        TicketInfo ticketInfo=JSON.parseObject(aes.decryptStr(userStr, CharsetUtil.CHARSET_UTF_8),TicketInfo.class);
-        TicketInfo userInfo=new TicketInfo();
-        if(ticketInfo!=null){
+        TicketInfo ticketInfo = JSON.parseObject(aes.decryptStr(userStr, CharsetUtil.CHARSET_UTF_8), TicketInfo.class);
+        TicketInfo userInfo = new TicketInfo();
+        if (ticketInfo != null) {
             String userrediskey = rediskey + ticketInfo.UserID;
-            userInfo = redisCache1.get(userrediskey,TicketInfo.class);
-            if(userInfo==null){
-                CookieUtils.remove(request,response,cookiekey);
+            userInfo = redisCache1.get(userrediskey, TicketInfo.class);
+            if (userInfo == null) {
+                CookieUtils.remove(request, response, cookiekey);
             }
         }
         return userInfo;
     }
 
-    public void loadAdminUserInfo(TicketInfo ticketInfo,HttpServletResponse response){
-        CookieUtils.set(response,cookiekey,aes.encryptHex(JSON.toJSONString(ticketInfo)),true);
+    public void loadAdminUserInfo(TicketInfo ticketInfo, HttpServletResponse response) {
+        CookieUtils.set(response, cookiekey, aes.encryptHex(JSON.toJSONString(ticketInfo)), true);
         String userrediskey = rediskey + ticketInfo.UserID;
-        redisCache1.set(userrediskey,ticketInfo, ToolUtils.GetExpireTime(60*60*24));
+        redisCache1.set(userrediskey, ticketInfo, ToolUtils.GetExpireTime(60 * 60 * 24));
     }
 
     @Override
-    public void removeAdminUserInfo(HttpServletRequest request, HttpServletResponse response){
-        TicketInfo ticketInfo = getLoginAdminUser(request,response);
-        if(ticketInfo!=null){
-            CookieUtils.remove(request,response,cookiekey);
+    public void removeAdminUserInfo(HttpServletRequest request, HttpServletResponse response) {
+        TicketInfo ticketInfo = getLoginAdminUser(request, response);
+        if (ticketInfo != null) {
+            CookieUtils.remove(request, response, cookiekey);
             String userrediskey = rediskey + ticketInfo.UserID;
             redisCache1.remove(userrediskey);
         }
     }
 
     @Override
-    public boolean validateUserInfo(HttpServletResponse response, String ticket){
+    public boolean validateUserInfo(HttpServletResponse response, String ticket) {
         //验证票据信息
         ResultInfo<Object> res = validateClientTicket(ticket);
-        if(res.getRetCode() == 0){
-            var data= res.getMessage().toString();
-            TicketInfo ticketInfo=JSON.parseObject(data,TicketInfo.class);
+        if (res.getRetCode() == 0) {
+            var data = res.getMessage().toString();
+            TicketInfo ticketInfo = JSON.parseObject(data, TicketInfo.class);
             //获取用户安全绑定信息
-            ResultInfo<String> userres= getUserInfo(ticketInfo.UserID);
-            if(userres!=null&&userres.getRetCode()==0){
-                loadAdminUserInfo(ticketInfo,response);
+            ResultInfo<String> userres = getUserInfo(ticketInfo.UserID);
+            if (userres != null && userres.getRetCode() == 0) {
+                loadAdminUserInfo(ticketInfo, response);
                 return true;
             }
         }
         return false;
     }
 
-    public ResultInfo<String> getUserInfo(String userId){
-        String url=MessageFormat.format(getuserinfourl,userId);
-        String res = OkHttpUtil.get(createUrl(url,apiencryptkey),null);
-        ResultInfo<String> result= JSON.parseObject(res,ResultInfo.class);
+    public ResultInfo<String> getUserInfo(String userId) {
+        String url = MessageFormat.format(getuserinfourl, userId);
+        String res = OkHttpUtil.get(createUrl(url, apiencryptkey), null);
+        ResultInfo<String> result = JSON.parseObject(res, ResultInfo.class);
         return result;
     }
 
-    public ResultInfo<Object> validateClientTicket(String ticket){
-        String url= MessageFormat.format(checkticketurl,ticket);
-        String res = OkHttpUtil.get(createUrl(url,apiencryptkey),null);
-        ResultInfo<Object> result= JSON.parseObject(res,ResultInfo.class);
+    public ResultInfo<Object> validateClientTicket(String ticket) {
+        String url = MessageFormat.format(checkticketurl, ticket);
+        String res = OkHttpUtil.get(createUrl(url, apiencryptkey), null);
+        ResultInfo<Object> result = JSON.parseObject(res, ResultInfo.class);
         return result;
     }
 
-    public String createUrl(String url,String apiKey){
-        String[] querys=URI.create(url).getQuery().replace("?","").split("&");
-        StringBuilder stringBuilder=new StringBuilder();
-        if(querys!=null&&querys.length>0){
-            for (var item: Arrays.stream(querys).toArray()) {
+    public String createUrl(String url, String apiKey) {
+        String[] querys = URI.create(url).getQuery().replace("?", "").split("&");
+        StringBuilder stringBuilder = new StringBuilder();
+        if (querys != null && querys.length > 0) {
+            for (var item : Arrays.stream(querys).toArray()) {
                 stringBuilder.append(item);
             }
         }

@@ -88,7 +88,7 @@
 
         <if test="orderStatus ==2 ">
 
-            AND product_file IS NOT NULL  and product_file  <![CDATA[!= ]]> ''
+            AND product_file IS NOT NULL and product_file  <![CDATA[!= ]]> ''
 
         </if>
 
@@ -176,7 +176,9 @@
             <if test="productType != 0">
                 product_type = #{productType}
             </if>
+            AND order_status=1
         </trim>
+        ORDER BY create_time DESC
     </select>
 
 

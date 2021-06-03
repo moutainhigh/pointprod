@@ -61,7 +61,7 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
                             <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">状态：</label>
                             <select id="opStatus" class="form-control op"
                                     style="float:left;width:150px;margin-top:5px;">
@@ -69,6 +69,30 @@
                                 <option value="1">进行中</option>
                                 <option value="2">未开始</option>
                                 <option value="3">已结束</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">用户版本：</label>
+                            <select id="opVer" class="form-control op"
+                                    style="float:left;width:150px;margin-top:5px;">
+                                <option value="">全部</option>
+                                <option value="888010000">小智盈</option>
+                                <option value="888020000">深度资金版</option>
+                                <option value="888080000">掘金版</option>
+                                <option value="888010400">小智盈过期</option>
+                                <option value="888020400">大师过期</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">平台：</label>
+                            <select id="opPlat" class="form-control op"
+                                    style="float:left;width:150px;margin-top:5px;">
+                                <option value="">全部</option>
+                                <option value="1">PC</option>
+                                <option value="2">APP</option>
+                                <option value="3">微信</option>
                             </select>
                         </div>
                     </div>
@@ -201,15 +225,19 @@
                             <label for="firstname" class="col-sm-2 control-label">产品版本<font color="red">*</font></label>
                             <div class="col-sm-8">
                                 <div style="margin-top: 6px;" id="ver">
-                                    <button type="button" style="margin-top: -6px;" id="checkVer" class="btn btn-primary btn-xs" value="全选">全选
+                                    <button type="button" style="margin-top: -6px;" id="checkVer"
+                                            class="btn btn-primary btn-xs" value="全选">全选
                                     </button>
                                     <input id="ver1" type="checkbox" name="ver" class="ver" value="888010000"/><label
                                             for="ver1">小智盈</label>
-                                    <input id="ver2" type="checkbox" name="ver" class="ver" value="888020000"/><label for="ver2">深度资金版</label>
+                                    <input id="ver2" type="checkbox" name="ver" class="ver" value="888020000"/><label
+                                            for="ver2">深度资金版</label>
                                     <input id="ver3" type="checkbox" name="ver" class="ver" value="888080000"/><label
                                             for="ver3">掘金版</label>
-                                    <input id="ver4" type="checkbox" name="ver" class="ver" value="888010400"/><label for="ver4">小智盈过期</label>
-                                    <input id="ver5" type="checkbox" name="ver" class="ver" value="888020400"/><label for="ver5">大师过期</label>
+                                    <input id="ver4" type="checkbox" name="ver" class="ver" value="888010400"/><label
+                                            for="ver4">小智盈过期</label>
+                                    <input id="ver5" type="checkbox" name="ver" class="ver" value="888020400"/><label
+                                            for="ver5">大师过期</label>
                                 </div>
                             </div>
                         </div>
@@ -383,7 +411,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointtaskconfiginfo.index.1.js?v=20210602"></script>
+<script src="${request.contextPath}/static/js/pointtaskconfiginfo.index.1.js?v=20210603"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
 
 <script>
@@ -414,7 +442,7 @@
             }
         }
     };
-    $('.ver').on('click',function (){
+    $('.ver').on('click', function () {
         if ($("#ver input[type=checkbox]:checked").length === 5) {
             verBtn.value = "取消全选";
             verBtn.innerHTML = "取消全选";
@@ -447,7 +475,7 @@
             }
         }
     }
-    $('.plat').on('click',function (){
+    $('.plat').on('click', function () {
         if ($("#platfrom input[type=checkbox]:checked").length === 3) {
             platBtn.value = "取消全选";
             platBtn.innerHTML = "取消全选";
@@ -732,7 +760,7 @@
     }
 
 
-    function clertAndCloseModal(){
+    function clertAndCloseModal() {
         for (var i = 0; i < verInput.length; i++) {
             verInput[i].checked = false;
         }
@@ -753,7 +781,7 @@
         $("#daily2").attr("checked", false);
         $("#big").attr("checked", false);
         $("#small").attr("checked", false);
-        $("#subId").attr("disabled",false);
+        $("#subId").attr("disabled", false);
         $("#GroupList").val("").trigger('change');
         $("#hiddenid").val("");
         $("#hiddentaskId").val("");

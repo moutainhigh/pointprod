@@ -66,6 +66,16 @@
                                 <option value="2">待处理</option>
                             </select>
                         </div>
+
+                        <div class="col-lg-2">
+                            <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">采纳状态：</label>
+                            <select id="opAdopt" class="form-control opType"
+                                    style="float:left;width:150px;margin-top:5px;">
+                                <option value="-1">全部</option>
+                                <option value="1">已采纳</option>
+                                <option value="0">待采纳</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -176,14 +186,14 @@
 <script>
 
     $("#exportData").on("click", function () {
-        var url = base_url + "/pointfeedback/exportData?classType=" + $("#opType").val() + "&isReply=" + $("#opReply").val();
+        var url = base_url + "/pointfeedback/exportData?classType=" + $("#opType").val() + "&isReply=" + $("#opReply").val() + "&isAdopt=" + $("#opAdopt").val();
         window.open(url);
     });
 
     // init date tables
     var feedbackTable = $("#feedback_list").DataTable({
         "processing": true,
-        //"serverSide": true,
+        "serverSide": true,
         language: {
             "sProcessing": "处理中...",
             "sLengthMenu": "显示 _MENU_ 项结果",
@@ -215,13 +225,14 @@
                 var obj = {};
                 obj.classType = $("#opType").val();
                 obj.isReply = $("#opReply").val();
+                obj.isAdopt = $("#opAdopt").val();
                 obj.start = (d.start / d.length) + 1;
                 obj.length = d.length;
                 return obj;
             }
         },
         "searching": true,
-        "ordering": true,
+        "ordering": false,
         "scrollX": true,
         "columns": [
             {
@@ -322,26 +333,24 @@
                 }
             }
         ],
-        fnDrawCallback: function (d) {
-            let api = this.api();
-            api.column(0).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
-            });
-        },
         // fnDrawCallback: function (d) {
         //     let api = this.api();
-        //     let startIndex = api.context[0]._iDisplayStart;//获取本页开始的条数
-        //     api.column(0).nodes().each(function(cell, i) {
-        //         cell.innerHTML = startIndex + i + 1;
+        //     api.column(0).nodes().each(function (cell, i) {
+        //         cell.innerHTML = i + 1;
         //     });
         // },
+        fnDrawCallback: function (d) {
+            let api = this.api();
+            let startIndex = api.context[0]._iDisplayStart;//获取本页开始的条数
+            api.column(0).nodes().each(function (cell, i) {
+                cell.innerHTML = startIndex + i + 1;
+            });
+        },
         columnDefs: [{
             targets: 13,
             render: function (data, type, row, meta) {
                 var html = "<button type=\"button\" class=\"btn btn-primary btn-flat btn-sm\" onclick='Reply(" + row.id + ")'>回复</button>";
-                if (row.status != 1) {
-                    html += "<button type=\"button\" class=\"btn btn-success btn-flat btn-sm\" onclick='Adopt(" + row.id + ")'>采纳</button>";
-                }
+                html += "<button type=\"button\" class=\"btn btn-success btn-flat btn-sm\" onclick='Adopt(" + row.id + ")'>采纳</button>";
                 html += "<input type='hidden' id='json" + row.id + "' value='" + JSON.stringify(row) + "'>";
                 return html;
             }

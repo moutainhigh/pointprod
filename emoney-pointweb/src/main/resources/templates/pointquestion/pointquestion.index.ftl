@@ -34,6 +34,37 @@
 
         <!-- Main content -->
         <section class="content">
+            <div class="box box-primary" style="margin-top:15px;">
+                <div class="box-header with-border">
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">用户版本：</label>
+                            <select id="opVer" class="form-control op"
+                                    style="float:left;width:150px;margin-top:5px;">
+                                <option value="">全部</option>
+                                <option value="888010000">小智盈</option>
+                                <option value="888020000">深度资金版</option>
+                                <option value="888080000">掘金版</option>
+                                <option value="888010400">小智盈过期</option>
+                                <option value="888020400">大师过期</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">平台：</label>
+                            <select id="opPlat" class="form-control op"
+                                    style="float:left;width:150px;margin-top:5px;">
+                                <option value="">全部</option>
+                                <option value="1">PC</option>
+                                <option value="2">APP</option>
+                                <option value="3">微信</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
@@ -198,7 +229,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
-<script src="${request.contextPath}/static/js/pointquestion.index.1.js?v=20210602"></script>
+<script src="${request.contextPath}/static/js/pointquestion.index.1.js?v=20210603"></script>
 
 <script>
 

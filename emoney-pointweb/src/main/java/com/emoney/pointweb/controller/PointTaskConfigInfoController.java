@@ -59,8 +59,9 @@ public class PointTaskConfigInfoController {
     public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") Integer start,
                                         @RequestParam(required = false, defaultValue = "10") Integer length,
                                         @RequestParam(required = false, defaultValue = "0") Integer task_type,
-                                        @RequestParam(required = false, defaultValue = "0") Integer task_status) {
-        return pointTaskConfigInfoService.pageList(start, length, task_type, task_status);
+                                        @RequestParam(required = false, defaultValue = "0") Integer task_status,
+                                        String ver, String plat) {
+        return pointTaskConfigInfoService.pageList(start, length, task_type, task_status, ver, plat);
     }
 
     @RequestMapping("/edit")

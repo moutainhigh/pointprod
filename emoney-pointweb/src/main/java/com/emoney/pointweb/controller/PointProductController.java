@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -53,7 +54,8 @@ public class PointProductController {
     @RequestMapping("/pageList")
     @ResponseBody
     public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") int productType,
-                                        @RequestParam(required = false, defaultValue = "0") int productStatus) {
+                                        @RequestParam(required = false, defaultValue = "0") int productStatus,
+                                        String ver, String plat) {
         List<PointProductDO> list = pointProductService.getPointProductListByProductType(productType);
         switch (productStatus) {
             case 1:
@@ -64,6 +66,12 @@ public class PointProductController {
                 break;
             case 3:
                 list = list.stream().filter(x -> x.getExchangeEndtime().before(new Date())).collect(Collectors.toList());
+        }
+        if (!StringUtils.isEmpty(ver)) {
+            list = list.stream().filter(x -> x.getProductVersion().contains(ver)).collect(Collectors.toList());
+        }
+        if (!StringUtils.isEmpty(plat)) {
+            list = list.stream().filter(x -> x.getPublishPlatFormType().contains(plat)).collect(Collectors.toList());
         }
         Map<String, Object> result = new HashMap<>();
         result.put("data", list);

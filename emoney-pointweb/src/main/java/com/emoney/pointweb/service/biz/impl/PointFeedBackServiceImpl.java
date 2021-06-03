@@ -39,24 +39,24 @@ public class PointFeedBackServiceImpl implements PointFeedBackService {
         return pointFeedBackMapper.getAll();
     }
 
-    public List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status,Integer isReply){
-        return pointFeedBackMapper.queryAllByRemarkAndStatus(status,isReply);
+    public List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status, Integer isReply, Integer isAdopt) {
+        return pointFeedBackMapper.queryAllByRemarkAndStatus(status, isReply, isAdopt);
     }
 
     @Override
     public List<PointFeedBackDO> getByUid(String accountName, Date endDate) {
-        return pointFeedBackMapper.getByUid(accountName,endDate);
+        return pointFeedBackMapper.getByUid(accountName, endDate);
     }
 
     @Override
-    public PointFeedBackDO getById(Integer id){
+    public PointFeedBackDO getById(Integer id) {
         return pointFeedBackMapper.getById(id);
     }
 
     @Override
-    public Result<Object> createFeedBack(PointFeedBackCreateDTO pointFeedBackCreateDTO){
-        if(pointFeedBackCreateDTO!=null){
-            PointFeedBackDO pointFeedBackDO=new PointFeedBackDO();
+    public Result<Object> createFeedBack(PointFeedBackCreateDTO pointFeedBackCreateDTO) {
+        if (pointFeedBackCreateDTO != null) {
+            PointFeedBackDO pointFeedBackDO = new PointFeedBackDO();
             pointFeedBackDO.setFeedType(pointFeedBackCreateDTO.getFeedType());
             pointFeedBackDO.setPid(pointFeedBackCreateDTO.getPid());
             pointFeedBackDO.setAccount(pointFeedBackCreateDTO.getAccount());
@@ -69,7 +69,7 @@ public class PointFeedBackServiceImpl implements PointFeedBackService {
             pointFeedBackDO.setUpdateTime(new Date());
             pointFeedBackDO.setCreateBy(pointFeedBackCreateDTO.getUid().toString());
             pointFeedBackDO.setUpdateBy(pointFeedBackCreateDTO.getUid().toString());
-            if(pointFeedBackMapper.insert(pointFeedBackDO)>0){
+            if (pointFeedBackMapper.insert(pointFeedBackDO) > 0) {
                 return Result.buildSuccessResult("提交成功");
             }
         }

@@ -56,40 +56,43 @@ public class PointFeedBackController {
 
     ;
 
-    @RequestMapping("/pageList")
-    @ResponseBody
-    public Map<String, Object> pageList(Integer classType, Integer isReply) {
-        List<PointFeedBackDO> list = pointFeedBackService.getAll();
-        if (!classType.equals(0)) {
-            list = list.stream().filter(x -> x.getFeedType().equals(classType)).collect(Collectors.toList());
-        }
-        if (!isReply.equals(0)) {
-            if (isReply.equals(1)) {
-                list = list.stream().filter(x -> !StringUtils.isEmpty(x.getRemark())).collect(Collectors.toList());
-            } else {
-                list = list.stream().filter(x -> StringUtils.isEmpty(x.getRemark())).collect(Collectors.toList());
-            }
-        }
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", list);
-        return result;
-    }
-
 //    @RequestMapping("/pageList")
 //    @ResponseBody
-//    public Map<String, Object> queryPointFeedback(@RequestParam(required = false, defaultValue = "0") Integer start,
-//                                                  @RequestParam(required = false, defaultValue = "10") Integer length,
-//                                                  Integer classType, Integer isReply) {
-//        PageHelper.startPage(start,length);
-//        List<PointFeedBackDO> list=pointFeedBackService.queryAllByRemarkAndStatus(classType,isReply);
-//        PageInfo<PointFeedBackDO> pageInfo = new PageInfo<>(list);
-//
-//        Map<String, Object> result=new HashMap<>();
-//        result.put("data",list);
-//        result.put("recordsTotal",pageInfo.getTotal());
-//        result.put("recordsFiltered",pageInfo.getTotal());
+//    public Map<String, Object> pageList(Integer classType, Integer isReply, Integer isAdopt) {
+//        List<PointFeedBackDO> list = pointFeedBackService.getAll();
+//        if (!classType.equals(0)) {
+//            list = list.stream().filter(x -> x.getFeedType().equals(classType)).collect(Collectors.toList());
+//        }
+//        if (!isReply.equals(0)) {
+//            if (isReply.equals(1)) {
+//                list = list.stream().filter(x -> !StringUtils.isEmpty(x.getRemark())).collect(Collectors.toList());
+//            } else {
+//                list = list.stream().filter(x -> StringUtils.isEmpty(x.getRemark())).collect(Collectors.toList());
+//            }
+//        }
+//        if (!isAdopt.equals(-1)) {
+//            list = list.stream().filter(x -> x.getStatus().equals(isAdopt)).collect(Collectors.toList());
+//        }
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("data", list);
 //        return result;
 //    }
+
+    @RequestMapping("/pageList")
+    @ResponseBody
+    public Map<String, Object> queryPointFeedback(@RequestParam(required = false, defaultValue = "0") Integer start,
+                                                  @RequestParam(required = false, defaultValue = "10") Integer length,
+                                                  Integer classType, Integer isReply, Integer isAdopt) {
+        PageHelper.startPage(start, length);
+        List<PointFeedBackDO> list = pointFeedBackService.queryAllByRemarkAndStatus(classType, isReply, isAdopt);
+        PageInfo<PointFeedBackDO> pageInfo = new PageInfo<>(list);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", list);
+        result.put("recordsTotal", pageInfo.getTotal());
+        result.put("recordsFiltered", pageInfo.getTotal());
+        return result;
+    }
 
     @RequestMapping("/editReply")
     @ResponseBody
@@ -128,8 +131,9 @@ public class PointFeedBackController {
         if (result > 0) {
             //赠送积分
             pointFeedBackDO = pointFeedBackService.getById(id);
-            pointSendRecordService.sendPointRecord(Long.parseLong("1384354667126984704"), pointFeedBackDO.getAccount());
-            pointFeedBackDO = pointFeedBackService.getById(id);
+            if (!pointFeedBackDO.getStatus().equals(1)) {
+                pointSendRecordService.sendPointRecord(Long.parseLong("1384354667126984704"), pointFeedBackDO.getAccount());
+            }
             if (pointFeedBackDO != null) {
                 String uid = userInfoService.getUidByEmNo(pointFeedBackDO.getAccount());
                 if (!StringUtils.isEmpty(uid)) {
@@ -147,7 +151,7 @@ public class PointFeedBackController {
     }
 
     @RequestMapping("/exportData")
-    public String exportData(HttpServletResponse response, Integer classType, Integer isReply) {
+    public String exportData(HttpServletResponse response, Integer classType, Integer isReply,Integer isAdopt) {
         List<PointFeedBackDO> list = pointFeedBackService.getAll();
         if (!classType.equals(0)) {
             list = list.stream().filter(x -> x.getFeedType().equals(classType)).collect(Collectors.toList());
@@ -158,6 +162,9 @@ public class PointFeedBackController {
             } else {
                 list = list.stream().filter(x -> StringUtils.isEmpty(x.getRemark())).collect(Collectors.toList());
             }
+        }
+        if (!isAdopt.equals(-1)) {
+            list = list.stream().filter(x -> x.getStatus().equals(isAdopt)).collect(Collectors.toList());
         }
         List<LinkedHashMap<String, Object>> maps = new ArrayList<>();
 

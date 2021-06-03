@@ -37,17 +37,39 @@
             <div class="box box-primary" style="margin-top:15px;">
                 <div class="box-header with-border">
                     <div class="form-group">
-                        <div class="col-lg-11">
+                        <div class="col-sm-2">
                             <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">类型：</label>
-                            <select id="opType" class="form-control opType"
+                            <select id="opType" class="form-control op"
                                     style="float:left;width:150px;margin-top:5px;">
                                 <option value="0">全部</option>
                                 <option value="2">商品上架</option>
                                 <option value="4">最新活动</option>
                                 <option value="5">通知</option>
                             </select>
-                            <#--<label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:36px;">任务名称:</label>
-                            <input id="taskname" class="form-control" style="float:left;width:300px;margin-top:5px;">-->
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">用户版本：</label>
+                            <select id="opVer" class="form-control op"
+                                    style="float:left;width:150px;margin-top:5px;">
+                                <option value="">全部</option>
+                                <option value="888010000">小智盈</option>
+                                <option value="888020000">深度资金版</option>
+                                <option value="888080000">掘金版</option>
+                                <option value="888010400">小智盈过期</option>
+                                <option value="888020400">大师过期</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">平台：</label>
+                            <select id="opPlat" class="form-control op"
+                                    style="float:left;width:150px;margin-top:5px;">
+                                <option value="">全部</option>
+                                <option value="1">PC</option>
+                                <option value="2">APP</option>
+                                <option value="3">微信</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -139,11 +161,14 @@
                                     </button>
                                     <input id="ver1" type="checkbox" name="ver" class="ver" value="888010000"/><label
                                             for="ver1">小智盈</label>
-                                    <input id="ver2" type="checkbox" name="ver" class="ver" value="888020000"/><label for="ver2">深度资金版</label>
+                                    <input id="ver2" type="checkbox" name="ver" class="ver" value="888020000"/><label
+                                            for="ver2">深度资金版</label>
                                     <input id="ver3" type="checkbox" name="ver" class="ver" value="888080000"/><label
                                             for="ver3">掘金版</label>
-                                    <input id="ver4" type="checkbox" name="ver" class="ver" value="888010400"/><label for="ver4">小智盈过期</label>
-                                    <input id="ver5" type="checkbox" name="ver" class="ver" value="888020400"/><label for="ver5">大师过期</label>
+                                    <input id="ver4" type="checkbox" name="ver" class="ver" value="888010400"/><label
+                                            for="ver4">小智盈过期</label>
+                                    <input id="ver5" type="checkbox" name="ver" class="ver" value="888020400"/><label
+                                            for="ver5">大师过期</label>
                                 </div>
                             </div>
                         </div>
@@ -232,7 +257,7 @@
             }
         }
     };
-    $('.ver').on('click',function (){
+    $('.ver').on('click', function () {
         if ($("#ver input[type=checkbox]:checked").length === 5) {
             verBtn.value = "取消全选";
             verBtn.innerHTML = "取消全选";
@@ -265,7 +290,7 @@
             }
         }
     }
-    $('.plat').on('click',function (){
+    $('.plat').on('click', function () {
         if ($("#platfrom input[type=checkbox]:checked").length === 3) {
             platBtn.value = "取消全选";
             platBtn.innerHTML = "取消全选";
@@ -285,7 +310,7 @@
     });
 
     // search btn
-    $('.opType').on('change', function () {
+    $('.op').on('change', function () {
         msgTable.ajax.reload();
     });
 
@@ -504,6 +529,8 @@
             data: function (d) {
                 var obj = {};
                 obj.msgType = $("#opType").val();
+                obj.ver = $("#opVer").val();
+                obj.plat = $("#opPlat").val();
                 return obj;
             }
         },

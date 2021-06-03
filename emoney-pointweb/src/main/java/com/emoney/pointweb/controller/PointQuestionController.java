@@ -55,9 +55,15 @@ public class PointQuestionController {
 
     @RequestMapping("/pageList")
     @ResponseBody
-    public Map<String, Object> pageList() {
+    public Map<String, Object> pageList(String ver, String plat) {
         List<PointQuestionDO> list = pointQuestionService.getAll();
         List<PointQuestionVO> data = JsonUtil.copyList(list, PointQuestionVO.class);
+        if (!StringUtils.isEmpty(ver)) {
+            data = data.stream().filter(x -> x.getProductVersion().contains(ver)).collect(Collectors.toList());
+        }
+        if (!StringUtils.isEmpty(plat)) {
+            data = data.stream().filter(x -> x.getPublishPlatFormType().contains(plat)).collect(Collectors.toList());
+        }
         if (data != null && data.size() > 0) {
             List<UserGroupVO> userGroupVOList = userInfoService.getUserGroupList();
             for (PointQuestionVO item : data) {

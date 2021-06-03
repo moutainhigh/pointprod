@@ -1,4 +1,9 @@
 $(function () {
+    // search btn
+    $('.op').on('change', function () {
+        quotationTable.ajax.reload();
+    });
+
     // init date tables
     var quotationTable = $("#quotation_list").DataTable({
         "processing": true,
@@ -28,7 +33,13 @@ $(function () {
         },
         "ajax": {
             url: base_url + "/pointquotation/pageList",
-            type: "post"
+            type: "post",
+            data: function (d) {
+                var obj = {};
+                obj.ver = $("#opVer").val();
+                obj.plat = $("#opPlat").val();
+                return obj;
+            }
         },
         "searching": true,
         "ordering": true,

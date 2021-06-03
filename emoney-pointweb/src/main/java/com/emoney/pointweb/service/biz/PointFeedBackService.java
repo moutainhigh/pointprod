@@ -9,13 +9,20 @@ import java.util.List;
 
 public interface PointFeedBackService {
     Integer insert(PointFeedBackDO pointFeedBackDO);
+
     Integer update(PointFeedBackDO pointFeedBackDO);
+
     List<PointFeedBackDO> getAll();
+
     PointFeedBackDO getById(Integer id);
+
     Result<Object> createFeedBack(PointFeedBackCreateDTO pointFeedBackCreateDTO);
-    List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status,Integer isReply);
+
+    List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status, Integer isReply, Integer isAdopt);
+
     /**
      * 根据uid获取所有反馈记录
+     *
      * @param uid
      * @return
      */

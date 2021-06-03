@@ -10,12 +10,18 @@ import java.util.List;
 @Mapper
 public interface PointFeedBackMapper {
     Integer insert(PointFeedBackDO pointFeedBackDO);
+
     Integer update(PointFeedBackDO pointFeedBackDO);
+
     List<PointFeedBackDO> getAll();
+
     PointFeedBackDO getById(Integer id);
-    List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status,Integer isReply);
+
+    List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status, Integer isReply, Integer isAdopt);
+
     /**
      * 根据uid获取所有反馈记录
+     *
      * @param uid
      * @return
      */

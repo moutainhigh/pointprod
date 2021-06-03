@@ -31,33 +31,33 @@ public class PointOrderController {
         return "pointorder/pointorder.index";
     }
 
-    @RequestMapping("/pageList")
-    @ResponseBody
-    public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") Integer productType) {
-        List<PointOrderDO> list = pointOrderService.getAllByOrderStatus(1);
-        if (productType != 0) {
-            list = list.stream().filter(h -> h.getProductType() != null && h.getProductType().equals(productType)).collect(Collectors.toList());
-        }
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", list);
-        return result;
-    }
-
 //    @RequestMapping("/pageList")
 //    @ResponseBody
-//    public Map<String, Object> queryPointOrder(@RequestParam(required = false, defaultValue = "0") Integer start,
-//                                               @RequestParam(required = false, defaultValue = "10") Integer length,
-//                                               @RequestParam(required = false, defaultValue = "0") Integer productType) {
-//        PageHelper.startPage(start, length);
-//        List<PointOrderDO> list = pointOrderService.queryAllByProductType(productType);
-//        PageInfo<PointOrderDO> pageInfo = new PageInfo<>(list);
-//
+//    public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") Integer productType) {
+//        List<PointOrderDO> list = pointOrderService.getAllByOrderStatus(1);
+//        if (productType != 0) {
+//            list = list.stream().filter(h -> h.getProductType() != null && h.getProductType().equals(productType)).collect(Collectors.toList());
+//        }
 //        Map<String, Object> result = new HashMap<>();
 //        result.put("data", list);
-//        result.put("recordsTotal", pageInfo.getTotal());
-//        result.put("recordsFiltered", pageInfo.getTotal());
 //        return result;
 //    }
+
+    @RequestMapping("/pageList")
+    @ResponseBody
+    public Map<String, Object> queryPointOrder(@RequestParam(required = false, defaultValue = "0") Integer start,
+                                               @RequestParam(required = false, defaultValue = "10") Integer length,
+                                               @RequestParam(required = false, defaultValue = "0") Integer productType) {
+        PageHelper.startPage(start, length);
+        List<PointOrderDO> list = pointOrderService.queryAllByProductType(productType);
+        PageInfo<PointOrderDO> pageInfo = new PageInfo<>(list);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", list);
+        result.put("recordsTotal", pageInfo.getTotal());
+        result.put("recordsFiltered", pageInfo.getTotal());
+        return result;
+    }
 
     @RequestMapping("/exportData")
     public String exportData(HttpServletResponse response, @RequestParam(required = false, defaultValue = "0") int productType) {
