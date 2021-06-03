@@ -177,8 +177,6 @@ public class PointRecordServiceImpl implements PointRecordService {
                     } else {
                         redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointRecordCreateDTO.getUid()), pointRecordDOS, ToolUtils.GetExpireTime(60));
 
-                        log.info("积分弹窗aaahttp://pre.point.emoney.cn");
-
                         //发消息到kafka
                         kafkaProducerService.sendMessageSync("pointrecordadd", JSONObject.toJSONString(pointRecordDO));
                         //将积分记录返回

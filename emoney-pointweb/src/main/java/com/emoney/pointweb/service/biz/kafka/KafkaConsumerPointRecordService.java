@@ -87,8 +87,6 @@ public class KafkaConsumerPointRecordService {
                             if (pointTaskConfigInfoDOS != null && pointTaskConfigInfoDOS.size() > 0) {
                                 PointTaskConfigInfoDO pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().findFirst().orElse(null);
                                 if (pointTaskConfigInfoDO != null && pointTaskConfigInfoDO.getTaskType().equals(2)) {
-                                    log.info("积分弹窗url"+pointFrontUrl);
-                                    pointFrontUrl="http://pre.point.emoney.cn";
                                     Thread.sleep(1000 * 3);
                                     messageService.sendMessage(pointRecordDO.getUid(), "积分弹窗", pointFrontUrl + "/message/index");
                                 }
