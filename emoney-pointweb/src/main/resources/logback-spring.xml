@@ -73,7 +73,7 @@
         <appender-ref ref="logstash"/>
     </logger>
 
-    <logger name="org.springframework.kafka.KafkaListenerEndpointContainer" level="error">
+    <logger name="org.apache.kafka.clients.NetworkClient" level="error">
         <appender-ref ref="filelog"/>
         <appender-ref ref="logstash"/>
     </logger>
