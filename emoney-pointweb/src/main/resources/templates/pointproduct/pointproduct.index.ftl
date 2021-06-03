@@ -183,14 +183,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="firstname" class="col-sm-2 control-label">赠送天数</label>
-                            <div class="col-sm-2">
-                                <input type="text" class="form-control" name="productDays" id="productDays"
-                                       placeholder="仅针对特权">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">商品有效期</label>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control" name="actStartTime" id="actStartTime"
@@ -207,6 +199,14 @@
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" name="productName" id="productName"
                                        placeholder="商品名称">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">物流包原价</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" name="actPrice" id="actPrice"
+                                       placeholder="物流包原价" disabled>
                             </div>
                         </div>
 
@@ -294,11 +294,14 @@
                                     </button>
                                     <input id="ver1" type="checkbox" name="ver" class="ver" value="888010000"/><label
                                             for="ver1">小智盈</label>
-                                    <input id="ver2" type="checkbox" name="ver" class="ver" value="888020000"/><label for="ver2">深度资金版</label>
+                                    <input id="ver2" type="checkbox" name="ver" class="ver" value="888020000"/><label
+                                            for="ver2">深度资金版</label>
                                     <input id="ver3" type="checkbox" name="ver" class="ver" value="888080000"/><label
                                             for="ver3">掘金版</label>
-                                    <input id="ver4" type="checkbox" name="ver" class="ver" value="888010400"/><label for="ver4">小智盈过期</label>
-                                    <input id="ver5" type="checkbox" name="ver" class="ver" value="888020400"/><label for="ver5">大师过期</label>
+                                    <input id="ver4" type="checkbox" name="ver" class="ver" value="888010400"/><label
+                                            for="ver4">小智盈过期</label>
+                                    <input id="ver5" type="checkbox" name="ver" class="ver" value="888020400"/><label
+                                            for="ver5">大师过期</label>
                                 </div>
                             </div>
                         </div>
@@ -433,7 +436,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=20210603"></script>
+<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=2021060316"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
 
 <script>
@@ -464,7 +467,7 @@
             }
         }
     };
-    $('.ver').on('click',function (){
+    $('.ver').on('click', function () {
         if ($("#ver input[type=checkbox]:checked").length === 5) {
             verBtn.value = "取消全选";
             verBtn.innerHTML = "取消全选";
@@ -497,7 +500,7 @@
             }
         }
     }
-    $('.plat').on('click',function (){
+    $('.plat').on('click', function () {
         if ($("#platfrom input[type=checkbox]:checked").length === 3) {
             platBtn.value = "取消全选";
             platBtn.innerHTML = "取消全选";
@@ -623,6 +626,7 @@
         }
         $("#productName").val(res.productName);
         $("#productPrice").val(res.productPrice);
+        $("#actPrice").val(res.activityPrice);
         $("#exChangeStartTime").val(moment(res.exchangeStarttime).format("YYYY-MM-DD HH:mm:ss"));
         $("#exChangeEndTime").val(moment(res.exchangeEndtime).format("YYYY-MM-DD HH:mm:ss"));
         $("#productCash").val(res.exchangeCash);
@@ -756,7 +760,7 @@
         }
     }
 
-    function clertAndCloseModal(){
+    function clertAndCloseModal() {
         for (var i = 0; i < verInput.length; i++) {
             verInput[i].checked = false;
         }
@@ -777,6 +781,7 @@
         $("#actEndTime").val("");
         $("#productName").val("");
         $("#productPrice").val("");
+        $("#activityPrice").val("");
         $("#exChangeStartTime").val("");
         $("#exChangeEndTime").val("");
         $("#productCash").val("");

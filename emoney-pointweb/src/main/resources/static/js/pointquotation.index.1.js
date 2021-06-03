@@ -130,6 +130,7 @@ $(function () {
         obj.id = $("#hiddenid").val();
         obj.content = $("#content").val();
         obj.showTime = $("#showTime").val();
+        obj.remark = $("#remark").val();
         var ver = "";
         $("#ver input[type=checkbox]:checked").each(function () {
             ver += $(this).val() + ',';

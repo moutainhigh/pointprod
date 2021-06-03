@@ -94,7 +94,7 @@ public class PointProductController {
     @ResponseBody
     public String edit(@RequestParam(required = false, defaultValue = "0") Integer id, Integer productType, String ver, String plat, String pcimg, String appimg, String wechatimg,
                        Integer exchangeType, String acCode, @RequestParam(required = false, defaultValue = "0") Integer productDays, String actStartTime, String actEndTime, String productName,
-                       @RequestParam(required = false, defaultValue = "0") float productPrice, String exChangeStartTime, String exChangeEndTime, String groupList, String fileurl,
+                       @RequestParam(required = false, defaultValue = "0") BigDecimal productPrice, @RequestParam(required = false, defaultValue = "0") BigDecimal activityPrice, String exChangeStartTime, String exChangeEndTime, String groupList, String fileurl,
                        @RequestParam(required = false, defaultValue = "0") BigDecimal productCash, @RequestParam(required = false, defaultValue = "0") float productPoint,
                        Integer totalLimit, Integer perLimit, String exChangeContent, String pcdetailimg, String appdetailimg, String wechatdetailimg, String remark,
                        HttpServletRequest request, HttpServletResponse response) {
@@ -134,6 +134,7 @@ public class PointProductController {
             pointProductDO.setExchangePoint(productPoint);
             pointProductDO.setExchangeCash(productCash);
             pointProductDO.setProductPrice(productPrice);
+            pointProductDO.setActivityPrice(activityPrice);
             pointProductDO.setExchangeRemark(exChangeContent);
             pointProductDO.setPcExangeimgurl(pcimg);
             pointProductDO.setAppExangeimgurl(appimg);
@@ -146,8 +147,11 @@ public class PointProductController {
             pointProductDO.setUpdateBy(user.UserName);
             pointProductDO.setRemark(remark);
             if (pointProductDO.getExchangeType().equals(1)) {
-                if (pointProductDO.getExchangeCash().floatValue() > pointProductDO.getProductPrice()) {
+                if (pointProductDO.getExchangeCash().doubleValue() > pointProductDO.getProductPrice().doubleValue()) {
                     return "付款金额不能大于商品原价";
+                }
+                if (pointProductDO.getExchangeCash().doubleValue() > pointProductDO.getActivityPrice().doubleValue()) {
+                    return "付款金额不能大于物流包原价";
                 }
             }
             int result = 0;

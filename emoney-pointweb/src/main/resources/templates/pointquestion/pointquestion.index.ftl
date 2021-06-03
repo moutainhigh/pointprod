@@ -203,6 +203,12 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="txtMerchantName" class="col-sm-2 control-label">备注</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" id="remark" placeholder="备注">
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -229,7 +235,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
-<script src="${request.contextPath}/static/js/pointquestion.index.1.js?v=20210603"></script>
+<script src="${request.contextPath}/static/js/pointquestion.index.1.js?v=2021060316"></script>
 
 <script>
 
@@ -380,6 +386,7 @@
         $("#txtOption").val(res.questionOptions);
         $("#txtRight").val(res.questionRightoptions);
         $("#showTime").val(res.showTime);
+        $("#remark").val(res.remark);
 
         $("#modal-default").modal({backdrop: false, keyboard: false}).modal('show');
     }
@@ -428,6 +435,7 @@
         $("#txtOption").val("");
         $("#txtRight").val("");
         $("#showTime").val("");
+        $("#remark").val("");
 
         $("#modal-default").modal('hide');
     }

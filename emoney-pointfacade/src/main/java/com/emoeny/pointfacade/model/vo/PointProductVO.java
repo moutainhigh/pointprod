@@ -58,6 +58,8 @@ public class PointProductVO {
      */
     private String activityCode;
 
+    private BigDecimal activityPrice;
+
     /**
      *
      */

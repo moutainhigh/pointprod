@@ -141,6 +141,13 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">备注<font color="red">*</font></label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="remark" id="remark" placeholder="备注">
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -167,7 +174,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
-<script src="${request.contextPath}/static/js/pointquotation.index.1.js?v=20210602"></script>
+<script src="${request.contextPath}/static/js/pointquotation.index.1.js?v=2021060316"></script>
 
 <script th:type="javascript">
 
@@ -253,6 +260,7 @@
         $("#hiddenid").val(res.id);
         $("#content").val(res.content);
         $("#showTime").val(res.showTime);
+        $("#remark").val(res.remark);
         if (res.userGroup) {
             $("#GroupList").val(res.userGroup.split(",")).trigger('change');
         } else {
@@ -344,6 +352,7 @@
         platBtn.innerHTML = "全选";
         $("#GroupList").val("").trigger('change');
         $("#showTime").val("");
+        $("#remark").val("");
 
         $("#modal-default").modal('hide');
     }

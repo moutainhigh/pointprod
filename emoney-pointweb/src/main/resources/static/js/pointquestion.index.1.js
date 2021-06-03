@@ -168,6 +168,7 @@ $(function () {
         obj.id = $("#hiddenid").val();
         obj.questionType = $("#question_type input[type=radio]:checked").val();
         obj.showTime = $("#showTime").val();
+        obj.remark = $("#remark").val();
         obj.questionContent = $("#txtContent").val();
         obj.questionOptions = $("#txtOption").val();
         obj.questionRightoptions = $("#txtRight").val();

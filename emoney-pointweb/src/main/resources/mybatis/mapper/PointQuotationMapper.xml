@@ -13,12 +13,13 @@
         <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
                 id, content, show_time, user_group, product_version, publish_platformtype, is_valid, create_by,
                 update_by,
-                create_time, update_time
+                create_time, update_time,remark
     </sql>
 
     <select id="getAll" resultMap="BaseResultMap">
@@ -31,10 +32,10 @@
         INSERT INTO t_point_quotation
         (content, show_time, user_group, product_version, publish_platformtype, is_valid, create_by, update_by,
          create_time,
-         update_time)
+         update_time,remark)
         VALUES (#{content}, #{showTime}, #{userGroup}, #{productVersion}, #{publishPlatFormType}, #{isValid},
                 #{createBy},
-                #{updateBy}, #{createTime}, #{updateTime})
+                #{updateBy}, #{createTime}, #{updateTime},#{remark})
     </insert>
 
     <update id="update" parameterType="com.emoney.pointweb.repository.dao.entity.PointQuotationDO">
@@ -68,6 +69,9 @@
             </if>
             <if test="updateTime != null">
                 update_time=#{updateTime},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
             </if>
         </set>
         WHERE id=#{id}
