@@ -181,7 +181,7 @@ public class PointRecordServiceImpl implements PointRecordService {
                         redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointRecordCreateDTO.getUid()), pointRecordDOS, ToolUtils.GetExpireTime(60));
 
                         //发消息到kafka
-                        kafkaProducerService.sendMessageSync("pointrecordadd", JSONObject.toJSONString(pointRecordDO));
+                        kafkaProducerService.sendMessageSync("pointprod-pointadd", JSONObject.toJSONString(pointRecordDO));
                         //将积分记录返回
                         PointRecordCreateVO pointRecordCreateVO = new PointRecordCreateVO();
                         pointRecordCreateVO.setId(pointRecordDO.getId());

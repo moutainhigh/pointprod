@@ -66,7 +66,7 @@ public class SignInRecordServiceImpl implements SignInRecordService {
         if (canSendMessage) {
             redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_SignInRecord_GETBYUID, signInRecordCreateDTO.getUid()), signInRecordDOS, ToolUtils.GetExpireTime(60));
             //发消息到kafka
-            kafkaProducerService.sendMessageSync("signinrecordadd", JSONObject.toJSONString(signInRecordDO));
+            kafkaProducerService.sendMessageSync("pointprod-signinadd", JSONObject.toJSONString(signInRecordDO));
             return Result.buildSuccessResult();
         }
         return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "已经签到或者其它异常");
