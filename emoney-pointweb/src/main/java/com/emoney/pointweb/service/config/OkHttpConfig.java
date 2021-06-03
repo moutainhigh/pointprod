@@ -18,7 +18,7 @@ public class OkHttpConfig {
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
-                .addNetworkInterceptor(new NetworkIntercepter()) //网络拦截器，统一打印日志
+                //.addNetworkInterceptor(new NetworkIntercepter()) //网络拦截器，统一打印日志
                 .connectionPool(new ConnectionPool(200, 100, TimeUnit.MINUTES))
                 .build();
     }
