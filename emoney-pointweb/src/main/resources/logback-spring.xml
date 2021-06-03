@@ -68,7 +68,12 @@
 
 
 
-    <logger name="org.springframework.kafka.listener.KafkaMessageListenerContainer" level="warn">
+    <logger name="org.springframework.kafka.listener.KafkaMessageListenerContainer" level="error">
+        <appender-ref ref="filelog"/>
+        <appender-ref ref="logstash"/>
+    </logger>
+
+    <logger name="org.springframework.kafka.KafkaListenerEndpointContainer" level="error">
         <appender-ref ref="filelog"/>
         <appender-ref ref="logstash"/>
     </logger>
