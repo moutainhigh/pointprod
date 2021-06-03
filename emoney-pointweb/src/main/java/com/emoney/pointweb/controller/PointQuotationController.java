@@ -88,7 +88,7 @@ public class PointQuotationController {
     @RequestMapping("/edit")
     @ResponseBody
     public String edit(@RequestParam(required = false, defaultValue = "0") Integer id,
-                       String ver, String plat, String groupList, String showTime,
+                       String ver, String plat, String groupList, String showTime, String remark,
                        String content, HttpServletRequest request, HttpServletResponse response) {
         try {
             TicketInfo user = userLoginService.getLoginAdminUser(request, response);
@@ -104,6 +104,7 @@ public class PointQuotationController {
             pointQuotationDO.setUserGroup(groupList);
             pointQuotationDO.setPublishPlatFormType(plat);
             pointQuotationDO.setProductVersion(ver);
+            pointQuotationDO.setRemark(remark);
             if (!StringUtils.isEmpty(showTime)) {
                 pointQuotationDO.setShowTime(sdf.parse(showTime));
             } else {

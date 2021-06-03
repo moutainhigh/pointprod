@@ -33,4 +33,6 @@ public class PointQuotationVO {
     private Date createTime;
 
     private Date updateTime;
+
+    private String remark;
 }

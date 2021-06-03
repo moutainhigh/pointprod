@@ -3,6 +3,7 @@ package com.emoney.pointweb.repository.dao.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
 import lombok.Data;
 
 
@@ -30,7 +31,7 @@ public class PointProductDO implements Serializable {
      */
     private String productName;
 
-    private Float productPrice;
+    private BigDecimal productPrice;
 
     private Integer productDays;
 
@@ -50,6 +51,8 @@ public class PointProductDO implements Serializable {
      *
      */
     private String activityCode;
+
+    private BigDecimal activityPrice;
 
     /**
      *

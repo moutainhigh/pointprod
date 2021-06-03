@@ -1,8 +1,8 @@
-$(function() {
+$(function () {
 
     // init date tables
     var productTable = $("#product_list").DataTable({
-        "processing" : true,
+        "processing": true,
         language: {
             "sProcessing": "处理中...",
             "sLengthMenu": "显示 _MENU_ 项结果",
@@ -29,11 +29,11 @@ $(function() {
         },
         "ajax": {
             url: base_url + "/pointproduct/pageList",
-            type:"post",
-            data : function ( d ) {
+            type: "post",
+            data: function (d) {
                 var obj = {};
-                obj.productType=$("#opType").val();
-                obj.productStatus=$("#opStatus").val();
+                obj.productType = $("#opType").val();
+                obj.productStatus = $("#opStatus").val();
                 obj.ver = $("#opVer").val();
                 obj.plat = $("#opPlat").val();
                 return obj;
@@ -49,10 +49,8 @@ $(function() {
             {
                 "data": 'productType',
                 "render": function (data, type, row) {
-                    if(data)
-                    {
-                        switch (data)
-                        {
+                    if (data) {
+                        switch (data) {
                             case 1:
                                 return "产品使用期";
                                 break;
@@ -72,8 +70,7 @@ $(function() {
                                 return "";
                                 break;
                         }
-                    }
-                    else {
+                    } else {
                         return "";
                     }
                 }
@@ -84,14 +81,14 @@ $(function() {
             {
                 "data": 'productVersion',
                 "render": function (data, type, row) {
-                    if(data){
-                        data=data.substring(0,data.length-1).replace("888010000","小智盈");
-                        data=data.replace("888020000","深度资金版");
-                        data=data.replace("888080000","掘金版");
-                        data=data.replace("888010400","小智盈过期");
-                        data=data.replace("888020400","大师过期");
+                    if (data) {
+                        data = data.substring(0, data.length - 1).replace("888010000", "小智盈");
+                        data = data.replace("888020000", "深度资金版");
+                        data = data.replace("888080000", "掘金版");
+                        data = data.replace("888010400", "小智盈过期");
+                        data = data.replace("888020400", "大师过期");
                         return data;
-                    }else {
+                    } else {
                         return "";
                     }
                 }
@@ -99,15 +96,13 @@ $(function() {
             {
                 "data": 'exchangeType',
                 "render": function (data, type, row) {
-                    if(data)
-                    {
-                        if(data>0){
+                    if (data) {
+                        if (data > 0) {
                             return "积分+现金";
-                        }else {
+                        } else {
                             return "积分";
                         }
-                    }
-                    else {
+                    } else {
                         return "积分";
                     }
                 }
@@ -137,7 +132,7 @@ $(function() {
                 }
             },
             {
-                "data":'updateBy'
+                "data": 'updateBy'
             }
         ],
         columnDefs: [{
@@ -152,44 +147,44 @@ $(function() {
     });
 
     // search btn
-    $('.op').on('change', function(){
+    $('.op').on('change', function () {
         productTable.ajax.reload();
     });
 
     //显示活动图片配置
-    $('#productType').on('change', function(){
+    $('#productType').on('change', function () {
         changeModal();
     });
 
-    $('#btnAdd').on('click', function(){
+    $('#btnAdd').on('click', function () {
         changeModal();
 
-        $("#modal-default").modal({ backdrop: false, keyboard: false }).modal('show');
+        $("#modal-default").modal({backdrop: false, keyboard: false}).modal('show');
     });
 
     //检索物流包信息
-    $("#checkAcCode").on("click",function (){
-        var obj=new Object();
-        obj.acCode=$("#actCode").val();
+    $("#checkAcCode").on("click", function () {
+        var obj = new Object();
+        obj.acCode = $("#actCode").val();
 
-        if(!obj.acCode){
+        if (!obj.acCode) {
             alert("请输入物流包");
             return false;
         }
 
-        var postUrl=base_url + "/pointproduct/checkActivityCode";
+        var postUrl = base_url + "/pointproduct/checkActivityCode";
         $.ajax({
             type: "POST",
             url: postUrl,
             data: obj,
             success: function (data) {
-                if (data.code == "0"&& data.data[0] != null) {
+                if (data.code == "0" && data.data[0] != null) {
                     $("#productName").val(data.data[0].ActivityName);
                     $("#productPrice").val(data.data[0].ActivityPrice);
+                    $("#actPrice").val(data.data[0].ActivityPrice);
                     $("#actStartTime").val(moment(data.data[0].ActivityStartTime).format("YYYY-MM-DD HH:mm:ss"))
                     $("#actEndTime").val(moment(data.data[0].ActivityEndTime).format("YYYY-MM-DD HH:mm:ss"))
-                }
-                else {
+                } else {
                     alert("未查询到物流包信息");
                 }
             },
@@ -203,34 +198,35 @@ $(function() {
     });
 
     //保存
-    $(".btnSave").on("click",function (){
-        var obj=new Object();
-        obj.id=$("#hiddenid").val();
-        obj.productType=$("#productType option:selected").val();
-        obj.exchangeType=$("#exchange_type input[type=radio]:checked").val();
-        obj.acCode=$("#actCode").val();
-        obj.productDays=$("#productDays").val();
-        obj.actStartTime=$("#actStartTime").val();
-        obj.actEndTime=$("#actEndTime").val();
-        obj.productName=$("#productName").val();
-        obj.productPrice=$("#productPrice").val();
-        obj.exChangeStartTime=$("#exChangeStartTime").val();
-        obj.exChangeEndTime=$("#exChangeEndTime").val();
-        obj.productCash=$("#productCash").val();
-        obj.productPoint=$("#productPoint").val();
-        obj.totalLimit=$("#totalLimit").val();
-        obj.perLimit=$("#perLimit").val();
-        obj.fileurl=$("#fileurl").val();
-        var ver="";
-        $("#ver input[type=checkbox]:checked").each(function() {
-            ver +=  $(this).val() + ',';
+    $(".btnSave").on("click", function () {
+        var obj = new Object();
+        obj.id = $("#hiddenid").val();
+        obj.productType = $("#productType option:selected").val();
+        obj.exchangeType = $("#exchange_type input[type=radio]:checked").val();
+        obj.acCode = $("#actCode").val();
+        obj.productDays = $("#productDays").val();
+        obj.actStartTime = $("#actStartTime").val();
+        obj.actEndTime = $("#actEndTime").val();
+        obj.productName = $("#productName").val();
+        obj.productPrice = $("#productPrice").val();
+        obj.activityPrice = $("#actPrice").val();
+        obj.exChangeStartTime = $("#exChangeStartTime").val();
+        obj.exChangeEndTime = $("#exChangeEndTime").val();
+        obj.productCash = $("#productCash").val();
+        obj.productPoint = $("#productPoint").val();
+        obj.totalLimit = $("#totalLimit").val();
+        obj.perLimit = $("#perLimit").val();
+        obj.fileurl = $("#fileurl").val();
+        var ver = "";
+        $("#ver input[type=checkbox]:checked").each(function () {
+            ver += $(this).val() + ',';
         })
-        obj.ver=ver;
-        var plat="";
-        $("#platfrom input[type=checkbox]:checked").each(function() {
-            plat +=  $(this).val() + ',';
+        obj.ver = ver;
+        var plat = "";
+        $("#platfrom input[type=checkbox]:checked").each(function () {
+            plat += $(this).val() + ',';
         })
-        obj.plat=plat;
+        obj.plat = plat;
         var str = "";
         var goodsArr = $("#GroupList").select2("val");
         for (var i = 0; i < goodsArr.length; i++) {
@@ -240,16 +236,16 @@ $(function() {
             }
         }
         obj.groupList = str;
-        obj.exChangeContent=editor.txt.html();
-        obj.remark=editor1.txt.html();
-        obj.pcimg=$("#pcimg").val();
-        obj.appimg=$("#appimg").val();
-        obj.wechatimg=$("#wechatimg").val();
-        obj.pcdetailimg=$("#pcdetailimg").val();
-        obj.appdetailimg=$("#appdetailimg").val();
-        obj.wechatdetailimg=$("#wechatdetailimg").val();
+        obj.exChangeContent = editor.txt.html();
+        obj.remark = editor1.txt.html();
+        obj.pcimg = $("#pcimg").val();
+        obj.appimg = $("#appimg").val();
+        obj.wechatimg = $("#wechatimg").val();
+        obj.pcdetailimg = $("#pcdetailimg").val();
+        obj.appdetailimg = $("#appdetailimg").val();
+        obj.wechatdetailimg = $("#wechatdetailimg").val();
 
-        if(!validate(obj)){
+        if (!validate(obj)) {
             return false;
         }
 
@@ -259,56 +255,56 @@ $(function() {
             data: obj,
             datatype: "text",
             success: function (data) {
-                $(".btnSave").attr("disabled",false);
+                $(".btnSave").attr("disabled", false);
                 if (data == "success") {
                     productTable.ajax.reload();
                     clertAndCloseModal();
-                }else {
+                } else {
                     alert(data);
                 }
             },
             beforeSend: function () {
-                $(".btnSave").attr("disabled",true);
+                $(".btnSave").attr("disabled", true);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
             }
         });
     })
 
-    function validate(obj){
-        if(!obj.exChangeStartTime){
+    function validate(obj) {
+        if (!obj.exChangeStartTime) {
             alert("请选择兑换开始时间");
             return false;
         }
-        if(!obj.exChangeEndTime){
+        if (!obj.exChangeEndTime) {
             alert("请选择兑换结束时间");
             return false;
         }
-        if(!obj.exchangeType){
+        if (!obj.exchangeType) {
             alert("请选择兑换类型");
             return false;
         }
-        if(!obj.productPoint){
+        if (!obj.productPoint) {
             alert("请填写积分数量");
             return false;
         }
-        if(!obj.totalLimit){
+        if (!obj.totalLimit) {
             alert("请填写总限额");
             return false;
         }
-        if(!obj.perLimit){
+        if (!obj.perLimit) {
             alert("请填写每人限额");
             return false;
         }
-        if(!obj.ver){
+        if (!obj.ver) {
             alert("请选择产品版本");
             return false;
         }
         return true;
     }
 
-    $(".btnClose").on('click',function (){
-        if(confirm("你的编辑未保存，确认要关闭吗？")){
+    $(".btnClose").on('click', function () {
+        if (confirm("你的编辑未保存，确认要关闭吗？")) {
             clertAndCloseModal();
         }
     });

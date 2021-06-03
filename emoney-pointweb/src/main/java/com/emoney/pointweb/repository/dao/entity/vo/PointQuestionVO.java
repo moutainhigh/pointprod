@@ -75,4 +75,6 @@ public class PointQuestionVO {
      * 更新时间
      */
     private Date updateTime;
+
+    private String remark;
 }

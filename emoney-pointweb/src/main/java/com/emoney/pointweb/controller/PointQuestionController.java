@@ -90,7 +90,7 @@ public class PointQuestionController {
     @ResponseBody
     public String edit(@RequestParam(required = false, defaultValue = "0") Integer id, Integer questionType,
                        String showTime, String questionContent, String questionOptions, String questionRightoptions,
-                       String ver, String plat, String groupList,
+                       String ver, String plat, String groupList, String remark,
                        HttpServletRequest request, HttpServletResponse response) {
         try {
             TicketInfo user = userLoginService.getLoginAdminUser(request, response);
@@ -105,6 +105,7 @@ public class PointQuestionController {
             pointQuestionDO.setUserGroup(groupList);
             pointQuestionDO.setPublishPlatFormType(plat);
             pointQuestionDO.setProductVersion(ver);
+            pointQuestionDO.setRemark(remark);
             if (!StringUtils.isEmpty(showTime)) {
                 pointQuestionDO.setShowTime(sdf.parse(showTime));
             } else {
