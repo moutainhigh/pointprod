@@ -52,7 +52,7 @@ public class KafkaConsumerPointRecordService {
     @Autowired
     private RedisService redisCache1;
 
-    @Value("${pointFrontUrl}")
+    @Value("${pointfront.url}")
     private String pointFrontUrl;
 
     @Resource(name = "taskExecutor")
@@ -87,6 +87,7 @@ public class KafkaConsumerPointRecordService {
                             if (pointTaskConfigInfoDOS != null && pointTaskConfigInfoDOS.size() > 0) {
                                 PointTaskConfigInfoDO pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().findFirst().orElse(null);
                                 if (pointTaskConfigInfoDO != null && pointTaskConfigInfoDO.getTaskType().equals(2)) {
+                                    log.info("积分弹窗url"+pointFrontUrl);
                                     Thread.sleep(1000 * 3);
                                     messageService.sendMessage(pointRecordDO.getUid(), "积分弹窗", pointFrontUrl + "/message/index");
                                 }
