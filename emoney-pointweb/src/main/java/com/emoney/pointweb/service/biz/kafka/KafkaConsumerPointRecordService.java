@@ -64,6 +64,7 @@ public class KafkaConsumerPointRecordService {
         try {
             // 消费的哪个topic、partition的消息,打印出消息内容
             log.info("topic->{},value->{},offset->{}", record.topic(), record.value(), record.offset());
+            log.info("积分弹窗URL2" + pointFrontUrl);
             PointRecordDO pointRecordDO = JsonUtil.toBean(record.value().toString(), PointRecordDO.class);
             if (pointRecordDO != null && pointRecordDO.getUid() != null) {
                 //写入数据库
