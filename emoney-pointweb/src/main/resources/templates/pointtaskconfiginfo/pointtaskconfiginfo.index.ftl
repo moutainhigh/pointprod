@@ -103,7 +103,7 @@
                 <div class="col-sm-12">
                     <div class="box">
                         <div class="box-body">
-                            <table id="task_list" class="table table-bordered table-striped">
+                            <table id="task_list" class="table table-bordered table-striped" width="100%">
                                 <thead>
                                 <tr>
                                     <th>序号</th>
