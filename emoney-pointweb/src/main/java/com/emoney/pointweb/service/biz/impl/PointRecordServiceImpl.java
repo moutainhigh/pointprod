@@ -313,7 +313,7 @@ public class PointRecordServiceImpl implements PointRecordService {
         } else {
             pointRecordDO.setExpirationTime(DateUtil.parseDateTime((DateUtil.year(DateUtil.date()) + 2) + "-03-31 23:59:59"));
         }
-        pointRecordDO.setLeftPoint(pointTaskConfigInfoDO.getTaskPoints());
+        pointRecordDO.setLeftPoint(pointRecordDO.getTaskPoint());
         pointRecordDO.setIsValid(true);
         pointRecordDO.setLockDays(pointRecordCreateDTO.getLockDays());
         return pointRecordDO;
