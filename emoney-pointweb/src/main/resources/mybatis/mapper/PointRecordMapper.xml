@@ -75,8 +75,7 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_point_record
-        WHERE uid=#{uid} AND point_status IN (2,3) AND is_valid=1
-        --AND task_point <![CDATA[!= ]]>0
+        WHERE uid=#{uid} AND point_status IN (2,3) AND is_valid=1 AND task_point <![CDATA[!= ]]>0
         <if test="pointStatus != -1">
           AND point_status = #{pointStatus}
         </if>
