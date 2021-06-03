@@ -176,6 +176,9 @@ public class PointRecordServiceImpl implements PointRecordService {
                         return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "今天积分发送额度已满，请明天早点来吧！ ");
                     } else {
                         redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointRecordCreateDTO.getUid()), pointRecordDOS, ToolUtils.GetExpireTime(60));
+
+                        log.info("积分弹窗aaahttp://pre.point.emoney.cn");
+
                         //发消息到kafka
                         kafkaProducerService.sendMessageSync("pointrecordadd", JSONObject.toJSONString(pointRecordDO));
                         //将积分记录返回
