@@ -35,7 +35,7 @@
             <!--历史文件保留个数-->
             <maxHistory>1</maxHistory>
             <!--日志文件最大量 5G-->
-            <totalSizeCap>5GB</totalSizeCap>
+            <totalSizeCap>2GB</totalSizeCap>
         </rollingPolicy>
         <encoder>
             <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
@@ -67,16 +67,8 @@
     </appender>
 
 
-
-    <logger name="org.springframework.kafka.listener.KafkaMessageListenerContainer" level="error">
-        <appender-ref ref="filelog"/>
-        <appender-ref ref="logstash"/>
-    </logger>
-
-    <logger name="org.apache.kafka.clients.NetworkClient" level="error">
-        <appender-ref ref="filelog"/>
-        <appender-ref ref="logstash"/>
-    </logger>
+    <logger name="org.springframework.kafka.listener.KafkaMessageListenerContainer" level="error" />
+    <logger name="org.apache.kafka.clients.NetworkClient" level="off" />
 
     <springProfile name="dev">
         <root level="INFO">

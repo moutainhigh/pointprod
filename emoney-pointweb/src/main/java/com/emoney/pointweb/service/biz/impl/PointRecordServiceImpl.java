@@ -84,14 +84,10 @@ public class PointRecordServiceImpl implements PointRecordService {
     @Value("${mail.toMail.addr}")
     private String toMailAddress;
 
-    @Value("${pointfront.url}")
-    private String pointFrontUrl;
-
     @Override
     public Result<Object> createPointRecord(PointRecordCreateDTO pointRecordCreateDTO) {
 
         log.info("增加积分,参数:"+ JSON.toJSONString(pointRecordCreateDTO));
-        log.info("积分弹窗URL1" + pointFrontUrl);
         //是否发送消息
         boolean canSendMessage = false;
         PointRecordDO pointRecordDO = new PointRecordDO();
