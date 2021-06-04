@@ -61,6 +61,7 @@ public class LogisticsServiceImpl implements LogisticsService {
     public List<QueryCouponActivityVO> getCouponRulesByAcCode(String couponActivityID) {
         String url = MessageFormat.format("{0}/api/logistics/1.0/coupon.getcouponrulesbycouponaccode?gate_appid={1}&CouponActivityID={2}", insideGatewayUrl, "10199", couponActivityID);
         String ret = OkHttpUtil.get(url, null);
+        log.info("调用查询优惠券接口,请求地址:" + url, "返回:" + ret);
         if (!StringUtils.isEmpty(ret)) {
             ResultInfo<String> resultInfo = JSON.parseObject(ret, ResultInfo.class);
             if (resultInfo != null && resultInfo.getRetCode().equals(0)) {
@@ -75,6 +76,7 @@ public class LogisticsServiceImpl implements LogisticsService {
     public Boolean SendCoupon(SendCouponDTO sendCouponDTO) {
         String url = MessageFormat.format("{0}/api/logistics/1.0/coupon.sendcoupon?gate_appid={1}", insideGatewayUrl, "10199");
         String ret = OkHttpUtil.postJsonParams(url, JSON.toJSONString(sendCouponDTO));
+        log.info("发送优惠券返回:" + ret);
         if (!StringUtils.isEmpty(ret)) {
             ResultInfo<String> resultInfo = JSON.parseObject(ret, ResultInfo.class);
             if (resultInfo != null && resultInfo.getRetCode().equals(0)) {
@@ -89,6 +91,7 @@ public class LogisticsServiceImpl implements LogisticsService {
     public Boolean SenddPrivilege(SendPrivilegeDTO sendPrivilegeDTO) {
         String url = MessageFormat.format("{0}/api/logistics/1.0/privilege.sendprivilege?gate_appid={1}", insideGatewayUrl, "10199");
         String ret = OkHttpUtil.postJsonParams(url, JSON.toJSONString(sendPrivilegeDTO));
+        log.info("发送特权返回:" + ret);
         if (!StringUtils.isEmpty(ret)) {
             ResultInfo<String> resultInfo = JSON.parseObject(ret, ResultInfo.class);
             if (resultInfo != null && resultInfo.getRetCode().equals(0)) {
