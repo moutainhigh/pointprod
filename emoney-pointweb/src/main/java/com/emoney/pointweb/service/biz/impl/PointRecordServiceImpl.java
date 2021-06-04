@@ -96,18 +96,15 @@ public class PointRecordServiceImpl implements PointRecordService {
         PointRecordDO pointRecordDO = new PointRecordDO();
         //获取任务信息
         PointTaskConfigInfoDO pointTaskConfigInfoDO = null;
-        List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = pointTaskConfigInfoRepository.getByTaskIdAndSubId(pointRecordCreateDTO.getTaskId(), pointRecordCreateDTO.getSubId());
+        List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = pointTaskConfigInfoRepository.getByTaskIdAndSubId(pointRecordCreateDTO.getTaskId(), pointRecordCreateDTO.getSubId(),new Date());
         if (pointTaskConfigInfoDOS != null) {
-            pointTaskConfigInfoDOS = pointTaskConfigInfoDOS.stream().filter(h -> h.getTaskStartTime().before(new Date()) && h.getTaskEndTime().after(new Date())).collect(Collectors.toList());
-            if (pointTaskConfigInfoDOS != null) {
-                if (!StringUtils.isEmpty(pointRecordCreateDTO.getSubId())) {
-                    pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().filter(h -> h.getSubId().equals(pointRecordCreateDTO.getSubId())).findAny().orElse(null);
-                } else {
-                    if (pointTaskConfigInfoDOS.size() > 1) {
-                        return buildErrorResult(BaseResultCodeEnum.ILLEGAL_ARGUMENT.getCode(), "后台配置错误");
-                    }
-                    pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().findFirst().orElse(null);
+            if (!StringUtils.isEmpty(pointRecordCreateDTO.getSubId())) {
+                pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().filter(h -> h.getSubId().equals(pointRecordCreateDTO.getSubId())).findFirst().orElse(null);
+            } else {
+                if (pointTaskConfigInfoDOS.size() > 1) {
+                    return buildErrorResult(BaseResultCodeEnum.ILLEGAL_ARGUMENT.getCode(), "后台配置错误");
                 }
+                pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().findFirst().orElse(null);
             }
         }
         if (pointTaskConfigInfoDO != null && pointTaskConfigInfoDO.getTaskStartTime().before(new Date()) && pointTaskConfigInfoDO.getTaskEndTime().after(new Date())) {

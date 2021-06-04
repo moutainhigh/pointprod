@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface PointTaskConfigInfoRepository {
-    List<PointTaskConfigInfoDO> getByTaskIdAndSubId(Long taskId,String subId);
+    List<PointTaskConfigInfoDO> getByTaskIdAndSubId(Long taskId,String subId,Date curDate);
 
     List<PointTaskConfigInfoDO> getAllEffectiveTasks(Date curDate);
 

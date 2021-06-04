@@ -30,10 +30,10 @@ public class PointTaskConfigInfoRepositoryImpl implements PointTaskConfigInfoRep
     private RedisService redisCache1;
 
     @Override
-    public List<PointTaskConfigInfoDO> getByTaskIdAndSubId(Long taskId, String subId) {
+    public List<PointTaskConfigInfoDO> getByTaskIdAndSubId(Long taskId, String subId,Date curDate) {
         List<PointTaskConfigInfoDO> pointTaskConfigInfoDOs = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETBYTASKID, taskId, subId), PointTaskConfigInfoDO.class);
         if (pointTaskConfigInfoDOs == null) {
-            pointTaskConfigInfoDOs = pointTaskConfigInfoMapper.getByTaskIdAndSubId(taskId, subId);
+            pointTaskConfigInfoDOs = pointTaskConfigInfoMapper.getByTaskIdAndSubId(taskId, subId,curDate);
             if (pointTaskConfigInfoDOs != null && pointTaskConfigInfoDOs.size() > 0) {
                 redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETBYTASKID, taskId, subId), pointTaskConfigInfoDOs, (long) 60 * 60 * 8);
             }

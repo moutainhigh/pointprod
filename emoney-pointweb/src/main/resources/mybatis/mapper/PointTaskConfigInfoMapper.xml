@@ -208,7 +208,7 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_point_taskconfiginfo
-        WHERE task_id=#{taskId}
+        WHERE task_id=#{taskId} AND task_starttime &lt;= #{curDate} AND task_endtime &gt;= #{curDate}
         <if test="subId !=null and subId !=''">
             AND sub_id = #{subId}
         </if>

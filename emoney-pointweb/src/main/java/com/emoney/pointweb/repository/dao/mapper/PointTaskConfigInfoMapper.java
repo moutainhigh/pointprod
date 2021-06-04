@@ -18,7 +18,7 @@ public interface PointTaskConfigInfoMapper {
 
     int update(PointTaskConfigInfoDO pointTaskConfigInfoDO);
 
-    List<PointTaskConfigInfoDO> getByTaskIdAndSubId(Long taskId,String subId);
+    List<PointTaskConfigInfoDO> getByTaskIdAndSubId(Long taskId,String subId,Date curDate);
 
     List<PointTaskConfigInfoDO> getAllEffectiveTasks(Date curDate);
 
