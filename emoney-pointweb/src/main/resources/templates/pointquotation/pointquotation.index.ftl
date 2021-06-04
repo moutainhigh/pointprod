@@ -143,7 +143,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="firstname" class="col-sm-2 control-label">备注<font color="red">*</font></label>
+                            <label for="firstname" class="col-sm-2 control-label">备注</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="remark" id="remark" placeholder="备注">
                             </div>
