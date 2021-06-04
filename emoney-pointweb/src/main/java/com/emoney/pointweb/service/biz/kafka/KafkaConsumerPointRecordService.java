@@ -21,6 +21,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.KafkaListeners;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -59,7 +60,8 @@ public class KafkaConsumerPointRecordService {
     private ThreadPoolTaskExecutor executor;
 
     // 消费监听
-    @KafkaListener(topics = {"pointprod-pointadd"}, groupId = "pointprodgroup")
+    @KafkaListeners({@KafkaListener(topics="pointrecordadd", groupId = "pointrecordgroup"),
+            @KafkaListener(topics="pointprod-pointadd", groupId = "pointprodgroup")})
     public void onMessage(@Payload ConsumerRecord<?, ?> record, Acknowledgment acknowledgment) {
         try {
             // 消费的哪个topic、partition的消息,打印出消息内容

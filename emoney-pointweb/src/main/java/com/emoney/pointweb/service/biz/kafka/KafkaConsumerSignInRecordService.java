@@ -13,7 +13,9 @@ import com.emoney.pointweb.service.biz.redis.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.KafkaListeners;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
@@ -31,7 +33,8 @@ public class KafkaConsumerSignInRecordService {
     private SingInRecordESRepository singInRecordESRepository;
 
     // 消费监听
-    @KafkaListener(topics = {"pointprod-signinadd"}, groupId = "pointprodgroup")
+    @KafkaListeners({@KafkaListener(topics="signinrecordadd", groupId = "pointrecordgroup"),
+            @KafkaListener(topics="pointprod-signinadd", groupId = "pointprodgroup")})
     public void onMessage(@Payload ConsumerRecord<?, ?> record, Acknowledgment acknowledgment) {
         try {
             // 消费的哪个topic、partition的消息,打印出消息内容

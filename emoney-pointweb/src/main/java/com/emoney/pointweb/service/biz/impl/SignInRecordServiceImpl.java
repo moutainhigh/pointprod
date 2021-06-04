@@ -17,6 +17,7 @@ import com.emoney.pointweb.service.biz.kafka.KafkaProducerService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -39,9 +40,12 @@ public class SignInRecordServiceImpl implements SignInRecordService {
     @Autowired
     private RedisService redisCache1;
 
+    @Value("${signinrecord.topic}")
+    private String signinrecordTopic;
+
     @Override
     public SignInRecordDO getById(Long uid, Long id) {
-        return  signInRecordRepository.getById(uid,id);
+        return signInRecordRepository.getById(uid, id);
     }
 
     @Override
@@ -49,7 +53,7 @@ public class SignInRecordServiceImpl implements SignInRecordService {
         //是否发送消息
         boolean canSendMessage = false;
         SignInRecordDO signInRecordDO = new SignInRecordDO();
-        List<SignInRecordDO> signInRecordDOS = signInRecordRepository.getByUid(signInRecordCreateDTO.getUid(),DateUtil.parseDate(DateUtil.year(date())+"-01-01"));
+        List<SignInRecordDO> signInRecordDOS = signInRecordRepository.getByUid(signInRecordCreateDTO.getUid(), DateUtil.parseDate(DateUtil.year(date()) + "-01-01"));
         if (signInRecordDOS != null && signInRecordDOS.size() > 0) {
             if (signInRecordDOS.stream().filter(h -> h.getUid().equals(signInRecordCreateDTO.getUid()) && DateUtil.formatDate(h.getSignInTime()).equals(DateUtil.formatDate(date()))).count() > 0) {
                 return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "不允许重复签到");
@@ -66,7 +70,7 @@ public class SignInRecordServiceImpl implements SignInRecordService {
         if (canSendMessage) {
             redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_SignInRecord_GETBYUID, signInRecordCreateDTO.getUid()), signInRecordDOS, ToolUtils.GetExpireTime(60));
             //发消息到kafka
-            kafkaProducerService.sendMessageSync("pointprod-signinadd", JSONObject.toJSONString(signInRecordDO));
+            kafkaProducerService.sendMessageSync(signinrecordTopic, JSONObject.toJSONString(signInRecordDO));
             return Result.buildSuccessResult();
         }
         return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "已经签到或者其它异常");
@@ -74,7 +78,7 @@ public class SignInRecordServiceImpl implements SignInRecordService {
 
     @Override
     public List<SignInRecordDO> getByUid(Long uid, Date firstDay) {
-        return signInRecordRepository.getByUid(uid,firstDay);
+        return signInRecordRepository.getByUid(uid, firstDay);
     }
 
     private SignInRecordDO setSignInRecord(SignInRecordCreateDTO signInRecordCreateDTO) {

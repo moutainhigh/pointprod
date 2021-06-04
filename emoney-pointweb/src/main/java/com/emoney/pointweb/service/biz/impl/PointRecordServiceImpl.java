@@ -84,10 +84,13 @@ public class PointRecordServiceImpl implements PointRecordService {
     @Value("${mail.toMail.addr}")
     private String toMailAddress;
 
+    @Value("${pointrecord.topic}")
+    private String pointrecordTopic;
+
     @Override
     public Result<Object> createPointRecord(PointRecordCreateDTO pointRecordCreateDTO) {
 
-        log.info("增加积分,参数:"+ JSON.toJSONString(pointRecordCreateDTO));
+        log.info("增加积分,参数:" + JSON.toJSONString(pointRecordCreateDTO));
         //是否发送消息
         boolean canSendMessage = false;
         PointRecordDO pointRecordDO = new PointRecordDO();
@@ -111,12 +114,12 @@ public class PointRecordServiceImpl implements PointRecordService {
             }
             //获取积分记录
             List<PointRecordDO> pointRecordDOS = pointRecordRepository.getByUid(pointRecordCreateDTO.getUid());
-            List<PointRecordDO> tmpPointRecords=new ArrayList<>();
+            List<PointRecordDO> tmpPointRecords = new ArrayList<>();
             if (pointRecordDOS != null && pointRecordDOS.size() > 0) {
-                if(pointRecordCreateDTO.getSubId()!=null){
-                    tmpPointRecords= pointRecordDOS.stream().filter(h -> h.getTaskId().equals(pointRecordCreateDTO.getTaskId()) &&h.getSubId().equals(pointRecordCreateDTO.getSubId())).collect(Collectors.toList());
-                }else {
-                    tmpPointRecords=pointRecordDOS.stream().filter(h -> h.getTaskId().equals(pointRecordCreateDTO.getTaskId())).collect(Collectors.toList());
+                if (pointRecordCreateDTO.getSubId() != null) {
+                    tmpPointRecords = pointRecordDOS.stream().filter(h -> h.getTaskId().equals(pointRecordCreateDTO.getTaskId()) && h.getSubId().equals(pointRecordCreateDTO.getSubId())).collect(Collectors.toList());
+                } else {
+                    tmpPointRecords = pointRecordDOS.stream().filter(h -> h.getTaskId().equals(pointRecordCreateDTO.getTaskId())).collect(Collectors.toList());
                 }
                 long dailyTaskCount = tmpPointRecords.stream().filter(h -> DateUtil.formatDate(h.getCreateTime()).equals(DateUtil.formatDate(date()))).count() + 1;
                 long nDailyTaskCount = tmpPointRecords.stream().count() + 1;
@@ -151,8 +154,8 @@ public class PointRecordServiceImpl implements PointRecordService {
                         }
                     }
                     if (curTotal > pointLimitDO.getPointLimitvalue()) {
-                        String cTaskId=String.valueOf(pointTaskConfigInfoDO.getTaskId());
-                        String cTaskName=pointTaskConfigInfoDO.getTaskName();
+                        String cTaskId = String.valueOf(pointTaskConfigInfoDO.getTaskId());
+                        String cTaskName = pointTaskConfigInfoDO.getTaskName();
                         //异步处理
                         CompletableFuture.runAsync(() -> {
                             try {
@@ -177,7 +180,7 @@ public class PointRecordServiceImpl implements PointRecordService {
                         redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointRecordCreateDTO.getUid()), pointRecordDOS, ToolUtils.GetExpireTime(60));
 
                         //发消息到kafka
-                        kafkaProducerService.sendMessageSync("pointprod-pointadd", JSONObject.toJSONString(pointRecordDO));
+                        kafkaProducerService.sendMessageSync(pointrecordTopic, JSONObject.toJSONString(pointRecordDO));
                         //将积分记录返回
                         PointRecordCreateVO pointRecordCreateVO = new PointRecordCreateVO();
                         pointRecordCreateVO.setId(pointRecordDO.getId());
@@ -282,7 +285,7 @@ public class PointRecordServiceImpl implements PointRecordService {
             pointRecordDO.setTaskPoint(pointRecordCreateDTO.getManualPoint());
         }
 
-        if(!StringUtils.isEmpty(pointRecordCreateDTO.getTaskName())){
+        if (!StringUtils.isEmpty(pointRecordCreateDTO.getTaskName())) {
             pointRecordDO.setTaskName(pointRecordCreateDTO.getTaskName());
         }
         pointRecordDO.setIsDailytask(pointTaskConfigInfoDO.getIsDailyTask());
