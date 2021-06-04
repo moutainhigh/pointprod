@@ -108,11 +108,7 @@ public class PointRecordServiceImpl implements PointRecordService {
                     }
                     pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().findFirst().orElse(null);
                 }
-            } else {
-                return buildErrorResult(BaseResultCodeEnum.ILLEGAL_ARGUMENT.getCode(), "任务无效或已过期");
             }
-        } else {
-            return buildErrorResult(BaseResultCodeEnum.ILLEGAL_ARGUMENT.getCode(), "任务无效或已过期");
         }
         if (pointTaskConfigInfoDO != null && pointTaskConfigInfoDO.getTaskStartTime().before(new Date()) && pointTaskConfigInfoDO.getTaskEndTime().after(new Date())) {
             //判断sub_id
