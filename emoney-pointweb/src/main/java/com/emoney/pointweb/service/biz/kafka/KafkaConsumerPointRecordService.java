@@ -86,7 +86,7 @@ public class KafkaConsumerPointRecordService {
                     CompletableFuture.runAsync(() -> {
                         try {
                             //成长任务发送积分通知
-                            List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = pointTaskConfigInfoRepository.getByTaskIdAndSubId(pointRecordDO.getTaskId(), pointRecordDO.getSubId());
+                            List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = pointTaskConfigInfoRepository.getByTaskIdAndSubId(pointRecordDO.getTaskId(), pointRecordDO.getSubId(),new Date());
                             if (pointTaskConfigInfoDOS != null && pointTaskConfigInfoDOS.size() > 0) {
                                 PointTaskConfigInfoDO pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().findFirst().orElse(null);
                                 if (pointTaskConfigInfoDO != null && pointTaskConfigInfoDO.getTaskType().equals(2)) {
