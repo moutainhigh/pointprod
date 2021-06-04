@@ -151,7 +151,7 @@
                                     <option value="1">产品使用期</option>
                                     <option value="2">优惠券</option>
                                     <option value="3">新功能体验</option>
-                                    <option value="4">门票兑换</option>
+                                    <option value="4">特色服务</option>
                                     <option value="5">实物兑换</option>
                                 </select>
                             </div>
@@ -343,7 +343,7 @@
                                 <div id="pcPicUploader" style="width: 100%;">
                                     <div id="FileList" style="position:relative;width: 100%;" class="uploader-list">
                                     </div>
-                                    <div id="FilePicker" class="FilePicker">上传附件</div>
+                                    <div id="FilePicker" class="FilePicker col-sm-2">上传附件</div><span style="float: left;margin-top: 10px;">投资内参专用</span>
                                 </div>
                             </div>
                         </div>
