@@ -25,7 +25,7 @@ public interface PointTaskConfigInfoService {
 
     List<PointTaskConfigInfoDO> getAllEffectiveTasks(Date curDate, Long uid, String productVersion, String publishPlatFormType);
 
-    List<PointTaskConfigInfoDO> getByTaskIdAndSubId(Long taskId, String subId);
+    List<PointTaskConfigInfoDO> getByTaskIdAndSubId(Long taskId, String subId,Date curDate);
 
     List<PointTaskConfigInfoDO> getTasksByTaskType(int taskType, Long uid, String productVersion, String publishPlatFormType);
 

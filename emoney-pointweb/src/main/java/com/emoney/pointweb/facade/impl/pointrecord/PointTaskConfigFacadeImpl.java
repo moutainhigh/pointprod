@@ -44,7 +44,7 @@ public class PointTaskConfigFacadeImpl implements PointTaskConfigFacade {
     @Override
     public Result<List<PointTaskConfigVO>> queryPointTaskConfig(@NotNull(message = "任务id不能为空") Long taskId, String subId) {
         try {
-            return Result.buildSuccessResult(JsonUtil.toBeanList(JSON.toJSONString(pointTaskConfigInfoService.getByTaskIdAndSubId(taskId, subId)), PointTaskConfigVO.class));
+            return Result.buildSuccessResult(JsonUtil.toBeanList(JSON.toJSONString(pointTaskConfigInfoService.getByTaskIdAndSubId(taskId, subId,new Date())), PointTaskConfigVO.class));
         } catch (Exception e) {
             log.error("queryPointTaskConfig error:", e);
             return Result.buildErrorResult(e.getMessage());

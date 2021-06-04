@@ -84,7 +84,7 @@ public class PointTaskConfigInfoController {
                 return "排序相同，不能保存";
             }
 
-            List<PointTaskConfigInfoDO> checkData = pointTaskConfigInfoService.getByTaskIdAndSubId(taskId, subid);
+            List<PointTaskConfigInfoDO> checkData = pointTaskConfigInfoService.getByTaskIdAndSubId(taskId, subid,new Date());
 
             PointTaskConfigInfoDO ptci = new PointTaskConfigInfoDO();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

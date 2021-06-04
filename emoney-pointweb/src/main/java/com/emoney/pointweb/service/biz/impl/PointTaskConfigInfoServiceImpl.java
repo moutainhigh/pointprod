@@ -169,8 +169,8 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
     }
 
     @Override
-    public List<PointTaskConfigInfoDO> getByTaskIdAndSubId(Long taskId, String subId) {
-        return pointTaskConfigInfoRepository.getByTaskIdAndSubId(taskId, subId);
+    public List<PointTaskConfigInfoDO> getByTaskIdAndSubId(Long taskId, String subId,Date curDate) {
+        return pointTaskConfigInfoRepository.getByTaskIdAndSubId(taskId, subId,curDate);
     }
 
     @Override
@@ -238,7 +238,7 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
         List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = new ArrayList<>();
         for (Long taskId : listTaskIds
         ) {
-            List<PointTaskConfigInfoDO> tmp = pointTaskConfigInfoRepository.getByTaskIdAndSubId(taskId, null);
+            List<PointTaskConfigInfoDO> tmp = pointTaskConfigInfoRepository.getByTaskIdAndSubId(taskId, null,new Date());
             if (tmp != null) {
                 pointTaskConfigInfoDOS.addAll(tmp);
             }
