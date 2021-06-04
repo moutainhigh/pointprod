@@ -98,14 +98,21 @@ public class PointRecordServiceImpl implements PointRecordService {
         PointTaskConfigInfoDO pointTaskConfigInfoDO = null;
         List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = pointTaskConfigInfoRepository.getByTaskIdAndSubId(pointRecordCreateDTO.getTaskId(), pointRecordCreateDTO.getSubId());
         if (pointTaskConfigInfoDOS != null) {
-            if (!StringUtils.isEmpty(pointRecordCreateDTO.getSubId())) {
-                pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().filter(h -> h.getSubId().equals(pointRecordCreateDTO.getSubId())).findAny().orElse(null);
-            } else {
-                if (pointTaskConfigInfoDOS.size() > 1) {
-                    return buildErrorResult(BaseResultCodeEnum.ILLEGAL_ARGUMENT.getCode(), "后台配置错误");
+            pointTaskConfigInfoDOS = pointTaskConfigInfoDOS.stream().filter(h -> h.getTaskStartTime().before(new Date()) && h.getTaskEndTime().after(new Date())).collect(Collectors.toList());
+            if (pointTaskConfigInfoDOS != null) {
+                if (!StringUtils.isEmpty(pointRecordCreateDTO.getSubId())) {
+                    pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().filter(h -> h.getSubId().equals(pointRecordCreateDTO.getSubId())).findAny().orElse(null);
+                } else {
+                    if (pointTaskConfigInfoDOS.size() > 1) {
+                        return buildErrorResult(BaseResultCodeEnum.ILLEGAL_ARGUMENT.getCode(), "后台配置错误");
+                    }
+                    pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().findFirst().orElse(null);
                 }
-                pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().findFirst().orElse(null);
+            } else {
+                return buildErrorResult(BaseResultCodeEnum.ILLEGAL_ARGUMENT.getCode(), "任务无效或已过期");
             }
+        } else {
+            return buildErrorResult(BaseResultCodeEnum.ILLEGAL_ARGUMENT.getCode(), "任务无效或已过期");
         }
         if (pointTaskConfigInfoDO != null && pointTaskConfigInfoDO.getTaskStartTime().before(new Date()) && pointTaskConfigInfoDO.getTaskEndTime().after(new Date())) {
             //判断sub_id
