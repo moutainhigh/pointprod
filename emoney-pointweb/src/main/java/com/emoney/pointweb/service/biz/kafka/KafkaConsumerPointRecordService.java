@@ -60,12 +60,12 @@ public class KafkaConsumerPointRecordService {
     private ThreadPoolTaskExecutor executor;
 
     // 消费监听
-    @KafkaListeners({@KafkaListener(topics="pointrecordadd", groupId = "pointrecordgroup"),
-            @KafkaListener(topics="pointprod-pointadd", groupId = "pointprodgroup")})
+    @KafkaListeners({@KafkaListener(topics = "pointrecordadd", groupId = "pointrecordgroup"),
+            @KafkaListener(topics = "pointprod-pointadd", groupId = "pointprodgroup")})
     public void onMessage(@Payload ConsumerRecord<?, ?> record, Acknowledgment acknowledgment) {
         try {
             // 消费的哪个topic、partition的消息,打印出消息内容
-            log.info("topic->{},value->{},offset->{},partition->{}", record.topic(), record.value(), record.offset(),record.partition());
+            log.info("topic->{},value->{},offset->{},partition->{}", record.topic(), record.value(), record.offset(), record.partition());
 
             PointRecordDO pointRecordDO = JsonUtil.toBean(record.value().toString(), PointRecordDO.class);
             if (pointRecordDO != null && pointRecordDO.getUid() != null) {
@@ -86,7 +86,7 @@ public class KafkaConsumerPointRecordService {
                     CompletableFuture.runAsync(() -> {
                         try {
                             //成长任务发送积分通知
-                            List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = pointTaskConfigInfoRepository.getByTaskIdAndSubId(pointRecordDO.getTaskId(), pointRecordDO.getSubId(),new Date());
+                            List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = pointTaskConfigInfoRepository.getByTaskIdAndSubId(pointRecordDO.getTaskId(), pointRecordDO.getSubId(), new Date());
                             if (pointTaskConfigInfoDOS != null && pointTaskConfigInfoDOS.size() > 0) {
                                 PointTaskConfigInfoDO pointTaskConfigInfoDO = pointTaskConfigInfoDOS.stream().findFirst().orElse(null);
                                 if (pointTaskConfigInfoDO != null && pointTaskConfigInfoDO.getTaskType().equals(2)) {

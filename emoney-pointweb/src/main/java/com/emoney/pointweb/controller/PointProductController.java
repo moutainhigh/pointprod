@@ -135,7 +135,7 @@ public class PointProductController {
             pointProductDO.setExchangeCash(productCash);
             pointProductDO.setProductPrice(productPrice);
             pointProductDO.setActivityPrice(activityPrice);
-            pointProductDO.setExchangeRemark(exChangeContent);
+            pointProductDO.setExchangeRemark(exChangeContent.replace("/'", "‘"));
             pointProductDO.setPcExangeimgurl(pcimg);
             pointProductDO.setAppExangeimgurl(appimg);
             pointProductDO.setWebchatExangeimgurl(wechatimg);
@@ -145,7 +145,7 @@ public class PointProductController {
             pointProductDO.setIsValid(true);
             pointProductDO.setUpdateTime(new Date());
             pointProductDO.setUpdateBy(user.UserName);
-            pointProductDO.setRemark(remark);
+            pointProductDO.setRemark(remark.replace("'", "‘"));
             if (pointProductDO.getExchangeType().equals(1)) {
                 if (pointProductDO.getExchangeCash().doubleValue() > pointProductDO.getProductPrice().doubleValue()) {
                     return "付款金额不能大于商品原价";

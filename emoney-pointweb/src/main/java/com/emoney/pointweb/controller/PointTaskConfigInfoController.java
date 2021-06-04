@@ -97,7 +97,7 @@ public class PointTaskConfigInfoController {
             ptci.setTaskPoints(taskpoints);
             ptci.setTaskStartTime(sdf.parse(starttime));
             ptci.setTaskEndTime(sdf.parse(endtime));
-            ptci.setTaskRemark(taskremark);
+            ptci.setTaskRemark(taskremark.replace("/'", "‘"));
             ptci.setUserGroup(groupList);
             ptci.setIsDirectional(is_directional == 1);
             ptci.setSendType(sendType == 1);
