@@ -37,12 +37,15 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
     @Override
     public List<PointOrderDO> getByUid(Long uid, Integer orderStatus, int pageIndex, int pageSize) {
         //强制走主库
-//        HintManager hintManager = HintManager.getInstance() ;
-//        hintManager.setMasterRouteOnly();
-
-        PageHelper.startPage(pageIndex, pageSize);
-        List<PointOrderDO> list = pointOrderMapper.getByUid(uid, orderStatus);
-        return list;
+        HintManager hintManager = HintManager.getInstance() ;
+        try {
+            hintManager.setMasterRouteOnly();
+            PageHelper.startPage(pageIndex, pageSize);
+            List<PointOrderDO> list = pointOrderMapper.getByUid(uid, orderStatus);
+            return list;
+        }finally {
+            hintManager.close();
+        }
     }
 
     @Override
