@@ -27,7 +27,7 @@ public class RedisConstants {
     public static String REDISKEY_PointOrder_SETORDERKEY = "pointprod:pointorder_setorderkey_{0}";//orderno
     //public static String REDISKEY_PointOrderMIND_SETORDERKEY = "pointprod:pointordermind_setorderkey_{0}";//orderno
     public static String REDISKEY_PointOrder_CREATE_LOCKKEY="pointprod:pointorder_create_lockkey_{0}_{1}";//uid,productid
-    public static String REDISKEY_PointOrder_GETBYUID = "pointprod:pointorder_getbyuid_{0}";//uid
+    //public static String REDISKEY_PointOrder_GETBYUID = "pointprod:pointorder_getbyuid_{0}";//uid
 
     public static String REDISKEY_PointQuotation_GETALL = "pointprod:pointquotation_getall";
 
