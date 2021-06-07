@@ -53,9 +53,15 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
         if (productId == null) {
             List<PointOrderDO> pointOrderDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), PointOrderDO.class);
             if (pointOrderDOS == null) {
-                pointOrderDOS = pointOrderMapper.getByUidAndProductId(uid, productId);
-                if (pointOrderDOS != null && pointOrderDOS.size() > 0) {
-                    redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), pointOrderDOS, ToolUtils.GetExpireTime(60));
+                //强制走主库
+                HintManager hintManager = HintManager.getInstance() ;
+                try {
+                    pointOrderDOS = pointOrderMapper.getByUidAndProductId(uid, productId);
+                    if (pointOrderDOS != null && pointOrderDOS.size() > 0) {
+                        redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), pointOrderDOS, ToolUtils.GetExpireTime(60));
+                    }
+                }finally {
+                    hintManager.close();
                 }
             }
             return pointOrderDOS;
