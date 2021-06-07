@@ -1,6 +1,7 @@
 package com.emoney.pointweb.repository.impl;
 
 import cn.hutool.core.date.DateUtil;
+import com.alibaba.fastjson.JSON;
 import com.emoeny.pointcommon.constants.RedisConstants;
 import com.emoeny.pointcommon.utils.ToolUtils;
 import com.emoney.pointweb.repository.PointOrderRepository;
@@ -50,30 +51,25 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
 
     @Override
     public List<PointOrderDO> getByUidAndProductId(Long uid, Integer productId) {
-//        if (productId == null) {
-//            List<PointOrderDO> pointOrderDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), PointOrderDO.class);
-//            if (pointOrderDOS == null) {
-//                //强制走主库
-//                HintManager hintManager = HintManager.getInstance() ;
-//                try {
-//                    pointOrderDOS = pointOrderMapper.getByUidAndProductId(uid, productId);
-//                    if (pointOrderDOS != null && pointOrderDOS.size() > 0) {
-//                        redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), pointOrderDOS, ToolUtils.GetExpireTime(60));
-//                    }
-//                }finally {
-//                    hintManager.close();
-//                }
-//            }
-//            return pointOrderDOS;
-//        }
-//        return pointOrderMapper.getByUidAndProductId(uid, productId);
-
-        HintManager hintManager = HintManager.getInstance();
-        try {
-            return pointOrderMapper.getByUidAndProductId(uid, productId);
-        } finally {
-            hintManager.close();
+        if (productId == null) {
+            List<PointOrderDO> pointOrderDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), PointOrderDO.class);
+            if (pointOrderDOS == null) {
+                //强制走主库
+                HintManager hintManager = HintManager.getInstance() ;
+                hintManager.setMasterRouteOnly();
+                try {
+                    pointOrderDOS = pointOrderMapper.getByUidAndProductId(uid, productId);
+                    if (pointOrderDOS != null && pointOrderDOS.size() > 0) {
+                        log.info("订单查询"+ JSON.toJSONString(pointOrderDOS));
+                        redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), pointOrderDOS, ToolUtils.GetExpireTime(60));
+                    }
+                }finally {
+                    hintManager.close();
+                }
+            }
+            return pointOrderDOS;
         }
+        return pointOrderMapper.getByUidAndProductId(uid, productId);
     }
 
     @Override
@@ -102,7 +98,7 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
             //10分钟没支付，发消息提醒
             //redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrderMIND_SETORDERKEY, pointOrderDO.getId()), pointOrderDO.getOrderNo(), 60 * 10L);
             //订单更新将订单列表缓存清除
-            //redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, pointOrderDO.getUid()));
+            redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, pointOrderDO.getUid()));
         }
         return ret;
     }
@@ -112,7 +108,7 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
         int ret = pointOrderMapper.update(pointOrderDO);
         if (ret > 0) {
             //订单更新将订单列表缓存清除
-            //redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, pointOrderDO.getUid()));
+            redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, pointOrderDO.getUid()));
         }
         return ret;
     }
