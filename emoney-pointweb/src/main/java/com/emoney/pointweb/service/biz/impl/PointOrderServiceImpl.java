@@ -231,7 +231,7 @@ public class PointOrderServiceImpl implements PointOrderService {
                                     PointMessageDO pointMessageDO = new PointMessageDO();
                                     pointMessageDO.setUid(pointOrderDO.getUid());
                                     pointMessageDO.setMsgType(Integer.parseInt(MessageTypeEnum.TYPE6.getCode()));
-                                    pointMessageDO.setMsgContent(MessageFormat.format("恭喜您兑换成功-【{0}】，您填写的地址是“{1},{2},{3}”，如果有误，请下单1天内联系客服修改，客服电话：10108688！", pointOrderDO.getProductTitle(), pointOrderDO.getExpressAddress(), pointOrderDO.getExpressMobileMask(), pointOrderDO.getEmNo()));
+                                    pointMessageDO.setMsgContent(MessageFormat.format("恭喜您兑换成功-【{0}】，您填写的地址是“{1},{2},{3}”，将于3-5个工作日内发货。如果有任何疑问，请拨打客服电话：10108688！", pointOrderDO.getProductTitle(), pointOrderDO.getExpressAddress(), pointOrderDO.getExpressMobileMask(), pointOrderDO.getEmNo()));
                                     pointMessageDO.setMsgExt(String.valueOf(pointOrderDO.getOrderNo()));
                                     pointMessageDO.setCreateTime(new Date());
                                     int retMessage = pointMessageService.insert(pointMessageDO);
