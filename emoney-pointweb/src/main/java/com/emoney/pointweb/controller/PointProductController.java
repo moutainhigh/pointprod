@@ -135,7 +135,7 @@ public class PointProductController {
             pointProductDO.setExchangeCash(productCash);
             pointProductDO.setProductPrice(productPrice);
             pointProductDO.setActivityPrice(activityPrice);
-            pointProductDO.setExchangeRemark(exChangeContent.replace("/'", "‘"));
+            pointProductDO.setExchangeRemark(exChangeContent.replace("'", "‘"));
             pointProductDO.setPcExangeimgurl(pcimg);
             pointProductDO.setAppExangeimgurl(appimg);
             pointProductDO.setWebchatExangeimgurl(wechatimg);
