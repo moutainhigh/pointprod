@@ -10,6 +10,7 @@ import com.emoney.pointweb.repository.dao.mapper.PointOrderMapper;
 import com.emoney.pointweb.service.biz.redis.RedisService;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shardingsphere.api.hint.HintManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -35,6 +36,10 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
 
     @Override
     public List<PointOrderDO> getByUid(Long uid, Integer orderStatus, int pageIndex, int pageSize) {
+        //强制走主库
+        HintManager hintManager = HintManager.getInstance() ;
+        hintManager.setMasterRouteOnly();
+
         PageHelper.startPage(pageIndex, pageSize);
         List<PointOrderDO> list = pointOrderMapper.getByUid(uid, orderStatus);
         return list;

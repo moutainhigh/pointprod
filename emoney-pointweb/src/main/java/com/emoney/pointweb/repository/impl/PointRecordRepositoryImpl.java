@@ -13,6 +13,7 @@ import com.emoney.pointweb.repository.dao.mapper.PointRecordMapper;
 import com.emoney.pointweb.service.biz.redis.RedisService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shardingsphere.api.hint.HintManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -96,6 +97,8 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
     public List<PointRecordSummaryDO> getPointRecordSummaryByUid(Long uid) {
         List<PointRecordSummaryDO> pointRecordSummaryDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, uid), PointRecordSummaryDO.class);
         if (pointRecordSummaryDOS == null) {
+            HintManager hintManager = HintManager.getInstance() ;
+            hintManager.setMasterRouteOnly();
             pointRecordSummaryDOS = pointRecordMapper.getPointRecordSummaryByUid(uid);
             if (pointRecordSummaryDOS != null && pointRecordSummaryDOS.size() > 0) {
                 redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, uid), pointRecordSummaryDOS, ToolUtils.GetExpireTime(60));
@@ -113,6 +116,8 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
 //                redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUIDANDCREATETIME, uid, DateUtil.format(dtStart, "yyyyMMdd"), DateUtil.format(dtEnd, "yyyyMMdd")), pointRecordSummaryDOS, ToolUtils.GetExpireTime(60));
 //            }
 //        }
+        HintManager hintManager = HintManager.getInstance() ;
+        hintManager.setMasterRouteOnly();
         return pointRecordMapper.getPointRecordSummaryByUidAndCreateTime(uid, dtStart, dtEnd);
     }
 
