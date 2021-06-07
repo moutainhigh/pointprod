@@ -37,36 +37,43 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
     @Override
     public List<PointOrderDO> getByUid(Long uid, Integer orderStatus, int pageIndex, int pageSize) {
         //强制走主库
-        HintManager hintManager = HintManager.getInstance() ;
+        HintManager hintManager = HintManager.getInstance();
         try {
             hintManager.setMasterRouteOnly();
             PageHelper.startPage(pageIndex, pageSize);
             List<PointOrderDO> list = pointOrderMapper.getByUid(uid, orderStatus);
             return list;
-        }finally {
+        } finally {
             hintManager.close();
         }
     }
 
     @Override
     public List<PointOrderDO> getByUidAndProductId(Long uid, Integer productId) {
-        if (productId == null) {
-            List<PointOrderDO> pointOrderDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), PointOrderDO.class);
-            if (pointOrderDOS == null) {
-                //强制走主库
-                HintManager hintManager = HintManager.getInstance() ;
-                try {
-                    pointOrderDOS = pointOrderMapper.getByUidAndProductId(uid, productId);
-                    if (pointOrderDOS != null && pointOrderDOS.size() > 0) {
-                        redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), pointOrderDOS, ToolUtils.GetExpireTime(60));
-                    }
-                }finally {
-                    hintManager.close();
-                }
-            }
-            return pointOrderDOS;
+//        if (productId == null) {
+//            List<PointOrderDO> pointOrderDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), PointOrderDO.class);
+//            if (pointOrderDOS == null) {
+//                //强制走主库
+//                HintManager hintManager = HintManager.getInstance() ;
+//                try {
+//                    pointOrderDOS = pointOrderMapper.getByUidAndProductId(uid, productId);
+//                    if (pointOrderDOS != null && pointOrderDOS.size() > 0) {
+//                        redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), pointOrderDOS, ToolUtils.GetExpireTime(60));
+//                    }
+//                }finally {
+//                    hintManager.close();
+//                }
+//            }
+//            return pointOrderDOS;
+//        }
+//        return pointOrderMapper.getByUidAndProductId(uid, productId);
+
+        HintManager hintManager = HintManager.getInstance();
+        try {
+            return pointOrderMapper.getByUidAndProductId(uid, productId);
+        } finally {
+            hintManager.close();
         }
-        return pointOrderMapper.getByUidAndProductId(uid, productId);
     }
 
     @Override
@@ -86,9 +93,9 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
 
     @Override
     public Integer insert(PointOrderDO pointOrderDO) {
-        log.info("订单测试11-1:"+ DateUtil.formatDateTime(DateUtil.date()));
+        log.info("订单测试11-1:" + DateUtil.formatDateTime(DateUtil.date()));
         int ret = pointOrderMapper.insert(pointOrderDO);
-        log.info("订单测试11-2:"+ DateUtil.formatDateTime(DateUtil.date()));
+        log.info("订单测试11-2:" + DateUtil.formatDateTime(DateUtil.date()));
         if (ret > 0) {
             //30分钟没支付，自动取消订单
             redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_SETORDERKEY, pointOrderDO.getId()), pointOrderDO.getOrderNo(), 60 * 30L);
