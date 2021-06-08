@@ -132,23 +132,6 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
                     }
                 }
             }
-//            //意见反馈
-//            List<UserInfoVO> userInfoVOS = userInfoService.getUserInfoByUid(uid);
-//            if (userInfoVOS != null && userInfoVOS.stream().filter(h->h.getAccountType()==0).count() > 0) {
-//                String accountName = userInfoVOS.stream().filter(h->h.getAccountType()==0).findFirst().get().getAccountName();
-//                if (!StringUtils.isEmpty(accountName)) {
-//                    List<PointFeedBackDO> pointFeedBackDOS = pointFeedBackService.getByUid(accountName, DateUtil.beginOfDay(DateUtil.offsetDay(DateUtil.date(), -90)));
-//                    for (PointFeedBackDO pointFeedBack : pointFeedBackDOS
-//                    ) {
-//                        pointMessageVO = new PointMessageVO();
-//                        pointMessageVO.setUid(uid);
-//                        pointMessageVO.setMsgType(Integer.valueOf(MessageTypeEnum.TYPE5.getCode()));
-//                        pointMessageVO.setMsgContent("【意见反馈】"+pointFeedBack.getRemark());
-//                        pointMessageVO.setCreateTime(pointFeedBack.getCreateTime());
-//                        pointMessageVOS.add(pointMessageVO);
-//                    }
-//                }
-//            }
 
             if (pointMessageVOS != null) {
                 pointMessageVOS = pointMessageVOS.stream().sorted(Comparator.comparing(PointMessageVO::getCreateTime).reversed()).collect(Collectors.toList());
