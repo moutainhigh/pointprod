@@ -63,9 +63,6 @@ public class AutoSendRecordToLogisticsOrderJob {
             queryStockUpLogisticsOrderDTO.setRefund_Sign(1);
             queryStockUpLogisticsOrderDTO.setStockUpDate_Start(DateUtil.format(DateUtil.date(), "yyyy-MM-dd"));
             queryStockUpLogisticsOrderDTO.setStockUpDate_End(DateUtil.format(DateUtil.offsetDay(DateUtil.date(), 1), "yyyy-MM-dd"));
-            //queryStockUpLogisticsOrderDTO.setStockUpDate_Start("2021-01-01");
-            //queryStockUpLogisticsOrderDTO.setStockUpDate_End("2021-05-01");
-
             List<QueryLogisticsOrderVO> logisticsStockUpDateOrderVOS = logisticsService.getStockUpLogisticsOrder(queryStockUpLogisticsOrderDTO);
             if (logisticsStockUpDateOrderVOS != null && logisticsStockUpDateOrderVOS.size() > 0) {
                 for (QueryLogisticsOrderVO queryStockUp : logisticsStockUpDateOrderVOS
@@ -80,7 +77,7 @@ public class AutoSendRecordToLogisticsOrderJob {
                                 pointRecordCreateDTO.setTaskId(Long.parseLong(logisticsOrderTaskId));
                                 pointRecordCreateDTO.setPlatform(1);
                                 pointRecordCreateDTO.setPid(queryStockUp.getProductID());
-                                pointRecordCreateDTO.setLockDays(15);
+                                pointRecordCreateDTO.setLockDays(30);
                                 pointRecordCreateDTO.setEmNo(queryStockUp.getEmCard());
                                 pointRecordCreateDTO.setRemark(queryStockUp.getDetID());
                                 PointSendConfigInfoDO pointSendConfigInfoDO = getPointSendConfigInfo(pointRecordCreateDTO.getPid(), queryStockUp.getProdType());
