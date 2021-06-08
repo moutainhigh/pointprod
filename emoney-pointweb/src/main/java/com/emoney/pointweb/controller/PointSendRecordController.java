@@ -31,7 +31,7 @@ public class PointSendRecordController {
     @RequestMapping
     public String index(Model model) {
         List<PointTaskConfigInfoDO> list = pointTaskConfigInfoService.getPointTaskConfigInfoByIsDirectional();
-        model.addAttribute("tasklist", list.stream().sorted(Comparator.comparing(PointTaskConfigInfoDO::getUpdateTime).reversed()).collect(Collectors.toList()));
+        model.addAttribute("tasklist", list.stream().filter(h -> h.getTaskStartTime().after(new Date()) && h.getTaskEndTime().before(new Date())).sorted(Comparator.comparing(PointTaskConfigInfoDO::getUpdateTime).reversed()).collect(Collectors.toList()));
         return "pointsendrecord/pointsendrecord.index";
     }
 
@@ -71,7 +71,7 @@ public class PointSendRecordController {
 
                 maps.add(map);
             }
-        }else {
+        } else {
             LinkedHashMap<String, Object> map = new LinkedHashMap<>();
             map.put("类型", "");
             map.put("任务名称", "");
