@@ -100,7 +100,7 @@ public class PointProductServiceImpl implements PointProductService {
         String userVersion = productVersion.substring(0, 5) + "0000";
 
         if (pointProductDOS != null) {
-            pointProductDOS = pointProductDOS.stream().filter(h -> h.getActivityPid() == null || (h.getActivityPid() != null && h.getActivityPid().contains(userVersion))).collect(Collectors.toList());
+            pointProductDOS = pointProductDOS.stream().filter(h -> h.getActivityPid() == null || (h.getActivityPid() != null && (h.getActivityPid().contains(userVersion) || h.getActivityPid().equals("888150000")))).collect(Collectors.toList());
         }
 
         //接入用户画像
