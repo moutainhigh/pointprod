@@ -810,6 +810,8 @@
         $("#pcDetailPicFileList").html("");
         $("#appDetailPicFileList").html("");
         $("#wechatDetailPicFileList").html("");
+        $("#FileList").html("");
+        $("#fileurl").val("");
         editor.txt.html("");
         editor1.txt.html("");
         $("#modal-default").modal('hide');
