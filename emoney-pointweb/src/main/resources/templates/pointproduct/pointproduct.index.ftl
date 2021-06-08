@@ -183,6 +183,14 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">pid</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="actPid" id="actPid"
+                                       placeholder="物流包Pid" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">商品有效期</label>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control" name="actStartTime" id="actStartTime"
@@ -436,7 +444,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=2021060316"></script>
+<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=2021060816"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
 
 <script>
@@ -607,6 +615,7 @@
         $("#hiddenid").val(res.id);
         $("#productType").val(res.productType);
         $("#productDays").val(res.productDays);
+        $("#actPid").val(res.activityPid);
         if (res.userGroup) {
             $("#GroupList").val(res.userGroup.split(",")).trigger('change');
         } else {
@@ -774,6 +783,7 @@
         $("#exchange1").attr("checked", false);
         $("#exchange2").attr("checked", false);
         $("#GroupList").val("").trigger('change');
+        $("#actPid").val("");
         $("#hiddenid").val("");
         $("#productType").val("");
         $("#actCode").val("");

@@ -35,6 +35,7 @@
         <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
         <result column="is_valid" property="isValid" jdbcType="BIT"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="activity_pid" property="activityPid" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -45,7 +46,7 @@
                 exchange_endtime, exchange_type, exchange_point, exchange_cash, pc_exangeimgurl, app_exangeimgurl,
                 webchat_exangeimgurl,
                 pc_exangedetailimgurl, app_exangedetailimgurl, webchat_exangedetailimgurl, exchange_remark, create_time,
-                update_time, create_by, update_by, is_valid, remark, user_group, activity_price
+                update_time, create_by, update_by, is_valid, remark, user_group, activity_price,activity_pid
 
     </sql>
 
@@ -57,7 +58,7 @@
          exchange_endtime, exchange_type, exchange_point, exchange_cash, pc_exangeimgurl, app_exangeimgurl,
          webchat_exangeimgurl,
          pc_exangedetailimgurl, app_exangedetailimgurl, webchat_exangedetailimgurl, exchange_remark, create_time,
-         update_time, create_by, update_by, is_valid, remark, user_group, activity_price)
+         update_time, create_by, update_by, is_valid, remark, user_group, activity_price, activity_pid)
         VALUES (#{productType}, #{productVersion}, #{publishPlatFormType}, #{productName}, #{productPrice},
                 #{productDays}, #{productFile}, #{activityStartTime}, #{activityEndTime}, #{activityCode},
                 #{totalLimit}, #{perLimit}, #{exchangeStarttime},
@@ -65,7 +66,7 @@
                 #{appExangeimgurl}, #{webchatExangeimgurl},
                 #{pcExangeDetailimgurl}, #{appExangeDetailimgurl}, #{webchatExangeDetailimgurl}, #{exchangeRemark},
                 #{createTime}, #{updateTime}, #{createBy}, #{updateBy}, #{isValid}, #{remark}, #{userGroup},
-                #{activityPrice})
+                #{activityPrice}, #{activityPid})
 
     </insert>
 
@@ -77,6 +78,9 @@
             </if>
             <if test="userGroup != null">
                 user_group=#{userGroup},
+            </if>
+            <if test="activityPid != null">
+                activity_pid=#{activityPid},
             </if>
             <if test="productVersion != null">
                 product_version=#{productVersion},

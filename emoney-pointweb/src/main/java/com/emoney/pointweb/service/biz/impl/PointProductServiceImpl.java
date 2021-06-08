@@ -4,10 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.emoeny.pointcommon.constants.RedisConstants;
 import com.emoeny.pointcommon.result.ApiResult;
 import com.emoeny.pointcommon.result.Result;
+import com.emoeny.pointcommon.utils.JsonUtil;
 import com.emoeny.pointcommon.utils.OkHttpUtil;
 import com.emoney.pointweb.repository.PointProductRepository;
 import com.emoney.pointweb.repository.dao.entity.PointProductDO;
-import com.emoney.pointweb.repository.dao.entity.PointTaskConfigInfoDO;
 import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupDTO;
 import com.emoney.pointweb.repository.dao.entity.dto.CheckUserGroupData;
 import com.emoney.pointweb.repository.dao.entity.vo.ActivityInfoVO;
@@ -79,6 +79,8 @@ public class PointProductServiceImpl implements PointProductService {
             ApiResult<String> apiResult = JSON.parseObject(res, ApiResult.class);
             Result<List<ActivityInfoVO>> data = JSON.parseObject(apiResult.Message, Result.class);
 
+            List<ActivityInfoVO> activityInfoVOS = JsonUtil.toBeanList(JSON.toJSONString(data.getData()), ActivityInfoVO.class);
+
             result.put("code", 0);
             result.put("data", data.getData());
         } catch (Exception e) {
@@ -93,6 +95,12 @@ public class PointProductServiceImpl implements PointProductService {
         List<PointProductDO> pointProductDOS = pointProductRepository.getAllEffectiveProducts(new Date());
         if (pointProductDOS != null) {
             pointProductDOS = pointProductDOS.stream().filter(h -> h.getProductVersion().contains(productVersion) && h.getPublishPlatFormType().contains(publishPlatFormType)).collect(Collectors.toList());
+        }
+
+        String userVersion = productVersion.substring(0, 5) + "0000";
+
+        if (pointProductDOS != null) {
+            pointProductDOS = pointProductDOS.stream().filter(h -> h.getActivityPid() == null || (h.getActivityPid() != null && h.getActivityPid().contains(userVersion))).collect(Collectors.toList());
         }
 
         //接入用户画像

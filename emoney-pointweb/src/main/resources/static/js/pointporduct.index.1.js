@@ -184,6 +184,7 @@ $(function () {
                     $("#actPrice").val(data.data[0].ActivityPrice);
                     $("#actStartTime").val(moment(data.data[0].ActivityStartTime).format("YYYY-MM-DD HH:mm:ss"))
                     $("#actEndTime").val(moment(data.data[0].ActivityEndTime).format("YYYY-MM-DD HH:mm:ss"))
+                    $("#actPid").val(data.data[0].children[0].ProductID);
                 } else {
                     alert("未查询到物流包信息");
                 }
@@ -217,6 +218,7 @@ $(function () {
         obj.totalLimit = $("#totalLimit").val();
         obj.perLimit = $("#perLimit").val();
         obj.fileurl = $("#fileurl").val();
+        obj.Pid = $("#actPid").val();
         var ver = "";
         $("#ver input[type=checkbox]:checked").each(function () {
             ver += $(this).val() + ',';

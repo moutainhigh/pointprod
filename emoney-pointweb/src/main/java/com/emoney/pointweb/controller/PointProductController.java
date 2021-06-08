@@ -96,7 +96,7 @@ public class PointProductController {
                        Integer exchangeType, String acCode, @RequestParam(required = false, defaultValue = "0") Integer productDays, String actStartTime, String actEndTime, String productName,
                        @RequestParam(required = false, defaultValue = "0") BigDecimal productPrice, @RequestParam(required = false, defaultValue = "0") BigDecimal activityPrice, String exChangeStartTime, String exChangeEndTime, String groupList, String fileurl,
                        @RequestParam(required = false, defaultValue = "0") BigDecimal productCash, @RequestParam(required = false, defaultValue = "0") float productPoint,
-                       Integer totalLimit, Integer perLimit, String exChangeContent, String pcdetailimg, String appdetailimg, String wechatdetailimg, String remark,
+                       Integer totalLimit, Integer perLimit, String exChangeContent, String pcdetailimg, String appdetailimg, String wechatdetailimg, String remark, String Pid,
                        HttpServletRequest request, HttpServletResponse response) {
         try {
             TicketInfo user = userLoginService.getLoginAdminUser(request, response);
@@ -117,6 +117,7 @@ public class PointProductController {
             pointProductDO.setTotalLimit(totalLimit);
             pointProductDO.setUserGroup(groupList);
             pointProductDO.setProductFile(fileurl);
+            pointProductDO.setActivityPid(Pid);
             if (!exChangeStartTime.isEmpty()) {
                 pointProductDO.setExchangeStarttime(sdf.parse(exChangeStartTime));
             }
@@ -146,7 +147,7 @@ public class PointProductController {
             pointProductDO.setUpdateTime(new Date());
             pointProductDO.setUpdateBy(user.UserName);
             pointProductDO.setRemark(remark.replace("'", "‘"));
-            if (pointProductDO.getExchangeType().equals(1)) {
+            if (pointProductDO.getProductType().equals(1)) {
                 if (pointProductDO.getExchangeCash().doubleValue() > pointProductDO.getProductPrice().doubleValue()) {
                     return "付款金额不能大于商品原价";
                 }
