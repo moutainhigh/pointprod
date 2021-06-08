@@ -29,6 +29,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -114,6 +115,16 @@ class PointWebApplicationTests {
 
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
+
+//         redisCache1.set(MessageFormat.format("pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_{1}_{2}}", 1,20210808,20210609),1);
+//        redisCache1.set(MessageFormat.format("pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_{1}_{2}}", 1,20210901,20210903),2);
+//
+//        Integer i= redisCache1.get(MessageFormat.format("pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_{1}_{2}}", 1,20210808,20210609),Integer.class);
+//
+//        redisCache1.removePattern(MessageFormat.format("pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_*",1));
+//        Integer i1= redisCache1.get(MessageFormat.format("pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_{1}_{2}}", 1,20210808,20210609),Integer.class);
+//        Integer i2= redisCache1.get(MessageFormat.format("pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_{1}_{2}}", 1,20210901,20210903),Integer.class);
+
 
 //        List<QueryCouponActivityVO> queryCouponActivityVOS = logisticsService.getCouponRulesByAcCode("cp-1210126151518711");
 //

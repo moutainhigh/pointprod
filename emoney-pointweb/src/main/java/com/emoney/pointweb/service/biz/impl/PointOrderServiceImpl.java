@@ -165,6 +165,7 @@ public class PointOrderServiceImpl implements PointOrderService {
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETBYUID, pointExchangeDTO.getUid()));
                     //去掉积分统计
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, pointExchangeDTO.getUid()));
+                    redisCache1.removePattern(MessageFormat.format("pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_*", pointExchangeDTO.getUid()));
                     //修改订单状态
                     pointOrderDO.setPayType(pointExchangeDTO.getPayType());
                     pointOrderDO.setTradeNo(pointExchangeDTO.getTradeNo());

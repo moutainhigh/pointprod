@@ -78,6 +78,7 @@ public class KafkaConsumerPointRecordService {
                     }
                     //去掉积分统计
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, pointRecordDO.getUid()));
+                    redisCache1.removePattern(MessageFormat.format("pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_*", pointRecordDO.getUid()));
                     //去掉我的待领取任务统计
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETUNCLAIMRECORDSBYUID, pointRecordDO.getUid()));
                     //写入ES
