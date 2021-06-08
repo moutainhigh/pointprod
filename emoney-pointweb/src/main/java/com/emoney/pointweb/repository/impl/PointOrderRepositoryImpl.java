@@ -55,15 +55,15 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
             List<PointOrderDO> pointOrderDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), PointOrderDO.class);
             if (pointOrderDOS == null) {
                 //强制走主库
-                HintManager hintManager = HintManager.getInstance() ;
+                HintManager hintManager = HintManager.getInstance();
                 hintManager.setMasterRouteOnly();
                 try {
                     pointOrderDOS = pointOrderMapper.getByUidAndProductId(uid, productId);
                     if (pointOrderDOS != null && pointOrderDOS.size() > 0) {
-                        log.info("订单查询"+ JSON.toJSONString(pointOrderDOS));
+                        log.info("订单查询" + JSON.toJSONString(pointOrderDOS));
                         redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointOrder_GETBYUID, uid), pointOrderDOS, ToolUtils.GetExpireTime(60));
                     }
-                }finally {
+                } finally {
                     hintManager.close();
                 }
             }
@@ -84,7 +84,14 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
 
     @Override
     public PointOrderDO getByOrderNo(String orderNo) {
-        return pointOrderMapper.getByOrderNo(orderNo);
+        //强制走主库
+        HintManager hintManager = HintManager.getInstance();
+        try {
+            hintManager.setMasterRouteOnly();
+            return pointOrderMapper.getByOrderNo(orderNo);
+        } finally {
+            hintManager.close();
+        }
     }
 
     @Override
