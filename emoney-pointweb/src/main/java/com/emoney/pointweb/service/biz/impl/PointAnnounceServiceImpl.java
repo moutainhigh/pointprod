@@ -32,12 +32,12 @@ public class PointAnnounceServiceImpl implements PointAnnounceService {
 
     @Override
     public Integer insert(PointAnnounceDO pointAnnounceDO) {
-        return pointAnnounceMapper.insert(pointAnnounceDO);
+        return pointAnnounceRepository.insert(pointAnnounceDO);
     }
 
     @Override
     public Integer update(PointAnnounceDO pointAnnounceDO) {
-        return pointAnnounceMapper.update(pointAnnounceDO);
+        return pointAnnounceRepository.update(pointAnnounceDO);
     }
 
     @Override

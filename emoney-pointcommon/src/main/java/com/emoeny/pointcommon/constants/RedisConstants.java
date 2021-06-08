@@ -31,7 +31,7 @@ public class RedisConstants {
     public static String REDISKEY_PointQuotation_GETALL = "pointprod:pointquotation_getall";
 
     public static String REDISKEY_PointMessage_GETBYUID = "pointprod:pointmessage_getbyuid_{0}";//uid
-
+    public static String REDISKEY_PointAnnounce_GETBYTYPE = "pointprod:pointannounce_getbytype";
     public static String REDISKEY_PointQuestion_QUERYAll = "pointprod:pointquestion_queryAll";
     public static String REDISKEY_PointQuestion_GETBYID = "pointprod:pointquestion_queryallbyid_{0}";//id
 }

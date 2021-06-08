@@ -13,4 +13,8 @@ import java.util.List;
 public interface PointAnnounceRepository {
 
     List<PointAnnounceDO> getPointAnnouncesByType(List<Integer> msgTypes);
+
+    Integer insert(PointAnnounceDO pointAnnounceDO);
+
+    Integer update(PointAnnounceDO pointAnnounceDO);
 }
