@@ -74,7 +74,15 @@ public class PointOrderRepositoryImpl implements PointOrderRepository {
 
     @Override
     public List<PointOrderSummaryDO> getSummaryByProductId(Integer productId) {
-        return pointOrderMapper.getSummaryByProductId(productId);
+        //强制走主库
+        HintManager hintManager = HintManager.getInstance();
+        try {
+            hintManager.setMasterRouteOnly();
+            return pointOrderMapper.getSummaryByProductId(productId);
+        }finally {
+            hintManager.close();
+        }
+
     }
 
     @Override

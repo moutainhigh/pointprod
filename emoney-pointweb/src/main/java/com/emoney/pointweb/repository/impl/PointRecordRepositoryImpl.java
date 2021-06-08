@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static cn.hutool.core.date.DateUtil.date;
+import static cn.hutool.core.date.DateUtil.truncate;
 
 @Repository
 public class PointRecordRepositoryImpl implements PointRecordRepository {
@@ -129,6 +130,12 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
 
     @Override
     public List<PointRecordDO> getByUidAndCreateTime(Long uid, Date endDate) {
-        return pointRecordMapper.getByUidAndCreateTime(uid, endDate);
+        HintManager hintManager = HintManager.getInstance();
+        try {
+            hintManager.setMasterRouteOnly();
+            return pointRecordMapper.getByUidAndCreateTime(uid, endDate);
+        }finally {
+            hintManager.close();
+        }
     }
 }
