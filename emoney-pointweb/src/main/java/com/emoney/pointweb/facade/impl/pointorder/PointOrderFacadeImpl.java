@@ -78,7 +78,7 @@ public class PointOrderFacadeImpl implements PointOrderFacade {
     }
 
     @Override
-    public Result<List<PointOrderSummaryVO>> getSummaryByProductId(@NotNull(message = "商品id不能为空") Integer productId) {
+    public Result<List<PointOrderSummaryVO>> getSummaryByProductId(Integer productId) {
         try {
             return Result.buildSuccessResult(JsonUtil.copyList(pointOrderService.getSummaryByProductId(productId), PointOrderSummaryVO.class));
         } catch (Exception e) {
