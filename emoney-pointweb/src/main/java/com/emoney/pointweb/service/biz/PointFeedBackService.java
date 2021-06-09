@@ -18,7 +18,7 @@ public interface PointFeedBackService {
 
     Result<Object> createFeedBack(PointFeedBackCreateDTO pointFeedBackCreateDTO);
 
-    List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status, Integer isReply, Integer isAdopt);
+    List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status, Integer isReply, Integer isAdopt, String content);
 
     /**
      * 根据uid获取所有反馈记录

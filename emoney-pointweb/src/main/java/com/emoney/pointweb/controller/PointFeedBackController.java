@@ -82,9 +82,9 @@ public class PointFeedBackController {
     @ResponseBody
     public Map<String, Object> queryPointFeedback(@RequestParam(required = false, defaultValue = "0") Integer start,
                                                   @RequestParam(required = false, defaultValue = "10") Integer length,
-                                                  Integer classType, Integer isReply, Integer isAdopt) {
+                                                  Integer classType, Integer isReply, Integer isAdopt, String content) {
         PageHelper.startPage(start, length);
-        List<PointFeedBackDO> list = pointFeedBackService.queryAllByRemarkAndStatus(classType, isReply, isAdopt);
+        List<PointFeedBackDO> list = pointFeedBackService.queryAllByRemarkAndStatus(classType, isReply, isAdopt, content);
         PageInfo<PointFeedBackDO> pageInfo = new PageInfo<>(list);
 
         Map<String, Object> result = new HashMap<>();
@@ -153,21 +153,8 @@ public class PointFeedBackController {
     }
 
     @RequestMapping("/exportData")
-    public String exportData(HttpServletResponse response, Integer classType, Integer isReply, Integer isAdopt) {
-        List<PointFeedBackDO> list = pointFeedBackService.getAll();
-        if (!classType.equals(0)) {
-            list = list.stream().filter(x -> x.getFeedType().equals(classType)).collect(Collectors.toList());
-        }
-        if (!isReply.equals(0)) {
-            if (isReply.equals(1)) {
-                list = list.stream().filter(x -> !StringUtils.isEmpty(x.getRemark())).collect(Collectors.toList());
-            } else {
-                list = list.stream().filter(x -> StringUtils.isEmpty(x.getRemark())).collect(Collectors.toList());
-            }
-        }
-        if (!isAdopt.equals(-1)) {
-            list = list.stream().filter(x -> x.getStatus().equals(isAdopt)).collect(Collectors.toList());
-        }
+    public String exportData(HttpServletResponse response, Integer classType, Integer isReply, Integer isAdopt, String content) {
+        List<PointFeedBackDO> list = pointFeedBackService.queryAllByRemarkAndStatus(classType, isReply, isAdopt, content);
         List<LinkedHashMap<String, Object>> maps = new ArrayList<>();
 
         if (list != null && list.size() > 0) {

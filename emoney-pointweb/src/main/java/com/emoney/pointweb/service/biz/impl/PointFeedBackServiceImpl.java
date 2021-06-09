@@ -39,8 +39,8 @@ public class PointFeedBackServiceImpl implements PointFeedBackService {
         return pointFeedBackMapper.getAll();
     }
 
-    public List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status, Integer isReply, Integer isAdopt) {
-        return pointFeedBackMapper.queryAllByRemarkAndStatus(status, isReply, isAdopt);
+    public List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status, Integer isReply, Integer isAdopt, String content) {
+        return pointFeedBackMapper.queryAllByRemarkAndStatus(status, isReply, isAdopt, content);
     }
 
     @Override

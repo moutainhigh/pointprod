@@ -21,7 +21,7 @@
             pointer-events: none;
         }
     </style>
-    <title>商品配置</title>
+    <title>意见反馈</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -46,7 +46,7 @@
             <div class="box box-primary" style="margin-top:15px;">
                 <div class="box-header with-border">
                     <div class="form-group">
-                        <div class="col-lg-2">
+                        <div class="col-sm-2">
                             <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">反馈类型：</label>
                             <select id="opType" class="form-control opType"
                                     style="float:left;width:150px;margin-top:5px;">
@@ -57,7 +57,7 @@
                                 <option value="4">其他建议</option>
                             </select>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col-sm-2">
                             <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">处理状态：</label>
                             <select id="opReply" class="form-control opType"
                                     style="float:left;width:150px;margin-top:5px;">
@@ -67,7 +67,7 @@
                             </select>
                         </div>
 
-                        <div class="col-lg-2">
+                        <div class="col-sm-2">
                             <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">采纳状态：</label>
                             <select id="opAdopt" class="form-control opType"
                                     style="float:left;width:150px;margin-top:5px;">
@@ -75,6 +75,18 @@
                                 <option value="1">已采纳</option>
                                 <option value="0">待采纳</option>
                             </select>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label style="float:left;margin-bottom:2px;margin-top:10px;margin-left:6px;">搜索：</label>
+                            <input id="content" class="form-control" style="float:left;width:300px;margin-top:5px;"
+                                   property="搜索">
+                        </div>
+
+                        <div class="col-sm-2">
+                            <button style="float:left;margin-bottom:2px;margin-top:5px;margin-left:6px;" type="button"
+                                    id="query" class="btn btn-primary">查询
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -187,6 +199,7 @@
 
     $("#exportData").on("click", function () {
         var url = base_url + "/pointfeedback/exportData?classType=" + $("#opType").val() + "&isReply=" + $("#opReply").val() + "&isAdopt=" + $("#opAdopt").val();
+        +"&content=" + $("#content").val()
         window.open(url);
     });
 
@@ -226,12 +239,13 @@
                 obj.classType = $("#opType").val();
                 obj.isReply = $("#opReply").val();
                 obj.isAdopt = $("#opAdopt").val();
+                obj.content = $("#content").val();
                 obj.start = (d.start / d.length) + 1;
                 obj.length = d.length;
                 return obj;
             }
         },
-        "searching": true,
+        "searching": false,
         "ordering": false,
         "scrollX": true,
         "columns": [
@@ -357,10 +371,9 @@
         }]
     });
 
-    // search btn
-    $('.opType').on('change', function () {
+    $("#query").on('click', function () {
         feedbackTable.ajax.reload();
-    });
+    })
 
     $('.btnSave').on('click', function () {
         var obj = new Object();
@@ -406,6 +419,7 @@
         var res = JSON.parse(jsondata);
 
         $("#hiddenid").val(res.id);
+        $("#txtAdoptRemark").val(res.adoptRemark);
 
         $("#modal-remark").modal({backdrop: false, keyboard: false}).modal('show');
     }

@@ -102,8 +102,13 @@
             <if test="isAdopt != '-1' ">
                 AND status = #{isAdopt}
             </if>
+            <if test="content != null &amp;&amp; content != ''">
+                AND (account LIKE CONCAT('%',#{content},'%') OR mobileX LIKE CONCAT('%',#{content},'%') OR email LIKE
+                CONCAT('%',#{content},'%') OR suggest LIKE CONCAT('%',#{content},'%') OR remark LIKE
+                CONCAT('%',#{content},'%') OR adopt_remark LIKE CONCAT('%',#{content},'%'))
+            </if>
         </trim>
-             ORDER BY create_time DESC
+        ORDER BY create_time DESC
     </select>
 
     <select id="getByUid" resultMap="BaseResultMap">

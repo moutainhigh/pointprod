@@ -38,7 +38,7 @@ $(function () {
                 return obj;
             }
         },
-        "searching": true,
+        "searching": false,
         "ordering": false,
         "scrollX": true,
         "columns": [
@@ -81,7 +81,16 @@ $(function () {
                 "data": 'emNo'
             },
             {
+                "data": 'mobile'
+            },
+            {
                 'data': 'orderNo'
+            },
+            {
+                "data": 'point'
+            },
+            {
+                "data": 'cash'
             },
             {
                 "data": 'updateTime',
@@ -108,7 +117,7 @@ $(function () {
         fnDrawCallback: function (d) {
             let api = this.api();
             let startIndex = api.context[0]._iDisplayStart;//获取本页开始的条数
-            api.column(0).nodes().each(function(cell, i) {
+            api.column(0).nodes().each(function (cell, i) {
                 cell.innerHTML = startIndex + i + 1;
             });
         }

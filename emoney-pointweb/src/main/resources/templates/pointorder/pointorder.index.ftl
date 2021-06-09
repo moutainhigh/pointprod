@@ -58,7 +58,10 @@
                                     <th>商品名称</th>
                                     <th>商品类型</th>
                                     <th>用户账号</th>
+                                    <th>下单加密手机</th>
                                     <th>订单号</th>
+                                    <th>支付积分</th>
+                                    <th>支付现金</th>
                                     <th>兑换时间</th>
                                     <th>手机号掩码</th>
                                     <th>加密手机号</th>
@@ -87,7 +90,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/moment/moment.min.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointorder.index.1.js?v=20210603"></script>
+<script src="${request.contextPath}/static/js/pointorder.index.1.js?v=20210609"></script>
 <script>
 
     $("#exportData").on("click",function (){

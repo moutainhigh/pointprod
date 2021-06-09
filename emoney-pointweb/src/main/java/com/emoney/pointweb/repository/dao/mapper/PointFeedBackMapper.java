@@ -17,7 +17,7 @@ public interface PointFeedBackMapper {
 
     PointFeedBackDO getById(Integer id);
 
-    List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status, Integer isReply, Integer isAdopt);
+    List<PointFeedBackDO> queryAllByRemarkAndStatus(Integer status, Integer isReply, Integer isAdopt, String content);
 
     /**
      * 根据uid获取所有反馈记录
