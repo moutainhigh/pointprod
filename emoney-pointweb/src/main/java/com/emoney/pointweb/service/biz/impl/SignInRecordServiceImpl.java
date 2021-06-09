@@ -53,7 +53,7 @@ public class SignInRecordServiceImpl implements SignInRecordService {
         //是否发送消息
         boolean canSendMessage = false;
         SignInRecordDO signInRecordDO = new SignInRecordDO();
-        List<SignInRecordDO> signInRecordDOS = signInRecordRepository.getByUid(signInRecordCreateDTO.getUid(), DateUtil.parseDate(DateUtil.year(date()) + "-01-01"));
+        List<SignInRecordDO> signInRecordDOS = signInRecordRepository.getByUid(signInRecordCreateDTO.getUid(), DateUtil.offsetMonth(date(), -13));
         if (signInRecordDOS != null && signInRecordDOS.size() > 0) {
             if (signInRecordDOS.stream().filter(h -> h.getUid().equals(signInRecordCreateDTO.getUid()) && DateUtil.formatDate(h.getSignInTime()).equals(DateUtil.formatDate(date()))).count() > 0) {
                 return buildErrorResult(BaseResultCodeEnum.LOGIC_ERROR.getCode(), "不允许重复签到");

@@ -86,7 +86,7 @@ public class SignInRecordFacadeImpl implements SignInRecordFacade {
     @Override
     public Result<List<SignInRecordVO>> querySignInRecord(@NotNull(message = "用户id不能为空") Long uid) {
         try {
-            List<SignInRecordDO> signInRecordDOS = signInRecordService.getByUid(uid, DateUtil.parseDate("2021-01-01"));
+            List<SignInRecordDO> signInRecordDOS = signInRecordService.getByUid(uid, DateUtil.offsetMonth(date(), -13));
             if (signInRecordDOS != null && signInRecordDOS.size() > 0) {
                 signInRecordDOS.sort(Comparator.comparing(SignInRecordDO::getSignInTime).reversed());
                 return Result.buildSuccessResult(CollectionBeanUtils.copyListProperties(signInRecordDOS, SignInRecordVO::new));
