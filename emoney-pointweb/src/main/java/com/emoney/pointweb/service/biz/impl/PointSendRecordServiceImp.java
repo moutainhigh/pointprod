@@ -1,6 +1,7 @@
 package com.emoney.pointweb.service.biz.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.alibaba.fastjson.JSON;
 import com.emoeny.pointcommon.result.ApiResult;
 import com.emoeny.pointcommon.result.Result;
 import com.emoeny.pointcommon.result.userinfo.TicketInfo;
@@ -123,5 +124,8 @@ public class PointSendRecordServiceImp implements PointSendRecordService {
         pointRecordCreateDTO.setUid(Long.valueOf(Uid));
 
         Result<Object> result = pointRecordService.createPointRecord(pointRecordCreateDTO);
+        if(result!=null) {
+            log.info("意见反馈送积分返回" + JSON.toJSONString(result));
+        }
     }
 }
