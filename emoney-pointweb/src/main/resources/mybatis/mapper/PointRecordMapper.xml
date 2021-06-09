@@ -76,9 +76,13 @@
         <include refid="Base_Column_List"/>
         FROM t_point_record
         WHERE uid=#{uid} AND point_status IN (2,3) AND is_valid=1 AND task_point <![CDATA[!= ]]>0
-        <if test="pointStatus != -1">
+        <if test="pointStatus != -1  and  pointStatus != -2" >
           AND point_status = #{pointStatus}
         </if>
+          <if test="pointStatus == -2" >
+           AND lock_days IS NOT NULL and lock_days  <![CDATA[!= ]]> ''  AND  lock_days &gt;0
+        </if>
+
         <if test="startDate != null">
           AND create_time &gt;= #{startDate}
         </if>

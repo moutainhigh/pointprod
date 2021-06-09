@@ -158,13 +158,24 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
         try {
             Date dtStart = null;
             Date dtEnd = null;
+            //积分明细全部
             if (queryType == 0) {
                 queryType = -1;
-            } else if (queryType == 1) {
+            }
+            //积分收入
+            else if (queryType == 1) {
                 queryType = Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode());
-            } else if (queryType == 2) {
+            }
+            //兑换积分
+            else if (queryType == 2) {
                 queryType = Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode());
-            } else if (queryType == 3) {
+            }
+            //冻结积分
+            else if (queryType == 3) {
+                queryType = -2;
+            }
+            //过期积分
+            else if (queryType == 4) {
                 queryType = Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode());
                 dtStart = DateUtil.parseDate((DateUtil.year(DateUtil.date()) - 1) + "-01-01 00:00:00");
                 dtEnd = DateUtil.beginOfDay(DateUtil.offsetMonth(dtStart, 3));

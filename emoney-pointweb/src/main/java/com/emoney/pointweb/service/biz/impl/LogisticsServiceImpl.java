@@ -33,6 +33,7 @@ public class LogisticsServiceImpl implements LogisticsService {
     public List<QueryLogisticsOrderVO> getStockUpLogisticsOrder(QueryStockUpLogisticsOrderDTO queryStockUpLogisticsOrderDTO) {
         String url = MessageFormat.format("{0}/api/logistics/1.0/order.queryorderprodlistbyparams?gate_appid={1}&jsonStr={2}", insideGatewayUrl, "10199", JSON.toJSONString(queryStockUpLogisticsOrderDTO));
         String ret = OkHttpUtil.get(url, null);
+        log.info("查询购买订单，请求url" + url, "返回:" + ret);
         if (!StringUtils.isEmpty(ret)) {
             ResultInfo<String> resultInfo = JSON.parseObject(ret, ResultInfo.class);
             if (resultInfo != null && resultInfo.getRetCode().equals(0)) {
@@ -47,12 +48,14 @@ public class LogisticsServiceImpl implements LogisticsService {
     public List<QueryLogisticsOrderVO> getCancelLogisticsOrder(QueryCancelLogisticsOrderDTO queryCancelLogisticsOrderDTO) {
         String url = MessageFormat.format("{0}/api/logistics/1.0/order.queryorderprodlistbyparams?gate_appid={1}&jsonStr={2}", insideGatewayUrl, "10199", JSON.toJSONString(queryCancelLogisticsOrderDTO));
         String ret = OkHttpUtil.get(url, null);
+        log.info("查询取消订单，请求url" + url, "返回:" + ret);
         if (!StringUtils.isEmpty(ret)) {
             ResultInfo<String> resultInfo = JSON.parseObject(ret, ResultInfo.class);
             if (resultInfo != null && resultInfo.getRetCode().equals(0)) {
                 LogisticsResultInfo<List<QueryLogisticsOrderVO>> logisticsResultInfo = JsonUtil.toBean(resultInfo.getMessage(), LogisticsResultInfo.class);
                 return JsonUtil.toBeanList(JSON.toJSONString(logisticsResultInfo.getData()), QueryLogisticsOrderVO.class);
             }
+        } else {
         }
         return null;
     }
