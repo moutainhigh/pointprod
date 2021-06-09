@@ -170,15 +170,15 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
             else if (queryType == 2) {
                 queryType = Integer.valueOf(PointRecordStatusEnum.CONVERTED.getCode());
             }
-            //冻结积分
-            else if (queryType == 3) {
-                queryType = -2;
-            }
             //过期积分
-            else if (queryType == 4) {
+            else if (queryType == 3) {
                 queryType = Integer.valueOf(PointRecordStatusEnum.FINISHED.getCode());
                 dtStart = DateUtil.parseDate((DateUtil.year(DateUtil.date()) - 1) + "-01-01 00:00:00");
                 dtEnd = DateUtil.beginOfDay(DateUtil.offsetMonth(dtStart, 3));
+            }
+            //冻结积分
+            else if (queryType == 4) {
+                queryType = -2;
             }
             return Result.buildSuccessResult(CollectionBeanUtils.copyListProperties(pointRecordService.getByPager(uid, queryType, dtStart, dtEnd, pageIndex, pageSize), PointRecordVO::new));
         } catch (Exception e) {
