@@ -131,7 +131,9 @@ public class PointFeedBackController {
         if (result > 0) {
             //赠送积分
             pointFeedBackDO = pointFeedBackService.getById(id);
-            if (!pointFeedBackDO.getStatus().equals(1)) {
+
+            //修改bug 1为已采纳
+            if (pointFeedBackDO.getStatus().equals(1)) {
                 pointSendRecordService.sendPointRecord(Long.parseLong("1384354667126984704"), pointFeedBackDO.getAccount());
             }
             if (pointFeedBackDO != null) {
@@ -151,7 +153,7 @@ public class PointFeedBackController {
     }
 
     @RequestMapping("/exportData")
-    public String exportData(HttpServletResponse response, Integer classType, Integer isReply,Integer isAdopt) {
+    public String exportData(HttpServletResponse response, Integer classType, Integer isReply, Integer isAdopt) {
         List<PointFeedBackDO> list = pointFeedBackService.getAll();
         if (!classType.equals(0)) {
             list = list.stream().filter(x -> x.getFeedType().equals(classType)).collect(Collectors.toList());
