@@ -31,7 +31,7 @@ public class PointSendRecordController {
     @RequestMapping
     public String index(Model model) {
         List<PointTaskConfigInfoDO> list = pointTaskConfigInfoService.getPointTaskConfigInfoByIsDirectional();
-        model.addAttribute("tasklist", list.stream().filter(h -> h.getTaskStartTime().after(new Date()) && h.getTaskEndTime().before(new Date())).sorted(Comparator.comparing(PointTaskConfigInfoDO::getUpdateTime).reversed()).collect(Collectors.toList()));
+        model.addAttribute("tasklist", list.stream().filter(h -> h.getTaskStartTime().before(new Date()) && h.getTaskEndTime().after(new Date())).sorted(Comparator.comparing(PointTaskConfigInfoDO::getUpdateTime).reversed()).collect(Collectors.toList()));
         return "pointsendrecord/pointsendrecord.index";
     }
 
