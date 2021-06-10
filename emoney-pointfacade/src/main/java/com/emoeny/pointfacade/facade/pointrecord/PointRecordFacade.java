@@ -87,4 +87,8 @@ public interface PointRecordFacade {
     @PostMapping("/querybytaskids")
     Result<List<PointRecordVO>> queryPointRecordsByTaskids(@RequestBody @Valid PointRecordQueryByTaskIdsDTO pointRecordQueryByTaskIdsDTO);
 
+
+    @GetMapping("/clearredis")
+    Result<Object> clearRedis();
+
 }

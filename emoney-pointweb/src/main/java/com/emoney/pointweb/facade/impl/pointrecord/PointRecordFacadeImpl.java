@@ -224,4 +224,14 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
             return Result.buildErrorResult(e.getMessage());
         }
     }
+
+    @Override
+    public Result<Object> clearRedis(){
+        redisCache1.removePattern("pointprod:pointrecord_getbyuid_*");
+        redisCache1.removePattern("pointprod:pointrecord_getsummarybyuid_*");
+        redisCache1.removePattern("pointprod:pointrecord_getsummarybyuidandcreatetime_*");
+        redisCache1.removePattern("pointprod:pointrecord_getunclaimrecordsbyuid_*");
+        redisCache1.removePattern("pointprod:signinrecord_getbyuid_*");
+        return Result.buildSuccessResult();
+    }
 }
