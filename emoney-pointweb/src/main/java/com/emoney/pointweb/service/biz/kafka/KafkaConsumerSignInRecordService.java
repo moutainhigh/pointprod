@@ -52,7 +52,7 @@ public class KafkaConsumerSignInRecordService {
             acknowledgment.acknowledge();
 
         } catch (Exception e) {
-            log.error("pointprod-signinadd消费异常", e);
+            log.error("签到记录消费异常", e);
         }
     }
 }

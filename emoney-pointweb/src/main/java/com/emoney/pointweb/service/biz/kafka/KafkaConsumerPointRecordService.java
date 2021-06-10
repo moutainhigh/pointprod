@@ -121,7 +121,7 @@ public class KafkaConsumerPointRecordService {
             acknowledgment.acknowledge();
 
         } catch (Exception e) {
-            log.error("pointprod-pointadd消费异常", e);
+            log.error("积分记录消费异常", e);
         }
     }
 }
