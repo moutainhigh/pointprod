@@ -41,4 +41,5 @@ public class PointTaskConfigInfoDO{
     private String remark;
     private String userGroup;
     private Boolean sendType;
+    private String statisticalClassification;
 }

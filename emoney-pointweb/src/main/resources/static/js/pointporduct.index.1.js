@@ -219,6 +219,7 @@ $(function () {
         obj.perLimit = $("#perLimit").val();
         obj.fileurl = $("#fileurl").val();
         obj.Pid = $("#actPid").val();
+        obj.statisticalClassification = $("#statisticalClassification").val();
         var ver = "";
         $("#ver input[type=checkbox]:checked").each(function () {
             ver += $(this).val() + ',';
@@ -300,6 +301,10 @@ $(function () {
         }
         if (!obj.ver) {
             alert("请选择产品版本");
+            return false;
+        }
+        if (!obj.statisticalClassification) {
+            alert("统计分类不能为空");
             return false;
         }
         return true;

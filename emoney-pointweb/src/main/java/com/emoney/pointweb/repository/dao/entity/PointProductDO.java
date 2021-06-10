@@ -155,5 +155,7 @@ public class PointProductDO implements Serializable {
 
     private String activityPid;
 
+    private String statisticalClassification;
+
     private static final long serialVersionUID = 1L;
 }

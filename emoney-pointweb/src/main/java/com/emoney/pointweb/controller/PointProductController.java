@@ -96,7 +96,7 @@ public class PointProductController {
                        Integer exchangeType, String acCode, @RequestParam(required = false, defaultValue = "0") Integer productDays, String actStartTime, String actEndTime, String productName,
                        @RequestParam(required = false, defaultValue = "0") BigDecimal productPrice, @RequestParam(required = false, defaultValue = "0") BigDecimal activityPrice, String exChangeStartTime, String exChangeEndTime, String groupList, String fileurl,
                        @RequestParam(required = false, defaultValue = "0") BigDecimal productCash, @RequestParam(required = false, defaultValue = "0") float productPoint,
-                       Integer totalLimit, Integer perLimit, String exChangeContent, String pcdetailimg, String appdetailimg, String wechatdetailimg, String remark, String Pid,
+                       Integer totalLimit, Integer perLimit, String exChangeContent, String pcdetailimg, String appdetailimg, String wechatdetailimg, String remark, String Pid, String statisticalClassification,
                        HttpServletRequest request, HttpServletResponse response) {
         try {
             TicketInfo user = userLoginService.getLoginAdminUser(request, response);
@@ -118,6 +118,7 @@ public class PointProductController {
             pointProductDO.setUserGroup(groupList);
             pointProductDO.setProductFile(fileurl);
             pointProductDO.setActivityPid(Pid);
+            pointProductDO.setStatisticalClassification(statisticalClassification);
             if (!exChangeStartTime.isEmpty()) {
                 pointProductDO.setExchangeStarttime(sdf.parse(exChangeStartTime));
             }

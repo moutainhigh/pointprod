@@ -250,6 +250,7 @@ $(function () {
         obj.sendType = $("#sendType input[type=radio]:checked").val();
         obj.jointimes = $("#jointimes").val();
         obj.taskorder = $("#taskorder").val();
+        obj.statisticalClassification = $("#statisticalClassification").val();
 
         var str = "";
         var goodsArr = $("#GroupList").select2("val");
@@ -343,6 +344,10 @@ $(function () {
         }
         if (!obj.ver) {
             alert("请选择版本");
+            return false;
+        }
+        if (!obj.statisticalClassification) {
+            alert("统计分类不能为空");
             return false;
         }
         if (!obj.platfrom) {

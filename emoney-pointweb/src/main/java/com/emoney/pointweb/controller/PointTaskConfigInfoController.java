@@ -71,7 +71,7 @@ public class PointTaskConfigInfoController {
                        @RequestParam(required = false, defaultValue = "0") Integer is_directional, Integer daily, String taskremark, String groupList, Integer sendType,
                        Integer jointimes, String ver, @RequestParam(required = false, defaultValue = "0") Integer ishomepage,
                        String platfrom, String pcurl, String appurl, Integer taskorder,
-                       String wechaturl, String buttontext, String pcimageurl, String appimageurl, String wechatimageurl,
+                       String wechaturl, String buttontext, String pcimageurl, String appimageurl, String wechatimageurl, String statisticalClassification,
                        @RequestParam(required = false, defaultValue = "0") Integer is_bigimg, HttpServletRequest request, HttpServletResponse response) {
         try {
             TicketInfo user = userLoginService.getLoginAdminUser(request, response);
@@ -84,7 +84,7 @@ public class PointTaskConfigInfoController {
                 return "排序相同，不能保存";
             }
 
-            List<PointTaskConfigInfoDO> checkData = pointTaskConfigInfoService.getByTaskIdAndSubId(taskId, subid,new Date());
+            List<PointTaskConfigInfoDO> checkData = pointTaskConfigInfoService.getByTaskIdAndSubId(taskId, subid, new Date());
 
             PointTaskConfigInfoDO ptci = new PointTaskConfigInfoDO();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -117,6 +117,7 @@ public class PointTaskConfigInfoController {
             ptci.setUpdateBy(user.UserName);
             ptci.setUpdateTime(new Date());
             ptci.setRemark("");
+            ptci.setStatisticalClassification(statisticalClassification);
             int result = 0;
             if (id > 0) {
                 if (checkData.size() >= 2) {

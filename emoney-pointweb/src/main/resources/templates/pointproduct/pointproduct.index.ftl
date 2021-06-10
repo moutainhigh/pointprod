@@ -346,12 +346,22 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">统计分类</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="statisticalClassification"
+                                       id="statisticalClassification"
+                                       placeholder="统计分类">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">附件</label>
                             <div class="col-sm-10">
                                 <div id="pcPicUploader" style="width: 100%;">
                                     <div id="FileList" style="position:relative;width: 100%;" class="uploader-list">
                                     </div>
-                                    <div id="FilePicker" class="FilePicker col-sm-2">上传附件</div><span style="float: left;margin-top: 10px;">投资内参专用</span>
+                                    <div id="FilePicker" class="FilePicker col-sm-2">上传附件</div>
+                                    <span style="float: left;margin-top: 10px;">投资内参专用</span>
                                 </div>
                             </div>
                         </div>
@@ -444,7 +454,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=2021060816"></script>
+<script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=20210610"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
 
 <script>
@@ -616,6 +626,7 @@
         $("#productType").val(res.productType);
         $("#productDays").val(res.productDays);
         $("#actPid").val(res.activityPid);
+        $("#statisticalClassification").val(res.statisticalClassification);
         if (res.userGroup) {
             $("#GroupList").val(res.userGroup.split(",")).trigger('change');
         } else {
@@ -812,6 +823,7 @@
         $("#wechatDetailPicFileList").html("");
         $("#FileList").html("");
         $("#fileurl").val("");
+        $("#statisticalClassification").val("");
         editor.txt.html("");
         editor1.txt.html("");
         $("#modal-default").modal('hide');

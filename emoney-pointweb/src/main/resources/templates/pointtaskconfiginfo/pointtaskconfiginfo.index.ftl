@@ -344,6 +344,15 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">统计分类</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="statisticalClassification"
+                                       id="statisticalClassification"
+                                       placeholder="统计分类">
+                            </div>
+                        </div>
+
                         <div class="form-group" id="imgtype" style="display: none;">
                             <label for="lastname" class="col-sm-2 control-label">图片大小<font color="red">*</font></label>
                             <div class="col-sm-4">
@@ -411,7 +420,7 @@
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
-<script src="${request.contextPath}/static/js/pointtaskconfiginfo.index.1.js?v=20210603"></script>
+<script src="${request.contextPath}/static/js/pointtaskconfiginfo.index.1.js?v=20210610"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
 
 <script>
@@ -582,6 +591,7 @@
         $("#task_type").val(res.taskType);
         $("#task_name").val(res.taskName);
         $("#task_points").val(res.taskPoints);
+        $("#statisticalClassification").val(res.statisticalClassification);
         if (res.userGroup) {
             $("#GroupList").val(res.userGroup.split(",")).trigger('change');
         } else {
@@ -812,6 +822,7 @@
         $("#pcPicFileList").html("");
         $("#appPicFileList").html("");
         $("#wechatPicFileList").html("");
+        $("#statisticalClassification").val("");
         editor.txt.html("");
         $("#modal-default").modal('hide');
     }
