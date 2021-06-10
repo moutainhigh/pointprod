@@ -86,7 +86,7 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_point_announce
-        WHERE publish_time &lt; #{curDate} and msg_type in
+        WHERE publish_time &lt; #{curDate} AND publish_time>#{endDate} and msg_type in
         <foreach item="item" index="index" collection="list"
                  open="(" separator="," close=")">
             #{item}

@@ -80,7 +80,7 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
                 } else if (queryType.equals(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()))) {
                     mstTypes.add(Integer.valueOf(MessageTypeEnum.TYPE4.getCode()));
                 }
-                List<PointAnnounceDO> pointAnnounceDOS = pointAnnounceService.getPointAnnouncesByType(mstTypes);
+                List<PointAnnounceDO> pointAnnounceDOS = pointAnnounceService.getPointAnnouncesByType(mstTypes, DateUtil.beginOfDay(DateUtil.offsetDay(DateUtil.date(), -90)));
                 if (pointAnnounceDOS != null) {
                     pointAnnounceDOS = pointAnnounceDOS.stream().filter(h -> h.getProductVersion().contains(productVersion)).collect(Collectors.toList());
                     //接入用户画像

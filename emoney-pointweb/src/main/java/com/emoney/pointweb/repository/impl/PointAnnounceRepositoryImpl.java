@@ -33,10 +33,10 @@ public class PointAnnounceRepositoryImpl implements PointAnnounceRepository {
     private RedisService redisCache1;
 
     @Override
-    public List<PointAnnounceDO> getPointAnnouncesByType(List<Integer> msgTypes) {
+    public List<PointAnnounceDO> getPointAnnouncesByType(List<Integer> msgTypes, Date endDate) {
         List<PointAnnounceDO> pointAnnounceDOS = redisCache1.getList(RedisConstants.REDISKEY_PointAnnounce_GETBYTYPE, PointAnnounceDO.class);
         if (pointAnnounceDOS == null) {
-            pointAnnounceDOS = pointAnnounceMapper.getPointAnnouncesByType(new Date(), msgTypes);
+            pointAnnounceDOS = pointAnnounceMapper.getPointAnnouncesByType(new Date(), endDate, msgTypes);
             if (pointAnnounceDOS != null && pointAnnounceDOS.size() > 0) {
                 redisCache1.set(RedisConstants.REDISKEY_PointAnnounce_GETBYTYPE, pointAnnounceDOS, ToolUtils.GetExpireTime(60));
             }

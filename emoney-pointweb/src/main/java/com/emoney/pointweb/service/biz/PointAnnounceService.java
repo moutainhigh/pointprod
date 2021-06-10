@@ -2,6 +2,7 @@ package com.emoney.pointweb.service.biz;
 
 import com.emoney.pointweb.repository.dao.entity.PointAnnounceDO;
 
+import java.util.Date;
 import java.util.List;
 
 public interface PointAnnounceService {
@@ -11,5 +12,5 @@ public interface PointAnnounceService {
 
     List<PointAnnounceDO> getAll();
 
-    List<PointAnnounceDO> getPointAnnouncesByType(List<Integer> msgTypes);
+    List<PointAnnounceDO> getPointAnnouncesByType(List<Integer> msgTypes, Date endDate);
 }

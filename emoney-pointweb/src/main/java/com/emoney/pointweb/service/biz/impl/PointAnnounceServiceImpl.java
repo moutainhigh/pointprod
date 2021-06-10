@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,7 +47,7 @@ public class PointAnnounceServiceImpl implements PointAnnounceService {
     }
 
     @Override
-    public List<PointAnnounceDO> getPointAnnouncesByType(List<Integer> msgTypes) {
-        return pointAnnounceRepository.getPointAnnouncesByType(msgTypes);
+    public List<PointAnnounceDO> getPointAnnouncesByType(List<Integer> msgTypes, Date endDate) {
+        return pointAnnounceRepository.getPointAnnouncesByType(msgTypes, endDate);
     }
 }
