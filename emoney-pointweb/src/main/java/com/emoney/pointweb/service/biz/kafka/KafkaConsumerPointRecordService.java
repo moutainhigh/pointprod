@@ -1,5 +1,6 @@
 package com.emoney.pointweb.service.biz.kafka;
 
+import com.alibaba.fastjson.JSON;
 import com.emoeny.pointcommon.constants.RedisConstants;
 import com.emoeny.pointcommon.enums.PointRecordStatusEnum;
 import com.emoeny.pointcommon.utils.JsonUtil;
@@ -56,6 +57,9 @@ public class KafkaConsumerPointRecordService {
     @Value("${pointfront.url}")
     private String pointFrontUrl;
 
+    @Value("${logisticsOrderTaskId}")
+    private String logisticsOrderTaskId;
+
     @Resource(name = "taskExecutor")
     private ThreadPoolTaskExecutor executor;
 
@@ -72,6 +76,19 @@ public class KafkaConsumerPointRecordService {
                 //写入数据库
                 int ret = pointRecordRepository.insert(pointRecordDO);
                 if (ret > 0) {
+                    //写入ES
+                    pointRecordESRepository.save(pointRecordDO);
+                    //物流订单送积分退款后解除锁定
+                    List<PointRecordDO> buyPointRecordDOs = pointRecordRepository.getByUid(pointRecordDO.getUid());
+                    if (buyPointRecordDOs != null && buyPointRecordDOs.size() > 0) {
+                        PointRecordDO buyPointRecordDO = buyPointRecordDOs.stream().filter(h -> h.getTaskId().equals(Long.parseLong(logisticsOrderTaskId)) && h.getRemark().equals(pointRecordDO.getRemark()) && h.getTaskPoint() > 0 && h.getLockDays() > 0).findFirst().orElse(null);
+                        if (buyPointRecordDO != null) {
+                            buyPointRecordDO.setLockDays(0);
+                            buyPointRecordDO.setUpdateTime(new Date());
+                            pointRecordRepository.update(buyPointRecordDO);
+                            log.info("物流订单送的积分解锁成功" + JSON.toJSONString(buyPointRecordDO));
+                        }
+                    }
                     //将成长任务id写入redis，如果在0点未领取，则清掉
                     if (pointRecordDO.getPointStatus().equals(Integer.valueOf(PointRecordStatusEnum.UNCLAIMED.getCode()))) {
                         redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_SETPOINTRECORDID, pointRecordDO.getUid(), pointRecordDO.getId()), pointRecordDO, ToolUtils.GetExpireTime(60));
@@ -81,8 +98,7 @@ public class KafkaConsumerPointRecordService {
                     redisCache1.removePattern(MessageFormat.format("pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_*", pointRecordDO.getUid()));
                     //去掉我的待领取任务统计
                     redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETUNCLAIMRECORDSBYUID, pointRecordDO.getUid()));
-                    //写入ES
-                    pointRecordESRepository.save(pointRecordDO);
+
                     //异步处理
                     CompletableFuture.runAsync(() -> {
                         try {

@@ -82,10 +82,9 @@ public class AutoSendRecordToLogisticsOrderJob {
                                 pointRecordCreateDTO.setRemark(queryStockUp.getDetID());
                                 PointSendConfigInfoDO pointSendConfigInfoDO = getPointSendConfigInfo(pointRecordCreateDTO.getPid(), queryStockUp.getProdType());
                                 if (pointSendConfigInfoDO != null) {
-                                    //pointRecordCreateDTO.setManualPoint(Float.parseFloat(String.valueOf(Math.round(queryStockUp.getSPRICE().floatValue() * (rato.floatValue() / 100)))));
-                                    if(pointSendConfigInfoDO.getPointNum()!=null){
+                                    if (pointSendConfigInfoDO.getPointNum() != null) {
                                         pointRecordCreateDTO.setManualPoint(pointSendConfigInfoDO.getPointNum());
-                                    }else {
+                                    } else {
                                         pointRecordCreateDTO.setManualPoint(Float.parseFloat(String.valueOf(Math.round(queryStockUp.getSPRICE().floatValue() * (pointSendConfigInfoDO.getRatio().floatValue() / 100)))));
                                     }
                                     pointRecordCreateDTO.setTaskName("积分收入明细提示语：消费奖励积分,产品激活后30天后可用");
@@ -105,8 +104,6 @@ public class AutoSendRecordToLogisticsOrderJob {
             queryCancelLogisticsOrderDTO.setRefund_Sign(-1);
             queryCancelLogisticsOrderDTO.setCancel_Time_Start(DateUtil.format(DateUtil.date(), "yyyy-MM-dd"));
             queryCancelLogisticsOrderDTO.setCancel_Time_End(DateUtil.format(DateUtil.offsetDay(DateUtil.date(), 1), "yyyy-MM-dd"));
-//            queryCancelLogisticsOrderDTO.setCancel_Time_Start("2021-01-01");
-//            queryCancelLogisticsOrderDTO.setCancel_Time_End("2021-05-01");
             List<QueryLogisticsOrderVO> logisticsCancelDateOrderVOS = logisticsService.getCancelLogisticsOrder(queryCancelLogisticsOrderDTO);
             if (logisticsCancelDateOrderVOS != null && logisticsCancelDateOrderVOS.size() > 0) {
                 for (QueryLogisticsOrderVO queryCancel : logisticsCancelDateOrderVOS
@@ -115,24 +112,24 @@ public class AutoSendRecordToLogisticsOrderJob {
                         String uid = userInfoService.getUidByEmNo(queryCancel.getMIDPWD());
                         if (!StringUtils.isEmpty(uid)) {
                             List<PointRecordDO> pointRecordDOS = pointRecordService.getByUid(Long.parseLong(uid));
-                            if (pointRecordDOS == null || pointRecordDOS.stream().filter(h -> h.getTaskId().equals(Long.parseLong(logisticsOrderTaskId)) && h.getRemark().equals(queryCancel.getDetID())).count() == 0) {
+                            if (pointRecordDOS == null || pointRecordDOS.stream().filter(h -> h.getTaskId().equals(Long.parseLong(logisticsOrderTaskId)) && h.getRemark().equals(queryCancel.getDetID()) && h.getTaskPoint() < 0).count() == 0) {
                                 pointRecordCreateDTO = new PointRecordCreateDTO();
                                 pointRecordCreateDTO.setUid(Long.parseLong(uid));
                                 pointRecordCreateDTO.setTaskId(Long.parseLong(logisticsOrderTaskId));
                                 pointRecordCreateDTO.setPlatform(1);
-
                                 pointRecordCreateDTO.setPid(queryCancel.getProductID());
                                 //pointRecordCreateDTO.setLockDays(30);
                                 pointRecordCreateDTO.setEmNo(queryCancel.getEmCard());
-                                pointRecordCreateDTO.setRemark(queryCancel.getORDER_ID());
+                                pointRecordCreateDTO.setRemark(queryCancel.getDetID());
                                 PointSendConfigInfoDO pointSendConfigInfoDO = getPointSendConfigInfo(pointRecordCreateDTO.getPid(), queryCancel.getProdType());
                                 if (pointSendConfigInfoDO != null) {
-                                    if(pointSendConfigInfoDO.getPointNum()!=null){
+                                    if (pointSendConfigInfoDO.getPointNum() != null) {
                                         pointRecordCreateDTO.setManualPoint(-pointSendConfigInfoDO.getPointNum());
-                                    }else {
+                                    } else {
                                         pointRecordCreateDTO.setManualPoint(-Float.parseFloat(String.valueOf(Math.round(queryCancel.getSPRICE().floatValue() * (pointSendConfigInfoDO.getRatio().floatValue() / 100)))));
                                     }
                                     pointRecordCreateDTO.setTaskName("退货积分收入明细：消费退款扣减积分-" + pointRecordCreateDTO.getManualPoint() + "积分");
+
                                     Result<Object> objectResult = pointRecordService.createPointRecord(pointRecordCreateDTO);
                                     log.info("退款订单扣积分成功" + JSON.toJSONString(objectResult));
                                 } else {
