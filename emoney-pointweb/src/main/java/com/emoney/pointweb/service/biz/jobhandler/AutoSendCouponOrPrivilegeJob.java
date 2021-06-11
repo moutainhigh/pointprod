@@ -58,45 +58,46 @@ public class AutoSendCouponOrPrivilegeJob {
                             //优惠券
                             List<QueryCouponActivityVO> queryCouponActivityVOS = logisticsService.getCouponRulesByAcCode(pointProductDO.getActivityCode());
                             if (queryCouponActivityVOS != null && queryCouponActivityVOS.size() > 0) {
-                                QueryCouponActivityVO queryCouponActivityVO = queryCouponActivityVOS.stream().findFirst().orElse(null);
-                                if (queryCouponActivityVO != null) {
-                                    SendCouponDTO sendCouponDTO = new SendCouponDTO();
-                                    sendCouponDTO.setPRESENT_ACCOUNT_TYPE(2);
-                                    sendCouponDTO.setPRESENT_ACCOUNT(pointOrderDO.getMobile());
-                                    sendCouponDTO.setPRESENT_FROM_ORDERID(pointProductDO.getActivityCode());
-                                    sendCouponDTO.setCOUPON_RULE_PRICE(queryCouponActivityVO.getCOUPON_RULE_PRICE());
-                                    sendCouponDTO.setPRESENT_PERSON("积分商城");
-                                    Boolean ret = logisticsService.SendCoupon(sendCouponDTO);
-                                    if (ret) {
-                                        log.info("积分赠送优惠券成功,参数:" + JSON.toJSONString(sendCouponDTO));
-                                        pointOrderDO.setIsSend(true);
-                                        pointOrderDO.setUpdateTime(new Date());
-                                        pointOrderService.update(pointOrderDO);
-                                    } else {
-                                        log.info("积分赠送优惠券失败,参数:" + JSON.toJSONString(sendCouponDTO));
-                                    }
+                                SendCouponDTO sendCouponDTO = new SendCouponDTO();
+                                sendCouponDTO.setPRESENT_ACCOUNT_TYPE(2);
+                                sendCouponDTO.setPRESENT_ACCOUNT(pointOrderDO.getMobile());
+                                sendCouponDTO.setCOUPON_ACTIVITY_ID(pointProductDO.getActivityCode());
+                                sendCouponDTO.setCOUPON_RULE_PRICE(queryCouponActivityVOS.get(0).getCOUPON_RULE_PRICE());
+                                sendCouponDTO.setPRESENT_PERSON("积分商城");
+                                log.info("开始发放优惠券,参数:" + JSON.toJSONString(sendCouponDTO));
+                                Boolean resSendCoupon = logisticsService.SendCoupon(sendCouponDTO);
+                                if (resSendCoupon) {
+                                    pointOrderDO.setIsSend(true);
+                                    pointOrderDO.setUpdateTime(new Date());
+                                    pointOrderService.update(pointOrderDO);
+                                    log.info("发放优惠券成功,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
+                                } else {
+                                    log.info("发放优惠券失败,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
                                 }
+                            } else {
+                                log.warn("获取优惠券异常,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
                             }
                         } else if (pointOrderDO.getProductType().equals(3)) {
                             //新功能体验
-                            SendPrivilegeDTO sendPrivilegeDTO=new SendPrivilegeDTO();
-                            List<CreateActivityGrantApplyAccountDTO> activityGrantApplyAccountDTOS=new ArrayList<>();
-                            sendPrivilegeDTO.setAppId("a002");
-                            sendPrivilegeDTO.setReason("");
-                            sendPrivilegeDTO.setCostBearDeptCode("");
-                            sendPrivilegeDTO.setApplyUserID("");
-                            CreateActivityGrantApplyAccountDTO createActivityGrantApplyAccountDTO=new CreateActivityGrantApplyAccountDTO();
+                            SendPrivilegeDTO sendPrivilegeDTO = new SendPrivilegeDTO();
+                            sendPrivilegeDTO.setAppId("A009");
+                            sendPrivilegeDTO.setActivityID(pointProductDO.getActivityCode());
+                            sendPrivilegeDTO.setApplyUserID("scb_public");
+                            List<CreateActivityGrantApplyAccountDTO> createActivityGrantApplyAccountDTOS = new ArrayList<>();
+                            CreateActivityGrantApplyAccountDTO createActivityGrantApplyAccountDTO = new CreateActivityGrantApplyAccountDTO();
                             createActivityGrantApplyAccountDTO.setAccountType(2);
                             createActivityGrantApplyAccountDTO.setMID(pointOrderDO.getMobile());
-                            activityGrantApplyAccountDTOS.add(createActivityGrantApplyAccountDTO);
-                            Boolean ret=logisticsService.SenddPrivilege(sendPrivilegeDTO);
-                            if (ret) {
-                                log.info("积分赠送特权成功,参数:" + JSON.toJSONString(sendPrivilegeDTO));
+                            createActivityGrantApplyAccountDTOS.add(createActivityGrantApplyAccountDTO);
+                            sendPrivilegeDTO.setAccounts(createActivityGrantApplyAccountDTOS);
+                            log.info("开始发放特权,参数:" + JSON.toJSONString(sendPrivilegeDTO));
+                            Boolean resultSenddPrivilege = logisticsService.SenddPrivilege(sendPrivilegeDTO);
+                            if (resultSenddPrivilege) {
                                 pointOrderDO.setIsSend(true);
                                 pointOrderDO.setUpdateTime(new Date());
                                 pointOrderService.update(pointOrderDO);
+                                log.info("发放特权成功,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
                             } else {
-                                log.info("积分赠送特权失败,参数:" + JSON.toJSONString(sendPrivilegeDTO));
+                                log.info("发放特权失败,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
                             }
                         }
                     }
