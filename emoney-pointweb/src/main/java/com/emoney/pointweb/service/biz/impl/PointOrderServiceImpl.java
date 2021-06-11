@@ -261,7 +261,7 @@ public class PointOrderServiceImpl implements PointOrderService {
                                             log.info("发放优惠券失败,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
                                         }
                                     } else {
-                                        log.warn("特权码无效,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
+                                        log.warn("获取优惠券异常,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO));
                                     }
                                 }
                                 //发放新功能体验，特权
@@ -288,7 +288,7 @@ public class PointOrderServiceImpl implements PointOrderService {
                                     }
                                 }
                             } catch (Exception e) {
-                                log.error("发放优惠券异常,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO), e);
+                                log.error("获取特权异常,商品:" + JSON.toJSONString(pointProductDO) + "订单:" + JSON.toJSONString(pointOrderDO), e);
                             }
 
                         }, executor);

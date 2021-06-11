@@ -87,7 +87,7 @@ public class AutoSendRecordToLogisticsOrderJob {
                                     } else {
                                         pointRecordCreateDTO.setManualPoint(Float.parseFloat(String.valueOf(Math.round(queryStockUp.getSPRICE().floatValue() * (pointSendConfigInfoDO.getRatio().floatValue() / 100)))));
                                     }
-                                    pointRecordCreateDTO.setTaskName("积分收入明细提示语：消费奖励积分,产品激活后30天后可用");
+                                    pointRecordCreateDTO.setTaskName("消费奖励积分（产品激活后，30天内无退换货方可用）");
                                     Result<Object> objectResult = pointRecordService.createPointRecord(pointRecordCreateDTO);
                                     log.info("购买赠送积分成功" + JSON.toJSONString(objectResult));
                                 } else {
@@ -128,7 +128,7 @@ public class AutoSendRecordToLogisticsOrderJob {
                                     } else {
                                         pointRecordCreateDTO.setManualPoint(-Float.parseFloat(String.valueOf(Math.round(queryCancel.getSPRICE().floatValue() * (pointSendConfigInfoDO.getRatio().floatValue() / 100)))));
                                     }
-                                    pointRecordCreateDTO.setTaskName("退货积分收入明细：消费退款扣减积分-" + pointRecordCreateDTO.getManualPoint() + "积分");
+                                    pointRecordCreateDTO.setTaskName("消费退款扣减积分");
 
                                     Result<Object> objectResult = pointRecordService.createPointRecord(pointRecordCreateDTO);
                                     log.info("退款订单扣积分成功" + JSON.toJSONString(objectResult));
