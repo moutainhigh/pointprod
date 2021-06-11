@@ -87,33 +87,6 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
                             }
                         }
                     }
-//                    //订10分钟没支付，发消息提醒
-//                    else if (expiredKey.startsWith("pointprod:pointordermind_setorderkey")) {
-//                        if (arrString.length == 3) {
-//                            if (!StringUtils.isEmpty(arrString[2])) {
-//                                int orderId = Integer.parseInt(arrString[2].replace(",",""));
-//                                PointOrderDO pointOrderDO = pointOrderRepository.getById(orderId);
-//                                if (pointOrderDO != null && pointOrderDO.getOrderStatus().equals(Integer.valueOf(PointOrderStatusEnum.UNFINISHED.getCode()))) {
-//                                    lockKey = MessageFormat.format(RedisConstants.REDISKEY_PointMessage_CREATE_LOCKKEY, pointOrderDO.getUid(), pointOrderDO.getOrderNo());
-//                                    if (redissonDistributionLock.tryLock(lockKey, TimeUnit.SECONDS, 10, 10)) {
-//                                        PointMessageDO pointMessageDO = new PointMessageDO();
-//                                        pointMessageDO.setUid(pointOrderDO.getUid());
-//                                        pointMessageDO.setMsgType(Integer.parseInt(MessageTypeEnum.TYPE3.getCode()));
-//                                        pointMessageDO.setMsgContent(MessageFormat.format("您兑换的\"{0}\"尚未支付，5分钟后订单即将取消，请及时支付！ ", pointOrderDO.getProductTitle()));
-//                                        pointMessageDO.setMsgSrc(String.valueOf(pointOrderDO.getOrderNo()));
-//                                        pointMessageDO.setMsgExt(String.valueOf(pointOrderDO.getOrderNo()));
-//                                        pointMessageDO.setCreateTime(new Date());
-//                                        int ret = pointMessageService.insert(pointMessageDO);
-//                                        if (ret > 0) {
-//                                            //清除缓存
-//                                            redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointMessage_GETBYUID, pointOrderDO.getUid()));
-//                                            log.info("------------------发送消息成功，uid=" + pointOrderDO.getUid() + ", orderno = " + pointOrderDO.getOrderNo());
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
                     //待领取任务在当天24：00没领取自动取消
                     else if (expiredKey.startsWith("pointprod:pointrecord_setpointrecordid")) {
                         if (arrString.length == 4) {
