@@ -225,13 +225,29 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
         }
     }
 
+
     @Override
-    public Result<Object> clearRedis(){
+    public Result<Object> clearRedis() {
         redisCache1.removePattern("pointprod:pointrecord_getbyuid_*");
         redisCache1.removePattern("pointprod:pointrecord_getsummarybyuid_*");
         redisCache1.removePattern("pointprod:pointrecord_getsummarybyuidandcreatetime_*");
         redisCache1.removePattern("pointprod:pointrecord_getunclaimrecordsbyuid_*");
         redisCache1.removePattern("pointprod:signinrecord_getbyuid_*");
+        redisCache1.removePattern("pointprod:pointorder_getbyuid_*");
+        redisCache1.removePattern("pointprod:pointmessage_getbyuid_*");
+        redisCache1.remove("pointprod:pointannounce_getbytype");
+        return Result.buildSuccessResult();
+    }
+
+    @Override
+    public Result<Object> clearRedisByUid(@NotNull(message = "用户id不能为空") Long uid) {
+        redisCache1.remove("pointprod:pointrecord_getbyuid_" + uid);
+        redisCache1.remove("pointprod:pointrecord_getsummarybyuid_*");
+        redisCache1.removePattern("pointprod:pointrecord_getsummarybyuidandcreatetime_" + uid + "_*");
+        redisCache1.remove("pointprod:pointrecord_getunclaimrecordsbyuid_" + uid);
+        redisCache1.remove("pointprod:signinrecord_getbyuid_" + uid);
+        redisCache1.remove("pointprod:pointmessage_getbyuid_" + uid);
+        redisCache1.remove("pointprod:pointannounce_getbytype");
         return Result.buildSuccessResult();
     }
 }

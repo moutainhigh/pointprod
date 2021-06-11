@@ -88,7 +88,19 @@ public interface PointRecordFacade {
     Result<List<PointRecordVO>> queryPointRecordsByTaskids(@RequestBody @Valid PointRecordQueryByTaskIdsDTO pointRecordQueryByTaskIdsDTO);
 
 
+    /**
+     * 刷新所缓存
+     * @return
+     */
     @GetMapping("/clearredis")
     Result<Object> clearRedis();
+
+    /**
+     * 根据uid刷新缓存
+     * @param uid
+     * @return
+     */
+    @GetMapping("/clearredisbyuid")
+    Result<Object> clearRedisByUid(@NotNull(message = "用户id不能为空") Long uid);
 
 }
