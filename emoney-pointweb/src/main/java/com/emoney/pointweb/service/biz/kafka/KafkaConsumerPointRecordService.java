@@ -81,12 +81,15 @@ public class KafkaConsumerPointRecordService {
                     //物流订单送积分退款后解除锁定
                     List<PointRecordDO> buyPointRecordDOs = pointRecordRepository.getByUid(pointRecordDO.getUid());
                     if (buyPointRecordDOs != null && buyPointRecordDOs.size() > 0) {
-                        PointRecordDO buyPointRecordDO = buyPointRecordDOs.stream().filter(h -> h.getTaskId().equals(Long.parseLong(logisticsOrderTaskId)) && h.getRemark().equals(pointRecordDO.getRemark()) && h.getTaskPoint() > 0 && h.getLockDays() > 0).findFirst().orElse(null);
-                        if (buyPointRecordDO != null) {
-                            buyPointRecordDO.setLockDays(0);
-                            buyPointRecordDO.setUpdateTime(new Date());
-                            pointRecordRepository.update(buyPointRecordDO);
-                            log.info("物流订单送的积分解锁成功" + JSON.toJSONString(buyPointRecordDO));
+                        //存在退款订单
+                        if(buyPointRecordDOs.stream().filter(h -> h.getTaskId().equals(Long.parseLong(logisticsOrderTaskId)) && h.getRemark().equals(pointRecordDO.getRemark()) && h.getTaskPoint() < 0).count()>0) {
+                            PointRecordDO buyPointRecordDO = buyPointRecordDOs.stream().filter(h -> h.getTaskId().equals(Long.parseLong(logisticsOrderTaskId)) && h.getRemark().equals(pointRecordDO.getRemark()) && h.getTaskPoint() > 0 && h.getLockDays() > 0).findFirst().orElse(null);
+                            if (buyPointRecordDO != null) {
+                                buyPointRecordDO.setLockDays(0);
+                                buyPointRecordDO.setUpdateTime(new Date());
+                                pointRecordRepository.update(buyPointRecordDO);
+                                log.info("物流订单送的积分解锁成功" + JSON.toJSONString(buyPointRecordDO));
+                            }
                         }
                     }
                     //将成长任务id写入redis，如果在0点未领取，则清掉
