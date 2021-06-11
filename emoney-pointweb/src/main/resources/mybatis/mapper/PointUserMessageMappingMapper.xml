@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.emoney.pointweb.repository.dao.mapper.PointUserMessageMappingMapper">
+    <resultMap id="BaseResultMap" type="com.emoney.pointweb.repository.dao.entity.UserMessageMappingDO">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="message_id" jdbcType="INTEGER" property="messageId"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="uid" jdbcType="VARCHAR" property="uid"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+
+        id, message_id, account, uid, create_time
+
+    </sql>
+    <insert id="insert">
+        IF NOT EXISTS(SELECT TOP 1 *
+                      FROM t_point_usermessagemapping
+                      WHERE message_id = #{messageId}
+                        AND uid = #{uid})
+            BEGIN
+                INSERT INTO t_point_usermessagemapping
+                    (message_id, account, uid, create_time)
+                VALUES (#{messageId}, #{account}, #{uid}, #{createTime})
+            END
+    </insert>
+    <select id="getByuid" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_point_usermessagemapping
+        WHERE uid=#{uid}
+    </select>
+
+
+</mapper>

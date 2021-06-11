@@ -113,13 +113,6 @@ $(function() {
     });
 
     $(".btnSave").on("click",function (){
-        var obj=new Object();
-        obj.taskid=$("#task_type option:selected").val();
-        obj.emNo=$("#EMtext").val();
-        obj.remark=$("#remark").val();
-        obj.file=$("#FilePicker").val();
-
-        var postUrl=base_url + "/pointsendrecord/importUserData";
         $('.form').ajaxSubmit({
             beforeSubmit: function () {
                 $(".btnSave").attr("disabled",true);

@@ -124,6 +124,7 @@ public class PointFeedBackController {
     @ResponseBody
     public String adopt(Integer id, String remark) {
         PointFeedBackDO pointFeedBackDO = new PointFeedBackDO();
+        PointFeedBackDO pointFeedBackDO1 = pointFeedBackService.getById(id);
         pointFeedBackDO.setId(id);
         pointFeedBackDO.setStatus(1);
         pointFeedBackDO.setAdoptRemark(remark);
@@ -133,7 +134,8 @@ public class PointFeedBackController {
             pointFeedBackDO = pointFeedBackService.getById(id);
 
             //修改bug 1为已采纳
-            if (pointFeedBackDO.getStatus().equals(1)) {
+            if (pointFeedBackDO1.getStatus().equals(0)) {
+                log.info("第一次采纳送积分,account:" + pointFeedBackDO.getAccount());
                 pointSendRecordService.sendPointRecord(Long.parseLong("1384354667126984704"), pointFeedBackDO.getAccount());
             }
             if (pointFeedBackDO != null) {

@@ -111,12 +111,12 @@
                     <h4 class="modal-title">创建/编辑</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal form" role="form">
-                        <input type="hidden" id="hiddenid" value="">
+                    <form class="form-horizontal form" role="form" ACTION="/pointannounce/edit" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="id" id="hiddenid" value="">
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">类型<font color="red">*</font></label>
                             <div class="col-sm-4">
-                                <select class="form-control" name="msg_type" id="msg_type">
+                                <select class="form-control" name="msgType" id="msg_type">
                                     <option value="2">商品上架</option>
                                     <option value="4">最新活动</option>
                                     <option value="5">通知</option>
@@ -127,7 +127,7 @@
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">主题<font color="red">*</font></label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="msg_content" id="msg_content"
+                                <input type="text" class="form-control" name="msgContent" id="msg_content"
                                        placeholder="主题">
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">跳转地址<font color="red">*</font></label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="msg_src" id="msg_src" placeholder="跳转地址">
+                                <input type="text" class="form-control" name="msgSrc" id="msg_src" placeholder="跳转地址">
                             </div>
                         </div>
 
@@ -147,7 +147,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" class="form-control pull-right datepicker" id="publish_time">
+                                    <input type="text" class="form-control pull-right datepicker" name="publishTime" id="publish_time">
                                 </div>
                             </div>
                         </div>
@@ -159,15 +159,15 @@
                                     <button type="button" style="margin-top: -6px;" id="checkVer"
                                             class="btn btn-primary btn-xs" value="全选">全选
                                     </button>
-                                    <input id="ver1" type="checkbox" name="ver" class="ver" value="888010000"/><label
+                                    <input id="ver1" type="checkbox" name="productVersion" class="ver" value="888010000"/><label
                                             for="ver1">小智盈</label>
-                                    <input id="ver2" type="checkbox" name="ver" class="ver" value="888020000"/><label
+                                    <input id="ver2" type="checkbox" name="productVersion" class="ver" value="888020000"/><label
                                             for="ver2">深度资金版</label>
-                                    <input id="ver3" type="checkbox" name="ver" class="ver" value="888080000"/><label
+                                    <input id="ver3" type="checkbox" name="productVersion" class="ver" value="888080000"/><label
                                             for="ver3">掘金版</label>
-                                    <input id="ver4" type="checkbox" name="ver" class="ver" value="888010400"/><label
+                                    <input id="ver4" type="checkbox" name="productVersion" class="ver" value="888010400"/><label
                                             for="ver4">小智盈过期</label>
-                                    <input id="ver5" type="checkbox" name="ver" class="ver" value="888020400"/><label
+                                    <input id="ver5" type="checkbox" name="productVersion" class="ver" value="888020400"/><label
                                             for="ver5">大师过期</label>
                                 </div>
                             </div>
@@ -193,7 +193,7 @@
                         <div class="form-group">
                             <label for="firstname" class="col-sm-2 control-label">用户分组</label>
                             <div class="col-sm-10">
-                                <select id="GroupList" class="select2" multiple="multiple" title="请选择"
+                                <select id="GroupList" name="groupList" class="select2" multiple="multiple" title="请选择"
                                         style="width: 100%;">
                                     <#if userGroupVOList?exists && userGroupVOList?size gt 0 >
                                         <#list userGroupVOList as item>
@@ -204,6 +204,29 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">处理方式<font color="red">*</font></label>
+                            <div class="col-sm-4">
+                                <div style="margin-top: 6px;" id="handleType">
+                                    <input id="type1" type="radio" name="classType" value="1" checked onclick="changeType();"/><label for="type1" onclick="changeType();">批量导入</label>
+                                    <input id="type2" type="radio" name="classType" value="2" onclick="changeType();"/><label for="type2" onclick="changeType();">单个导入</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="display: none;" id="excelTab">
+                            <label for="firstname" class="col-sm-2 control-label"></label>
+                            <div class="col-sm-4">
+                                <input type="file" name="file" id="FilePicker" />
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="display: none;" id="inputTab">
+                            <label for="firstname" class="col-sm-2 control-label"></label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="account" id="account" placeholder="EM号/手机号" >
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -305,7 +328,19 @@
         minDate: 0
     });
 
+    changeType=function (){
+        var data=$("#handleType input[type=radio]:checked").val();
+        if(data=="1"){
+            $("#excelTab").show();
+            $("#inputTab").hide();
+        }else {
+            $("#excelTab").hide();
+            $("#inputTab").show();
+        }
+    }
+
     $('#btnAdd').on('click', function () {
+        changeType();
         $("#modal-default").modal({backdrop: false, keyboard: false}).modal('show');
     });
 
@@ -314,57 +349,71 @@
         msgTable.ajax.reload();
     });
 
-    $('.btnSave').on('click', function () {
-        var obj = new Object();
-        obj.id = $("#hiddenid").val();
-        obj.msgType = $("#msg_type option:selected").val();
-        obj.msgContent = $("#msg_content").val();
-        obj.msgSrc = $("#msg_src").val();
-        var ver = "";
-        $("#ver input[type=checkbox]:checked").each(function () {
-            ver += $(this).val() + ',';
-        })
-        obj.productVersion = ver;
-        var plat = "";
-        $("#platfrom input[type=checkbox]:checked").each(function () {
-            plat += $(this).val() + ',';
-        })
-        obj.plat = plat;
-        var str = "";
-        var goodsArr = $("#GroupList").select2("val");
-        for (var i = 0; i < goodsArr.length; i++) {
-            str += goodsArr[i];
-            if (i + 1 < goodsArr.length) {
-                str += ",";
-            }
-        }
-        obj.groupList = str;
-        obj.publishTime = $("#publish_time").val();
-
-        if (!validate(obj)) {
-            return false;
-        }
-        $.ajax({
-            type: "POST",
-            url: base_url + "/pointannounce/edit",
-            data: obj,
-            datatype: "text",
+    $(".btnSave").on("click",function (){
+        $('.form').ajaxSubmit({
+            beforeSubmit: function () {
+                $(".btnSave").attr("disabled",true);
+            },
             success: function (data) {
-                $(".btnSave").attr("disabled", false);
-                if (data == "success") {
-                    msgTable.ajax.reload();
-                    clertAndCloseModal();
-                } else {
-                    alert(data);
-                }
-            },
-            beforeSend: function () {
-                $(".btnSave").attr("disabled", true);
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $(".btnSave").attr("disabled",false);
+                msgTable.ajax.reload();
+                clertAndCloseModal();
             }
         });
     });
+
+    // $('.btnSave').on('click', function () {
+    //     var obj = new Object();
+    //     obj.id = $("#hiddenid").val();
+    //     obj.msgType = $("#msg_type option:selected").val();
+    //     obj.msgContent = $("#msg_content").val();
+    //     obj.msgSrc = $("#msg_src").val();
+    //     var ver = "";
+    //     $("#ver input[type=checkbox]:checked").each(function () {
+    //         ver += $(this).val() + ',';
+    //     })
+    //     obj.productVersion = ver;
+    //     var plat = "";
+    //     $("#platfrom input[type=checkbox]:checked").each(function () {
+    //         plat += $(this).val() + ',';
+    //     })
+    //     obj.plat = plat;
+    //     var str = "";
+    //     var goodsArr = $("#GroupList").select2("val");
+    //     for (var i = 0; i < goodsArr.length; i++) {
+    //         str += goodsArr[i];
+    //         if (i + 1 < goodsArr.length) {
+    //             str += ",";
+    //         }
+    //     }
+    //     obj.groupList = str;
+    //     obj.publishTime = $("#publish_time").val();
+    //     obj.file=$("#FilePicker").val();
+    //
+    //     if (!validate(obj)) {
+    //         return false;
+    //     }
+    //     $.ajax({
+    //         type: "POST",
+    //         url: base_url + "/pointannounce/edit",
+    //         data: obj,
+    //         datatype: "text",
+    //         success: function (data) {
+    //             $(".btnSave").attr("disabled", false);
+    //             if (data == "success") {
+    //                 msgTable.ajax.reload();
+    //                 clertAndCloseModal();
+    //             } else {
+    //                 alert(data);
+    //             }
+    //         },
+    //         beforeSend: function () {
+    //             $(".btnSave").attr("disabled", true);
+    //         },
+    //         error: function (XMLHttpRequest, textStatus, errorThrown) {
+    //         }
+    //     });
+    // });
 
     function validate(obj) {
         if (!obj.msgType) {
@@ -395,6 +444,7 @@
     }
 
     function editdata(id) {
+        changeType();
         var jsondata = $('#json' + id).val();
         var res = JSON.parse(jsondata);
 
@@ -492,6 +542,8 @@
         verBtn.innerHTML = "全选";
         platBtn.value = "全选";
         platBtn.innerHTML = "全选";
+        $("#account").val("");
+        $("#FilePicker").val("");
 
         $("#modal-default").modal('hide');
     }
