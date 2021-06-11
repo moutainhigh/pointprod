@@ -71,7 +71,7 @@ public class AutoSendRecordToLogisticsOrderJob {
                         String uid = userInfoService.getUidByEmNo(queryStockUp.getMIDPWD());
                         if (!StringUtils.isEmpty(uid)) {
                             List<PointRecordDO> pointRecordDOS = pointRecordService.getByUid(Long.parseLong(uid));
-                            if (pointRecordDOS == null || pointRecordDOS.stream().filter(h -> h.getTaskId().equals(Long.parseLong(logisticsOrderTaskId)) && h.getRemark().equals(queryStockUp.getDetID())).count() == 0) {
+                            if (pointRecordDOS == null || pointRecordDOS.stream().filter(h -> h.getTaskId().equals(Long.parseLong(logisticsOrderTaskId)) && h.getRemark().equals(queryStockUp.getDetID()) && h.getTaskPoint() > 0).count() == 0) {
                                 pointRecordCreateDTO = new PointRecordCreateDTO();
                                 pointRecordCreateDTO.setUid(Long.parseLong(uid));
                                 pointRecordCreateDTO.setTaskId(Long.parseLong(logisticsOrderTaskId));
