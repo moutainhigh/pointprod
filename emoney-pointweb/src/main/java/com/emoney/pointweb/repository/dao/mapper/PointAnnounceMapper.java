@@ -17,4 +17,6 @@ public interface PointAnnounceMapper {
     List<PointAnnounceDO> getAll();
 
     List<PointAnnounceDO> getPointAnnouncesByType(Date curDate, Date endDate,@Param("list") List<Integer> msgTypes);
+
+    List<PointAnnounceDO> getPointAnnouncesByMapping(Date curDate, Date endDate,String uid);
 }

@@ -15,6 +15,8 @@ public interface PointAnnounceRepository {
 
     List<PointAnnounceDO> getPointAnnouncesByType(List<Integer> msgTypes, Date endDate);
 
+    List<PointAnnounceDO> getPointAnnouncesByMapping(Date endDate,String uid);
+
     Integer insert(PointAnnounceDO pointAnnounceDO);
 
     Integer update(PointAnnounceDO pointAnnounceDO);

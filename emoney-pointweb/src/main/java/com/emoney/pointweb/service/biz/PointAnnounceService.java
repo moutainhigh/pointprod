@@ -13,4 +13,6 @@ public interface PointAnnounceService {
     List<PointAnnounceDO> getAll();
 
     List<PointAnnounceDO> getPointAnnouncesByType(List<Integer> msgTypes, Date endDate);
+
+    List<PointAnnounceDO> getPointAnnouncesByMapping(Date endDate, String uid);
 }

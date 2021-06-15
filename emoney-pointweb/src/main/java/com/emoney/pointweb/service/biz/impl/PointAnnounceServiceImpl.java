@@ -50,4 +50,9 @@ public class PointAnnounceServiceImpl implements PointAnnounceService {
     public List<PointAnnounceDO> getPointAnnouncesByType(List<Integer> msgTypes, Date endDate) {
         return pointAnnounceRepository.getPointAnnouncesByType(msgTypes, endDate);
     }
+
+    @Override
+    public List<PointAnnounceDO> getPointAnnouncesByMapping(Date endDate, String uid) {
+        return  pointAnnounceRepository.getPointAnnouncesByMapping(endDate,uid);
+    }
 }

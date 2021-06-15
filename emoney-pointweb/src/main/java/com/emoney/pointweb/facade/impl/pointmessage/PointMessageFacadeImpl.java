@@ -120,6 +120,18 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
                         }
                     }
 
+                    //查找导入的用户名单
+                    List<PointAnnounceDO> mapperPointAnnounceDOS = pointAnnounceService.getPointAnnouncesByMapping(DateUtil.beginOfDay(DateUtil.offsetDay(DateUtil.date(), -90)), String.valueOf(uid));
+                    if (mapperPointAnnounceDOS != null) {
+                        for (PointAnnounceDO pointAnnounceDo : mapperPointAnnounceDOS
+                        ) {
+                            if (retPointAnnounceDOList.stream().filter(h -> h.getId().equals(pointAnnounceDo.getId())).count() == 0) {
+                                retPointAnnounceDOList.add(pointAnnounceDo);
+                            }
+                        }
+                    }
+
+
                     for (PointAnnounceDO p : retPointAnnounceDOList
                     ) {
                         pointMessageVO = new PointMessageVO();

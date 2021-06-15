@@ -45,6 +45,18 @@ public class PointAnnounceRepositoryImpl implements PointAnnounceRepository {
     }
 
     @Override
+    public List<PointAnnounceDO> getPointAnnouncesByMapping(Date endDate, String uid) {
+        List<PointAnnounceDO> pointAnnounceDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointAnnounce_GETBYUID,uid), PointAnnounceDO.class);
+        if (pointAnnounceDOS == null) {
+            pointAnnounceDOS = pointAnnounceMapper.getPointAnnouncesByMapping(new Date(), endDate, uid);
+            if (pointAnnounceDOS != null && pointAnnounceDOS.size() > 0) {
+                redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointAnnounce_GETBYUID,uid), pointAnnounceDOS, ToolUtils.GetExpireTime(60));
+            }
+        }
+        return pointAnnounceDOS;
+    }
+
+    @Override
     public Integer insert(PointAnnounceDO pointAnnounceDO) {
 
         //清除缓存
