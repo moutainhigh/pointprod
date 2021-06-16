@@ -33,7 +33,8 @@ public class KafkaConsumerPointMessageUserNameService {
     private RedisService redisCache1;
 
     // 消费监听
-    @KafkaListener(topics = "pointprod-messageusernameadd", groupId = "pointprodgroupprod")
+    @KafkaListeners({@KafkaListener(topics = "pointmessageusernameadd", groupId = "pointrecordgroup"),
+            @KafkaListener(topics = "pointprod-messageusernameadd", groupId = "pointprodgroupprod")})
     public void onMessage(@Payload ConsumerRecord<?, ?> record, Acknowledgment acknowledgment) {
         try {
             // 消费的哪个topic、partition的消息,打印出消息内容

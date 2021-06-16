@@ -64,7 +64,8 @@ public class KafkaConsumerPointRecordService {
     private ThreadPoolTaskExecutor executor;
 
     // 消费监听
-    @KafkaListener(topics = "pointprod-pointadd", groupId = "pointprodgroupprod")
+    @KafkaListeners({@KafkaListener(topics = "pointrecordadd", groupId = "pointrecordgroup"),
+            @KafkaListener(topics = "pointprod-pointadd", groupId = "pointprodgroupprod")})
     public void onMessage(@Payload ConsumerRecord<?, ?> record, Acknowledgment acknowledgment) {
         try {
             // 消费的哪个topic、partition的消息,打印出消息内容
