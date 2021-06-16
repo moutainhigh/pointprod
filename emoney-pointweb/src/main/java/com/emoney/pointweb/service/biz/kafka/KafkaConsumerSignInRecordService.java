@@ -33,8 +33,7 @@ public class KafkaConsumerSignInRecordService {
     private SingInRecordESRepository singInRecordESRepository;
 
     // 消费监听
-    @KafkaListeners({@KafkaListener(topics="signinrecordadd", groupId = "pointrecordgroup"),
-            @KafkaListener(topics="pointprod-signinadd", groupId = "pointprodgroupprod")})
+    @KafkaListener(topics="pointprod-signinadd", groupId = "pointprodgroupprod")
     public void onMessage(@Payload ConsumerRecord<?, ?> record, Acknowledgment acknowledgment) {
         try {
             // 消费的哪个topic、partition的消息,打印出消息内容
