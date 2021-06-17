@@ -537,14 +537,14 @@
         var res = JSON.parse(jsondata);
 
 
-        $("#send1").attr("checked", false);
-        $("#send2").attr("checked", false);
-        $("#show1").attr("checked", false);
-        $("#show2").attr("checked", false);
-        $("#directional1").attr("checked", false);
-        $("#directional2").attr("checked", false);
-        $("#daily1").attr("checked", false);
-        $("#daily2").attr("checked", false);
+        //$("#send1")[0].checked=false;
+        //$("#send2")[0].checked=false;
+        $("#show1")[0].checked=false;
+        $("#show2")[0].checked=false;
+        $("#directional1")[0].checked=false;
+        $("#directional2")[0].checked=false;
+        $("#daily1")[0].checked=false;
+        $("#daily2")[0].checked=false;
 
         var obj = new Object();
         obj.taskId = res.taskId;
@@ -619,21 +619,21 @@
         }
 
         if (res.isDirectional) {
-            $("#directional1").attr("checked", true);
+            $("#directional1")[0].checked=true;
         } else {
-            $("#directional2").attr("checked", true);
+            $("#directional2")[0].checked=true;
         }
 
         if (res.sendType) {
-            $("#send1").attr("checked", true);
+            $("#send1")[0].checked=true;
         } else {
-            $("#send2").attr("checked", true);
+            $("#send2")[0].checked=true;
         }
 
         if (res.isDailyTask) {
-            $("#daily1").attr("checked", true);
+            $("#daily1")[0].checked=true;
         } else {
-            $("#daily2").attr("checked", true);
+            $("#daily2")[0].checked=true;
         }
 
         $("#jointimes").val(res.dailyJoinTimes);
@@ -683,16 +683,16 @@
 
         if (res.isShowInHomePage) {
             if (res.isShowInHomePage == 1) {
-                $("#show1").attr("checked", true);
+                $("#show1")[0].checked=true;
             } else {
-                $("#show2").attr("checked", true);
+                $("#show2")[0].checked=true;
             }
         }
 
         if (res.isBigImg) {
-            $("#big").attr("checked", true);
+            $("#big")[0].checked=true;
         } else {
-            $("#small").attr("checked", true);
+            $("#small")[0].checked=true;
         }
 
         $("#taskorder").val(res.taskOrder);
@@ -744,14 +744,14 @@
 
         $("#hiddentaskId").val(res.taskId);
         $("#taskId").html(res.taskId);
-        $("#show1").attr("checked", false);
-        $("#show2").attr("checked", false);
-        $("#send1").attr("checked", false);
-        $("#send2").attr("checked", false);
-        $("#directional1").attr("checked", false);
-        $("#directional2").attr("checked", false);
-        $("#daily1").attr("checked", false);
-        $("#daily2").attr("checked", false);
+        $("#show1")[0].checked=false;
+        $("#show2")[0].checked=false;
+        $("#send1")[0].checked=false;
+        $("#send2")[0].checked=false;
+        $("#directional1")[0].checked=false;
+        $("#directional2")[0].checked=false;
+        $("#daily1")[0].checked=false;
+        $("#daily2")[0].checked=false;
         $("#task_type").attr("disabled", false);
         $("#task_points").attr("disabled", false);
         $("#tasktime").attr("disabled", false);
@@ -781,16 +781,16 @@
         verBtn.innerHTML = "全选";
         platBtn.value = "全选";
         platBtn.innerHTML = "全选";
-        $("#show1").attr("checked", false);
-        $("#show2").attr("checked", false);
-        $("#send1").attr("checked", false);
-        $("#send2").attr("checked", false);
-        $("#directional1").attr("checked", false);
-        $("#directional2").attr("checked", false);
-        $("#daily1").attr("checked", false);
-        $("#daily2").attr("checked", false);
-        $("#big").attr("checked", false);
-        $("#small").attr("checked", false);
+        $("#show1")[0].checked=false;
+        $("#show2")[0].checked=false;
+        $("#send1")[0].checked=false;
+        $("#send2")[0].checked=false;
+        $("#directional1")[0].checked=false;
+        $("#directional2")[0].checked=false;
+        $("#daily1")[0].checked=false;
+        $("#daily2")[0].checked=false;
+        $("#big")[0].checked=false;
+        $("#small")[0].checked=false;
         $("#subId").attr("disabled", false);
         $("#GroupList").val("").trigger('change');
         $("#hiddenid").val("");

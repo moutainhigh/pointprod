@@ -604,13 +604,13 @@
 
     function changeModal() {
         var optype = $("#productType option:selected").val();
-        $("#exchange1").attr("checked", false);
-        $("#exchange2").attr("checked", false);
+        $("#exchange1")[0].checked=false;
+        $("#exchange2")[0].checked=false;
         if (optype == "1") {
-            $("#exchange2").attr("checked", true);
+            $("#exchange2")[0].checked=true;
             $("#exchange_type input[type='radio']").attr("disabled", true);
         } else {
-            $("#exchange1").attr("checked", true);
+            $("#exchange1")[0].checked=true;
             $("#exchange_type input[type='radio']").attr("disabled", false);
         }
     }
@@ -619,8 +619,8 @@
         var jsondata = $('#json' + id).val();
         var res = JSON.parse(jsondata);
 
-        $("#exchange1").attr("checked", false);
-        $("#exchange2").attr("checked", false);
+        $("#exchange1")[0].checked=false;
+        $("#exchange2")[0].checked=false;
 
         $("#hiddenid").val(res.id);
         $("#productType").val(res.productType);
@@ -633,9 +633,9 @@
             $("#GroupList").val("").trigger('change');
         }
         if (res.exchangeType == 1) {
-            $("#exchange2").attr("checked", true);
+            $("#exchange2")[0].checked=true;
         } else {
-            $("#exchange1").attr("checked", true);
+            $("#exchange1")[0].checked=true;
         }
         $("#actCode").val(res.activityCode);
         if (res.activityStartTime) {
@@ -791,8 +791,8 @@
         verBtn.innerHTML = "全选";
         platBtn.value = "全选";
         platBtn.innerHTML = "全选";
-        $("#exchange1").attr("checked", false);
-        $("#exchange2").attr("checked", false);
+        $("#exchange1")[0].checked=false;
+        $("#exchange2")[0].checked=false;
         $("#GroupList").val("").trigger('change');
         $("#actPid").val("");
         $("#hiddenid").val("");
