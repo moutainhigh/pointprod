@@ -17,6 +17,7 @@ import com.emoney.pointweb.service.biz.PointProductService;
 import com.emoney.pointweb.service.biz.PointTaskConfigInfoService;
 import com.emoney.pointweb.service.biz.UserInfoService;
 import com.emoney.pointweb.service.biz.redis.RedisService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class PointProductServiceImpl implements PointProductService {
     @Autowired
     private PointProductMapper pointProductMapper;
@@ -93,16 +95,13 @@ public class PointProductServiceImpl implements PointProductService {
     public List<PointProductDO> getAllEffectiveProducts(Date curDate, String productVersion, Long uid, String publishPlatFormType) {
         List<PointProductDO> retPointProducts = new ArrayList<>();
         List<PointProductDO> pointProductDOS = pointProductRepository.getAllEffectiveProducts(new Date());
+
+        log.info("step1"+JSON.toJSONString(pointProductDOS));
+
         if (pointProductDOS != null) {
             pointProductDOS = pointProductDOS.stream().filter(h -> h.getProductVersion().contains(productVersion) && h.getPublishPlatFormType().contains(publishPlatFormType)).collect(Collectors.toList());
         }
-
-//        String userVersion = productVersion.substring(0, 5) + "0000";
-//
-//        if (pointProductDOS != null) {
-//            pointProductDOS = pointProductDOS.stream().filter(h -> StringUtils.isEmpty(h.getActivityPid()) || (!StringUtils.isEmpty(h.getActivityPid()) && (h.getActivityPid().contains(userVersion) || h.getActivityPid().equals("888150000") || h.getActivityPid().equals("888040000")))).collect(Collectors.toList());
-//        }
-
+        log.info("step2"+JSON.toJSONString(pointProductDOS));
         //接入用户画像
         if (pointProductDOS != null) {
             CheckUserGroupDTO checkUserGroupDTO = new CheckUserGroupDTO();
@@ -139,6 +138,7 @@ public class PointProductServiceImpl implements PointProductService {
                 }
             }
         }
+        log.info("step3"+JSON.toJSONString(retPointProducts));
         return retPointProducts;
     }
 
