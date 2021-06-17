@@ -529,6 +529,7 @@
     });
 
     function clertAndCloseModal() {
+        $('#hiddenid').val('');
         $("#msg_content").val("");
         $("#msg_src").val("");
         $("#publish_time").val("");
