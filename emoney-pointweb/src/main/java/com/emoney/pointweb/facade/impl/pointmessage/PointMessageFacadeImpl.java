@@ -82,7 +82,7 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
                 }
                 List<PointAnnounceDO> pointAnnounceDOS = pointAnnounceService.getPointAnnouncesByType(mstTypes, DateUtil.beginOfDay(DateUtil.offsetDay(DateUtil.date(), -90)));
                 if (pointAnnounceDOS != null) {
-                    pointAnnounceDOS = pointAnnounceDOS.stream().filter(h -> h.getProductVersion().contains(productVersion)).collect(Collectors.toList());
+                    pointAnnounceDOS = pointAnnounceDOS.stream().filter(h -> h.getProductVersion()!=null&&h.getProductVersion().contains(productVersion)).collect(Collectors.toList());
                     //接入用户画像
                     if (pointAnnounceDOS != null) {
                         CheckUserGroupDTO checkUserGroupDTO = new CheckUserGroupDTO();
