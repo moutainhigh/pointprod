@@ -32,6 +32,7 @@ public class PointProductRepositoryImpl implements PointProductRepository {
 
     @Override
     public List<PointProductDO> getAllEffectiveProducts(Date curDate) {
+
 //        List<PointProductDO> pointProductDOS = redisCache1.getList(RedisConstants.REDISKEY_PointProduct_GETALLEFFECTIVEPRODUCTS, PointProductDO.class);
 //        if (pointProductDOS == null) {
 //            pointProductDOS = pointProductMapper.getAllEffectiveProducts(curDate);

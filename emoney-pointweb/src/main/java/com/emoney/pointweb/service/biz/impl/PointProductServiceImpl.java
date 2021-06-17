@@ -96,12 +96,10 @@ public class PointProductServiceImpl implements PointProductService {
         List<PointProductDO> retPointProducts = new ArrayList<>();
         List<PointProductDO> pointProductDOS = pointProductRepository.getAllEffectiveProducts(new Date());
 
-        log.info("step1"+JSON.toJSONString(pointProductDOS));
-
         if (pointProductDOS != null) {
             pointProductDOS = pointProductDOS.stream().filter(h -> h.getProductVersion().contains(productVersion) && h.getPublishPlatFormType().contains(publishPlatFormType)).collect(Collectors.toList());
         }
-        log.info("step2"+JSON.toJSONString(pointProductDOS));
+
         //接入用户画像
         if (pointProductDOS != null) {
             CheckUserGroupDTO checkUserGroupDTO = new CheckUserGroupDTO();
@@ -138,7 +136,6 @@ public class PointProductServiceImpl implements PointProductService {
                 }
             }
         }
-        log.info("step3"+JSON.toJSONString(retPointProducts));
         return retPointProducts;
     }
 
