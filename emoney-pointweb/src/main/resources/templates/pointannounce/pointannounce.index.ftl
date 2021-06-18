@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/select2/select2.css">
     <link rel="stylesheet"
           href="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/css/multi-select.css">
+    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/bootstap-validator/bootstrapValidator.min.css">
     <title>消息通知</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -128,12 +129,12 @@
                             <label for="firstname" class="col-sm-2 control-label">主题<font color="red">*</font></label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="msgContent" id="msg_content"
-                                       placeholder="主题">
+                                       placeholder="主题" data-bv-notempty="true" data-bv-notempty-message="主题不能为空">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="firstname" class="col-sm-2 control-label">跳转地址<font color="red">*</font></label>
+                            <label for="firstname" class="col-sm-2 control-label">跳转地址</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="msgSrc" id="msg_src" placeholder="跳转地址">
                             </div>
@@ -147,28 +148,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" class="form-control pull-right datepicker" name="publishTime" id="publish_time">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="firstname" class="col-sm-2 control-label">产品版本<font color="red">*</font></label>
-                            <div class="col-sm-8">
-                                <div style="margin-top: 6px;" id="ver">
-                                    <button type="button" style="margin-top: -6px;" id="checkVer"
-                                            class="btn btn-primary btn-xs" value="全选">全选
-                                    </button>
-                                    <input id="ver1" type="checkbox" name="productVersion" class="ver" value="888010000"/><label
-                                            for="ver1">小智盈</label>
-                                    <input id="ver2" type="checkbox" name="productVersion" class="ver" value="888020000"/><label
-                                            for="ver2">深度资金版</label>
-                                    <input id="ver3" type="checkbox" name="productVersion" class="ver" value="888080000"/><label
-                                            for="ver3">掘金版</label>
-                                    <input id="ver4" type="checkbox" name="productVersion" class="ver" value="888010400"/><label
-                                            for="ver4">小智盈过期</label>
-                                    <input id="ver5" type="checkbox" name="productVersion" class="ver" value="888020400"/><label
-                                            for="ver5">大师过期</label>
+                                    <input type="text" class="form-control pull-right datepicker" name="publishTime" id="publish_time" >
                                 </div>
                             </div>
                         </div>
@@ -180,52 +160,83 @@
                                     <button type="button" style="margin-top: -6px;" id="checkPlat"
                                             class="btn btn-primary btn-xs" value="全选">全选
                                     </button>
-                                    <input id="plat1" type="checkbox" name="plat" class="plat" value="1"/><label
+                                    <input id="plat1" type="checkbox" name="plat" class="plat" value="1" data-bv-notempty="true" data-bv-notempty-message="发布平台必选"/><label
                                             for="plat1">PC</label>
-                                    <input id="plat2" type="checkbox" name="plat" class="plat" value="2"/><label
+                                    <input id="plat2" type="checkbox" name="plat" class="plat" value="2" data-bv-notempty="true" data-bv-notempty-message="发布平台必选"/><label
                                             for="plat2">APP</label>
-                                    <input id="plat3" type="checkbox" name="plat" class="plat" value="3"/><label
+                                    <input id="plat3" type="checkbox" name="plat" class="plat" value="3" data-bv-notempty="true" data-bv-notempty-message="发布平台必选"/><label
                                             for="plat3">微信</label>
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group">
-                            <label for="firstname" class="col-sm-2 control-label">用户分组</label>
-                            <div class="col-sm-10">
-                                <select id="GroupList" name="groupList" class="select2" multiple="multiple" title="请选择"
-                                        style="width: 100%;">
-                                    <#if userGroupVOList?exists && userGroupVOList?size gt 0 >
-                                        <#list userGroupVOList as item>
-                                            <option value="${item.id}">${item.userGroupName}</option>
-                                        </#list>
-                                    </#if>
-                                </select>
-                            </div>
+                             <ul class="nav nav-tabs" style="padding: 0 0px 0 75px;">
+                               <li class="active"><a href="#tab1" data-toggle="tab">筛选用户</a></li>
+                               <li><a href="#tab2" data-toggle="tab">导入名单</a></li>
+                             </ul>
                         </div>
+                        <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">
+                            <div class="form-group">
+                                <label for="firstname" class="col-sm-2 control-label">产品版本</label>
+                                <div class="col-sm-8">
+                                    <div style="margin-top: 6px;" id="ver">
+                                        <button type="button" style="margin-top: -6px;" id="checkVer"
+                                                class="btn btn-primary btn-xs" value="全选">全选
+                                        </button>
+                                        <input id="ver1" type="checkbox" name="productVersion" class="ver" value="888010000"/><label
+                                                for="ver1">小智盈</label>
+                                        <input id="ver2" type="checkbox" name="productVersion" class="ver" value="888020000"/><label
+                                                for="ver2">深度资金版</label>
+                                        <input id="ver3" type="checkbox" name="productVersion" class="ver" value="888080000"/><label
+                                                for="ver3">掘金版</label>
+                                        <input id="ver4" type="checkbox" name="productVersion" class="ver" value="888010400"/><label
+                                                for="ver4">小智盈过期</label>
+                                        <input id="ver5" type="checkbox" name="productVersion" class="ver" value="888020400"/><label
+                                                for="ver5">大师过期</label>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="firstname" class="col-sm-2 control-label">处理方式<font color="red">*</font></label>
-                            <div class="col-sm-4">
-                                <div style="margin-top: 6px;" id="handleType">
-                                    <input id="type1" type="radio" name="classType" value="1" checked onclick="changeType();"/><label for="type1" onclick="changeType();">批量导入</label>
-                                    <input id="type2" type="radio" name="classType" value="2" onclick="changeType();"/><label for="type2" onclick="changeType();">单个导入</label>
+                            <div class="form-group">
+                                <label for="firstname" class="col-sm-2 control-label">用户分组</label>
+                                <div class="col-sm-10">
+                                    <select id="GroupList" name="groupList" class="select2" multiple="multiple" title="请选择"
+                                            style="width: 100%;">
+                                        <#if userGroupVOList?exists && userGroupVOList?size gt 0 >
+                                            <#list userGroupVOList as item>
+                                                <option value="${item.id}">${item.userGroupName}</option>
+                                            </#list>
+                                        </#if>
+                                    </select>
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane" id="tab2">
+                            <div class="form-group">
+                                <label for="firstname" class="col-sm-2 control-label">处理方式</label>
+                                <div class="col-sm-4">
+                                    <div style="margin-top: 6px;" id="handleType">
+                                        <input id="type1" type="radio" name="classType" value="1" checked onclick="changeType();"/><label for="type1" onclick="changeType();">批量导入</label>
+                                        <input id="type2" type="radio" name="classType" value="2" onclick="changeType();"/><label for="type2" onclick="changeType();">单个导入</label>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div class="form-group" style="display: none;" id="excelTab">
-                            <label for="firstname" class="col-sm-2 control-label"></label>
-                            <div class="col-sm-4">
-                                <input type="file" name="file" id="FilePicker" />
+                            <div class="form-group" style="display: none;" id="excelTab">
+                                <label for="firstname" class="col-sm-2 control-label"></label>
+                                <div class="col-sm-4">
+                                    <input type="file" name="file" id="FilePicker" />
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="display: none;" id="inputTab">
+                                <label for="firstname" class="col-sm-2 control-label"></label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="account" id="account" placeholder="EM号/手机号" >
+                                </div>
                             </div>
                         </div>
-
-                        <div class="form-group" style="display: none;" id="inputTab">
-                            <label for="firstname" class="col-sm-2 control-label"></label>
-                            <div class="col-sm-4">
-                                <input type="text" class="form-control" name="account" id="account" placeholder="EM号/手机号" >
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -248,6 +259,8 @@
 <!-- moment -->
 <script src="${request.contextPath}/static/adminlte/bower_components/moment/moment.min.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.min.js"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/bootstap-validator/bootstrapValidator.min.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/bootstrap-timepicker/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2.js"></script>
 <script src="${request.contextPath}/static/adminlte/bower_components/select2/select2_locale_zh-CN.js"></script>
@@ -348,8 +361,28 @@
     $('.op').on('change', function () {
         msgTable.ajax.reload();
     });
-
+$('form').bootstrapValidator({
+  //默认提示
+  message: 'This value is not valid',
+  // 表单框里右侧的icon
+  feedbackIcons: {
+    valid: 'glyphicon glyphicon-ok',
+    invalid: 'glyphicon glyphicon-remove',
+    validating: 'glyphicon glyphicon-refresh'
+  },
+  submitHandler: function (validator, form, submitButton) {
+    // 表单提交成功时会调用此方法
+    // validator: 表单验证实例对象
+    // form jq对象 指定表单对象
+    // submitButton jq对象 指定提交按钮的对象
+  }
+});
     $(".btnSave").on("click",function (){
+       var bootstrapValidator = $("form").data('bootstrapValidator');
+       bootstrapValidator.validate();
+       if(!bootstrapValidator.isValid()){
+            return;
+       }
         $('.form').ajaxSubmit({
             beforeSubmit: function () {
                 $(".btnSave").attr("disabled",true);
@@ -547,6 +580,8 @@
         $("#FilePicker").val("");
 
         $("#modal-default").modal('hide');
+        $("form")[0].reset();
+        $("form").data('bootstrapValidator').resetForm()
     }
 
     // init date tables
