@@ -532,7 +532,7 @@ $('form').bootstrapValidator({
         $("#msg_type").val(res.msgType);
         $("#msg_content").val(res.msgContent);
         $("#msg_src").val(res.msgSrc);
-        $("#publish_time").val(moment(res.publishTime).format("YYYY-MM-DD HH:mm:ss"));
+        $("#publish_time").val(res.publishTime!=null?moment(res.publishTime).format("YYYY-MM-DD HH:mm:ss"):'');
         if (res.productVersion) {
             var ver = res.productVersion.split(',');
             for (var i = 0; i < ver.length; i++) {
