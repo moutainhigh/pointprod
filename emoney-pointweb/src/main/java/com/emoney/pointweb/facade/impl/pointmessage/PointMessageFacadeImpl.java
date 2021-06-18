@@ -139,7 +139,7 @@ public class PointMessageFacadeImpl implements PointMessageFacade {
                         pointMessageVO.setMsgType(p.getMsgType());
                         pointMessageVO.setMsgContent(p.getMsgContent());
                         pointMessageVO.setMsgSrc(p.getMsgSrc());
-                        pointMessageVO.setCreateTime(p.getPublishTime());
+                        pointMessageVO.setCreateTime(p.getCreateTime());
                         pointMessageVOS.add(pointMessageVO);
                     }
                 }
