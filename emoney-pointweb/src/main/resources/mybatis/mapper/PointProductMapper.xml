@@ -201,7 +201,7 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_point_product
-        WHERE exchange_starttime &lt;= #{curDate} AND exchange_endtime &gt;= #{curDate} AND is_valid=1
+        WHERE exchange_starttime &lt;= #{curDate} AND exchange_endtime &gt;= #{curDate} AND is_valid=1  order by update_time desc
     </select>
 
     <select id="getById" resultMap="BaseResultMap">
