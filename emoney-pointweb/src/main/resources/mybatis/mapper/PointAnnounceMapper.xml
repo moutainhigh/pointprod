@@ -79,7 +79,7 @@
     <select id="getAll" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM t_point_announce ORDER BY publish_time DESC
+        FROM t_point_announce ORDER BY update_time DESC
     </select>
 
     <select id="getPointAnnouncesByType" resultMap="BaseResultMap">

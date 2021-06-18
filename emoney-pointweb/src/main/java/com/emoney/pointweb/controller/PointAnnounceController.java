@@ -123,6 +123,7 @@ public class PointAnnounceController {
                 pointAnnounceDO.setCreateBy(user.UserName);
                 pointAnnounceDO.setCreateTime(new Date());
                 result = pointAnnounceService.insert(pointAnnounceDO);
+                result=pointAnnounceDO.getId();
             }
 
             List<Map<String, Object>> userdata = new ArrayList<>();
