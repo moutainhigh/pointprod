@@ -106,7 +106,7 @@ public class LogisticsServiceImpl implements LogisticsService {
     public Boolean checkWebOrder(CheckWebOrderDTO checkWebOrderDTO) {
         String url = MessageFormat.format("{0}/api/logistics/v1/logistics.webordercreatecheck?gate_appid={1}", insideGatewayUrl, "10199");
         String ret = OkHttpUtil.postJsonParams(url, JSON.toJSONString(checkWebOrderDTO));
-        log.info("判断返回:" + ret);
+        log.info("检查是否有权限下订单,入参:" + JSON.toJSONString(checkWebOrderDTO) + "返回:" + ret);
         if (!StringUtils.isEmpty(ret)) {
             ResultInfo<String> resultInfo = JSON.parseObject(ret, ResultInfo.class);
             if (resultInfo != null && resultInfo.getRetCode().equals(0)) {
