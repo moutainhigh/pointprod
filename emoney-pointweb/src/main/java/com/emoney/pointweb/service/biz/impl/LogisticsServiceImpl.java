@@ -5,10 +5,7 @@ import com.emoeny.pointcommon.result.LogisticsResultInfo;
 import com.emoeny.pointcommon.result.ResultInfo;
 import com.emoeny.pointcommon.utils.JsonUtil;
 import com.emoeny.pointcommon.utils.OkHttpUtil;
-import com.emoney.pointweb.repository.dao.entity.dto.QueryCancelLogisticsOrderDTO;
-import com.emoney.pointweb.repository.dao.entity.dto.QueryStockUpLogisticsOrderDTO;
-import com.emoney.pointweb.repository.dao.entity.dto.SendCouponDTO;
-import com.emoney.pointweb.repository.dao.entity.dto.SendPrivilegeDTO;
+import com.emoney.pointweb.repository.dao.entity.dto.*;
 import com.emoney.pointweb.repository.dao.entity.vo.QueryCouponActivityVO;
 import com.emoney.pointweb.repository.dao.entity.vo.QueryLogisticsOrderVO;
 import com.emoney.pointweb.service.biz.LogisticsService;
@@ -95,6 +92,21 @@ public class LogisticsServiceImpl implements LogisticsService {
         String url = MessageFormat.format("{0}/api/logistics/1.0/privilege.sendprivilege?gate_appid={1}", insideGatewayUrl, "10199");
         String ret = OkHttpUtil.postJsonParams(url, JSON.toJSONString(sendPrivilegeDTO));
         log.info("发送特权返回:" + ret);
+        if (!StringUtils.isEmpty(ret)) {
+            ResultInfo<String> resultInfo = JSON.parseObject(ret, ResultInfo.class);
+            if (resultInfo != null && resultInfo.getRetCode().equals(0)) {
+                LogisticsResultInfo<String> logisticsResultInfo = JsonUtil.toBean(resultInfo.getMessage(), LogisticsResultInfo.class);
+                return (logisticsResultInfo != null && logisticsResultInfo.getCode().equals(0)) ? true : false;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean checkWebOrder(CheckWebOrderDTO checkWebOrderDTO) {
+        String url = MessageFormat.format("{0}/api/logistics/v1/logistics.webordercreatecheck?gate_appid={1}", insideGatewayUrl, "10199");
+        String ret = OkHttpUtil.postJsonParams(url, JSON.toJSONString(checkWebOrderDTO));
+        log.info("判断返回:" + ret);
         if (!StringUtils.isEmpty(ret)) {
             ResultInfo<String> resultInfo = JSON.parseObject(ret, ResultInfo.class);
             if (resultInfo != null && resultInfo.getRetCode().equals(0)) {

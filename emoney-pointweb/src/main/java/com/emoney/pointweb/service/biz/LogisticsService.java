@@ -1,9 +1,6 @@
 package com.emoney.pointweb.service.biz;
 
-import com.emoney.pointweb.repository.dao.entity.dto.QueryCancelLogisticsOrderDTO;
-import com.emoney.pointweb.repository.dao.entity.dto.QueryStockUpLogisticsOrderDTO;
-import com.emoney.pointweb.repository.dao.entity.dto.SendCouponDTO;
-import com.emoney.pointweb.repository.dao.entity.dto.SendPrivilegeDTO;
+import com.emoney.pointweb.repository.dao.entity.dto.*;
 import com.emoney.pointweb.repository.dao.entity.vo.QueryCouponActivityVO;
 import com.emoney.pointweb.repository.dao.entity.vo.QueryLogisticsOrderVO;
 
@@ -44,4 +41,11 @@ public interface LogisticsService {
      * @return
      */
     Boolean SenddPrivilege(SendPrivilegeDTO sendPrivilegeDTO);
+
+    /**
+     * 判断你是否能够下订单
+     * @param checkWebOrderDTO
+     * @return
+     */
+    Boolean checkWebOrder(CheckWebOrderDTO checkWebOrderDTO);
 }

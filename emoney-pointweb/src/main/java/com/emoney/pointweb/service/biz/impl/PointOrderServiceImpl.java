@@ -11,6 +11,7 @@ import com.emoeny.pointfacade.model.dto.PointOrderExchangeDTO;
 import com.emoeny.pointfacade.model.dto.PointOrderCreateDTO;
 import com.emoney.pointweb.repository.*;
 import com.emoney.pointweb.repository.dao.entity.*;
+import com.emoney.pointweb.repository.dao.entity.dto.CheckWebOrderDTO;
 import com.emoney.pointweb.repository.dao.entity.dto.CreateActivityGrantApplyAccountDTO;
 import com.emoney.pointweb.repository.dao.entity.dto.SendCouponDTO;
 import com.emoney.pointweb.repository.dao.entity.dto.SendPrivilegeDTO;
@@ -105,7 +106,7 @@ public class PointOrderServiceImpl implements PointOrderService {
     public Result<Object> createPointOrder(PointOrderCreateDTO pointOrderCreateDTO) {
         PointProductDO pointProductDO = pointProductRepository.getById(pointOrderCreateDTO.getProductId());
         if (pointProductDO != null) {
-            String errMsg = checkPointOrder(pointOrderCreateDTO.getUid(), pointOrderCreateDTO.getProductQty(), pointProductDO);
+            String errMsg = checkPointOrder(pointOrderCreateDTO.getUid(), pointOrderCreateDTO.getProductQty(), pointOrderCreateDTO.getEmNo(), pointOrderCreateDTO.getMobile(), pointProductDO);
             if (StringUtils.isEmpty(errMsg)) {
                 //保存订单
                 PointOrderDO pointOrderDO = new PointOrderDO();
@@ -342,7 +343,7 @@ public class PointOrderServiceImpl implements PointOrderService {
      * @param pointProductDO
      * @return
      */
-    private String checkPointOrder(long uid, int productQty, PointProductDO pointProductDO) {
+    private String checkPointOrder(long uid, int productQty, String emNo, String mobile, PointProductDO pointProductDO) {
         String ret = "";
         //当前用户下单商品总数
         int curQty = 0;
@@ -352,6 +353,18 @@ public class PointOrderServiceImpl implements PointOrderService {
         float curPoint = 0;
         //当前用户已获得总积分
         float totalPoint = 0;
+
+        //判断是否有权限下订单 积分+现金方式
+        if (pointProductDO != null && !StringUtils.isEmpty(pointProductDO.getActivityCode()) && pointProductDO.getExchangeType().equals(1)) {
+            CheckWebOrderDTO checkWebOrderDTO = new CheckWebOrderDTO();
+            checkWebOrderDTO.setAccount(emNo);
+            checkWebOrderDTO.setActivityCode(pointProductDO.getActivityCode());
+            checkWebOrderDTO.setMID(mobile);
+            if (!logisticsService.checkWebOrder(checkWebOrderDTO)) {
+                return "您不符合兑换条件，如有疑问请联系专员！";
+            }
+        }
+
         List<PointOrderSummaryDO> pointOrderSummaryDOs = pointOrderRepository.getSummaryByProductId(pointProductDO.getId());
         PointOrderSummaryDO pointOrderSummaryDO = pointOrderSummaryDOs != null ? pointOrderSummaryDOs.stream().findFirst().orElse(null) : null;
         if (pointOrderSummaryDO != null) {
