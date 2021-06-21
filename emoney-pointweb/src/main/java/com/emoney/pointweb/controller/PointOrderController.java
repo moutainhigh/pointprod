@@ -63,7 +63,7 @@ public class PointOrderController {
     public String exportData(HttpServletResponse response, @RequestParam(required = false, defaultValue = "0") int productType) {
         List<PointOrderDO> list = pointOrderService.getAllByOrderStatus(1);
         if (productType != 0) {
-            list = list.stream().filter(h -> h.getProductQty() == productType).collect(Collectors.toList());
+            list = list.stream().filter(h -> h.getProductType()!=null&&h.getProductType() == productType).collect(Collectors.toList());
         }
         List<LinkedHashMap<String, Object>> maps = new ArrayList<>();
 
@@ -72,10 +72,16 @@ public class PointOrderController {
             for (PointOrderDO item : list) {
                 LinkedHashMap<String, Object> map = new LinkedHashMap<>();
                 map.put("商品名称", item.getProductTitle());
-                map.put("商品类型", getProductTypeName(item.getProductQty()));
+                map.put("商品类型", getProductTypeName(item.getProductType()));
                 map.put("用户账号", item.getEmNo());
                 map.put("兑换时间", formatter.format(item.getCreateTime()));
-
+                map.put("下单加密手机", item.getMobile());
+                map.put("订单号", item.getOrderNo());
+                map.put("支付积分", item.getPoint());
+                map.put("支付现金", item.getCash());
+                map.put("手机号掩码", item.getExpressMobileMask());
+                map.put("加密手机号", item.getExpressMobile());
+                map.put("用户地址", item.getExpressAddress());
                 maps.add(map);
             }
         } else {
@@ -84,7 +90,13 @@ public class PointOrderController {
             map.put("商品类型", "");
             map.put("用户账号", "");
             map.put("兑换时间", "");
-
+            map.put("下单加密手机", "");
+            map.put("订单号", "");
+            map.put("支付积分", "");
+            map.put("支付现金", "");
+            map.put("手机号掩码", "");
+            map.put("加密手机号", "");
+            map.put("用户地址", "");
             maps.add(map);
         }
         ExcelUtils.exportToExcel(response, "兑换记录", maps);
@@ -93,6 +105,9 @@ public class PointOrderController {
 
     public String getProductTypeName(Integer productType) {
         String result = "";
+        if (productType==null){
+            return result;
+        }
         switch (productType) {
             case 1:
                 result = "产品使用期";

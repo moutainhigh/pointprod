@@ -86,8 +86,8 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_point_announce
-        WHERE create_time>#{endDate}
-        AND  ( publish_time is null or publish_time &lt; #{curDate})
+        WHERE publish_time>#{endDate}
+        AND  publish_time &lt; #{curDate}
          and msg_type in
         <foreach item="item" index="index" collection="list"
                  open="(" separator="," close=")">
@@ -99,9 +99,8 @@
         <select id="getPointAnnouncesByMapping" resultMap="BaseResultMap">
         SELECT t1.*
         FROM t_point_announce  t1 left join t_point_usermessagemapping t2 on t1.id = t2.message_id
-        WHERE 1=1
-         AND  ( t1.publish_time is null or t1.publish_time &lt; #{curDate})
-         AND t1.create_time>#{endDate} AND t2.uid=#{uid}
+        WHERE  t1.publish_time &lt; #{curDate}
+         AND t1.publish_time>#{endDate} AND t2.uid=#{uid}
         order by t1.create_time DESC
     </select>
 </mapper>
