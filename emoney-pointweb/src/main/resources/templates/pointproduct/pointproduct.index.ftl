@@ -14,6 +14,7 @@
     <link rel="stylesheet"
           href="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/css/multi-select.css">
     <link rel="stylesheet" href="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.css">
+     <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/summernote/summernote.min.css">
     <style>
         .FilePicker div:nth-child(2) {
             width: 100% !important;
@@ -456,7 +457,8 @@
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
 <script src="${request.contextPath}/static/js/pointporduct.index.1.js?v=20210610"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
-
+<script src="${request.contextPath}/static/adminlte/bower_components/summernote/summernote.min.js"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/summernote/summernote-zh-CN.min.js"></script>
 <script>
 
     //版本全选
@@ -525,74 +527,71 @@
         }
     })
 
-    const E = window.wangEditor
-    const editor = new E('#txtContent')
-    // 配置菜单栏，删减菜单，调整顺序
-    editor.config.menus = [
-        'foreColor',
-        'fontName',
-        'fontSize',
-        'lineHeight',
-        'bold',
-        'head',
-        'link',
-        'italic',
-        'underline'
-    ]
-    // 配置字体
-    editor.config.fontNames = [
-        '黑体',
-        '仿宋',
-        '楷体',
-        '标楷体',
-        '华文仿宋',
-        '华文楷体',
-        '宋体',
-        '微软雅黑',
-        'Arial',
-        'Tahoma',
-        'Verdana',
-        'Times New Roman',
-        'Courier New',
-    ]
-    editor.config.placeholder = '请输入内容';
-    editor.create();
+    $('#txtContent').summernote({
+            height: 200,
+            minHeight: 200,
+            //maxHeight: 200,
+            lang: 'zh-CN',
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['fontsize', ['fontsize','fontname','style','color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['link', 'picture']],
+                ['view', ['fullscreen', 'codeview', 'help']],
+            ],
+            fontNames:['黑体','仿宋','楷体','标楷体','华文仿宋','华文楷体','宋体','微软雅黑','Arial','Tahoma','Verdana','Times New Roman','Courier New',],
+            callbacks:{
+                onImageUpload: function(files, editor, welEditable) {
+                    uploadSummerPic(files[0], $('#txtContent'), welEditable);
+                }
+           }
+    });
 
-    const editor1 = new E('#txtRemark')
-    // 配置菜单栏，删减菜单，调整顺序
-    editor1.config.menus = [
-        'foreColor',
-        'fontName',
-        'fontSize',
-        'lineHeight',
-        'bold',
-        'head',
-        'link',
-        'italic',
-        'underline',
-        'image'
-    ]
-    editor1.config.uploadFileName = 'myFile'
-    // 配置 server 接口地址
-    editor1.config.uploadImgServer = base_url + '/fileuploader/uploadimg'
-    // 配置字体
-    editor1.config.fontNames = [
-        '黑体',
-        '仿宋',
-        '楷体',
-        '标楷体',
-        '华文仿宋',
-        '华文楷体',
-        '宋体',
-        '微软雅黑',
-        'Arial',
-        'Tahoma',
-        'Verdana',
-        'Times New Roman',
-        'Courier New',
-    ]
-    editor1.config.placeholder = '请输入内容';
-    editor1.create();
+    $('#txtRemark').summernote({
+            height: 200,
+            minHeight: 200,
+            //maxHeight: 200,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['fontsize', ['fontsize','fontname','style','color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['link', 'picture']],
+                ['view', ['fullscreen', 'codeview', 'help']],
+            ],
+            fontNames:['黑体','仿宋','楷体','标楷体','华文仿宋','华文楷体','宋体','微软雅黑','Arial','Tahoma','Verdana','Times New Roman','Courier New',],
+            lang: 'zh-CN',
+            callbacks:{
+                onImageUpload: function(files, editor, welEditable) {
+                    uploadSummerPic(files[0], $('#txtRemark'), welEditable);
+                }
+            }
+        });
+
+    function uploadSummerPic(file, editor, welEditable) {
+        var data = new FormData();
+        data.append("myFile", file);
+        $.ajax({
+            type:"POST",
+            url:base_url + '/fileuploader/uploadimg',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                var img = JSON.parse(data).data[0];
+                editor.summernote('insertImage', img, function ($image) {
+                    $image.attr('src', img);
+                });
+                //editor.insertImage(welEditable,img);//回显到框内很重要
+            },
+            error:function(){
+                layer.alert('上传失败!');
+                return;
+            }
+        });
+    }
 
     $('.datepicker').datetimepicker({
         language: 'zh-CN',
@@ -742,11 +741,13 @@
             $("#wechatDetailPicFileList").html(imagestr);
         }
         if (res.exchangeRemark) {
-            editor.txt.html(res.exchangeRemark);
+            $('#txtContent').summernote('code', res.exchangeRemark);
+            //editor.txt.html(res.exchangeRemark);
             //UE.getEditor('txtContent').setContent(res.exchangeRemark);
         }
         if (res.remark) {
-            editor1.txt.html(res.remark);
+            $('#txtRemark').summernote('code', res.remark);
+            //editor1.txt.html(res.remark);
             //UE.getEditor('txtContent').setContent(res.exchangeRemark);
         }
         changeModal();
@@ -824,8 +825,10 @@
         $("#FileList").html("");
         $("#fileurl").val("");
         $("#statisticalClassification").val("");
-        editor.txt.html("");
-        editor1.txt.html("");
+        $('#txtContent').summernote('reset');
+        $('#txtRemark').summernote('reset');
+        //editor.txt.html("");
+        //editor1.txt.html("");
         $("#modal-default").modal('hide');
     }
 

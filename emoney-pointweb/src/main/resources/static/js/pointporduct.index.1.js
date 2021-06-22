@@ -239,8 +239,8 @@ $(function () {
             }
         }
         obj.groupList = str;
-        obj.exChangeContent = editor.txt.html();
-        obj.remark = editor1.txt.html();
+        obj.exChangeContent = $('#txtContent').summernote('code');;
+        obj.remark = $('#txtRemark').summernote('code');;
         obj.pcimg = $("#pcimg").val();
         obj.appimg = $("#appimg").val();
         obj.wechatimg = $("#wechatimg").val();
