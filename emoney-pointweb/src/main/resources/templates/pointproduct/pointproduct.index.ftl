@@ -362,7 +362,7 @@
                                     <div id="FileList" style="position:relative;width: 100%;" class="uploader-list">
                                     </div>
                                     <div id="FilePicker" class="FilePicker col-sm-2">上传附件</div>
-                                    <span style="float: left;margin-top: 10px;">投资内参专用</span>
+                                    <span style="float: left;margin-top: 10px;">投资内参专用(<span style="color: red;">限1M内pdf文件</span>)</span>
                                 </div>
                             </div>
                         </div>
@@ -527,71 +527,9 @@
         }
     })
 
-    $('#txtContent').summernote({
-            height: 200,
-            minHeight: 200,
-            //maxHeight: 200,
-            lang: 'zh-CN',
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['fontsize', ['fontsize','fontname','style','color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['height', ['height']],
-                ['insert', ['link', 'picture']],
-                ['view', ['fullscreen', 'codeview', 'help']],
-            ],
-            fontNames:['黑体','仿宋','楷体','标楷体','华文仿宋','华文楷体','宋体','微软雅黑','Arial','Tahoma','Verdana','Times New Roman','Courier New',],
-            callbacks:{
-                onImageUpload: function(files, editor, welEditable) {
-                    uploadSummerPic(files[0], $('#txtContent'), welEditable);
-                }
-           }
-    });
+    $('#txtContent').summernote(optionsEdit);
 
-    $('#txtRemark').summernote({
-            height: 200,
-            minHeight: 200,
-            //maxHeight: 200,
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['fontsize', ['fontsize','fontname','style','color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['height', ['height']],
-                ['insert', ['link', 'picture']],
-                ['view', ['fullscreen', 'codeview', 'help']],
-            ],
-            fontNames:['黑体','仿宋','楷体','标楷体','华文仿宋','华文楷体','宋体','微软雅黑','Arial','Tahoma','Verdana','Times New Roman','Courier New',],
-            lang: 'zh-CN',
-            callbacks:{
-                onImageUpload: function(files, editor, welEditable) {
-                    uploadSummerPic(files[0], $('#txtRemark'), welEditable);
-                }
-            }
-        });
-
-    function uploadSummerPic(file, editor, welEditable) {
-        var data = new FormData();
-        data.append("myFile", file);
-        $.ajax({
-            type:"POST",
-            url:base_url + '/fileuploader/uploadimg',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                var img = JSON.parse(data).data[0];
-                editor.summernote('insertImage', img, function ($image) {
-                    $image.attr('src', img);
-                });
-                //editor.insertImage(welEditable,img);//回显到框内很重要
-            },
-            error:function(){
-                layer.alert('上传失败!');
-                return;
-            }
-        });
-    }
+    $('#txtRemark').summernote(optionsEdit);
 
     $('.datepicker').datetimepicker({
         language: 'zh-CN',

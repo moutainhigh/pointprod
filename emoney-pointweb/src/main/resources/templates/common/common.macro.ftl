@@ -47,6 +47,48 @@
 
     <script>
         var base_url = '${request.contextPath}';
+        var optionsEdit={
+                height: 200,
+                minHeight: 200,
+                //maxHeight: 200,
+                lang: 'zh-CN',
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontsize', ['fontsize','fontname','style','color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['insert', ['link', 'picture']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                ],
+                fontNames:['黑体','仿宋','楷体','标楷体','华文仿宋','华文楷体','宋体','微软雅黑','Arial','Tahoma','Verdana','Times New Roman','Courier New',],
+                callbacks:{
+                    onImageUpload: function(files) {
+                        uploadSummerPic(files[0], $(this));
+                    }
+               }
+        };
+        function uploadSummerPic(file, editor) {
+            var data = new FormData();
+            data.append("myFile", file);
+            $.ajax({
+                type:"POST",
+                url:base_url + '/fileuploader/uploadimg',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    var img = JSON.parse(data).data[0];
+                    editor.summernote('insertImage', img, function ($image) {
+                        $image.attr('src', img);
+                    });
+                },
+                error:function(){
+                    alert('上传失败!');
+                    return;
+                }
+            });
+        }
     </script>
 
 </#macro>

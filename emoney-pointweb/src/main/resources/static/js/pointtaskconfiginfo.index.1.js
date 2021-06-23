@@ -243,7 +243,8 @@ $(function () {
         obj.taskpoints = $("#task_points").val();
         obj.starttime = $("#starttime").val();
         obj.endtime = $("#endtime").val();
-        obj.taskremark = editor.txt.html();
+        obj.taskremark =$('#taskRemark').summernote('code');
+        //obj.taskremark = editor.txt.html();
         obj.daily = $("#daily input[type=radio]:checked").val();
         obj.is_directional = $("#Directional input[type=radio]:checked").val();
         obj.is_bigimg = $("#isBigImg input[type=radio]:checked").val();

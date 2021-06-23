@@ -555,7 +555,18 @@ $(function() {
         // 选择文件的按钮。可选。
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
         pick: '#FilePicker',
+// 只允许选择图片文件。
+        accept: {
+            title: 'PDF',
+            extensions: 'pdf',
+            mimeTypes: 'application/pdf'
+        },
 
+        // 上传图片时的参数
+        formData: {
+            fileType: "pdf"
+        },
+        fileSizeLimit:1024*1024,
         duplicate: true
     });
 

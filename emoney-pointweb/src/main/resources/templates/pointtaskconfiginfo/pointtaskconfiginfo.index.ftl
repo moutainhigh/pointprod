@@ -14,6 +14,7 @@
     <link rel="stylesheet"
           href="${request.contextPath}/static/adminlte/bower_components/jquery-multi-select/css/multi-select.css">
     <link rel="stylesheet" href="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.css">
+    <link rel="stylesheet" href="${request.contextPath}/static/adminlte/bower_components/summernote/summernote.min.css">
     <style>
         .FilePicker div:nth-child(2) {
             width: 100% !important;
@@ -422,7 +423,8 @@
 <script src="${request.contextPath}/static/js/webuploader-0.1.5/webuploader.js"></script>
 <script src="${request.contextPath}/static/js/pointtaskconfiginfo.index.1.js?v=20210610"></script>
 <script src="${request.contextPath}/static/js/webuploader.js"></script>
-
+<script src="${request.contextPath}/static/adminlte/bower_components/summernote/summernote.min.js"></script>
+<script src="${request.contextPath}/static/adminlte/bower_components/summernote/summernote-zh-CN.min.js"></script>
 <script>
 
     //版本全选
@@ -491,38 +493,7 @@
         }
     })
 
-    const E = window.wangEditor
-    const editor = new E('#taskRemark')
-    // 配置菜单栏，删减菜单，调整顺序
-    editor.config.menus = [
-        'foreColor',
-        'fontName',
-        'fontSize',
-        'lineHeight',
-        'bold',
-        'head',
-        'link',
-        'italic',
-        'underline'
-    ]
-    // 配置字体
-    editor.config.fontNames = [
-        '黑体',
-        '仿宋',
-        '楷体',
-        '标楷体',
-        '华文仿宋',
-        '华文楷体',
-        '宋体',
-        '微软雅黑',
-        'Arial',
-        'Tahoma',
-        'Verdana',
-        'Times New Roman',
-        'Courier New',
-    ]
-    editor.config.placeholder = '请输入内容';
-    editor.create()
+    $('#taskRemark').summernote(optionsEdit);
 
     $('.datepicker').datetimepicker({
         language: 'zh-CN',
@@ -732,7 +703,7 @@
             $("#pcPicFileList").html(imagestr);
         }
         if (res.taskRemark) {
-            editor.txt.html(res.taskRemark);
+            $('#taskRemark').summernote('code', res.taskRemark);
         }
 
         $("#modal-default").modal({backdrop: false, keyboard: false}).modal('show');
@@ -823,7 +794,8 @@
         $("#appPicFileList").html("");
         $("#wechatPicFileList").html("");
         $("#statisticalClassification").val("");
-        editor.txt.html("");
+        $('#taskRemark').summernote('reset');
+        //editor.txt.html("");
         $("#modal-default").modal('hide');
     }
 </script>
