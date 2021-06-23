@@ -109,7 +109,7 @@ public class PointAnnounceController {
             if (!StringUtils.isEmpty(publishTime)) {
                 pointAnnounceDO.setPublishTime(sdf.parse(publishTime));
             } else {
-                pointAnnounceDO.setPublishTime(null);
+                pointAnnounceDO.setPublishTime(new Date());
             }
             pointAnnounceDO.setRemark(remark);
             pointAnnounceDO.setUpdateTime(new Date());
