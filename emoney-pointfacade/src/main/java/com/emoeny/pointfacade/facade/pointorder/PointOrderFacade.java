@@ -69,4 +69,7 @@ public interface PointOrderFacade {
 
     @PostMapping("/cancel")
     Result<Object> cancelPointOrder(@RequestBody @Valid PointOrderCancelDTO pointOrderCancelDTO);
+
+    @GetMapping("paycallback")
+    Result<Object> payCallBack(@NotNull(message = "订单号不能为空") String orderID, @NotNull(message = "支付单号不能为空") String tradeOrderID, String paytype);
 }
