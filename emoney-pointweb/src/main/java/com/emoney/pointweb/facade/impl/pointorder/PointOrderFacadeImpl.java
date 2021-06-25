@@ -161,6 +161,7 @@ public class PointOrderFacadeImpl implements PointOrderFacade {
     @Override
     public Result<Object> payCallBack(@NotNull(message = "订单号不能为空") String orderID, @NotNull(message = "支付单号不能为空") String tradeOrderID, String paytype){
         try {
+            log.info(MessageFormat.format("支付回调开始，参数->订单号:{0},支付单号:{1},支付类型:{2}",orderID,tradeOrderID,paytype));
             PointOrderDO pointOrderVO = pointOrderService.getByOrderNo(orderID);
             //创建物流订单
             CreateOrderVO createOrderVO = getRequrstInfo(orderID, tradeOrderID, paytype,pointOrderVO);
