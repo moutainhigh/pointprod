@@ -191,9 +191,11 @@ public class PointOrderFacadeImpl implements PointOrderFacade {
                     } else {
                         //发送邮件
                         CompletableFuture.runAsync(() -> {
-                            String subject = "更新订单状态异常通知";
-                            String content = MessageFormat.format("更新订单状态失败，订单号：{0} 支付流水号：{1} 回传时间：{2}", orderID, tradeOrderID, new Date());
-                            mailerService.sendSimpleTextMailActual(subject, content, toMailAddress.split(","), null, null, null);
+                            if (!result.getCode().equals(BaseResultCodeEnum.ILLEGAL_ARGUMENT.getCode())){
+                                String subject = "更新订单状态异常通知";
+                                String content = MessageFormat.format("更新订单状态失败，订单号：{0} 支付流水号：{1} 回传时间：{2}", orderID, tradeOrderID, new Date());
+                                mailerService.sendSimpleTextMailActual(subject, content, toMailAddress.split(","), null, null, null);
+                            }
                         }, executor);
                         return Result.buildErrorResult(result.getCode(), result.getMsg());
                     }

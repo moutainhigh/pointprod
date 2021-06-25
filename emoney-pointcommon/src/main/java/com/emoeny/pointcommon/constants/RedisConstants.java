@@ -37,4 +37,6 @@ public class RedisConstants {
     public static String REDISKEY_PointQuestion_GETBYID = "pointprod:pointquestion_queryallbyid_{0}";//id
 
     public static String REDISKEY_UserMessageMapping_GETBYUID = "pointprod:usermessagemapping_getbyuid_{0}";//uid
+
+    public static String REDISKEY_ExchangePoint_BYUID = "pointprod:exchangepoint_byuid_{0}";//uid
 }
