@@ -250,4 +250,17 @@ public class PointRecordFacadeImpl implements PointRecordFacade {
         redisCache1.remove("pointprod:pointannounce_getbytype");
         return Result.buildSuccessResult();
     }
+
+    @Override
+    public Result<Object> clearRedisByUid(@NotNull(message = "用户id不能为空") String keys, @NotNull(message = "类型不能为空") Integer type) {
+        //精确删除
+        if(type.equals(0)){
+            redisCache1.remove(keys);
+        }
+        //模糊删除
+        else if (type.equals(1)){
+            redisCache1.removePattern(keys);
+        }
+        return Result.buildSuccessResult();
+    }
 }

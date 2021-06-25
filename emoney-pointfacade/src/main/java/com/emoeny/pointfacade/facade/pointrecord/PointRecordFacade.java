@@ -60,7 +60,7 @@ public interface PointRecordFacade {
      * 根据用户id分页查询积分记录
      */
     @GetMapping("/querybypager")
-    Result<List<PointRecordVO>> queryPointRecords(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "查询类型不能为空") Integer queryType, @NotNull(message = "pageIndex不能为空") Integer pageIndex, @NotNull(message = "pageSize不能为空") Integer pageSize) ;
+    Result<List<PointRecordVO>> queryPointRecords(@NotNull(message = "用户id不能为空") Long uid, @NotNull(message = "查询类型不能为空") Integer queryType, @NotNull(message = "pageIndex不能为空") Integer pageIndex, @NotNull(message = "pageSize不能为空") Integer pageSize);
 
     /**
      * 根据用户id查询当前待领取积分
@@ -73,11 +73,13 @@ public interface PointRecordFacade {
 
     /**
      * 根据用户id查询当前待领任务记录
+     *
      * @param uid
      * @return
      */
     @GetMapping("/queryunclaimedrecords")
     Result<List<PointRecordVO>> queryUnclaimedRecords(@NotNull(message = "用户id不能为空") Long uid);
+
     /**
      * 根据任务id查询用户积分记录
      *
@@ -90,6 +92,7 @@ public interface PointRecordFacade {
 
     /**
      * 刷新所缓存
+     *
      * @return
      */
     @GetMapping("/clearredis")
@@ -97,10 +100,21 @@ public interface PointRecordFacade {
 
     /**
      * 根据uid刷新缓存
+     *
      * @param uid
      * @return
      */
     @GetMapping("/clearredisbyuid")
     Result<Object> clearRedisByUid(@NotNull(message = "用户id不能为空") Long uid);
+
+    /**
+     * 根据key刷新缓存
+     *
+     * @param keys
+     * @param type
+     * @return
+     */
+    @GetMapping("/clearredisbykey")
+    Result<Object> clearRedisByUid(@NotNull(message = "用户id不能为空") String keys, @NotNull(message = "类型不能为空") Integer type);
 
 }
