@@ -40,8 +40,9 @@ public class UnlockPointRecordJob {
         try {
             XxlJobLogger.log("UnlockPointRecordJob, Started:" + DateUtil.formatDateTime(new Date()));
             //锁定的记录
-            List<PointRecordDO> pointRecordDOS = pointRecordESRepository.findByLockDaysIsGreaterThanAndIsValid(0,true);
+            List<PointRecordDO> pointRecordDOS = pointRecordESRepository.findByLockDaysIsGreaterThanAndIsValidAndCreateTimeIsBefore(0, true, DateUtil.offsetDay(DateUtil.date(), -30));
             if (pointRecordDOS != null && pointRecordDOS.size() > 0) {
+                log.info("UnlockPointRecordJob Records" + JSON.toJSONString(pointRecordDOS));
                 for (PointRecordDO pointRecordDO : pointRecordDOS
                 ) {
                     if (DateUtil.offsetDay(DateUtil.date(), -pointRecordDO.getLockDays()).after(pointRecordDO.getCreateTime())) {

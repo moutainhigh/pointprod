@@ -11,11 +11,11 @@ import java.util.List;
 public interface PointRecordESRepository extends ElasticsearchRepository<PointRecordDO, Long> {
     List<PointRecordDO> findByUid(Long uid);
 
-    Page<PointRecordDO> findByUidAndCreateTimeBetweenOrderByCreateTimeDesc(Long uid, List<Integer> pointStatus,Date from, Date to, Pageable pageable);
+    Page<PointRecordDO> findByUidAndCreateTimeBetweenOrderByCreateTimeDesc(Long uid, List<Integer> pointStatus, Date from, Date to, Pageable pageable);
 
-    Page<PointRecordDO> findByUidAndPointStatusInOrderByCreateTimeDesc(Long uid,List<Integer> pointStatus, Pageable pageable);
+    Page<PointRecordDO> findByUidAndPointStatusInOrderByCreateTimeDesc(Long uid, List<Integer> pointStatus, Pageable pageable);
 
     Page<PointRecordDO> findByTaskIdAndSubId(Long taskId, String subId, Pageable pageable);
 
-    List<PointRecordDO> findByLockDaysIsGreaterThanAndIsValid(Integer lockDays,Boolean isValid);
+    List<PointRecordDO> findByLockDaysIsGreaterThanAndIsValidAndCreateTimeIsBefore(Integer lockDays, Boolean isValid, Date createTime);
 }
