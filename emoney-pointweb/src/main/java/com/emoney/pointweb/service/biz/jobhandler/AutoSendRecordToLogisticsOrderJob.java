@@ -60,7 +60,7 @@ public class AutoSendRecordToLogisticsOrderJob {
             //支付订单
             QueryStockUpLogisticsOrderDTO queryStockUpLogisticsOrderDTO = new QueryStockUpLogisticsOrderDTO();
             queryStockUpLogisticsOrderDTO.setProductID("888010000,888020000,888080000,888040000,888090000");
-            queryStockUpLogisticsOrderDTO.setRefund_Sign(1);
+            queryStockUpLogisticsOrderDTO.setRefund_Sign(0);
             queryStockUpLogisticsOrderDTO.setStockUpDate_Start(DateUtil.format(DateUtil.date(), "yyyy-MM-dd"));
             queryStockUpLogisticsOrderDTO.setStockUpDate_End(DateUtil.format(DateUtil.offsetDay(DateUtil.date(), 1), "yyyy-MM-dd"));
             List<QueryLogisticsOrderVO> logisticsStockUpDateOrderVOS = logisticsService.getStockUpLogisticsOrder(queryStockUpLogisticsOrderDTO);
