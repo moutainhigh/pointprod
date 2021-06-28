@@ -105,7 +105,6 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
             }
         }
 
-
         //处理链接
         if (retPointTaskConfigInfoList != null) {
             for (PointTaskConfigInfoDO pointTaskConfigInfoDO : retPointTaskConfigInfoList
@@ -119,6 +118,29 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
                 }
             }
         }
+
+        //处理新手任务
+        UserPeriodResult userPeriodResult = userInfoService.getUserPeriod(uid);
+        if (userPeriodResult != null && userPeriodResult.getData() != null && userPeriodResult.getData().getSoftware() != null
+        ) {
+            Software software = JSON.parseObject(userPeriodResult.getData().getSoftware(), Software.class);
+            if (software != null && !StringUtils.isEmpty(software.getStartDate()) && !StringUtils.isEmpty(software.getEndDate())
+            ) {
+                for (PointTaskConfigInfoDO pointTaskConfigInfoDO : retPointTaskConfigInfoList
+                ) {
+                    if (pointTaskConfigInfoDO.getTaskId().equals(1380422772903251968L) || pointTaskConfigInfoDO.getTaskId().equals(1380424279476277248L)) {
+                        Date userPeroidStartDate = DateUtil.parse(software.getStartDate().replace("T", " "), "yyyy-MM-dd HH:mm:ss");
+                        if (userPeroidStartDate.before(pointTaskConfigInfoDO.getTaskStartTime())) {
+                            if (retPointTaskConfigInfoList.stream().filter(h -> h.getTaskId().equals(pointTaskConfigInfoDO.getTaskId())).count() > 0) {
+                                retPointTaskConfigInfoList.remove(pointTaskConfigInfoDO);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         return retPointTaskConfigInfoList;
     }
 
@@ -169,8 +191,8 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
     }
 
     @Override
-    public List<PointTaskConfigInfoDO> getByTaskIdAndSubId(Long taskId, String subId,Date curDate) {
-        return pointTaskConfigInfoRepository.getByTaskIdAndSubId(taskId, subId,curDate);
+    public List<PointTaskConfigInfoDO> getByTaskIdAndSubId(Long taskId, String subId, Date curDate) {
+        return pointTaskConfigInfoRepository.getByTaskIdAndSubId(taskId, subId, curDate);
     }
 
     @Override
@@ -238,7 +260,7 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
         List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = new ArrayList<>();
         for (Long taskId : listTaskIds
         ) {
-            List<PointTaskConfigInfoDO> tmp = pointTaskConfigInfoRepository.getByTaskIdAndSubId(taskId, null,new Date());
+            List<PointTaskConfigInfoDO> tmp = pointTaskConfigInfoRepository.getByTaskIdAndSubId(taskId, null, new Date());
             if (tmp != null) {
                 pointTaskConfigInfoDOS.addAll(tmp);
             }

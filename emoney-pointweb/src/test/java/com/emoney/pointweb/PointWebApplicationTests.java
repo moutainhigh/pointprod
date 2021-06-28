@@ -4,6 +4,7 @@ package com.emoney.pointweb;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.emoeny.pointcommon.enums.PointRecordStatusEnum;
+import com.emoeny.pointcommon.result.userperiod.UserPeriodResult;
 import com.emoeny.pointfacade.facade.pointquestion.PointQuestionFacade;
 import com.emoney.pointweb.repository.*;
 import com.emoney.pointweb.repository.dao.entity.PointOrderDO;
@@ -115,6 +116,11 @@ class PointWebApplicationTests {
 
     @Test
     void contextLoads() throws ExecutionException, InterruptedException, ParseException {
+
+
+        //List<PointRecordDO> pointRecordDOS = pointRecordESRepository.findByLockDaysIsGreaterThanAndIsValidAndCreateTimeIsBefore(0, true, DateUtil.offsetDay(DateUtil.date(), -30));
+
+        //UserPeriodResult userPeriodResult= userInfoService.getUserPeriod(1001471383L);
 
 //         redisCache1.set(MessageFormat.format("pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_{1}_{2}}", 1,20210808,20210609),1);
 //        redisCache1.set(MessageFormat.format("pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_{1}_{2}}", 1,20210901,20210903),2);
