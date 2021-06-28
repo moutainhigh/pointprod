@@ -120,7 +120,7 @@ class PointWebApplicationTests {
 
         //List<PointRecordDO> pointRecordDOS = pointRecordESRepository.findByLockDaysIsGreaterThanAndIsValidAndCreateTimeIsBefore(0, true, DateUtil.offsetDay(DateUtil.date(), -30));
 
-        //UserPeriodResult userPeriodResult= userInfoService.getUserPeriod(1001471383L);
+        UserPeriodResult userPeriodResult= userInfoService.getUserPeriod(1001471383L);
 
 //         redisCache1.set(MessageFormat.format("pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_{1}_{2}}", 1,20210808,20210609),1);
 //        redisCache1.set(MessageFormat.format("pointprod:pointrecord_getsummarybyuidandcreatetime_{0}_{1}_{2}}", 1,20210901,20210903),2);

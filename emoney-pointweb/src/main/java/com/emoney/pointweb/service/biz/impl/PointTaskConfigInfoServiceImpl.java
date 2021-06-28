@@ -126,7 +126,7 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
             Software software = JSON.parseObject(userPeriodResult.getData().getSoftware(), Software.class);
             if (software != null && !StringUtils.isEmpty(software.getStartDate()) && !StringUtils.isEmpty(software.getEndDate())
             ) {
-                for (PointTaskConfigInfoDO pointTaskConfigInfoDO : retPointTaskConfigInfoList
+                for (PointTaskConfigInfoDO pointTaskConfigInfoDO : pointTaskConfigInfoDOS
                 ) {
                     if (pointTaskConfigInfoDO.getTaskId().equals(1380422772903251968L) || pointTaskConfigInfoDO.getTaskId().equals(1380424279476277248L)) {
                         Date userPeroidStartDate = DateUtil.parse(software.getStartDate().replace("T", " "), "yyyy-MM-dd HH:mm:ss");
