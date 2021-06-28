@@ -119,14 +119,14 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
             }
         }
 
-        log.info("新手排查"+JSON.toJSONString(retPointTaskConfigInfoList));
+        //log.info("新手排查"+JSON.toJSONString(retPointTaskConfigInfoList));
 
         //处理新手任务
         UserPeriodResult userPeriodResult = userInfoService.getUserPeriod(uid);
         if (userPeriodResult != null && userPeriodResult.getData() != null && userPeriodResult.getData().getSoftware() != null
         ) {
             Software software = JSON.parseObject(userPeriodResult.getData().getSoftware(), Software.class);
-            log.info("新手排查"+JSON.toJSONString(software));
+            //log.info("新手排查"+JSON.toJSONString(software));
             if (software != null && !StringUtils.isEmpty(software.getStartDate()) && !StringUtils.isEmpty(software.getEndDate())
             ) {
                 for (PointTaskConfigInfoDO pointTaskConfigInfoDO : pointTaskConfigInfoDOS
@@ -136,7 +136,7 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
                         if (userPeroidStartDate.before(pointTaskConfigInfoDO.getTaskStartTime())) {
                             if (retPointTaskConfigInfoList.stream().filter(h -> h.getTaskId().equals(pointTaskConfigInfoDO.getTaskId())).count() > 0) {
                                 retPointTaskConfigInfoList.remove(pointTaskConfigInfoDO);
-                                log.info("新手排查1"+JSON.toJSONString(retPointTaskConfigInfoList));
+                                //log.info("新手排查1"+JSON.toJSONString(retPointTaskConfigInfoList));
                             }
                         }
                     }
