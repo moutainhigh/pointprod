@@ -179,7 +179,7 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
     public int insert(PointTaskConfigInfoDO pointTaskConfigInfoDO) {
 
         //任务编辑或者新增将缓存删除
-        redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETBYTASKID, pointTaskConfigInfoDO.getTaskId(), pointTaskConfigInfoDO.getSubId()));
+        redisCache1.removePattern(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETBYTASKID, pointTaskConfigInfoDO.getTaskId(), "*"));
         redisCache1.remove(RedisConstants.REDISKEY_PointTaskConfigInfo_GETALLEFFECTIVETASKS);
         redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETTASKSBYTASKTYPE, pointTaskConfigInfoDO.getTaskType()));
         return pointTaskConfigInfoMapper.insert(pointTaskConfigInfoDO);
@@ -188,9 +188,10 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
     @Override
     public int update(PointTaskConfigInfoDO pointTaskConfigInfoDO) {
         //任务编辑或者新增将缓存删除
-        redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETBYTASKID, pointTaskConfigInfoDO.getTaskId(), pointTaskConfigInfoDO.getSubId()));
+        redisCache1.removePattern(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETBYTASKID, pointTaskConfigInfoDO.getTaskId(), "*"));
         redisCache1.remove(RedisConstants.REDISKEY_PointTaskConfigInfo_GETALLEFFECTIVETASKS);
         redisCache1.remove(MessageFormat.format(RedisConstants.REDISKEY_PointTaskConfigInfo_GETTASKSBYTASKTYPE, pointTaskConfigInfoDO.getTaskType()));
+
         return pointTaskConfigInfoMapper.update(pointTaskConfigInfoDO);
     }
 
