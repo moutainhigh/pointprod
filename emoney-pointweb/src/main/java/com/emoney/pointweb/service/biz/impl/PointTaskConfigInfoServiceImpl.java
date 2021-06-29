@@ -266,10 +266,12 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
         ) {
             List<PointTaskConfigInfoDO> tmp = pointTaskConfigInfoRepository.getByTaskIdAndSubId(taskId, null, new Date());
             if (tmp != null) {
-                pointTaskConfigInfoDOS.addAll(tmp);
+                tmp = tmp.stream().filter(h -> h.getTaskStartTime().before(new Date()) && h.getTaskEndTime().after(new Date())).collect(Collectors.toList());
+                if (tmp != null && tmp.size() > 0) {
+                    pointTaskConfigInfoDOS.addAll(tmp);
+                }
             }
         }
         return pointTaskConfigInfoDOS;
     }
-
 }
