@@ -66,7 +66,7 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
         List<PointTaskConfigInfoDO> retPointTaskConfigInfoList = new ArrayList<>();
         List<PointTaskConfigInfoDO> pointTaskConfigInfoDOS = pointTaskConfigInfoRepository.getAllEffectiveTasks(new Date());
         if (pointTaskConfigInfoDOS != null) {
-            pointTaskConfigInfoDOS = pointTaskConfigInfoDOS.stream().filter(h -> h.getProductVersion().contains(productVersion) && h.getPublishPlatFormType().contains(publishPlatFormType)).collect(Collectors.toList());
+            pointTaskConfigInfoDOS = pointTaskConfigInfoDOS.stream().filter(h -> h.getTaskStartTime().before(curDate) && h.getProductVersion().contains(productVersion) && h.getPublishPlatFormType().contains(publishPlatFormType)).collect(Collectors.toList());
         }
         //接入用户画像
         if (pointTaskConfigInfoDOS != null) {

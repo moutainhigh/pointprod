@@ -222,7 +222,9 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_point_taskconfiginfo
-        WHERE task_starttime &lt;= #{curDate} AND task_endtime &gt;= #{curDate} AND task_type IN(1,2,3,4)
+        WHERE
+<!--        task_starttime &lt;= #{curDate} AND -->
+        task_endtime &gt;= #{curDate} AND task_type IN(1,2,3,4)
     </select>
 
     <select id="getTasksByTaskType" resultMap="BaseResultMap">
