@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,7 +36,7 @@ public class PointProductRepositoryImpl implements PointProductRepository {
         List<PointProductDO> pointProductDOS = redisCache1.getList(RedisConstants.REDISKEY_PointProduct_GETALLEFFECTIVEPRODUCTS, PointProductDO.class);
         if (pointProductDOS == null) {
             pointProductDOS = pointProductMapper.getAllEffectiveProducts(curDate);
-            if (pointProductDOS != null&&pointProductDOS.size()>0) {
+            if (pointProductDOS != null && pointProductDOS.size() > 0) {
                 redisCache1.set(RedisConstants.REDISKEY_PointProduct_GETALLEFFECTIVEPRODUCTS, pointProductDOS, ToolUtils.GetExpireTime(60));
             }
         }

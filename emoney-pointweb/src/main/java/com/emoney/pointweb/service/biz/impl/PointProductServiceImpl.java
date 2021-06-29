@@ -97,7 +97,7 @@ public class PointProductServiceImpl implements PointProductService {
         List<PointProductDO> pointProductDOS = pointProductRepository.getAllEffectiveProducts(new Date());
 
         if (pointProductDOS != null) {
-            pointProductDOS = pointProductDOS.stream().filter(h -> h.getProductVersion().contains(productVersion) && h.getPublishPlatFormType().contains(publishPlatFormType)).collect(Collectors.toList());
+            pointProductDOS = pointProductDOS.stream().filter(h -> h.getActivityStartTime().before(curDate) && h.getActivityEndTime().after(curDate) && h.getProductVersion().contains(productVersion) && h.getPublishPlatFormType().contains(publishPlatFormType)).collect(Collectors.toList());
         }
 
         //接入用户画像
