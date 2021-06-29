@@ -569,6 +569,9 @@
         } else {
             $("#GroupList").val("").trigger('change');
         }
+
+        changeModal();
+
         if (res.exchangeType == 1) {
             $("#exchange2")[0].checked=true;
         } else {
@@ -688,7 +691,6 @@
             //editor1.txt.html(res.remark);
             //UE.getEditor('txtContent').setContent(res.exchangeRemark);
         }
-        changeModal();
 
         $("#modal-default").modal({backdrop: false, keyboard: false}).modal('show');
     }
