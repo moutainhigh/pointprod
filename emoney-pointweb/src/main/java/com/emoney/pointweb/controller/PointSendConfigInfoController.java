@@ -85,7 +85,10 @@ public class PointSendConfigInfoController {
             if (id > 0) {
                 List<PointSendConfigInfoDO> list = pointSendConfigInfoService.queryAll();
                 if (list.stream().anyMatch(x -> x.getProductVersion().equals(ver) && x.getBuyType().equals(buyType))) {
-                    return "已存在该类型配置规则，不允许保存";
+                    if (!list.stream().filter(x -> x.getProductVersion().equals(ver) && x.getBuyType().equals(buyType)).collect(Collectors.toList())
+                            .get(0).getId().equals(pointSendConfigInfoDO.getId())) {
+                        return "已存在该类型配置规则，不允许保存";
+                    }
                 }
 
                 result = pointSendConfigInfoService.update(pointSendConfigInfoDO);
