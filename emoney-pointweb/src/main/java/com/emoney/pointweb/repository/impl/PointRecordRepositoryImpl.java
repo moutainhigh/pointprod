@@ -96,20 +96,21 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
 
     @Override
     public List<PointRecordSummaryDO> getPointRecordSummaryByUid(Long uid) {
-        List<PointRecordSummaryDO> pointRecordSummaryDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, uid), PointRecordSummaryDO.class);
-        if (pointRecordSummaryDOS == null) {
-            HintManager hintManager = HintManager.getInstance();
-            try {
-                hintManager.setMasterRouteOnly();
-                pointRecordSummaryDOS = pointRecordMapper.getPointRecordSummaryByUid(uid);
-                if (pointRecordSummaryDOS != null && pointRecordSummaryDOS.size() > 0) {
-                    redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, uid), pointRecordSummaryDOS, ToolUtils.GetExpireTime(60));
-                }
-            } finally {
-                hintManager.close();
-            }
-        }
-        return pointRecordSummaryDOS;
+//        List<PointRecordSummaryDO> pointRecordSummaryDOS = redisCache1.getList(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, uid), PointRecordSummaryDO.class);
+//        if (pointRecordSummaryDOS == null) {
+//            HintManager hintManager = HintManager.getInstance();
+//            try {
+//                hintManager.setMasterRouteOnly();
+//                pointRecordSummaryDOS = pointRecordMapper.getPointRecordSummaryByUid(uid);
+//                if (pointRecordSummaryDOS != null && pointRecordSummaryDOS.size() > 0) {
+//                    redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUID, uid), pointRecordSummaryDOS, ToolUtils.GetExpireTime(60));
+//                }
+//            } finally {
+//                hintManager.close();
+//            }
+//        }
+//        return pointRecordSummaryDOS;
+        return pointRecordMapper.getPointRecordSummaryByUid(uid);
     }
 
     @Override
@@ -119,7 +120,7 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
             HintManager hintManager = HintManager.getInstance();
             try {
                 hintManager.setMasterRouteOnly();
-                pointRecordSummaryDOS= pointRecordMapper.getPointRecordSummaryByUidAndCreateTime(uid, dtStart, dtEnd);
+                pointRecordSummaryDOS = pointRecordMapper.getPointRecordSummaryByUidAndCreateTime(uid, dtStart, dtEnd);
                 if (pointRecordSummaryDOS != null && pointRecordSummaryDOS.size() > 0) {
                     redisCache1.set(MessageFormat.format(RedisConstants.REDISKEY_PointRecord_GETSUMMARYBYUIDANDCREATETIME, uid, DateUtil.format(dtStart, "yyyyMMdd"), DateUtil.format(dtEnd, "yyyyMMdd")), pointRecordSummaryDOS, ToolUtils.GetExpireTime(60));
                 }
@@ -127,7 +128,7 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
                 hintManager.close();
             }
         }
-        return  pointRecordSummaryDOS;
+        return pointRecordSummaryDOS;
     }
 
     @Override
@@ -141,7 +142,7 @@ public class PointRecordRepositoryImpl implements PointRecordRepository {
         try {
             hintManager.setMasterRouteOnly();
             return pointRecordMapper.getByUidAndCreateTime(uid, endDate);
-        }finally {
+        } finally {
             hintManager.close();
         }
     }
