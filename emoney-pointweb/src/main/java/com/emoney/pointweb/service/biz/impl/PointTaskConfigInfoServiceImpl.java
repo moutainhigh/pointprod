@@ -119,32 +119,27 @@ public class PointTaskConfigInfoServiceImpl implements PointTaskConfigInfoServic
             }
         }
 
-        //log.info("新手排查"+JSON.toJSONString(retPointTaskConfigInfoList));
-
         //处理新手任务
         UserPeriodResult userPeriodResult = userInfoService.getUserPeriod(uid);
         if (userPeriodResult != null && userPeriodResult.getData() != null && userPeriodResult.getData().getSoftware() != null
         ) {
             Software software = JSON.parseObject(userPeriodResult.getData().getSoftware(), Software.class);
-            //log.info("新手排查"+JSON.toJSONString(software));
             if (software != null && !StringUtils.isEmpty(software.getStartDate()) && !StringUtils.isEmpty(software.getEndDate())
             ) {
                 for (PointTaskConfigInfoDO pointTaskConfigInfoDO : pointTaskConfigInfoDOS
                 ) {
                     if (pointTaskConfigInfoDO.getTaskId().equals(1380422772903251968L) || pointTaskConfigInfoDO.getTaskId().equals(1380424279476277248L)) {
                         Date userPeroidStartDate = DateUtil.parse(software.getStartDate().replace("T", " "), "yyyy-MM-dd HH:mm:ss");
-                        if (userPeroidStartDate.before(pointTaskConfigInfoDO.getTaskStartTime())) {
+                        Date dtStartDate = DateUtil.parseDate("2021-06-22 00:00:00");
+                        if (userPeroidStartDate.before(dtStartDate)) {
                             if (retPointTaskConfigInfoList.stream().filter(h -> h.getTaskId().equals(pointTaskConfigInfoDO.getTaskId())).count() > 0) {
                                 retPointTaskConfigInfoList.remove(pointTaskConfigInfoDO);
-                                //log.info("新手排查1"+JSON.toJSONString(retPointTaskConfigInfoList));
                             }
                         }
                     }
                 }
             }
         }
-
-
         return retPointTaskConfigInfoList;
     }
 
