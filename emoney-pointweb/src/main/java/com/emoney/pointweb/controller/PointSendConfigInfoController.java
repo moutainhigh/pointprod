@@ -90,7 +90,6 @@ public class PointSendConfigInfoController {
                         return "已存在该类型配置规则，不允许保存";
                     }
                 }
-
                 result = pointSendConfigInfoService.update(pointSendConfigInfoDO);
             } else {
                 List<PointSendConfigInfoDO> list = pointSendConfigInfoService.queryAll();
